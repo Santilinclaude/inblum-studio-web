@@ -29,9 +29,13 @@ window.PROCESO_FONDO = (function () {
   let cargados = 0;
 
   /* ---------- Carga ------------------------------------------
-     De dos en dos y en orden: los primeros cuadros llegan antes
-     de que hagan falta, y la cola nunca satura la conexión.
-     --------------------------------------------------------- */
+     En orden, con varios carriles a la vez: de dos en dos se
+     tardaba tanto en llegar que el avance del scroll rebasaba
+     por mucho al último cuadro ya cargado, y la rama se quedaba
+     pegada en un cuadro viejo en vez de seguir la lectura. Con
+     más carriles en paralelo los 147 llegan mucho antes de que
+     el scroll los alcance. */
+  const CARRILES = 6;
   function cargar(desde) {
     if (desde >= CUADROS) return;
     const img = new Image();
@@ -40,17 +44,16 @@ window.PROCESO_FONDO = (function () {
       imagenes[desde] = img;
       cargados++;
       if (cargados === 1 || indice() === desde) pinta(true);
-      cargar(desde + 2);
+      cargar(desde + CARRILES);
     };
-    img.onerror = function () { cargar(desde + 2); };
+    img.onerror = function () { cargar(desde + CARRILES); };
     img.src = RUTA + String(desde).padStart(3, '0') + '.jpg';
   }
 
   function arranca() {
     if (arrancado) return;
     arrancado = true;
-    cargar(0);
-    cargar(1);
+    for (let i = 0; i < CARRILES; i++) cargar(i);
   }
 
   /* ---------- Medidas ---------------------------------------- */
@@ -58,11 +61,16 @@ window.PROCESO_FONDO = (function () {
     if (!lienzo) return;
     const caja = lienzo.getBoundingClientRect();
     if (!caja.width || !caja.height) return;
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     ancho = caja.width; alto = caja.height;
     lienzo.width  = Math.round(ancho * dpr);
     lienzo.height = Math.round(alto * dpr);
     ctx = lienzo.getContext('2d');
+    // Los cuadros son más chicos que la pantalla y hay que
+    // estirarlos: sin esto el navegador interpola con el método
+    // más barato y se ve dentado en vez de suave.
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     dibujado = -1;
     pinta(true);
   }

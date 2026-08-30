@@ -1085,6 +1085,10 @@ a, button, label, select, summary {
   width: 100%;
   height: 100%;
   opacity: .96;
+  /* El jpg de origen viene comprimido a fondo (23 KB por
+     cuadro): un desenfoque mínimo funde el bloqueo del jpeg en
+     vez de dejarlo verse como mosaico. */
+  filter: blur(.5px);
 }
 
 /* El velo: un negro parejo encima de la toma, lo justo para que
@@ -1097,6 +1101,18 @@ a, button, label, select, summary {
     rgba(4, 4, 3, .46) 42%,
     rgba(4, 4, 3, .46) 60%,
     rgba(4, 4, 3, .68) 100%);
+}
+
+/* Encima del velo, no debajo: en multiply (como .grano, la capa
+   de toda la página) el grano se aplasta a negro sobre un fondo
+   ya tan oscuro y no se alcanza a ver. En overlay sí se lee, y
+   disimula el bloqueo del jpeg sin leerse como una textura aparte. */
+.proceso__grano {
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
 }
 
 /* El contenido siempre por encima de la rama. */
