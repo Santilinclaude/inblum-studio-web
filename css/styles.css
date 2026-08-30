@@ -1036,14 +1036,32 @@ a, button, label, select, summary {
   color: var(--tinta-2);
 }
 
-/* ---------- 11. Proceso (fondo a sangre + columna fija) ----- */
+/* ---------- 11. Proceso (fondo a sangre, sección oscura) ---- */
 
-/* La rama que florece va de fondo, a sangre, detrás de los
-   cuatro tiempos: no es una foto enmarcada, es la atmósfera de
-   la sección. El envoltorio cubre la sección entera; adentro,
-   un solo elemento pegajoso mantiene el lienzo y el velo del
-   tamaño de la pantalla mientras se sube o se baja. */
-.proceso-seccion { position: relative; }
+/* La única sección que cambia de tema: la rama que florece se ve
+   tal cual es, a sangre y en su negro real, no lavada a papel.
+   Como el fondo se oscurece, todo el texto de la sección se
+   invierte a claro. Los tokens de color se redefinen aquí mismo
+   (--papel, --tinta y compañía); como el resto de la hoja de
+   estilos ya lee esos nombres en vez de colores sueltos, todo lo
+   de adentro se invierte solo, sin tocar cada regla una por una.
+   Es el único cambio de tema en el sitio: una excusa deliberada,
+   no un accidente. */
+.proceso-seccion {
+  position: relative;
+  --papel:    #0A0A08;
+  --papel-2:  #131310;
+  --tinta:    #F5F4EF;
+  --tinta-2:  #B9B7AC;
+  --tinta-3:  #8D8B7F;
+  --filo:     rgba(245, 244, 239, .2);
+  --filo-2:   rgba(245, 244, 239, .1);
+  /* El rosa normal (--acento) no alcanza 4.5:1 en texto chico
+     sobre este negro; el vivo sí, y ya existe en la paleta. */
+  --acento:   var(--rosa-vivo);
+  background: var(--papel);
+  color: var(--tinta);
+}
 
 .proceso__fondo {
   position: absolute;
@@ -1066,36 +1084,30 @@ a, button, label, select, summary {
   display: block;
   width: 100%;
   height: 100%;
-  opacity: .5;
+  opacity: .96;
 }
 
-/* El velo: la sección sigue siendo de papel. La rama se ve como
-   una textura tenue por debajo, nunca como una toma a color
-   compitiendo con el texto. */
+/* El velo: un negro parejo encima de la toma, lo justo para que
+   el texto blanco siempre gane, sin esconder la escena. */
 .proceso__velo {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--papel) 58%, transparent) 0%,
-      color-mix(in srgb, var(--papel) 78%, transparent) 55%,
-      var(--papel) 100%),
-    linear-gradient(90deg,
-      var(--papel) 0%,
-      color-mix(in srgb, var(--papel) 35%, transparent) 30%,
-      color-mix(in srgb, var(--papel) 35%, transparent) 70%,
-      var(--papel) 100%);
+  background: linear-gradient(180deg,
+    rgba(4, 4, 3, .64) 0%,
+    rgba(4, 4, 3, .46) 42%,
+    rgba(4, 4, 3, .46) 60%,
+    rgba(4, 4, 3, .68) 100%);
 }
 
 /* El contenido siempre por encima de la rama. */
 .proceso-seccion .marco { position: relative; z-index: 1; }
 
 @media (max-width: 999px) {
-  .proceso__lienzo { opacity: .34; }
+  .proceso__lienzo { opacity: .8; }
   .proceso__velo {
     background: linear-gradient(180deg,
-      color-mix(in srgb, var(--papel) 45%, transparent) 0%,
-      var(--papel) 70%);
+      rgba(4, 4, 3, .58) 0%,
+      rgba(4, 4, 3, .5) 100%);
   }
 }
 
@@ -1113,7 +1125,10 @@ a, button, label, select, summary {
   .proceso .tiempo { padding-block: clamp(4rem, 17vh, 10rem); }
 }
 
-.proceso__texto p { margin-top: 1.25rem; color: var(--tinta-2); max-width: 30ch; }
+/* :not(.rotulo): el rótulo también es un <p>, y sin esto la
+   regla de abajo (más específica que .rotulo por sí sola) le
+   gana y lo deja gris en vez de en el acento. */
+.proceso__texto p:not(.rotulo) { margin-top: 1.25rem; color: var(--tinta-2); max-width: 30ch; }
 
 /* En pantalla angosta el árbol se queda arriba, pegado, y los
    tiempos pasan por debajo. */
