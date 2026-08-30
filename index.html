@@ -24,8 +24,8 @@
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=45">
-<link rel="stylesheet" href="css/styles.css?v=45">
+<link rel="stylesheet" href="css/tokens.css?v=46">
+<link rel="stylesheet" href="css/styles.css?v=46">
 </head>
 
 <body>
@@ -33,13 +33,21 @@
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
 <!-- El vidrio de Proceso: no son luces pintadas encima, es la
-     imagen de verdad deformada como a través de un cristal
-     ondulado. "scale" en el feDisplacementMap de abajo controla
-     qué tan fuerte se ve. -->
+     imagen de verdad deformada como a través de una rejilla de
+     lentes redondos, como tu vidrio de referencia. El mapa de
+     desplazamiento (mosaico-lente.png, 64×64, se repite con
+     feTile) no es dibujo a mano: se generó en canvas calculando,
+     para cada píxel, el vector que apunta hacia afuera desde el
+     centro de su lente, con una curva seno que da 0 en el centro
+     y en el filo (para que empalme sin costura con el mosaico de
+     al lado) y su máximo a medio radio — así es como abulta un
+     lente de verdad. El rojo guarda el desplazamiento en X, el
+     verde el de Y; "scale" controla qué tan fuerte se ve. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="vidrio-lente" x="-20%" y="-20%" width="140%" height="140%">
-    <feTurbulence type="turbulence" baseFrequency="0.02 0.026" numOctaves="2" seed="11" result="ruido"/>
-    <feDisplacementMap in="SourceGraphic" in2="ruido" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+    <feImage href="data:image/png;base64,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" x="0" y="0" width="64" height="64" result="celda"/>
+    <feTile in="celda" result="mapa"/>
+    <feDisplacementMap in="SourceGraphic" in2="mapa" scale="32" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
 </svg>
 
@@ -345,10 +353,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=45" defer></script>
-<script src="js/holo.js?v=45" defer></script>
-<script src="js/proceso-fondo.js?v=45" defer></script>
-<script src="js/app.js?v=45" defer></script>
+<script src="js/data.js?v=46" defer></script>
+<script src="js/holo.js?v=46" defer></script>
+<script src="js/proceso-fondo.js?v=46" defer></script>
+<script src="js/app.js?v=46" defer></script>
 
 </body>
 </html>
