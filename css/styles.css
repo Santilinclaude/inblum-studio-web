@@ -1063,11 +1063,19 @@ a, button, label, select, summary {
   color: var(--tinta);
 }
 
+/* Sin "overflow: hidden" a propósito: un ancestro con overflow
+   distinto de visible se convierte en el contenedor de referencia
+   del sticky de abajo, y como ese contenedor no se desplaza por
+   su cuenta, el sticky nunca se prendía — se despegaba de
+   inmediato y se iba con el resto del scroll. Por eso la imagen
+   dejaba de cubrir la pantalla a media sección y se veía un
+   recuadro negro liso debajo: no era la foto, era la sección
+   sin nada detrás. El propio "sticky" ya se encarga de no
+   desbordar el contenedor, así que no hace falta recortarlo aquí. */
 .proceso__fondo {
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
 }
 
@@ -1085,10 +1093,10 @@ a, button, label, select, summary {
   width: 100%;
   height: 100%;
   opacity: .96;
-  /* El jpg de origen viene comprimido a fondo (23 KB por
-     cuadro): un desenfoque mínimo funde el bloqueo del jpeg en
-     vez de dejarlo verse como mosaico. */
-  filter: blur(.5px);
+  /* Un poco de contraste y saturación de más: no tapa que el
+     cuadro venga chico, pero sí lo hace leer como una toma de
+     cinta antes que como una foto digital de baja resolución. */
+  filter: contrast(1.1) saturate(1.15);
 }
 
 /* El velo: un negro parejo encima de la toma, lo justo para que
@@ -1103,16 +1111,42 @@ a, button, label, select, summary {
     rgba(4, 4, 3, .68) 100%);
 }
 
-/* Encima del velo, no debajo: en multiply (como .grano, la capa
-   de toda la página) el grano se aplasta a negro sobre un fondo
-   ya tan oscuro y no se alcanza a ver. En overlay sí se lee, y
-   disimula el bloqueo del jpeg sin leerse como una textura aparte. */
-.proceso__grano {
+/* Franja de croma en los cantos, como la desviación de color de
+   un tubo viejo: magenta a la izquierda, cian a la derecha,
+   transparente al centro para no teñir el texto. */
+.proceso__franja {
   position: absolute;
   inset: 0;
-  opacity: .5;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(90deg,
+    rgba(255, 40, 110, .16) 0%,
+    transparent 14%,
+    transparent 86%,
+    rgba(50, 220, 255, .14) 100%);
+}
+
+/* Líneas de barrido, como un tubo de rayos catódicos. */
+.proceso__lineas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(180deg,
+    rgba(0, 0, 0, .3) 0px,
+    rgba(0, 0, 0, .3) 1px,
+    transparent 1px,
+    transparent 3px);
+}
+
+/* Estática fina: en overlay, no en multiply, porque sobre un
+   fondo tan oscuro el multiply la aplasta a negro y no se ve. */
+.proceso__estatica {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .45;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 
 /* El contenido siempre por encima de la rama. */
