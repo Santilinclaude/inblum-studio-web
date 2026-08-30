@@ -238,6 +238,26 @@ a, button, label, select, summary {
   transition: transform 1.1s var(--brote), filter 1.1s var(--brote);
 }
 
+/* ---------- 3b. Progreso ------------------------------------
+   El mismo truco que la regla de Proceso (una barra que se llena
+   según "--avance"), pero para la página entera: "--recorrido"
+   se actualiza en cada scroll y va de 0 a 1. */
+.progreso {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-progreso);
+  height: 2px;
+  pointer-events: none;
+}
+.progreso__linea {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--acento);
+  transform: scaleX(var(--recorrido, 0));
+  transform-origin: left;
+}
+
 /* ---------- 4. Navegación ---------------------------------- */
 
 .nav {
@@ -717,6 +737,17 @@ a, button, label, select, summary {
   border: 1px solid var(--filo-2);
   background: var(--lamina);
   box-shadow: var(--sombra);
+  /* Cada lámina entra por su cuenta en vez de las ocho de golpe:
+     "--i" ya venía puesto en el marcado (una por lámina) y no se
+     usaba en ningún lado. */
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition: opacity .8s var(--brote), transform .8s var(--brote);
+}
+.herbario.dentro .pieza {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 70ms);
 }
 
 .pieza__pigmento {
@@ -862,7 +893,12 @@ a, button, label, select, summary {
     flex: 1 1 0;
     min-width: 0;
     flex-direction: column;
-    transition: flex-grow .9s var(--brote), box-shadow .9s var(--brote);
+    /* opacity/transform se repiten aquí (y no sólo en la regla
+       base): este "transition" es shorthand, y sin ellos aquí la
+       entrada por lámina se sale de golpe en pantalla ancha en
+       vez de aparecer con su propio retraso. */
+    transition: flex-grow .9s var(--brote), box-shadow .9s var(--brote),
+                opacity .8s var(--brote), transform .8s var(--brote);
   }
   .pieza[data-abierta="true"] {
     flex-grow: 5.2;
@@ -1099,16 +1135,36 @@ a, button, label, select, summary {
   filter: contrast(1.1) saturate(1.15);
 }
 
-/* El velo: un negro parejo encima de la toma, lo justo para que
-   el texto blanco siempre gane, sin esconder la escena. */
+/* El velo: ya no una cortina de tinta plana, sino una lámina de
+   vidrio esmerilado. El "backdrop-filter" desenfoca la toma que
+   queda detrás (así de paso funde el bloqueo del jpeg, sin
+   desenfocar el lienzo mismo), y el tinte que lleva encima es más
+   ligero que antes porque el vidrio ya hace buena parte del
+   trabajo de contraste. El brillo diagonal y el filo de arriba
+   son lo que vende el vidrio: sin ellos sólo se ve borroso. */
 .proceso__velo {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(4, 4, 3, .64) 0%,
-    rgba(4, 4, 3, .46) 42%,
-    rgba(4, 4, 3, .46) 60%,
-    rgba(4, 4, 3, .68) 100%);
+    rgba(6, 8, 9, .52) 0%,
+    rgba(6, 8, 9, .32) 42%,
+    rgba(6, 8, 9, .32) 60%,
+    rgba(6, 8, 9, .58) 100%);
+  backdrop-filter: blur(22px) saturate(1.25);
+  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(245, 244, 239, .1);
+}
+.proceso__velo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  mix-blend-mode: overlay;
+  background: linear-gradient(115deg,
+    rgba(255, 255, 255, .16) 0%,
+    transparent 22%,
+    transparent 78%,
+    rgba(255, 255, 255, .08) 100%);
 }
 
 /* Franja de croma en los cantos, como la desviación de color de
@@ -1155,9 +1211,14 @@ a, button, label, select, summary {
 @media (max-width: 999px) {
   .proceso__lienzo { opacity: .8; }
   .proceso__velo {
+    /* Menos vidrio en móvil: el "backdrop-filter" pesa en
+       equipos chicos, así que se recorta el desenfoque en vez
+       de quitarlo del todo. */
     background: linear-gradient(180deg,
-      rgba(4, 4, 3, .58) 0%,
-      rgba(4, 4, 3, .5) 100%);
+      rgba(6, 8, 9, .54) 0%,
+      rgba(6, 8, 9, .46) 100%);
+    backdrop-filter: blur(10px) saturate(1.15);
+    -webkit-backdrop-filter: blur(10px) saturate(1.15);
   }
 }
 
@@ -1169,10 +1230,12 @@ a, button, label, select, summary {
     top: 14vh;
     align-self: start;
   }
-  /* El espacio entre tiempos ya no necesita dar "recorrido" a
-     nada (el fondo se mapea al centro del primer y último
-     tiempo, no al alto de la sección): sólo tiene que respirar. */
-  .proceso .tiempo { padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+  /* Más aire entre tiempos: como el fondo ahora se mapea al
+     filo de entrada/salida del primero y el último (no a su
+     centro), alargar este espacio alarga el recorrido completo
+     del mapeo sin devolver la demora del arranque que tenía
+     antes. La sección respira más sin sentirse tarde. */
+  .proceso .tiempo { padding-block: clamp(3.5rem, 11vh, 7rem); }
 }
 
 /* :not(.rotulo): el rótulo también es un <p>, y sin esto la
@@ -1218,16 +1281,37 @@ a, button, label, select, summary {
   transform: translateY(calc(var(--avance, 0) * clamp(140px, 20vh, 240px)));
   transition: transform .25s linear;
 }
+/* Un pulso que respira en la marca: la única pieza de la hoja
+   que se mueve sola, sin que el cursor ni el scroll la toquen. */
+.hilo__marca::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid var(--acento);
+  opacity: 0;
+  animation: pulso 2.4s ease-out infinite;
+}
+@keyframes pulso {
+  0%   { transform: scale(.6); opacity: .55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
 @media (max-width: 999px) { .hilo { display: none; } }
 
+/* Los tiempos que no se están leyendo se apagan un poco: el que
+   está activo (o bajo el cursor) gana foco de verdad, no sólo el
+   número cambia de color. */
 .tiempo {
   display: grid;
   gap: .6rem clamp(1.5rem, 3vw, 3rem);
   padding-block: clamp(1.75rem, 3.4vw, 2.75rem);
   border-top: 1px solid var(--filo-2);
+  opacity: .5;
   transition: opacity .7s var(--tallo);
 }
 .tiempo:last-child { border-bottom: 1px solid var(--filo-2); }
+.tiempo.activo,
+.tiempo:hover { opacity: 1; }
 @media (min-width: 640px) {
   .tiempo { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
 }
@@ -1239,10 +1323,14 @@ a, button, label, select, summary {
   line-height: .82;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--filo);
-  transition: color .7s var(--brote), -webkit-text-stroke-color .7s var(--brote);
+  transition: color .7s var(--brote), -webkit-text-stroke-color .7s var(--brote), translate .5s var(--brote);
 }
 .tiempo.activo .tiempo__n,
-.tiempo:hover .tiempo__n { color: var(--acento); -webkit-text-stroke-color: transparent; }
+.tiempo:hover .tiempo__n {
+  color: var(--acento);
+  -webkit-text-stroke-color: transparent;
+  translate: .12em 0;
+}
 
 .tiempo__nombre {
   font-family: var(--f-display);

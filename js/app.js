@@ -77,6 +77,28 @@
     }
   }
 
+  /* ---------- 1b. Progreso de la página -----------------------
+     La misma barra que se llena en Proceso, pero de toda la
+     hoja: cuánto scroll llevas, de un vistazo. Sin GSAP: es un
+     valor directo, no necesita easing de librería. */
+  const lineaProgreso = $('#progreso-linea');
+
+  if (lineaProgreso) {
+    const fijarRecorrido = function () {
+      const alto = document.documentElement.scrollHeight - window.innerHeight;
+      const frac = alto > 0 ? Math.min(1, Math.max(0, window.scrollY / alto)) : 0;
+      lineaProgreso.style.setProperty('--recorrido', frac.toFixed(4));
+    };
+    fijarRecorrido();
+    let pendienteProgreso = false;
+    window.addEventListener('scroll', function () {
+      if (pendienteProgreso) return;
+      pendienteProgreso = true;
+      window.requestAnimationFrame(function () { pendienteProgreso = false; fijarRecorrido(); });
+    }, { passive: true });
+    window.addEventListener('resize', fijarRecorrido);
+  }
+
   /* ---------- 2. Navegación ---------------------------------- */
 
   const nav = $('#nav');

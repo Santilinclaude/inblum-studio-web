@@ -24,8 +24,8 @@
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=40">
-<link rel="stylesheet" href="css/styles.css?v=40">
+<link rel="stylesheet" href="css/tokens.css?v=42">
+<link rel="stylesheet" href="css/styles.css?v=42">
 </head>
 
 <body>
@@ -33,6 +33,10 @@
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
 <canvas class="holo" id="holo" aria-hidden="true"></canvas>
+
+<!-- El mismo hilo que se llena en Proceso, pero de toda la
+     página: cuánto llevas recorrido, de un vistazo. -->
+<div class="progreso" aria-hidden="true"><span class="progreso__linea" id="progreso-linea"></span></div>
 
 <!-- ============ Navegación ============ -->
 <header class="nav" id="nav">
@@ -333,10 +337,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=40" defer></script>
-<script src="js/holo.js?v=40" defer></script>
-<script src="js/proceso-fondo.js?v=40" defer></script>
-<script src="js/app.js?v=40" defer></script>
+<script src="js/data.js?v=42" defer></script>
+<script src="js/holo.js?v=42" defer></script>
+<script src="js/proceso-fondo.js?v=42" defer></script>
+<script src="js/app.js?v=42" defer></script>
 
 </body>
 </html>

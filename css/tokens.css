@@ -74,9 +74,10 @@
                0 10px 26px -14px rgba(20, 21, 15, .2);
 
   /* --- Capas --- */
-  --z-fondo:  0;
-  --z-base:   1;
-  --z-nav:    30;
-  --z-menu:   40;
-  --z-grano:  60;
+  --z-fondo:     0;
+  --z-base:      1;
+  --z-nav:       30;
+  --z-progreso:  35;
+  --z-menu:      40;
+  --z-grano:     60;
 }
