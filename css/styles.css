@@ -1135,74 +1135,64 @@ a, button, label, select, summary {
   filter: contrast(1.1) saturate(1.15);
 }
 
-/* El velo: ya no una cortina de tinta plana, sino una lámina de
-   vidrio esmerilado. El "backdrop-filter" desenfoca la toma que
-   queda detrás (así de paso funde el bloqueo del jpeg, sin
-   desenfocar el lienzo mismo), y el tinte que lleva encima es más
-   ligero que antes porque el vidrio ya hace buena parte del
-   trabajo de contraste. El brillo diagonal y el filo de arriba
-   son lo que vende el vidrio: sin ellos sólo se ve borroso. */
+/* El velo: la cortina es de vidrio, no de tinta ni de borrón.
+   El desenfoque de fondo es mínimo (sólo funde el bloqueo del
+   jpeg); lo que de verdad lee como vidrio es la textura de
+   .proceso__burbuja de aquí abajo. Antes llevaba blur(22px) y la
+   toma dejaba de reconocerse del todo, como un cristal esmerilado
+   a full — se corrige a un vidrio más transparente. */
 .proceso__velo {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(6, 8, 9, .52) 0%,
-    rgba(6, 8, 9, .32) 42%,
-    rgba(6, 8, 9, .32) 60%,
-    rgba(6, 8, 9, .58) 100%);
-  backdrop-filter: blur(22px) saturate(1.25);
-  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+    rgba(6, 8, 9, .46) 0%,
+    rgba(6, 8, 9, .22) 42%,
+    rgba(6, 8, 9, .22) 60%,
+    rgba(6, 8, 9, .52) 100%);
+  backdrop-filter: blur(3px) saturate(1.2);
+  -webkit-backdrop-filter: blur(3px) saturate(1.2);
   box-shadow: inset 0 1px 0 rgba(245, 244, 239, .1);
 }
 .proceso__velo::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: .5;
+  opacity: .35;
   mix-blend-mode: overlay;
   background: linear-gradient(115deg,
-    rgba(255, 255, 255, .16) 0%,
+    rgba(255, 255, 255, .14) 0%,
     transparent 22%,
     transparent 78%,
-    rgba(255, 255, 255, .08) 100%);
+    rgba(255, 255, 255, .07) 100%);
 }
 
-/* Franja de croma en los cantos, como la desviación de color de
-   un tubo viejo: magenta a la izquierda, cian a la derecha,
-   transparente al centro para no teñir el texto. */
-.proceso__franja {
+/* Vidrio de burbuja: la cuadrícula de lentes redondos de un
+   cristal esmerilado de verdad (como el de un baño), cada uno con
+   su brillo y su sombra propios y su margen sin tocar al vecino.
+   El primer intento posicionaba los círculos por posición nada
+   más ("circle at X% Y%"), sin fijar su radio: al repetir el
+   patrón, el radio por defecto llega hasta la esquina más lejana
+   del mosaico, así que las burbujas se deforman contra el borde
+   de cada azulejo y el conjunto se lee como rejilla, no como
+   burbujas. Fijar el radio en píxeles (menor a medio mosaico)
+   contiene cada círculo dentro de su propio azulejo. */
+.proceso__burbuja {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  mix-blend-mode: screen;
-  background: linear-gradient(90deg,
-    rgba(255, 40, 110, .16) 0%,
-    transparent 14%,
-    transparent 86%,
-    rgba(50, 220, 255, .14) 100%);
-}
-
-/* Líneas de barrido, como un tubo de rayos catódicos. */
-.proceso__lineas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(180deg,
-    rgba(0, 0, 0, .3) 0px,
-    rgba(0, 0, 0, .3) 1px,
-    transparent 1px,
-    transparent 3px);
-}
-
-/* Estática fina: en overlay, no en multiply, porque sobre un
-   fondo tan oscuro el multiply la aplasta a negro y no se ve. */
-.proceso__estatica {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .45;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  background-image:
+    radial-gradient(circle 5px at 37% 32%, rgba(255, 255, 255, .65) 0%, transparent 100%),
+    radial-gradient(circle 12px at 50% 50%, rgba(255, 255, 255, .06) 0%, rgba(0, 0, 0, .4) 72%, transparent 100%);
+  background-size: 28px 28px;
+}
+@media (max-width: 999px) {
+  .proceso__burbuja {
+    background-image:
+      radial-gradient(circle 4px at 37% 32%, rgba(255, 255, 255, .6) 0%, transparent 100%),
+      radial-gradient(circle 9px at 50% 50%, rgba(255, 255, 255, .05) 0%, rgba(0, 0, 0, .38) 72%, transparent 100%);
+    background-size: 21px 21px;
+  }
 }
 
 /* El contenido siempre por encima de la rama. */
@@ -1211,14 +1201,11 @@ a, button, label, select, summary {
 @media (max-width: 999px) {
   .proceso__lienzo { opacity: .8; }
   .proceso__velo {
-    /* Menos vidrio en móvil: el "backdrop-filter" pesa en
-       equipos chicos, así que se recorta el desenfoque en vez
-       de quitarlo del todo. */
     background: linear-gradient(180deg,
-      rgba(6, 8, 9, .54) 0%,
-      rgba(6, 8, 9, .46) 100%);
-    backdrop-filter: blur(10px) saturate(1.15);
-    -webkit-backdrop-filter: blur(10px) saturate(1.15);
+      rgba(6, 8, 9, .5) 0%,
+      rgba(6, 8, 9, .4) 100%);
+    backdrop-filter: blur(2px) saturate(1.1);
+    -webkit-backdrop-filter: blur(2px) saturate(1.1);
   }
 }
 
