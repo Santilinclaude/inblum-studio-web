@@ -24,13 +24,24 @@
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=44">
-<link rel="stylesheet" href="css/styles.css?v=44">
+<link rel="stylesheet" href="css/tokens.css?v=45">
+<link rel="stylesheet" href="css/styles.css?v=45">
 </head>
 
 <body>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<!-- El vidrio de Proceso: no son luces pintadas encima, es la
+     imagen de verdad deformada como a través de un cristal
+     ondulado. "scale" en el feDisplacementMap de abajo controla
+     qué tan fuerte se ve. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="vidrio-lente" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="turbulence" baseFrequency="0.02 0.026" numOctaves="2" seed="11" result="ruido"/>
+    <feDisplacementMap in="SourceGraphic" in2="ruido" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
 
 <canvas class="holo" id="holo" aria-hidden="true"></canvas>
 
@@ -208,7 +219,6 @@
       <div class="proceso__pegajoso">
         <canvas class="proceso__lienzo" id="proceso-lienzo"></canvas>
         <span class="proceso__velo"></span>
-        <span class="proceso__burbuja"></span>
       </div>
     </div>
 
@@ -335,10 +345,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=44" defer></script>
-<script src="js/holo.js?v=44" defer></script>
-<script src="js/proceso-fondo.js?v=44" defer></script>
-<script src="js/app.js?v=44" defer></script>
+<script src="js/data.js?v=45" defer></script>
+<script src="js/holo.js?v=45" defer></script>
+<script src="js/proceso-fondo.js?v=45" defer></script>
+<script src="js/app.js?v=45" defer></script>
 
 </body>
 </html>
