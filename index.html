@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inblüm Studio · Branding, video, audio y desarrollo</title>
+<meta name="description" content="Estudio creativo donde branding, fotografía, video, audio, desarrollo web e inteligencia artificial se producen con un mismo equipo. Ocho áreas de trabajo.">
+<meta name="theme-color" content="#F1F0EA">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Inblüm Studio · Branding, video, audio y desarrollo">
+<meta property="og:description" content="Ocho áreas de trabajo con un solo equipo: identidad, fotografía, video, audio, desarrollo e inteligencia artificial.">
+<meta property="og:image" content="assets/poster.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/tile.png">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/tokens.css?v=28">
+<link rel="stylesheet" href="css/styles.css?v=28">
+</head>
+
+<body>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<canvas class="holo" id="holo" aria-hidden="true"></canvas>
+
+<!-- ============ Navegación ============ -->
+<header class="nav" id="nav">
+  <div class="marco nav__fila">
+    <a class="nav__marca" href="#inicio" aria-label="Inblüm Studio, inicio" translate="no">
+      <img src="assets/wordmark.png" alt="Inblüm Studio" width="580" height="300">
+    </a>
+
+    <nav class="nav__medio" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#trabajo">Trabajo</a>
+      <a href="#estudio">Estudio</a>
+      <a href="#proceso">Proceso</a>
+    </nav>
+
+    <div class="nav__der">
+      <a class="btn btn--tinta btn--chico" href="#contacto">
+        Hablemos <span aria-hidden="true">&#8599;</span>
+      </a>
+      <button class="menu-btn" id="menu" type="button"
+              aria-expanded="false" aria-controls="cortina" aria-label="Abrir el menú">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ Menú de pantalla completa ============ -->
+<div class="cortina" id="cortina" data-abierta="false">
+  <a href="#servicios" style="--espera:60ms">Servicios</a>
+  <a href="#trabajo"   style="--espera:120ms">Trabajo</a>
+  <a href="#estudio"   style="--espera:180ms">Estudio</a>
+  <a href="#proceso"   style="--espera:240ms">Proceso</a>
+  <a href="#contacto"  style="--espera:300ms">Hablemos</a>
+  <p class="cortina__pie">Estudio creativo multidisciplinario</p>
+</div>
+
+<main id="contenido">
+
+  <!-- ============ Portada ============ -->
+  <section class="portada" id="inicio">
+    <div class="marco portada__grid">
+
+      <div>
+        <p class="rotulo entra" style="--espera:60ms">Estudio creativo multidisciplinario</p>
+
+        <h1 class="portada__titulo entra" style="--espera:140ms">
+          Branding, video, audio<span class="enflor" aria-hidden="true"></span>
+          y desarrollo con un solo equipo.
+        </h1>
+
+        <p class="lead portada__lead entra" style="--espera:260ms">
+          Hacemos identidad, fotografía, video, sitio y campañas sin repartir
+          el proyecto entre proveedores.
+        </p>
+
+        <div class="portada__acciones entra" style="--espera:360ms">
+          <a class="btn btn--tinta" href="#contacto">
+            Hablemos <span aria-hidden="true">&#8599;</span>
+          </a>
+          <a class="btn btn--linea" href="#servicios">
+            Ver servicios <span aria-hidden="true">&#8595;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- La obra del estudio: el cursor la recorre como una
+           hoja de contacto, y el color de alrededor sale de la
+           imagen que esté al frente. -->
+      <div class="retrato" id="retrato">
+        <span class="retrato__ambiente" aria-hidden="true"></span>
+
+        <div class="retrato__caja" id="obra-caja" role="img"
+             aria-label="Obra del estudio. Mueve el cursor sobre la imagen para recorrerla.">
+          <div class="retrato__pila" id="obra-pila"></div>
+          <div class="retrato__velo" aria-hidden="true"></div>
+          <div class="retrato__logo" id="obra-logo" aria-hidden="true"></div>
+        </div>
+
+        <div class="retrato__nota" aria-hidden="true">
+          <img src="assets/campo-alto.png" alt=""
+               width="548" height="250" loading="lazy" decoding="async">
+        </div>
+
+        <p class="retrato__pie">
+          <b id="obra-titulo">Inblüm Studio</b><span id="obra-nota">Identidad</span>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ Tira ============ -->
+  <div class="tira">
+    <div class="tira__pista" id="tira-pista"></div>
+  </div>
+
+  <!-- ============ Estudio ============ -->
+  <section class="manifiesto" id="estudio">
+    <span class="mancha mancha--estudio" id="mancha" aria-hidden="true"></span>
+    <div class="marco">
+      <h2 class="manifiesto__frase" id="frase">
+        Aquí el diseño, la cámara, el audio y el código trabajan en el mismo
+        estudio. Un equipo, no cinco proveedores.
+      </h2>
+      <div class="manifiesto__nota rev">
+        <p>
+          La identidad ya considera cómo se va a ver en video, y el sitio ya
+          sabe qué fotografía va a recibir. Nada se traduce entre despachos.
+        </p>
+        <p>
+          Para ti son un interlocutor, un calendario y un presupuesto, en
+          lugar de cinco.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Servicios ============ -->
+  <section class="seccion" id="servicios">
+    <div class="marco">
+      <div class="herbario__cabecera rev">
+        <p class="rotulo">Servicios</p>
+        <h2 class="titulo">Ocho áreas de trabajo.</h2>
+        <p class="lead">
+          Ábrelas para ver qué incluye cada una. Se contratan por separado o
+          como un solo proyecto.
+        </p>
+      </div>
+
+      <div class="herbario rev" id="herbario" style="--espera:120ms"></div>
+    </div>
+  </section>
+
+  <!-- ============ Trabajo ============ -->
+  <section class="seccion" id="trabajo">
+    <div class="marco">
+      <div class="trabajo__cabecera rev">
+        <div class="trabajo__fila">
+          <div>
+            <p class="rotulo">Trabajo</p>
+            <h2 class="titulo" style="margin-top:1.1rem">Algunas piezas.</h2>
+          </div>
+          <div class="mandos">
+            <button class="mando" id="anterior" type="button" aria-label="Pieza anterior">&#8592;</button>
+            <button class="mando" id="siguiente" type="button" aria-label="Pieza siguiente">&#8594;</button>
+          </div>
+        </div>
+        <p class="lead">Pasa el cursor sobre cada una para verla a color.</p>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="carrusel" id="carrusel" tabindex="0" role="region"
+           aria-label="Piezas de trabajo, se desplaza en horizontal"></div>
+
+      <div class="trabajo__cierre rev">
+        <p>¿Quieres ver proyectos completos?</p>
+        <a class="enlace" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Proceso ============ -->
+  <section class="seccion proceso-seccion" id="proceso">
+    <!-- El cerezo vive al fondo de la sección: se queda quieto en
+         pantalla mientras se recorren los cuatro tiempos. -->
+    <div class="proceso__fondo" aria-hidden="true">
+      <div class="proceso__pegajoso">
+        <canvas class="proceso__lienzo" id="proceso-lienzo"></canvas>
+        <span class="proceso__velo"></span>
+      </div>
+    </div>
+
+    <div class="marco proceso">
+
+      <div class="proceso__fijo">
+        <div class="proceso__texto rev">
+          <p class="rotulo">Proceso</p>
+          <h2 class="titulo" style="margin-top:1.1rem">Cómo trabajamos.</h2>
+          <p>El mismo camino para un logotipo que para una campaña de seis
+             meses.</p>
+        </div>
+
+        <div class="hilo" id="hilo" aria-hidden="true">
+          <span class="hilo__marca"></span>
+        </div>
+      </div>
+
+      <div class="tiempos" id="tiempos"></div>
+    </div>
+  </section>
+
+  <!-- ============ Contacto ============ -->
+  <section class="seccion" id="contacto">
+    <div class="marco contacto">
+
+      <div class="contacto__izq rev">
+        <p class="rotulo">Contacto</p>
+        <h2 class="contacto__titulo">Hablemos.</h2>
+        <p class="lead">
+          Cuéntanos qué necesitas y te mandamos alcance, tiempos y precio.
+        </p>
+
+        <div class="datos">
+          <div class="dato">
+            <span class="dato__clave">Correo</span>
+            <a class="dato__valor" id="dato-correo" href="#">correo</a>
+          </div>
+          <div class="dato">
+            <span class="dato__clave">Teléfono</span>
+            <a class="dato__valor" id="dato-telefono" href="#">teléfono</a>
+          </div>
+          <div class="dato">
+            <span class="dato__clave">Dónde estamos</span>
+            <span class="dato__valor" id="dato-ciudad">ciudad</span>
+          </div>
+          <div class="dato">
+            <span class="dato__clave">Redes</span>
+            <div class="redes" id="redes"></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="forma rev" id="forma" style="--espera:120ms" novalidate>
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name"
+                 placeholder="Nombre y apellido" aria-describedby="err-nombre">
+          <p class="campo__error" id="err-nombre" aria-live="polite"></p>
+        </div>
+
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" autocomplete="email"
+                 placeholder="tunombre@empresa.com" spellcheck="false"
+                 aria-describedby="ayuda-correo err-correo">
+          <p class="campo__ayuda" id="ayuda-correo">Ahí te llega la propuesta.</p>
+          <p class="campo__error" id="err-correo" aria-live="polite"></p>
+        </div>
+
+        <div class="campo">
+          <label for="servicio">Área que te interesa</label>
+          <select id="servicio" name="servicio" aria-describedby="err-servicio"></select>
+          <p class="campo__error" id="err-servicio" aria-live="polite"></p>
+        </div>
+
+        <div class="campo">
+          <label for="mensaje">Tu proyecto</label>
+          <textarea id="mensaje" name="mensaje"
+                    placeholder="Qué necesitas, para cuándo y con qué presupuesto aproximado…"
+                    aria-describedby="ayuda-mensaje err-mensaje"></textarea>
+          <p class="campo__ayuda" id="ayuda-mensaje">Con dos o tres líneas basta para empezar.</p>
+          <p class="campo__error" id="err-mensaje" aria-live="polite"></p>
+        </div>
+
+        <div class="forma__pie">
+          <button class="btn btn--tinta" id="enviar" type="submit">
+            <span class="btn__txt">Enviar mensaje</span>
+            <span aria-hidden="true">&#8599;</span>
+          </button>
+          <p class="forma__nota">Usamos tus datos sólo para responderte.</p>
+        </div>
+
+        <p class="forma__estado" id="forma-estado" role="status" aria-live="polite"></p>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ Pie ============ -->
+<footer class="pie">
+  <div class="marco">
+    <div class="pie__fila">
+      <p class="pie__frase">Branding, audiovisual, audio, desarrollo y contenido.</p>
+      <nav class="pie__enlaces" aria-label="Pie de página">
+        <a href="#servicios">Servicios</a>
+        <a href="#trabajo">Trabajo</a>
+        <a href="#estudio">Estudio</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#contacto">Hablemos</a>
+      </nav>
+    </div>
+
+    <div class="pie__legal">
+      <span>&copy; <span id="anio">2026</span> Inblüm Studio</span>
+      <span>Todos los derechos reservados</span>
+    </div>
+  </div>
+</footer>
+
+<div class="grano" aria-hidden="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="js/data.js?v=28" defer></script>
+<script src="js/holo.js?v=28" defer></script>
+<script src="js/proceso-fondo.js?v=28" defer></script>
+<script src="js/app.js?v=28" defer></script>
+
+</body>
+</html>

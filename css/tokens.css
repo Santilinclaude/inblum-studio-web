@@ -1,0 +1,82 @@
+/* ============================================================
+   INBLÜM STUDIO · Sistema
+   Concepto: IN BLOOM. Inblüm es "en flor", y el sitio lo toma
+   como comportamiento, no como ilustración: papel, láminas,
+   rótulos a máquina y el pigmento de la fotografía de marca.
+   Lo que florece son las cosas al abrirse, con el desplazamiento.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- El papel --- */
+  --papel:    #F1F0EA;
+  --papel-2:  #E7E6DE;
+  --papel-3:  #DCDAD0;
+  --lamina:   #FBFAF7;   /* la hoja de la lámina, más clara */
+
+  /* --- La tinta: negro con una gota de verde --- */
+  --tinta:    #14150F;
+  --tinta-2:  #4B4D42;
+  --tinta-3:  #767869;
+  --filo:     rgba(20, 21, 15, .16);
+  --filo-2:   rgba(20, 21, 15, .08);
+
+  /* --- Pigmentos, muestreados del cartel de marca --- */
+  --rosa:      #D63A88;
+  --rosa-luz:  #F272B4;
+  --azul:      #1B63C0;
+  --azul-luz:  #4E97EC;
+  --amarillo:  #E7CB2A;
+  --verde:     #3F5B34;
+  --verde-luz: #6E8C58;
+
+  /* Los tres colores del cartel, ahora en bloques grandes: la
+     tira es azul, el contacto amarillo, el pie tinta. El rosa
+     sigue siendo el acento de interfaz. */
+  --azul-electrico: #1957D8;
+  --amarillo-vivo:  #F5D923;
+  --rosa-vivo:      #FF3D9A;
+  --acento:         #C4256F;
+
+  /* --- Tipografía --- */
+  --f-display: "Cabinet Grotesk", "Georgia", serif;
+  --f-texto:   "Satoshi", system-ui, sans-serif;
+  --f-mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  --t-hero:  clamp(2.5rem, 5.1vw, 5.2rem);
+  --t-h2:    clamp(2.4rem, 5.4vw, 5rem);
+  --t-h3:    clamp(1.3rem, 2.1vw, 1.85rem);
+  --t-lead:  clamp(1.1rem, 1.45vw, 1.4rem);
+  --t-texto: clamp(1rem, 1.05vw, 1.1rem);
+  --t-chico: .9rem;
+  --t-micro: .6875rem;
+
+  /* --- Ritmo: capítulos, no párrafos --- */
+  --marco:  1520px;
+  --aire:   clamp(1.25rem, 4vw, 4.5rem);
+  --sec-y:  clamp(5.5rem, 10vw, 9.5rem);
+
+  /* --- Forma --- */
+  --r:        18px;
+  --r-lamina: 26px;
+  --r-pill:   999px;
+
+  /* --- Movimiento --- */
+  --brote:  cubic-bezier(.2, .8, .2, 1);    /* abre como un brote */
+  --tallo:  cubic-bezier(.65, 0, .35, 1);   /* avanza parejo */
+  --salto:  cubic-bezier(.34, 1.56, .64, 1);/* rebota al florecer */
+
+  /* --- Sombra: luz de día sobre papel, nunca negro duro --- */
+  --sombra:    0 30px 60px -34px rgba(20, 21, 15, .34),
+               0 6px 18px -12px rgba(20, 21, 15, .18);
+  --sombra-alta: 0 48px 90px -40px rgba(20, 21, 15, .4),
+               0 10px 26px -14px rgba(20, 21, 15, .2);
+
+  /* --- Capas --- */
+  --z-fondo:  0;
+  --z-base:   1;
+  --z-nav:    30;
+  --z-menu:   40;
+  --z-grano:  60;
+}
