@@ -1119,10 +1119,10 @@ a, button, label, select, summary {
     top: 14vh;
     align-self: start;
   }
-  /* Los tiempos se separan para que el árbol tenga recorrido de
-     sobra: mientras la columna derecha baja, la izquierda se
-     queda quieta y el árbol crece. */
-  .proceso .tiempo { padding-block: clamp(4rem, 17vh, 10rem); }
+  /* El espacio entre tiempos ya no necesita dar "recorrido" a
+     nada (el fondo se mapea al centro del primer y último
+     tiempo, no al alto de la sección): sólo tiene que respirar. */
+  .proceso .tiempo { padding-block: clamp(2.5rem, 7vh, 4.5rem); }
 }
 
 /* :not(.rotulo): el rótulo también es un <p>, y sin esto la

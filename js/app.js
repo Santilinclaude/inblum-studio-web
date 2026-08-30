@@ -491,14 +491,26 @@
       // florecer junto al último tiempo, no a medio camino.
       window.ScrollTrigger.create({
         trigger: seccionProceso,
-        // De cuando la sección empieza a llenar la pantalla a
-        // cuando termina de irse por arriba: ese tramo mide
-        // exactamente el alto de la sección. "bottom bottom" en
-        // vez de "bottom top" se queda corto (alto - pantalla),
-        // que aquí es apenas la mitad, y el último tiempo se ve
-        // congelado en avance 1.
-        start: 'top top',
-        end: 'bottom top',
+        // "top top" / "bottom top" ataba el avance al alto total
+        // de la sección: con el título y el aire entre tiempos
+        // de por medio, eso son casi dos pantallas de puro
+        // desplazamiento antes de que pase nada, y se sentía
+        // como que nunca arrancaba. Centrar el primer tiempo
+        // tampoco alcanzaba: para centrarlo hay que subirlo casi
+        // hasta la mitad de la pantalla, así que seguía sintiéndose
+        // tarde. En vez de eso: el avance es 0 en cuanto el primer
+        // tiempo asoma (su filo de arriba entra al 80% de la
+        // pantalla) y 1 cuando el último ya casi se fue (su filo de
+        // abajo llega al 20%). Arranca con la lectura, no a medio
+        // camino de ella.
+        start: function () {
+          const r = pasos[0].getBoundingClientRect();
+          return window.scrollY + r.top - window.innerHeight * .8;
+        },
+        end: function () {
+          const r = pasos[pasos.length - 1].getBoundingClientRect();
+          return window.scrollY + r.bottom - window.innerHeight * .2;
+        },
         scrub: .35,
         invalidateOnRefresh: true,
         onUpdate: function (self) { avanzar(self.progress); },
