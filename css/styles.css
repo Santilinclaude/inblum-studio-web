@@ -1196,16 +1196,24 @@ a, button, label, select, summary {
   width: 116%;
   height: 116%;
   pointer-events: none;
+  /* La ranura se dibuja con filos duros (transparent Npx, color
+     Npx: salto de golpe, cero px de transición) y luego se
+     difumina completa con blur — así el degradado que la
+     compone no importa, sólo importa que ya no se vea impresa
+     ni "condensada". Se sube la opacidad de los dos tonos un
+     poco (antes .3/.45) porque el blur reparte la tinta en un
+     área más ancha y sin esto se lavaba de más. */
   background-image: radial-gradient(circle at 50% 50%,
     transparent 0,
     transparent 19px,
-    rgba(0, 0, 0, .3) 19px,
-    rgba(0, 0, 0, .3) 21.5px,
-    rgba(255, 255, 255, .45) 21.5px,
-    rgba(255, 255, 255, .45) 23.5px,
+    rgba(0, 0, 0, .4) 19px,
+    rgba(0, 0, 0, .4) 21.5px,
+    rgba(255, 255, 255, .55) 21.5px,
+    rgba(255, 255, 255, .55) 23.5px,
     transparent 23.5px,
     transparent 32px);
   background-size: 64px 64px;
+  filter: blur(4px);
 }
 
 /* El contenido siempre por encima de la rama. */
