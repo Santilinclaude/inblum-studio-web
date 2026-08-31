@@ -472,14 +472,7 @@
      --------------------------------------------------------- */
 
   const hilo = $('#hilo');
-  const lienzoFondo = $('#proceso-lienzo');
   const seccionProceso = $('#proceso');
-
-  // El fondo se engancha al mismo avance que la regla: un solo
-  // número gobierna el texto y la rama que florece detrás.
-  if (lienzoFondo && window.PROCESO_FONDO) {
-    window.PROCESO_FONDO.init(lienzoFondo, quieto.matches);
-  }
 
   if (seccionProceso) {
     const pasos = $$('.tiempo', seccionProceso);
@@ -499,7 +492,6 @@
 
     function avanzar(p) {
       if (hilo) hilo.style.setProperty('--avance', p.toFixed(3));
-      if (window.PROCESO_FONDO) window.PROCESO_FONDO.avance(p);
       if (sinRevelado || quieto.matches) {
         const activo = Math.min(pasos.length - 1, Math.floor(p * pasos.length));
         pasos.forEach(function (t, i) { t.classList.toggle('activo', i === activo && p > .04); });

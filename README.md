@@ -41,7 +41,7 @@ botánicos que crecen conforme se recorre la página.
 | Estudio | La frase que se enciende palabra por palabra |
 | Servicios | Herbario de ocho láminas que se abren a lo ancho |
 | Trabajo | Carrusel de láminas montadas, se arrastra con el cursor |
-| Proceso | Los cuatro tiempos, con una rama que florece de fondo al avanzar |
+| Proceso | Los cuatro tiempos, sección oscura con una regla que se llena al avanzar |
 | Contacto | Datos directos y formulario |
 
 ## Estructura
@@ -55,7 +55,6 @@ inblum-web/
 ├── js/
 │   ├── data.js        ← EDITA AQUÍ: servicios, portafolio, contacto y OBRA
 │   ├── holo.js         el fondo holográfico (WebGL, sin librerías)
-│   ├── proceso-fondo.js  la secuencia de la rama, atada al scroll
 │   └── app.js          herbario, carrusel, revelados, formulario y la
 │                        hoja de contacto del cartel
 └── assets/
@@ -66,7 +65,6 @@ inblum-web/
     ├── campo-*.png      recortes de pigmento para las láminas
     ├── obra/             19 fotografías y texturas para el cartel de
     │                    portada, más el logo animado
-    ├── proceso/          147 cuadros de la rama que florece (1280x720)
     └── favicon.png
 ```
 
@@ -98,30 +96,6 @@ Dos cosas pasan automáticamente con cada imagen nueva, sin anotar nada a mano:
 Todo lo de `assets/` sale del logotipo original que está en
 `Desktop/Inblüm/Logos`. No hay ilustración: cada mancha de color es un recorte
 de esa misma fotografía.
-
-### El fondo del proceso
-
-Detrás de los cuatro tiempos hay una secuencia de 147 cuadros a sangre: una
-rama de bonsái, en macro, pasando de hoja a flor. No corre con un reloj: el
-cuadro visible depende de cuánto has recorrido la sección, así que florece al
-ritmo de tu lectura y retrocede si subes.
-
-- Va a pantalla completa detrás del texto, con un velo del color del papel
-  encima: la rama se lee como una textura tenue, nunca como una foto a color
-  compitiendo con el contenido. La sección sigue siendo de papel, sólo que con
-  algo de vida atrás.
-- El lienzo va pegajoso dentro de la sección: llena la pantalla y se queda ahí
-  mientras la columna de tiempos sigue subiendo, y se suelta al salir de la
-  sección.
-- Los cuadros se piden sólo cuando la sección se acerca (a metro y medio de
-  distancia), de dos en dos y en orden. El lienzo siempre dibuja el cuadro más
-  avanzado que ya haya llegado, así que nunca hay hueco aunque bajes rápido.
-- Con `prefers-reduced-motion` se pide un solo archivo, el último, y el fondo
-  aparece ya en flor.
-
-Los 147 archivos ya venían optimizados (23 KB en promedio, 3,4 MB en total) y
-se copiaron tal cual, sólo renombrados a `000.jpg`…`146.jpg` para que el
-componente los pida por número.
 
 ## Tipografía y librerías
 
