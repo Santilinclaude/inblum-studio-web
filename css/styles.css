@@ -1113,6 +1113,11 @@ a, button, label, select, summary {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  /* .proceso__contorno usa mix-blend-mode: sin esto, un blend
+     mezcla contra lo que sea que esté detrás sin respetar los
+     límites del contexto de apilamiento, y el anillo terminaba
+     dibujándose encima del texto en vez de detrás. */
+  isolation: isolate;
 }
 
 .proceso__pegajoso {
@@ -1155,7 +1160,11 @@ a, button, label, select, summary {
 }
 
 /* El velo: sólo el tinte para que el texto gane, sin luces ni
-   brillos encima — el vidrio ya lo pone la deformación de arriba. */
+   brillos encima — el vidrio ya lo pone la deformación de arriba.
+   El desenfoque es mínimo (1px, sólo funde el bloqueo del jpeg):
+   con más, se notaba borroso hasta en el centro quieto de cada
+   lente, donde el desplazamiento no toca nada — ahí no debería
+   haber ninguna razón para ver blur. */
 .proceso__velo {
   position: absolute;
   inset: 0;
@@ -1164,9 +1173,32 @@ a, button, label, select, summary {
     rgba(6, 8, 9, .22) 42%,
     rgba(6, 8, 9, .22) 60%,
     rgba(6, 8, 9, .52) 100%);
-  backdrop-filter: blur(3px) saturate(1.2);
-  -webkit-backdrop-filter: blur(3px) saturate(1.2);
+  backdrop-filter: blur(1px) saturate(1.2);
+  -webkit-backdrop-filter: blur(1px) saturate(1.2);
   box-shadow: inset 0 1px 0 rgba(245, 244, 239, .1);
+}
+
+/* El contorno de cada burbuja: un anillo delgado y parejo, en el
+   mismo radio donde el feDisplacementMap concentra el
+   desplazamiento (a medio camino entre el centro quieto y el
+   filo de la celda). Misma caja y mismo mosaico de 64px que
+   .proceso__lienzo, para que el anillo caiga exacto sobre el
+   lente que ya está deformado ahí — no es una rejilla aparte. */
+.proceso__contorno {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-image: radial-gradient(circle at 50% 50%,
+    transparent 0,
+    transparent 22.5px,
+    rgba(255, 255, 255, .4) 22.5px,
+    rgba(255, 255, 255, .4) 24.5px,
+    transparent 24.5px,
+    transparent 32px);
+  background-size: 64px 64px;
 }
 
 /* El contenido siempre por encima de la rama. */
@@ -1183,9 +1215,11 @@ a, button, label, select, summary {
     background: linear-gradient(180deg,
       rgba(6, 8, 9, .5) 0%,
       rgba(6, 8, 9, .4) 100%);
-    backdrop-filter: blur(2px) saturate(1.1);
-    -webkit-backdrop-filter: blur(2px) saturate(1.1);
+    backdrop-filter: saturate(1.1);
+    -webkit-backdrop-filter: saturate(1.1);
   }
+  /* Sin el desplazamiento en móvil no hay lente que contornear. */
+  .proceso__contorno { display: none; }
 }
 
 .proceso { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
@@ -1266,18 +1300,22 @@ a, button, label, select, summary {
 
 /* Los tiempos que no se están leyendo se apagan un poco: el que
    está activo (o bajo el cursor) gana foco de verdad, no sólo el
-   número cambia de color. */
+   número cambia de color.
+   El apagado va en un selector aparte y más específico que
+   ".tiempo" a secas: ".tiempo" también lleva la clase ".rev", y
+   una vez que ".rev.dentro" lo revela (0,2,0) le gana a
+   ".tiempo" solo (0,1,0) y lo deja siempre en opacity:1 pase lo
+   que pase — el apagado nunca se veía. ".proceso .tiempo:not()"
+   (0,3,0) sí le gana. */
 .tiempo {
   display: grid;
   gap: .6rem clamp(1.5rem, 3vw, 3rem);
   padding-block: clamp(1.75rem, 3.4vw, 2.75rem);
   border-top: 1px solid var(--filo-2);
-  opacity: .5;
   transition: opacity .7s var(--tallo);
 }
 .tiempo:last-child { border-bottom: 1px solid var(--filo-2); }
-.tiempo.activo,
-.tiempo:hover { opacity: 1; }
+.proceso .tiempo:not(.activo):not(:hover) { opacity: .5; }
 @media (min-width: 640px) {
   .tiempo { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
 }
