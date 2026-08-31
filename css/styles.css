@@ -1113,11 +1113,6 @@ a, button, label, select, summary {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* .proceso__contorno usa mix-blend-mode: sin esto, un blend
-     mezcla contra lo que sea que esté detrás sin respetar los
-     límites del contexto de apilamiento, y el anillo terminaba
-     dibujándose encima del texto en vez de detrás. */
-  isolation: isolate;
 }
 
 .proceso__pegajoso {
@@ -1125,116 +1120,81 @@ a, button, label, select, summary {
   top: 0;
   width: 100%;
   height: 100dvh;
-  /* Recorta al lienzo de abajo, que se dibuja más grande que su
-     caja a propósito (ver el comentario ahí). Este overflow es
-     seguro: no es ancestro del sticky, es el propio elemento
-     sticky, así que no repite el bug de más abajo donde un
-     ancestro con overflow distinto de visible le impedía
-     pegarse. */
-  overflow: hidden;
 }
 
-/* El vidrio de verdad: nada pintado encima, la propia toma se
-   deforma a través del filtro SVG #vidrio-lente (definido junto
-   al <body>, un feDisplacementMap con ruido de fondo). Antes
-   había una capa de círculos con su brillo y su sombra dibujados
-   — se leía como plástico con burbujas pegadas, no como vidrio.
-   Esto sí ondula la imagen misma.
-
-   El lienzo se dibuja un 16% más grande que su caja (inset -8%)
-   a propósito: feDisplacementMap corre los píxeles del filo
-   hacia afuera, y si ahí no hay nada que leer (el borde real del
-   lienzo) el filtro devuelve transparente — se veía el fondo de
-   la sección asomando en mordidas redondas, como si el filo
-   fuera de papel picado. Con imagen real más allá del borde
-   visible, el desplazamiento siempre encuentra algo que tomar y
-   el filo vuelve a ser una línea limpia. */
 .proceso__lienzo {
   position: absolute;
-  inset: -8%;
+  inset: 0;
   display: block;
-  width: 116%;
-  height: 116%;
+  width: 100%;
+  height: 100%;
   opacity: .96;
-  filter: url(#vidrio-lente) contrast(1.1) saturate(1.15);
+  /* Un poco de contraste y saturación de más: no tapa que el
+     cuadro venga chico, pero sí lo hace leer como una toma de
+     cinta antes que como una foto digital de baja resolución. */
+  filter: contrast(1.1) saturate(1.15);
 }
 
-/* El velo: sólo el tinte para que el texto gane, sin luces ni
-   brillos encima — el vidrio ya lo pone la deformación de arriba.
-   El desenfoque es mínimo (1px, sólo funde el bloqueo del jpeg):
-   con más, se notaba borroso hasta en el centro quieto de cada
-   lente, donde el desplazamiento no toca nada — ahí no debería
-   haber ninguna razón para ver blur. */
+/* El velo: un negro parejo encima de la toma, lo justo para que
+   el texto blanco siempre gane, sin esconder la escena. */
 .proceso__velo {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(6, 8, 9, .46) 0%,
-    rgba(6, 8, 9, .22) 42%,
-    rgba(6, 8, 9, .22) 60%,
-    rgba(6, 8, 9, .52) 100%);
-  backdrop-filter: blur(1px) saturate(1.2);
-  -webkit-backdrop-filter: blur(1px) saturate(1.2);
-  box-shadow: inset 0 1px 0 rgba(245, 244, 239, .1);
+    rgba(4, 4, 3, .64) 0%,
+    rgba(4, 4, 3, .46) 42%,
+    rgba(4, 4, 3, .46) 60%,
+    rgba(4, 4, 3, .68) 100%);
 }
 
-/* El contorno de cada burbuja: no un anillo parejo, sino una
-   ranura de dos tonos — oscuro por fuera, claro por dentro — en
-   el mismo radio donde el feDisplacementMap concentra el
-   desplazamiento. Así se ve tallado en el vidrio, como en la
-   referencia, en vez de un círculo dibujado encima. Iba en
-   mix-blend-mode:screen, pero screen no puede oscurecer (mezclar
-   negro con screen no hace nada, el anillo oscuro sólo se notaba
-   porque el fondo ya era casi negro ahí); en normal, la ranura se
-   ve igual de bien y además oscurece de verdad si el fondo es
-   más claro en otra parte de la toma. Misma caja y mismo mosaico
-   de 64px que .proceso__lienzo, para que caiga exacto sobre el
-   lente que ya está deformado ahí. */
-.proceso__contorno {
+/* Franja de croma en los cantos, como la desviación de color de
+   un tubo viejo: magenta a la izquierda, cian a la derecha,
+   transparente al centro para no teñir el texto. */
+.proceso__franja {
   position: absolute;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  inset: 0;
   pointer-events: none;
-  /* La ranura se dibuja con filos duros (transparent Npx, color
-     Npx: salto de golpe, cero px de transición) y luego se
-     difumina completa con blur — así el degradado que la
-     compone no importa, sólo importa que ya no se vea impresa
-     ni "condensada". Se sube la opacidad de los dos tonos un
-     poco (antes .3/.45) porque el blur reparte la tinta en un
-     área más ancha y sin esto se lavaba de más. */
-  background-image: radial-gradient(circle at 50% 50%,
-    transparent 0,
-    transparent 19px,
-    rgba(0, 0, 0, .4) 19px,
-    rgba(0, 0, 0, .4) 21.5px,
-    rgba(255, 255, 255, .55) 21.5px,
-    rgba(255, 255, 255, .55) 23.5px,
-    transparent 23.5px,
-    transparent 32px);
-  background-size: 64px 64px;
-  filter: blur(4px);
+  mix-blend-mode: screen;
+  background: linear-gradient(90deg,
+    rgba(255, 40, 110, .16) 0%,
+    transparent 14%,
+    transparent 86%,
+    rgba(50, 220, 255, .14) 100%);
+}
+
+/* Líneas de barrido, como un tubo de rayos catódicos. */
+.proceso__lineas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(180deg,
+    rgba(0, 0, 0, .3) 0px,
+    rgba(0, 0, 0, .3) 1px,
+    transparent 1px,
+    transparent 3px);
+}
+
+/* Estática fina: en overlay, no en multiply, porque sobre un
+   fondo tan oscuro el multiply la aplasta a negro y no se ve. */
+.proceso__estatica {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .45;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 
 /* El contenido siempre por encima de la rama. */
 .proceso-seccion .marco { position: relative; z-index: 1; }
 
 @media (max-width: 999px) {
-  .proceso__lienzo {
-    opacity: .8;
-    /* El feDisplacementMap pesa en equipos chicos: en móvil se
-       deja sólo el contraste y la saturación. */
-    filter: contrast(1.1) saturate(1.15);
-  }
+  .proceso__lienzo { opacity: .8; }
   .proceso__velo {
     background: linear-gradient(180deg,
-      rgba(6, 8, 9, .5) 0%,
-      rgba(6, 8, 9, .4) 100%);
-    backdrop-filter: saturate(1.1);
-    -webkit-backdrop-filter: saturate(1.1);
+      rgba(4, 4, 3, .58) 0%,
+      rgba(4, 4, 3, .5) 100%);
   }
-  /* Sin el desplazamiento en móvil no hay lente que contornear. */
-  .proceso__contorno { display: none; }
 }
 
 .proceso { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }

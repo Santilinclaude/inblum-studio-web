@@ -24,35 +24,13 @@
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=53">
-<link rel="stylesheet" href="css/styles.css?v=53">
+<link rel="stylesheet" href="css/tokens.css?v=54">
+<link rel="stylesheet" href="css/styles.css?v=54">
 </head>
 
 <body>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
-
-<!-- El vidrio de Proceso: no son luces pintadas encima, es la
-     imagen de verdad deformada como a través de una rejilla de
-     lentes redondos, como tu vidrio de referencia. El primer
-     mapa de desplazamiento distorsionaba parejo en toda la
-     celda, así que se veía la deformación pero no el filo entre
-     un lente y el siguiente — no leía como rejilla. Este mapa
-     concentra el desplazamiento en un anillo cerca del borde de
-     cada celda (cero en el centro, cero justo en el filo para
-     que empalme con la celda vecina, máximo en el anillo
-     intermedio) y deja el centro de cada lente casi quieto: así
-     se ve el filo de cada burbuja, sin necesidad de dibujar
-     ninguna línea. Se calculó píxel por píxel en un <canvas> y
-     se exportó a PNG (64×64, se repite con feTile); el rojo
-     guarda el desplazamiento en X, el verde el de Y. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="vidrio-lente" x="-20%" y="-20%" width="140%" height="140%">
-    <feImage href="data:image/png;base64,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" x="0" y="0" width="64" height="64" result="celda"/>
-    <feTile in="celda" result="mapa"/>
-    <feDisplacementMap in="SourceGraphic" in2="mapa" scale="34" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
 
 <canvas class="holo" id="holo" aria-hidden="true"></canvas>
 
@@ -230,7 +208,9 @@
       <div class="proceso__pegajoso">
         <canvas class="proceso__lienzo" id="proceso-lienzo"></canvas>
         <span class="proceso__velo"></span>
-        <span class="proceso__contorno"></span>
+        <span class="proceso__franja"></span>
+        <span class="proceso__lineas"></span>
+        <span class="proceso__estatica"></span>
       </div>
     </div>
 
@@ -357,10 +337,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=53" defer></script>
-<script src="js/holo.js?v=53" defer></script>
-<script src="js/proceso-fondo.js?v=53" defer></script>
-<script src="js/app.js?v=53" defer></script>
+<script src="js/data.js?v=54" defer></script>
+<script src="js/holo.js?v=54" defer></script>
+<script src="js/proceso-fondo.js?v=54" defer></script>
+<script src="js/app.js?v=54" defer></script>
 
 </body>
 </html>
