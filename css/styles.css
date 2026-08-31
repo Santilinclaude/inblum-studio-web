@@ -1178,25 +1178,32 @@ a, button, label, select, summary {
   box-shadow: inset 0 1px 0 rgba(245, 244, 239, .1);
 }
 
-/* El contorno de cada burbuja: un anillo delgado y parejo, en el
-   mismo radio donde el feDisplacementMap concentra el
-   desplazamiento (a medio camino entre el centro quieto y el
-   filo de la celda). Misma caja y mismo mosaico de 64px que
-   .proceso__lienzo, para que el anillo caiga exacto sobre el
-   lente que ya está deformado ahí — no es una rejilla aparte. */
+/* El contorno de cada burbuja: no un anillo parejo, sino una
+   ranura de dos tonos — oscuro por fuera, claro por dentro — en
+   el mismo radio donde el feDisplacementMap concentra el
+   desplazamiento. Así se ve tallado en el vidrio, como en la
+   referencia, en vez de un círculo dibujado encima. Iba en
+   mix-blend-mode:screen, pero screen no puede oscurecer (mezclar
+   negro con screen no hace nada, el anillo oscuro sólo se notaba
+   porque el fondo ya era casi negro ahí); en normal, la ranura se
+   ve igual de bien y además oscurece de verdad si el fondo es
+   más claro en otra parte de la toma. Misma caja y mismo mosaico
+   de 64px que .proceso__lienzo, para que caiga exacto sobre el
+   lente que ya está deformado ahí. */
 .proceso__contorno {
   position: absolute;
   inset: -8%;
   width: 116%;
   height: 116%;
   pointer-events: none;
-  mix-blend-mode: screen;
   background-image: radial-gradient(circle at 50% 50%,
     transparent 0,
-    transparent 22.5px,
-    rgba(255, 255, 255, .4) 22.5px,
-    rgba(255, 255, 255, .4) 24.5px,
-    transparent 24.5px,
+    transparent 19px,
+    rgba(0, 0, 0, .3) 19px,
+    rgba(0, 0, 0, .3) 21.5px,
+    rgba(255, 255, 255, .45) 21.5px,
+    rgba(255, 255, 255, .45) 23.5px,
+    transparent 23.5px,
     transparent 32px);
   background-size: 64px 64px;
 }
