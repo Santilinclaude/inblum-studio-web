@@ -400,6 +400,42 @@ a, button, label, select, summary {
   align-items: center;
   width: 100%;
 }
+
+/* La señal de scroll: el mismo hilo con marca que ya se usa en
+   Proceso, aquí a la entrada en vez de a la salida. Se desplaza
+   con la propia sección, así que se va sola al bajar — no hace
+   falta ocultarla a mano. */
+.senal-scroll {
+  --alto: clamp(46px, 7vh, 64px);
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  translate: -50% 0;
+  width: 1px;
+  height: var(--alto);
+  background: var(--filo);
+  pointer-events: none;
+  overflow: hidden;
+}
+.senal-scroll__pulso {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -2.5px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--acento);
+  animation: bajar-senal 2.4s var(--tallo) infinite;
+}
+@keyframes bajar-senal {
+  0%   { transform: translateY(-6px); opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { transform: translateY(var(--alto)); opacity: 0; }
+}
+@media (max-width: 699px) { .senal-scroll { display: none; } }
 @media (min-width: 1000px) {
   .portada__grid { grid-template-columns: minmax(0, 1fr) minmax(320px, 470px); }
 }
@@ -760,11 +796,24 @@ a, button, label, select, summary {
   opacity: .3;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 52%, transparent 100%);
           mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 52%, transparent 100%);
-  transition: opacity 1s var(--brote), transform 1.4s var(--brote);
+  transition: opacity 1s var(--brote);
   transform: scale(1.04);
   pointer-events: none;
 }
-.pieza[data-abierta="true"] .pieza__pigmento { opacity: .62; transform: scale(1); }
+/* Al abrir, la imagen no sólo asienta su escala: sigue empujando
+   despacio hacia adentro mientras la lámina queda abierta, como
+   un ken-burns lento. "forwards" para que se quede en el último
+   cuadro, no un loop de ida y vuelta que se sienta inquieto en
+   una lámina de fondo. */
+.pieza[data-abierta="true"] .pieza__pigmento {
+  opacity: .62;
+  animation: respirar-pigmento 18s var(--brote) forwards;
+}
+@keyframes respirar-pigmento {
+  0%   { transform: scale(1.04); }
+  14%  { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
 
 /* Un baño de color de marca por lámina: azul, rosa y amarillo se
    van turnando, y sube al abrirse. */
@@ -1262,7 +1311,21 @@ a, button, label, select, summary {
 }
 
 .datos { display: grid; gap: 1.6rem; }
-.dato { display: grid; gap: .3rem; }
+/* Cada dato entra por su cuenta, no los cuatro de golpe con el
+   resto de la columna: .contacto__izq ya es .rev, esto se monta
+   encima usando el mismo "--i" que .pieza en el herbario. */
+.dato {
+  display: grid;
+  gap: .3rem;
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity .7s var(--brote), transform .7s var(--brote);
+}
+.contacto__izq.dentro .dato {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
 .dato__clave {
   font-family: var(--f-mono);
   font-size: var(--t-micro);

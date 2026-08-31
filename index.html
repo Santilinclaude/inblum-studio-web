@@ -24,8 +24,8 @@
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=55">
-<link rel="stylesheet" href="css/styles.css?v=55">
+<link rel="stylesheet" href="css/tokens.css?v=56">
+<link rel="stylesheet" href="css/styles.css?v=56">
 </head>
 
 <body>
@@ -127,6 +127,12 @@
       </div>
 
     </div>
+
+    <!-- Sólo decorativo: ya existe "Ver servicios" arriba para
+         quien navega con teclado o lector de pantalla. -->
+    <span class="senal-scroll entra" style="--espera:900ms" aria-hidden="true">
+      <span class="senal-scroll__pulso"></span>
+    </span>
   </section>
 
   <!-- ============ Tira ============ -->
@@ -233,19 +239,19 @@
         </p>
 
         <div class="datos">
-          <div class="dato">
+          <div class="dato" style="--i:0">
             <span class="dato__clave">Correo</span>
             <a class="dato__valor" id="dato-correo" href="#">correo</a>
           </div>
-          <div class="dato">
+          <div class="dato" style="--i:1">
             <span class="dato__clave">Teléfono</span>
             <a class="dato__valor" id="dato-telefono" href="#">teléfono</a>
           </div>
-          <div class="dato">
+          <div class="dato" style="--i:2">
             <span class="dato__clave">Dónde estamos</span>
             <span class="dato__valor" id="dato-ciudad">ciudad</span>
           </div>
-          <div class="dato">
+          <div class="dato" style="--i:3">
             <span class="dato__clave">Redes</span>
             <div class="redes" id="redes"></div>
           </div>
@@ -325,9 +331,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=55" defer></script>
-<script src="js/holo.js?v=55" defer></script>
-<script src="js/app.js?v=55" defer></script>
+<script src="js/data.js?v=56" defer></script>
+<script src="js/holo.js?v=56" defer></script>
+<script src="js/app.js?v=56" defer></script>
 
 </body>
 </html>
