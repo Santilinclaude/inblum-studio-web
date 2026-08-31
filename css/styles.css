@@ -1120,6 +1120,13 @@ a, button, label, select, summary {
   top: 0;
   width: 100%;
   height: 100dvh;
+  /* Recorta al lienzo de abajo, que se dibuja más grande que su
+     caja a propósito (ver el comentario ahí). Este overflow es
+     seguro: no es ancestro del sticky, es el propio elemento
+     sticky, así que no repite el bug de más abajo donde un
+     ancestro con overflow distinto de visible le impedía
+     pegarse. */
+  overflow: hidden;
 }
 
 /* El vidrio de verdad: nada pintado encima, la propia toma se
@@ -1127,13 +1134,22 @@ a, button, label, select, summary {
    al <body>, un feDisplacementMap con ruido de fondo). Antes
    había una capa de círculos con su brillo y su sombra dibujados
    — se leía como plástico con burbujas pegadas, no como vidrio.
-   Esto sí ondula la imagen misma. */
+   Esto sí ondula la imagen misma.
+
+   El lienzo se dibuja un 16% más grande que su caja (inset -8%)
+   a propósito: feDisplacementMap corre los píxeles del filo
+   hacia afuera, y si ahí no hay nada que leer (el borde real del
+   lienzo) el filtro devuelve transparente — se veía el fondo de
+   la sección asomando en mordidas redondas, como si el filo
+   fuera de papel picado. Con imagen real más allá del borde
+   visible, el desplazamiento siempre encuentra algo que tomar y
+   el filo vuelve a ser una línea limpia. */
 .proceso__lienzo {
   position: absolute;
-  inset: 0;
+  inset: -8%;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 116%;
+  height: 116%;
   opacity: .96;
   filter: url(#vidrio-lente) contrast(1.1) saturate(1.15);
 }
