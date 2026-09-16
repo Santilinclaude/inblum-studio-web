@@ -26,8 +26,8 @@
 <!-- Inter: sólo para la sección Proceso, tipografía grotesca monocromática con tracking negativo. -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=62">
-<link rel="stylesheet" href="css/styles.css?v=62">
+<link rel="stylesheet" href="css/tokens.css?v=63">
+<link rel="stylesheet" href="css/styles.css?v=63">
 </head>
 
 <body>
@@ -210,28 +210,28 @@
 
   <!-- ============ Proceso ============ -->
   <section class="seccion proceso-seccion" id="proceso">
-    <div class="proceso__objetos" aria-hidden="true">
-      <img class="proceso__objeto" src="assets/obra/flores.jpg" alt="" style="--x:90%; --y:3%; --w:130px; --rot:8deg" loading="lazy" decoding="async">
-      <img class="proceso__objeto" src="assets/obra/marmol.jpg" alt="" style="--x:93%; --y:30%; --w:100px; --rot:-6deg" loading="lazy" decoding="async">
-      <img class="proceso__objeto" src="assets/obra/azulejo.jpg" alt="" style="--x:88%; --y:58%; --w:110px; --rot:9deg" loading="lazy" decoding="async">
-      <img class="proceso__objeto" src="assets/obra/cimatica.jpg" alt="" style="--x:92%; --y:85%; --w:120px; --rot:-5deg" loading="lazy" decoding="async">
-    </div>
-    <div class="marco proceso">
+    <div class="mesa">
+      <!-- El campo de objetos lo arma js/app.js con la lista MUSEO
+           de js/data.js: ahí se cambian las piezas. -->
+      <div class="museo" id="museo" aria-hidden="true"></div>
 
-      <div class="proceso__fijo">
-        <div class="proceso__texto rev">
-          <p class="rotulo">Proceso</p>
-          <h2 class="titulo" style="margin-top:1.1rem">Cómo trabajamos.</h2>
-          <p>El mismo camino para un logotipo que para una campaña de seis
-             meses.</p>
+      <div class="marco proceso">
+
+        <div class="proceso__fijo">
+          <div class="proceso__texto rev">
+            <p class="rotulo">Proceso</p>
+            <h2 class="titulo" style="margin-top:1.1rem">Cómo trabajamos.</h2>
+            <p>El mismo camino para un logotipo que para una campaña de seis
+               meses.</p>
+          </div>
+
+          <div class="hilo" id="hilo" aria-hidden="true">
+            <span class="hilo__marca"></span>
+          </div>
         </div>
 
-        <div class="hilo" id="hilo" aria-hidden="true">
-          <span class="hilo__marca"></span>
-        </div>
+        <div class="tiempos" id="tiempos"></div>
       </div>
-
-      <div class="tiempos" id="tiempos"></div>
     </div>
   </section>
 
@@ -339,9 +339,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=62" defer></script>
-<script src="js/holo.js?v=62" defer></script>
-<script src="js/app.js?v=62" defer></script>
+<script src="js/data.js?v=63" defer></script>
+<script src="js/holo.js?v=63" defer></script>
+<script src="js/app.js?v=63" defer></script>
 
 </body>
 </html>

@@ -542,7 +542,106 @@
     }
   }
 
-  /* ---------- 10b. La fotografía de portada respira ----------
+  /* ---------- 10b. El museo flotante -------------------------
+     El campo de objetos que deriva detrás de "Cómo trabajamos".
+     Las piezas viven en MUSEO (js/data.js); aquí sólo se arman y
+     se les reparte el movimiento.
+
+     Cada pieza necesita rumbo, distancia, giro, paso y punto de
+     arranque propios, pero pedirle todo eso a quien edite el
+     contenido sería cambiarle un archivo de piezas por una hoja
+     de cálculo. Así que eso se deriva del índice: el ángulo
+     avanza de 137.5° en 137.5° —el ángulo áureo, el mismo con el
+     que una planta reparte sus hojas para que ninguna le tape la
+     luz a otra— y el resultado es un reparto que nunca alinea dos
+     piezas ni repite un patrón visible.
+     --------------------------------------------------------- */
+
+  const museo = $('#museo');
+
+  if (museo && typeof MUSEO !== 'undefined' && MUSEO.length) {
+    const capas = {
+      fondo:  document.createElement('div'),
+      frente: document.createElement('div')
+    };
+    capas.fondo.className  = 'museo__capa museo__capa--fondo';
+    capas.frente.className = 'museo__capa museo__capa--frente';
+
+    MUSEO.forEach(function (o, i) {
+      const pieza = o.tipo === 'foto' ? new Image() : document.createElement('span');
+
+      if (o.tipo === 'foto') {
+        pieza.src = o.img;
+        pieza.alt = '';
+        pieza.loading = 'lazy';
+        pieza.decoding = 'async';
+      }
+      pieza.className = 'museo__pieza museo__pieza--' + o.tipo;
+
+      const rumbo = i * 137.5 * Math.PI / 180;
+      const salto = 18 + (i % 5) * 7;   // en % del propio ancho
+
+      const e = pieza.style;
+      e.setProperty('--x',   o.x + '%');
+      e.setProperty('--y',   o.y + '%');
+      e.setProperty('--w',   o.w + 'px');
+      e.setProperty('--rot', (o.rot || 0) + 'deg');
+      e.setProperty('--dx',  (Math.cos(rumbo) * salto).toFixed(2) + '%');
+      e.setProperty('--dy',  (Math.sin(rumbo) * salto).toFixed(2) + '%');
+      e.setProperty('--giro', ((i % 2 ? 1 : -1) * (3 + i % 5)) + 'deg');
+      e.setProperty('--dur',  (16 + (i * 7) % 19) + 's');
+      // Retardo negativo: en vez de esperar su turno, cada pieza
+      // entra con el ciclo ya empezado. Desde el primer cuadro el
+      // campo se ve en movimiento, no arrancando.
+      e.setProperty('--esp', '-' + (i * 1.7).toFixed(1) + 's');
+
+      (capas[o.capa] || capas.fondo).appendChild(pieza);
+    });
+
+    museo.append(capas.fondo, capas.frente);
+
+    /* Las dos capas se corren distinto: con el cursor, y con lo
+       que lleva recorrido la sección. Es lo único que separa un
+       campo de estampas de un campo con profundidad. */
+    if (!quieto.matches) {
+      let pedidoMuseo = false;
+
+      function pintarMuseo() {
+        pedidoMuseo = false;
+        const c = museo.getBoundingClientRect();
+        if (c.bottom < 0 || c.top > window.innerHeight) return;
+        // -1 cuando la mesa apenas asoma por abajo, 1 cuando ya
+        // casi se fue por arriba.
+        const v = (window.innerHeight - c.top) / (window.innerHeight + c.height);
+        museo.style.setProperty('--pms', (v * 2 - 1).toFixed(3));
+      }
+
+      function pedirMuseo() {
+        if (pedidoMuseo) return;
+        pedidoMuseo = true;
+        window.requestAnimationFrame(pintarMuseo);
+      }
+
+      window.addEventListener('scroll', pedirMuseo, { passive: true });
+      window.addEventListener('resize', pedirMuseo);
+      pintarMuseo();
+
+      if (conPuntero && seccionProceso) {
+        seccionProceso.addEventListener('pointermove', function (ev) {
+          const c = seccionProceso.getBoundingClientRect();
+          museo.style.setProperty('--pmx', ((ev.clientX - c.left) / c.width  * 2 - 1).toFixed(3));
+          museo.style.setProperty('--pmy', ((ev.clientY - c.top)  / c.height * 2 - 1).toFixed(3));
+        }, { passive: true });
+
+        seccionProceso.addEventListener('pointerleave', function () {
+          museo.style.setProperty('--pmx', '0');
+          museo.style.setProperty('--pmy', '0');
+        });
+      }
+    }
+  }
+
+  /* ---------- 10c. La fotografía de portada respira ----------
      Paralaje corto sobre la imagen del retrato: se mueve menos
      que la página, así el papel parece quedarse quieto detrás.
      --------------------------------------------------------- */

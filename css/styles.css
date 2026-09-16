@@ -1156,35 +1156,172 @@ a, button, label, select, summary {
   --acento:   #E2FF70;
   --f-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --f-texto:   "Inter", ui-sans-serif, system-ui, sans-serif;
-  background: var(--papel);
+  /* La sección es la pared; la mesa de adentro es el lienzo. */
+  background: var(--papel-2);
   color: var(--tinta);
+  padding-block: clamp(1rem, 2.4vw, 2.25rem);
 }
 
-/* Objetos de la obra, flotando sueltos: sin marco, sin sombra,
-   sin esquinas redondeadas. Son ejemplos temporales —se van a
-   reemplazar más adelante— por eso se recortan de assets/obra en
-   vez de tener fotografía propia de objeto. Sólo en pantallas
-   anchas: en angosto no hay aire para que floten sin tapar el
-   texto. */
-.proceso__objetos {
+/* La mesa: un lienzo de esquinas redondas, despegado de los filos
+   de la pantalla, donde flotan los objetos. Todo lo que se sale
+   se recorta contra su filo, y ese recorte es parte del dibujo.
+   overflow: clip y no hidden a propósito: "hidden" convertiría a
+   la mesa en contenedor de scroll y el título de al lado dejaría
+   de quedarse fijo. */
+.mesa {
+  position: relative;
+  overflow: clip;
+  border-radius: clamp(18px, 2vw, 32px);
+  background: var(--papel);
+  margin-inline: clamp(.5rem, 1.4vw, 1.25rem);
+  padding-block: var(--sec-y);
+}
+
+/* ---- El museo flotante ----
+   Dos capas de profundidad. La de fondo va pálida, casi de yeso,
+   y puede pasar por detrás de la lectura sin estorbarla; la de
+   frente va a todo color y sólo aparece por los filos. Las dos se
+   corren distinto con el cursor y con el scroll: eso es lo que da
+   la sensación de que hay aire entre ellas. */
+.museo {
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
 }
-.proceso__objeto {
+.museo__capa {
+  position: absolute;
+  inset: 0;
+  translate:
+    calc(var(--pmx, 0) * var(--fx))
+    calc(var(--pmy, 0) * var(--fx) + var(--pms, 0) * var(--fy));
+  transition: translate .5s var(--brote);
+}
+.museo__capa--fondo  { --fx: 12px; --fy: 20px; opacity: .5; }
+.museo__capa--frente { --fx: 32px; --fy: 46px; }
+
+/* El yeso: lo que está al fondo se lava a gris claro, venga de
+   una foto o de una figura dibujada con CSS. Así el campo entero
+   se lee como un solo material y el texto encima nunca pelea. */
+.museo__capa--fondo .museo__pieza {
+  filter: grayscale(1) brightness(1.22) contrast(.74);
+}
+/* Las fotos necesitan mucho más lavado que las figuras: llegan
+   con su propio contraste y, si sólo se les quita el color, se
+   quedan como manchas oscuras justo debajo de la lectura. */
+.museo__capa--fondo .museo__pieza--foto {
+  filter: grayscale(1) brightness(2.1) contrast(.28);
+  opacity: .5;
+}
+
+.museo__pieza {
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--w);
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
   rotate: var(--rot);
-  filter: saturate(1.03);
+  animation: deriva var(--dur) ease-in-out var(--esp) infinite;
 }
+
+/* La deriva: cada pieza va y vuelve por su propio rumbo, con su
+   propio paso y arrancando en un punto distinto del ciclo. Como
+   ninguna coincide con otra, el conjunto nunca se ve en formación
+   y el ciclo no tiene costura. */
+@keyframes deriva {
+  0%, 100% { translate: 0 0; rotate: var(--rot); }
+  50%      { translate: var(--dx) var(--dy); rotate: calc(var(--rot) + var(--giro)); }
+}
+
+/* Las fotos son de relleno mientras llegan los recortes reales;
+   el borde orgánico es justamente para que no se lean como fotos
+   rectangulares sino como objetos sueltos. */
+.museo__pieza--foto {
+  object-fit: cover;
+  aspect-ratio: 4 / 5;
+  border-radius: 48% 52% 56% 44% / 52% 48% 52% 48%;
+}
+.museo__pieza--foto:nth-child(4n+2) {
+  aspect-ratio: 1 / 1;
+  border-radius: 60% 40% 45% 55% / 42% 58% 42% 58%;
+}
+.museo__pieza--foto:nth-child(4n+3) {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+.museo__pieza--foto:nth-child(4n) {
+  aspect-ratio: 5 / 4;
+  border-radius: 42% 58% 50% 50% / 58% 42% 58% 42%;
+}
+
+/* ---- Los "modelos 3d" ----
+   No hay ningún archivo detrás de estas piezas: son degradados.
+   Un cónico da el barrido del cromo, un radial pone el brillo
+   donde pegaría la luz, y el recorte de en medio abre el hueco
+   del anillo y del disco. Cuando lleguen renders de verdad, cada
+   una se cambia por un 'foto' en la lista MUSEO. */
+.museo__pieza--esfera {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, #fff 0 7%, rgba(255,255,255,.6) 15%, transparent 36%),
+    radial-gradient(circle at 72% 80%, rgba(255,255,255,.5) 0 9%, transparent 42%),
+    conic-gradient(from 210deg, #d7dae0, #f6f7f9 16%, #a9b0bb 37%, #eef1f4 54%, #9aa1ad 71%, #e9ecf0 88%, #d7dae0);
+}
+
+.museo__pieza--capsula {
+  aspect-ratio: 2.6 / 1;
+  border-radius: var(--r-pill);
+  background: linear-gradient(168deg, #fcfcfd 0 12%, #d2d6dd 26%, #929aa6 45%, #eaedf1 59%, #b8bfc9 75%, #f5f6f8 93%);
+}
+
+.museo__pieza--bloque {
+  aspect-ratio: 1.1 / 1;
+  border-radius: 16%;
+  background: linear-gradient(148deg, #fdfdfc 0 37%, #e9e9e4 38% 61%, #d3d3cc 62%);
+}
+
+.museo__pieza--gota {
+  aspect-ratio: 1.35 / 1;
+  border-radius: 62% 38% 44% 56% / 48% 56% 44% 52%;
+  background: radial-gradient(circle at 34% 26%, #fff 0 20%, #f1f1ed 44%, #dededa 76%, #d0d0ca);
+}
+
+/* El anillo de gelatina: la única pieza que carga el acento, y lo
+   carga como material, no como texto. */
+.museo__pieza--anillo {
+  aspect-ratio: 1.55 / 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 38% 28%, rgba(255,255,255,.92) 0 5%, transparent 32%),
+    conic-gradient(from 140deg, #cdf24a, #f3ff9f 20%, #a9da30 45%, #ebffb1 66%, #b7e33b 85%, #cdf24a);
+  -webkit-mask: radial-gradient(ellipse closest-side at 50% 50%, #0000 0 45%, #000 49%);
+          mask: radial-gradient(ellipse closest-side at 50% 50%, #0000 0 45%, #000 49%);
+}
+
+.museo__pieza--disco {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #ececed 0 14%, transparent 14.5%),
+    conic-gradient(from 20deg, #cfe8ff, #ffd7f2 12%, #dbffe6 27%, #fff4c6 41%, #d7e5ff 56%, #ffdaf0 71%, #d5ffe9 85%, #cfe8ff);
+  -webkit-mask: radial-gradient(circle closest-side at 50% 50%, #0000 0 11%, #000 13%);
+          mask: radial-gradient(circle closest-side at 50% 50%, #0000 0 11%, #000 13%);
+}
+
+/* En pantalla angosta el color de los filos estorba más de lo que
+   aporta: se queda sólo el yeso del fondo, que es el que da el
+   aire sin pelearse con la lectura. */
 @media (max-width: 1199px) {
-  .proceso__objetos { display: none; }
+  .museo__capa--frente { display: none; }
+  .museo__capa--fondo  { opacity: .34; }
+  /* En angosto el texto ocupa todo el ancho: se quedan sólo las
+     figuras, que son de yeso de nacimiento, y se van las fotos. */
+  .museo__capa--fondo .museo__pieza--foto { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .museo__pieza { animation: none; }
+  .museo__capa  { transition: none; }
 }
 
 /* El rótulo, a lo etiqueta de museo: píldora sólida en el acento,
