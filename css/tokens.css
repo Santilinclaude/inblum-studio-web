@@ -9,43 +9,62 @@
 :root {
   color-scheme: light;
 
-  /* --- El papel --- */
-  --papel:    #F1F0EA;
-  --papel-2:  #E7E6DE;
-  --papel-3:  #DCDAD0;
-  --lamina:   #FBFAF7;   /* la hoja de la lámina, más clara */
+  /* --- El papel: crema de cosecha, a lo arte* (antes hueso) --- */
+  --papel:    #E5DCCD;
+  --papel-2:  #D9CBAF;
+  --papel-3:  #CDB98F;
+  --lamina:   #EAE1D1;   /* la hoja de la lámina, apenas más clara */
 
-  /* --- La tinta: negro con una gota de verde --- */
-  --tinta:    #14150F;
-  --tinta-2:  #4B4D42;
-  --tinta-3:  #767869;
-  --filo:     rgba(20, 21, 15, .16);
-  --filo-2:   rgba(20, 21, 15, .08);
+  /* --- La tinta: cobre de cosecha, a lo arte* (antes negro) --- */
+  --tinta:    #AB5700;
+  --tinta-2:  #8C6339;
+  --tinta-3:  #A9916F;
+  --filo:     rgba(171, 87, 0, .22);
+  --filo-2:   rgba(171, 87, 0, .1);
 
-  /* --- Pigmentos, muestreados del cartel de marca --- */
-  --rosa:      #D63A88;
-  --rosa-luz:  #F272B4;
-  --azul:      #1B63C0;
-  --azul-luz:  #4E97EC;
-  --amarillo:  #E7CB2A;
-  --verde:     #3F5B34;
-  --verde-luz: #6E8C58;
+  /* --- Pigmentos: la paleta de arte*, no ya muestreada del
+     cartel. Coral, cian y ámbar en vez de rosa/azul/amarillo
+     propios. --azul-luz (Morning Glory, #7997FF) se deja fuera
+     del texto chico a propósito: contra este papel tan claro no
+     alcanza 3:1 de contraste, así que sólo se usa en fondos con
+     texto oscuro encima o como filo/ícono, nunca como color de
+     letra suelta. --acento (el que sí carga texto) usa Slate
+     Bloom, que sí es legible. */
+  --rosa:      #E99686;  /* coral petal */
+  --rosa-luz:  #F2B6AA;
+  --azul:      #3D549C;  /* slate bloom */
+  --azul-luz:  #7997FF;  /* morning glory — sólo fondo/filo/ícono */
+  --amarillo:  #D99623;  /* amber glow */
+  --verde:     #568037;  /* olive branch */
+  --verde-luz: #7CA457;
 
-  /* Los tres colores del cartel, ahora en bloques grandes: la
-     tira es azul, el contacto amarillo, el pie tinta. El rosa
-     sigue siendo el acento de interfaz. */
-  --azul-electrico: #1957D8;
-  --amarillo-vivo:  #F5D923;
-  --rosa-vivo:      #FF3D9A;
-  --acento:         #C4256F;
+  /* Los tres bloques grandes, ahora en la paleta de arte*: la
+     tira es azul pizarra, el contacto ámbar, el pie sigue en
+     tinta. El chartreuse (antes rosa vivo) queda reservado para
+     el único fondo oscuro del sitio — Proceso — donde de verdad
+     se lee, igual que en la referencia (chartreuse sobre verde
+     bosque). --acento es el accent de interfaz de uso general:
+     Slate Bloom, no chartreuse, porque el chartreuse sobre este
+     papel no pasa 3:1 de contraste y --acento sí carga texto. */
+  --azul-electrico: #3D549C;  /* slate bloom */
+  --amarillo-vivo:  #D99623;  /* amber glow */
+  --rosa-vivo:      #E8E359;  /* citron beam — fondo oscuro / relleno con texto oscuro */
+  --acento:         #3D549C;  /* slate bloom — el accent que sí es texto legible */
 
-  /* --- Tipografía --- */
-  --f-display: "Cabinet Grotesk", "Georgia", serif;
+  /* --- Tipografía: ni Cabinet Grotesk ni Poppins convencieron.
+     El titular pasa a Bricolage Grotesque — el otro sustituto
+     que la propia guía de arte* nombra para Parafina — y el
+     cuerpo regresa a Satoshi, como estaba antes de tocar nada. */
+  --f-display: "Bricolage Grotesque", ui-sans-serif, sans-serif;
   --f-texto:   "Satoshi", system-ui, sans-serif;
   --f-mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-  --t-hero:  clamp(2.5rem, 5.1vw, 5.2rem);
-  --t-h2:    clamp(2.4rem, 5.4vw, 5rem);
+  /* Tipografía a lo arte*: titulares enormes y aplastados en vez
+     de discretos. --t-hero y --t-h2 casi se duplicaron; el peso
+     baja de 700 a 500 en las reglas de abajo porque el sistema
+     de referencia nunca engorda el titular, sólo lo agranda. */
+  --t-hero:  clamp(3.4rem, 10vw, 10rem);
+  --t-h2:    clamp(2.6rem, 7.4vw, 6.8rem);
   --t-h3:    clamp(1.3rem, 2.1vw, 1.85rem);
   --t-lead:  clamp(1.1rem, 1.45vw, 1.4rem);
   --t-texto: clamp(1rem, 1.05vw, 1.1rem);
@@ -58,20 +77,30 @@
   --sec-y:  clamp(5.5rem, 10vw, 9.5rem);
 
   /* --- Forma --- */
-  --r:        18px;
-  --r-lamina: 26px;
+  --r:        20px;
+  --r-lamina: 20px;
   --r-pill:   999px;
+  /* El botón de arte*: 31px, no el estadio completo de --r-pill.
+     Ese detalle (suave pero no del todo redondo) es justo lo que
+     lo distingue de un botón genérico. Los controles circulares
+     (menú, flechas del carrusel) se quedan en --r-pill: a esos sí
+     les hace falta el círculo cerrado. */
+  --r-boton:  31px;
 
   /* --- Movimiento --- */
   --brote:  cubic-bezier(.2, .8, .2, 1);    /* abre como un brote */
   --tallo:  cubic-bezier(.65, 0, .35, 1);   /* avanza parejo */
   --salto:  cubic-bezier(.34, 1.56, .64, 1);/* rebota al florecer */
 
-  /* --- Sombra: luz de día sobre papel, nunca negro duro --- */
-  --sombra:    0 30px 60px -34px rgba(20, 21, 15, .34),
-               0 6px 18px -12px rgba(20, 21, 15, .18);
-  --sombra-alta: 0 48px 90px -40px rgba(20, 21, 15, .4),
-               0 10px 26px -14px rgba(20, 21, 15, .2);
+  /* --- Sombra: ninguna, a lo arte* --- Antes eran sombras suaves
+     ("luz de día sobre papel"); el sistema de referencia no usa
+     ninguna: la profundidad sale de la fotografía y del blanco,
+     no de la elevación. Como --sombra ya se leía por variable en
+     cada tarjeta/botón, poner ambas en "none" apaga las sombras
+     en todo el sitio de un solo cambio — cada una ya trae su
+     propio filo de 1px que la sigue definiendo sin la sombra. */
+  --sombra:      none;
+  --sombra-alta: none;
 
   /* --- Capas --- */
   --z-fondo:     0;

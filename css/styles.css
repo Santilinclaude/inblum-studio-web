@@ -26,11 +26,17 @@ body {
   max-width: 100%;
 }
 
+/* Un solo peso para todo el titular, nunca más grueso que 500:
+   a lo arte*, lo enorme del tamaño ya hace el trabajo que antes
+   hacía el 700 — engordarlo encima se siente corporativo, no
+   editorial. El interlineado baja de .95 a .86 porque a estos
+   tamaños tan grandes el aire entre líneas se ve como un hueco,
+   no como respiro. */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
-  font-weight: 700;
-  line-height: .95;
+  font-weight: 500;
+  line-height: .86;
   letter-spacing: -.035em;
   text-wrap: balance;
 }
@@ -161,7 +167,7 @@ a, button, label, select, summary {
   gap: .75rem;
   padding: 1rem 1.75rem;
   border: 1.5px solid transparent;
-  border-radius: var(--r-pill);
+  border-radius: var(--r-boton);
   font-family: var(--f-texto);
   font-size: 1rem;
   font-weight: 500;
@@ -360,7 +366,7 @@ a, button, label, select, summary {
 .cortina a {
   font-family: var(--f-display);
   font-size: clamp(2.6rem, 12vw, 5rem);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -.04em;
   line-height: 1.08;
   opacity: 0;
@@ -443,9 +449,9 @@ a, button, label, select, summary {
 .portada__titulo {
   margin-top: 1.75rem;
   font-size: var(--t-hero);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -.05em;
-  line-height: .92;
+  line-height: .85;
   max-width: 19ch;
 }
 
@@ -723,7 +729,7 @@ a, button, label, select, summary {
   font-family: var(--f-display);
   font-size: clamp(1.9rem, 4.4vw, 4rem);
   font-weight: 500;
-  line-height: 1.14;
+  line-height: 1.02;
   letter-spacing: -.03em;
   max-width: 26ch;
 }
@@ -993,7 +999,7 @@ a, button, label, select, summary {
   .pieza__contenido .pieza__titulo-abierto {
     font-family: var(--f-display);
     font-size: clamp(1.8rem, 2.6vw, 2.6rem);
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: -.035em;
     line-height: 1;
   }
@@ -1123,26 +1129,27 @@ a, button, label, select, summary {
 
 /* ---------- 11. Proceso (fondo a sangre, sección oscura) ---- */
 
-/* La única sección que cambia de tema: la rama que florece se ve
-   tal cual es, a sangre y en su negro real, no lavada a papel.
-   Como el fondo se oscurece, todo el texto de la sección se
-   invierte a claro. Los tokens de color se redefinen aquí mismo
+/* La única sección que cambia de tema. Antes era negro real; a lo
+   arte* pasa a Deep Moss, el verde bosque más oscuro de la
+   paleta — y ahí el chartreuse (--rosa-vivo, que ya es Citron
+   Beam) cae exactamente en el par cromático que la propia
+   referencia usa como su momento más reconocible: chartreuse
+   sobre verde bosque. Los tokens se redefinen aquí mismo
    (--papel, --tinta y compañía); como el resto de la hoja de
    estilos ya lee esos nombres en vez de colores sueltos, todo lo
-   de adentro se invierte solo, sin tocar cada regla una por una.
-   Es el único cambio de tema en el sitio: una excusa deliberada,
-   no un accidente. */
+   de adentro se invierte solo, sin tocar cada regla una por una. */
 .proceso-seccion {
   position: relative;
-  --papel:    #0A0A08;
-  --papel-2:  #131310;
-  --tinta:    #F5F4EF;
-  --tinta-2:  #B9B7AC;
-  --tinta-3:  #8D8B7F;
-  --filo:     rgba(245, 244, 239, .2);
-  --filo-2:   rgba(245, 244, 239, .1);
-  /* El rosa normal (--acento) no alcanza 4.5:1 en texto chico
-     sobre este negro; el vivo sí, y ya existe en la paleta. */
+  --papel:    #103D26;
+  --papel-2:  #0C2E1C;
+  --tinta:    #F5EFDD;
+  --tinta-2:  #C9BFA0;
+  --tinta-3:  #9C947C;
+  --filo:     rgba(245, 239, 221, .2);
+  --filo-2:   rgba(245, 239, 221, .1);
+  /* El acento normal (Slate Bloom) no alcanza contraste cómodo
+     en texto chico sobre este verde; el chartreuse sí, y ya
+     existe en la paleta como --rosa-vivo. */
   --acento:   var(--rosa-vivo);
   background: var(--papel);
   color: var(--tinta);
@@ -1247,7 +1254,7 @@ a, button, label, select, summary {
 .tiempo__n {
   font-family: var(--f-display);
   font-size: clamp(2.6rem, 5.5vw, 4.5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: .82;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--filo);
@@ -1271,19 +1278,22 @@ a, button, label, select, summary {
 
 /* ---------- 12. Contacto ----------------------------------- */
 
-/* El contacto es un bloque amarillo a sangre: el momento de
-   máxima energía, justo donde se pide la acción. */
+/* El contacto es un bloque ámbar a sangre: el momento de máxima
+   energía, justo donde se pide la acción. Los rgba() de abajo
+   eran negro-con-gota-de-verde (20,21,15); con la tinta cobre de
+   arte* (171,87,0) tenían que cambiar también, o el "tinta a
+   media opacidad" de este bloque iba a seguir viéndose negro. */
 #contacto {
   background: var(--amarillo-vivo);
   color: var(--tinta);
 }
 #contacto .rotulo,
 #contacto .lead,
-#contacto .dato__clave { color: rgba(20, 21, 15, .68); }
-#contacto .rotulo::before { background: rgba(20, 21, 15, .5); }
+#contacto .dato__clave { color: rgba(171, 87, 0, .68); }
+#contacto .rotulo::before { background: rgba(171, 87, 0, .5); }
 #contacto .redes a {
-  border-color: rgba(20, 21, 15, .28);
-  color: rgba(20, 21, 15, .8);
+  border-color: rgba(171, 87, 0, .28);
+  color: rgba(171, 87, 0, .8);
 }
 #contacto .redes a:hover {
   background: var(--tinta);
@@ -1291,7 +1301,7 @@ a, button, label, select, summary {
   color: var(--amarillo-vivo);
 }
 #contacto a.dato__valor::after { background: var(--tinta); }
-#contacto .forma { border-color: rgba(20, 21, 15, .12); }
+#contacto .forma { border-color: rgba(171, 87, 0, .12); }
 #contacto .campo input,
 #contacto .campo select,
 #contacto .campo textarea { background: var(--papel); }
@@ -1305,7 +1315,7 @@ a, button, label, select, summary {
 .contacto__izq { display: grid; gap: 2.25rem; align-content: start; }
 .contacto__titulo {
   font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -.05em;
   line-height: .9;
 }
@@ -1358,7 +1368,7 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 .redes a {
   padding: .5rem 1.05rem;
   border: 1.5px solid var(--filo);
-  border-radius: var(--r-pill);
+  border-radius: var(--r-boton);
   font-size: .88rem;
   color: var(--tinta-2);
   transition: transform .5s var(--brote), color .5s var(--brote),
