@@ -1127,32 +1127,76 @@ a, button, label, select, summary {
   color: var(--tinta-2);
 }
 
-/* ---------- 11. Proceso (fondo a sangre, sección oscura) ---- */
+/* ---------- 11. Proceso (museo flotante, sección propia) ---- */
 
-/* La única sección que cambia de tema: la rama que florece se ve
-   tal cual es, a sangre y en su negro real, no lavada a papel.
-   Como el fondo se oscurece, todo el texto de la sección se
-   invierte a claro. Los tokens de color se redefinen aquí mismo
-   (--papel, --tinta y compañía); como el resto de la hoja de
-   estilos ya lee esos nombres en vez de colores sueltos, todo lo
-   de adentro se invierte solo, sin tocar cada regla una por una.
+/* La única sección que cambia de tema: una vitrina gris claro en
+   vez del papel cálido del resto del sitio, con un solo acento
+   ácido (verde-limón) y objetos de la obra flotando sin marco,
+   como piezas sobre una pared de museo. Los tokens de color se
+   redefinen aquí mismo (--papel, --tinta y compañía) y también la
+   tipografía (--f-display, --f-texto): como el resto de la hoja
+   de estilos ya lee esos nombres en vez de valores sueltos, todo
+   lo de adentro cambia solo, sin tocar cada regla una por una.
    Es el único cambio de tema en el sitio: una excusa deliberada,
    no un accidente. */
 .proceso-seccion {
   position: relative;
-  --papel:    #0A0A08;
-  --papel-2:  #131310;
-  --tinta:    #F5F4EF;
-  --tinta-2:  #B9B7AC;
-  --tinta-3:  #8D8B7F;
-  --filo:     rgba(245, 244, 239, .2);
-  --filo-2:   rgba(245, 244, 239, .1);
-  /* El rosa normal (--acento) no alcanza 4.5:1 en texto chico
-     sobre este negro; el vivo sí, y ya existe en la paleta. */
-  --acento:   var(--rosa-vivo);
+  overflow: clip;
+  --papel:    #E7E7E2;
+  --papel-2:  #DBDBD4;
+  --tinta:    #0A0A0A;
+  --tinta-2:  #5B5B54;
+  --tinta-3:  #86867C;
+  --filo:     rgba(10, 10, 10, .16);
+  --filo-2:   rgba(10, 10, 10, .08);
+  /* El verde-limón es ilegible como texto sobre este gris (por
+     eso .tiempo__n activo no lo usa, ver abajo): se reserva para
+     rellenos con tinta encima —el rótulo en píldora, la marca del
+     hilo— nunca como color de letra suelta. */
+  --acento:   #E2FF70;
+  --f-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --f-texto:   "Inter", ui-sans-serif, system-ui, sans-serif;
   background: var(--papel);
   color: var(--tinta);
 }
+
+/* Objetos de la obra, flotando sueltos: sin marco, sin sombra,
+   sin esquinas redondeadas. Son ejemplos temporales —se van a
+   reemplazar más adelante— por eso se recortan de assets/obra en
+   vez de tener fotografía propia de objeto. Sólo en pantallas
+   anchas: en angosto no hay aire para que floten sin tapar el
+   texto. */
+.proceso__objetos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.proceso__objeto {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  rotate: var(--rot);
+  filter: saturate(1.03);
+}
+@media (max-width: 1199px) {
+  .proceso__objetos { display: none; }
+}
+
+/* El rótulo, a lo etiqueta de museo: píldora sólida en el acento,
+   con la tinta encima —el único lugar donde el verde-limón carga
+   texto, porque aquí el texto es oscuro, no el verde. */
+.proceso-seccion .rotulo {
+  color: var(--tinta);
+  background: var(--acento);
+  padding: .4rem 1rem;
+  border-radius: var(--r-pill);
+}
+.proceso-seccion .rotulo::before { content: none; }
 
 .proceso { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
 @media (min-width: 1000px) {
@@ -1265,6 +1309,14 @@ a, button, label, select, summary {
   -webkit-text-stroke-color: transparent;
   translate: .12em 0;
 }
+/* En Proceso el acento es el verde-limón: como texto sobre este
+   gris no pasa contraste, así que el número activo se llena de
+   tinta en vez de acento (más específica que la regla de arriba,
+   gana sin tocarla). */
+.proceso-seccion .tiempo.activo .tiempo__n,
+.proceso-seccion .tiempo:hover .tiempo__n {
+  color: var(--tinta);
+}
 
 .tiempo__nombre {
   font-family: var(--f-display);
@@ -1274,6 +1326,12 @@ a, button, label, select, summary {
   margin-bottom: .4rem;
 }
 .tiempo p { color: var(--tinta-2); max-width: 52ch; }
+
+/* Tipografía monocromática y compacta, sólo aquí: tracking
+   negativo más marcado que en el resto del sitio. */
+.proceso-seccion .titulo { letter-spacing: -.03em; }
+.proceso-seccion .tiempo__nombre { letter-spacing: -.045em; }
+.proceso-seccion .tiempo__n { letter-spacing: -.02em; }
 
 /* ---------- 12. Contacto ----------------------------------- */
 

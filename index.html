@@ -23,9 +23,11 @@
 <link rel="preload" as="image" href="assets/tile.png">
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=cabinet-grotesk@500,700,800&f%5B%5D=satoshi@400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Inter: sólo para la sección Proceso, tipografía grotesca monocromática con tracking negativo. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=61">
-<link rel="stylesheet" href="css/styles.css?v=61">
+<link rel="stylesheet" href="css/tokens.css?v=62">
+<link rel="stylesheet" href="css/styles.css?v=62">
 </head>
 
 <body>
@@ -208,6 +210,12 @@
 
   <!-- ============ Proceso ============ -->
   <section class="seccion proceso-seccion" id="proceso">
+    <div class="proceso__objetos" aria-hidden="true">
+      <img class="proceso__objeto" src="assets/obra/flores.jpg" alt="" style="--x:90%; --y:3%; --w:130px; --rot:8deg" loading="lazy" decoding="async">
+      <img class="proceso__objeto" src="assets/obra/marmol.jpg" alt="" style="--x:93%; --y:30%; --w:100px; --rot:-6deg" loading="lazy" decoding="async">
+      <img class="proceso__objeto" src="assets/obra/azulejo.jpg" alt="" style="--x:88%; --y:58%; --w:110px; --rot:9deg" loading="lazy" decoding="async">
+      <img class="proceso__objeto" src="assets/obra/cimatica.jpg" alt="" style="--x:92%; --y:85%; --w:120px; --rot:-5deg" loading="lazy" decoding="async">
+    </div>
     <div class="marco proceso">
 
       <div class="proceso__fijo">
@@ -331,9 +339,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=61" defer></script>
-<script src="js/holo.js?v=61" defer></script>
-<script src="js/app.js?v=61" defer></script>
+<script src="js/data.js?v=62" defer></script>
+<script src="js/holo.js?v=62" defer></script>
+<script src="js/app.js?v=62" defer></script>
 
 </body>
 </html>
