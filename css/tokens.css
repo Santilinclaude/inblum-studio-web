@@ -44,8 +44,12 @@
   --f-texto:   "Satoshi", system-ui, sans-serif;
   --f-mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-  --t-hero:  clamp(2.5rem, 5.1vw, 5.2rem);
-  --t-h2:    clamp(2.4rem, 5.4vw, 5rem);
+  /* Tipografía a lo arte*: titulares enormes y aplastados en vez
+     de discretos. --t-hero y --t-h2 casi se duplicaron; el peso
+     baja de 700 a 500 en las reglas de abajo porque el sistema
+     de referencia nunca engorda el titular, sólo lo agranda. */
+  --t-hero:  clamp(3.2rem, 8.6vw, 8.2rem);
+  --t-h2:    clamp(2.5rem, 6.6vw, 6.2rem);
   --t-h3:    clamp(1.3rem, 2.1vw, 1.85rem);
   --t-lead:  clamp(1.1rem, 1.45vw, 1.4rem);
   --t-texto: clamp(1rem, 1.05vw, 1.1rem);
@@ -61,17 +65,27 @@
   --r:        18px;
   --r-lamina: 26px;
   --r-pill:   999px;
+  /* El botón de arte*: 30px, no el estadio completo de --r-pill.
+     Ese detalle (suave pero no del todo redondo) es justo lo que
+     lo distingue de un botón genérico. Los controles circulares
+     (menú, flechas del carrusel) se quedan en --r-pill: a esos sí
+     les hace falta el círculo cerrado. */
+  --r-boton:  30px;
 
   /* --- Movimiento --- */
   --brote:  cubic-bezier(.2, .8, .2, 1);    /* abre como un brote */
   --tallo:  cubic-bezier(.65, 0, .35, 1);   /* avanza parejo */
   --salto:  cubic-bezier(.34, 1.56, .64, 1);/* rebota al florecer */
 
-  /* --- Sombra: luz de día sobre papel, nunca negro duro --- */
-  --sombra:    0 30px 60px -34px rgba(20, 21, 15, .34),
-               0 6px 18px -12px rgba(20, 21, 15, .18);
-  --sombra-alta: 0 48px 90px -40px rgba(20, 21, 15, .4),
-               0 10px 26px -14px rgba(20, 21, 15, .2);
+  /* --- Sombra: ninguna, a lo arte* --- Antes eran sombras suaves
+     ("luz de día sobre papel"); el sistema de referencia no usa
+     ninguna: la profundidad sale de la fotografía y del blanco,
+     no de la elevación. Como --sombra ya se leía por variable en
+     cada tarjeta/botón, poner ambas en "none" apaga las sombras
+     en todo el sitio de un solo cambio — cada una ya trae su
+     propio filo de 1px que la sigue definiendo sin la sombra. */
+  --sombra:      none;
+  --sombra-alta: none;
 
   /* --- Capas --- */
   --z-fondo:     0;

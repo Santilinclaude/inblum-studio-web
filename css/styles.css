@@ -26,11 +26,17 @@ body {
   max-width: 100%;
 }
 
+/* Un solo peso para todo el titular, nunca más grueso que 500:
+   a lo arte*, lo enorme del tamaño ya hace el trabajo que antes
+   hacía el 700 — engordarlo encima se siente corporativo, no
+   editorial. El interlineado baja de .95 a .86 porque a estos
+   tamaños tan grandes el aire entre líneas se ve como un hueco,
+   no como respiro. */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
-  font-weight: 700;
-  line-height: .95;
+  font-weight: 500;
+  line-height: .86;
   letter-spacing: -.035em;
   text-wrap: balance;
 }
@@ -161,7 +167,7 @@ a, button, label, select, summary {
   gap: .75rem;
   padding: 1rem 1.75rem;
   border: 1.5px solid transparent;
-  border-radius: var(--r-pill);
+  border-radius: var(--r-boton);
   font-family: var(--f-texto);
   font-size: 1rem;
   font-weight: 500;
@@ -443,9 +449,9 @@ a, button, label, select, summary {
 .portada__titulo {
   margin-top: 1.75rem;
   font-size: var(--t-hero);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -.05em;
-  line-height: .92;
+  line-height: .85;
   max-width: 19ch;
 }
 
@@ -723,7 +729,7 @@ a, button, label, select, summary {
   font-family: var(--f-display);
   font-size: clamp(1.9rem, 4.4vw, 4rem);
   font-weight: 500;
-  line-height: 1.14;
+  line-height: 1.02;
   letter-spacing: -.03em;
   max-width: 26ch;
 }
@@ -1358,7 +1364,7 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 .redes a {
   padding: .5rem 1.05rem;
   border: 1.5px solid var(--filo);
-  border-radius: var(--r-pill);
+  border-radius: var(--r-boton);
   font-size: .88rem;
   color: var(--tinta-2);
   transition: transform .5s var(--brote), color .5s var(--brote),
