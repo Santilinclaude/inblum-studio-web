@@ -1,8 +1,8 @@
 /* ============================================================
    INBLÜM STUDIO · Comportamiento
-   El contenido vive en js/data.js. Aquí está la mecánica: el
-   herbario, el carrusel de láminas, la regla del proceso, los
-   revelados enganchados al scroll y el formulario.
+   El contenido vive en js/data.js. Aquí está la mecánica: las
+   listas de Servicios y Proceso, el grid de Trabajo, la regla del
+   proceso, los revelados enganchados al scroll y el formulario.
    El fondo holográfico vive aparte, en js/holo.js.
 
    GSAP se carga desde CDN y sólo mejora lo que ya funciona:
@@ -16,7 +16,6 @@
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 
   const quieto     = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const ancho      = window.matchMedia('(min-width: 1040px)');
   const conPuntero = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const conGsap    = !quieto.matches && typeof window.gsap !== 'undefined' &&
                      typeof window.ScrollTrigger !== 'undefined';
@@ -42,11 +41,6 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
-
-  const PIGMENTOS = [
-    'campo-alto.png', 'campo-bajo.png', 'campo-centro.png', 'tile.png',
-    'campo-bajo.png', 'campo-alto.png', 'tile.png', 'campo-centro.png'
-  ];
 
   /* ---------- 1. La mancha del estudio -----------------------
      La fotografía de marca, ampliada detrás de la frase. Crece
@@ -156,108 +150,88 @@
     tira.setAttribute('aria-hidden', 'true');
   }
 
-  /* ---------- 4. El herbario ---------------------------------
-     Ocho láminas. En pantalla ancha se abren a lo largo, como un
-     archivo de lomos; en pantalla angosta, hacia abajo.
+  /* ---------- 4. Servicios (sidebar fijo + lista) -------------
+     El mismo patrón que Proceso: una fila por servicio, con su
+     número y su nombre siempre visibles; el detalle (la frase y
+     la lista de qué incluye) se abre con el cursor o el foco, no
+     hace falta hacer clic para leer de qué se trata cada uno.
      --------------------------------------------------------- */
 
-  const herbario = $('#herbario');
+  const items = $('#servicios-items');
 
-  if (herbario) {
-    herbario.innerHTML = SERVICIOS.map(function (s, i) {
+  if (items) {
+    items.innerHTML = SERVICIOS.map(function (s, i) {
       const n = String(i + 1).padStart(2, '0');
-      const items = s.items.map(function (it, k) {
+      const detalle = s.items.map(function (it, k) {
         return '<li style="--n:' + k + '">' + escapar(it) + '</li>';
       }).join('');
       return '' +
-        '<article class="pieza" data-abierta="false" style="--i:' + (i + 1) + '">' +
-          '<div class="pieza__pigmento" aria-hidden="true" style="background-image:url(assets/' +
-            PIGMENTOS[i % PIGMENTOS.length] + ')"></div>' +
-          '<div class="pieza__tinte" aria-hidden="true"></div>' +
-          '<button class="pieza__boton" type="button" id="btn-' + s.id + '"' +
+        '<article class="item rev" data-abierta="false" style="--espera:' + (i * 40) + 'ms">' +
+          '<button class="item__boton" type="button" id="btn-' + s.id + '"' +
           ' aria-expanded="false" aria-controls="cuerpo-' + s.id + '">' +
-            '<span class="pieza__n">' + n + '</span>' +
-            '<span class="pieza__nombre">' + escapar(s.nombre) + '</span>' +
-            '<span class="pieza__cruz" aria-hidden="true"></span>' +
+            '<span class="item__n">' + n + '</span>' +
+            '<span class="item__nombre">' + escapar(s.nombre) + '</span>' +
           '</button>' +
-          '<div class="pieza__cuerpo" id="cuerpo-' + s.id + '" role="region"' +
+          '<div class="item__cuerpo" id="cuerpo-' + s.id + '" role="region"' +
           ' aria-labelledby="btn-' + s.id + '">' +
-            '<div class="pieza__interior">' +
-              '<div class="pieza__contenido">' +
-                '<h3 class="pieza__titulo-abierto">' + escapar(s.nombre) + '</h3>' +
-                '<p class="pieza__frase">' + escapar(s.frase) + '</p>' +
-                '<ul class="pieza__items">' + items + '</ul>' +
+            '<div class="item__interior">' +
+              '<div class="item__contenido">' +
+                '<p class="item__frase">' + escapar(s.frase) + '</p>' +
+                '<ul class="item__lista">' + detalle + '</ul>' +
               '</div>' +
             '</div>' +
           '</div>' +
         '</article>';
     }).join('');
 
-    const piezas  = $$('.pieza', herbario);
-    const botones = $$('.pieza__boton', herbario);
+    const filas   = $$('.item', items);
+    const botones = $$('.item__boton', items);
 
     function abrir(indice) {
-      piezas.forEach(function (p, i) {
+      filas.forEach(function (f, i) {
         const abierta = i === indice;
-        p.setAttribute('data-abierta', String(abierta));
+        f.setAttribute('data-abierta', String(abierta));
         botones[i].setAttribute('aria-expanded', String(abierta));
       });
     }
 
-    function cerrar(indice) {
-      piezas[indice].setAttribute('data-abierta', 'false');
-      botones[indice].setAttribute('aria-expanded', 'false');
-    }
-
     botones.forEach(function (b, i) {
-      b.addEventListener('click', function () {
-        const abierta = piezas[i].getAttribute('data-abierta') === 'true';
-        if (abierta && !ancho.matches) cerrar(i);
-        else abrir(i);
-      });
-
-      // En pantalla ancha basta con recorrer los lomos con el cursor.
+      b.addEventListener('click', function () { abrir(i); });
       b.addEventListener('mouseenter', function () {
-        if (ancho.matches && !quieto.matches) abrir(i);
+        if (conPuntero && !quieto.matches) abrir(i);
       });
+      b.addEventListener('focus', function () { abrir(i); });
 
       b.addEventListener('keydown', function (ev) {
         let destino = null;
-        if (ev.key === 'ArrowRight' || ev.key === 'ArrowDown') destino = (i + 1) % botones.length;
-        if (ev.key === 'ArrowLeft'  || ev.key === 'ArrowUp')   destino = (i - 1 + botones.length) % botones.length;
+        if (ev.key === 'ArrowDown') destino = (i + 1) % botones.length;
+        if (ev.key === 'ArrowUp')   destino = (i - 1 + botones.length) % botones.length;
         if (ev.key === 'Home') destino = 0;
         if (ev.key === 'End')  destino = botones.length - 1;
         if (destino === null) return;
         ev.preventDefault();
         botones[destino].focus();
-        if (ancho.matches) abrir(destino);
       });
     });
 
-    if (ancho.matches) abrir(0);
-
-    ancho.addEventListener('change', function (ev) {
-      const alguna = piezas.some(function (p) { return p.getAttribute('data-abierta') === 'true'; });
-      if (ev.matches && !alguna) abrir(0);
-    });
+    abrir(0);
   }
 
-  /* ---------- 5. Carrusel de láminas ------------------------- */
+  /* ---------- 5. Piezas de trabajo (grid) --------------------
+     Antes era un carrusel de arrastre; a lo Patch, un grid fijo
+     de 3 columnas: todas las piezas a la vista, sin arrastrar
+     nada. --------------------------------------------------- */
 
-  const carrusel = $('#carrusel');
-  const anterior = $('#anterior');
-  const siguiente = $('#siguiente');
+  const piezas = $('#piezas');
 
-  if (carrusel) {
-    if (!PIEZAS.length) {
-      carrusel.innerHTML =
-        '<p class="lead">Estamos preparando esta sección. Mientras tanto, ' +
-        'escríbenos y te compartimos el portafolio completo en PDF.</p>';
-    } else {
-      carrusel.innerHTML = PIEZAS.map(function (p, i) {
+  if (piezas) {
+    piezas.innerHTML = !PIEZAS.length
+      ? '<p class="lead">Estamos preparando esta sección. Mientras tanto, ' +
+        'escríbenos y te compartimos el portafolio completo en PDF.</p>'
+      : PIEZAS.map(function (p, i) {
         const n = String(i + 1).padStart(2, '0');
         return '' +
-          '<figure class="placa">' +
+          '<figure class="placa rev" style="--espera:' + (i * 40) + 'ms">' +
             '<div class="placa__foto">' +
               '<div class="foto">' +
                 '<img src="' + escapar(p.img) + '" alt="' + escapar(p.alt) + '"' +
@@ -272,77 +246,6 @@
             '</figcaption>' +
           '</figure>';
       }).join('');
-    }
-
-    function paso() {
-      const placa = $('.placa', carrusel);
-      if (!placa) return carrusel.clientWidth * .8;
-      const estilo = window.getComputedStyle(carrusel);
-      return placa.getBoundingClientRect().width + parseFloat(estilo.columnGap || 24);
-    }
-
-    function pintarMandos() {
-      if (!anterior || !siguiente) return;
-      const max = carrusel.scrollWidth - carrusel.clientWidth - 2;
-      anterior.disabled = carrusel.scrollLeft <= 2;
-      siguiente.disabled = carrusel.scrollLeft >= max;
-    }
-
-    if (anterior && siguiente) {
-      anterior.addEventListener('click', function () {
-        carrusel.scrollBy({ left: -paso(), behavior: quieto.matches ? 'auto' : 'smooth' });
-      });
-      siguiente.addEventListener('click', function () {
-        carrusel.scrollBy({ left: paso(), behavior: quieto.matches ? 'auto' : 'smooth' });
-      });
-    }
-
-    let pedido = false;
-    carrusel.addEventListener('scroll', function () {
-      if (pedido) return;
-      pedido = true;
-      window.requestAnimationFrame(function () { pedido = false; pintarMandos(); });
-    }, { passive: true });
-    window.setTimeout(pintarMandos, 100);
-
-    // Arrastre con el puntero, como mover fotos sobre la mesa.
-    let arrastrando = false, inicioX = 0, inicioScroll = 0, movido = 0;
-
-    carrusel.addEventListener('pointerdown', function (ev) {
-      if (ev.pointerType === 'touch') return;      // el táctil ya se desplaza solo
-      arrastrando = true;
-      movido = 0;
-      inicioX = ev.clientX;
-      inicioScroll = carrusel.scrollLeft;
-      carrusel.setAttribute('data-arrastrando', 'true');
-      carrusel.setPointerCapture(ev.pointerId);
-    });
-
-    carrusel.addEventListener('pointermove', function (ev) {
-      if (!arrastrando) return;
-      const dx = ev.clientX - inicioX;
-      movido = Math.abs(dx);
-      carrusel.scrollLeft = inicioScroll - dx;
-    });
-
-    function soltar(ev) {
-      if (!arrastrando) return;
-      arrastrando = false;
-      carrusel.removeAttribute('data-arrastrando');
-      if (ev.pointerId !== undefined && carrusel.hasPointerCapture(ev.pointerId)) {
-        carrusel.releasePointerCapture(ev.pointerId);
-      }
-    }
-    carrusel.addEventListener('pointerup', soltar);
-    carrusel.addEventListener('pointercancel', soltar);
-    carrusel.addEventListener('click', function (ev) {
-      if (movido > 6) { ev.preventDefault(); ev.stopPropagation(); }
-    }, true);
-
-    carrusel.addEventListener('keydown', function (ev) {
-      if (ev.key === 'ArrowRight') { ev.preventDefault(); carrusel.scrollBy({ left: paso(), behavior: 'smooth' }); }
-      if (ev.key === 'ArrowLeft')  { ev.preventDefault(); carrusel.scrollBy({ left: -paso(), behavior: 'smooth' }); }
-    });
   }
 
   /* ---------- 6. Cuatro tiempos ------------------------------ */
@@ -661,19 +564,9 @@
     });
   }
 
-  /* ---------- 11. Láminas que entran ------------------------- */
-
-  if (conGsap && carrusel) {
-    window.gsap.from($$('.placa', carrusel), {
-      opacity: 0,
-      y: 60,
-      scale: .94,
-      duration: .9,
-      ease: 'power3.out',
-      stagger: .08,
-      scrollTrigger: { trigger: carrusel, start: 'top 82%' }
-    });
-  }
+  /* Las láminas de trabajo ya entran solas por el sistema general
+     de ".rev" (se les puso esa clase al armarlas, arriba): no hace
+     falta una animación de GSAP aparte sólo para ellas. */
 
   /* ---------- 11b. La secuencia de la portada -----------------
      El cursor recorre la obra como si pasara hojas de una hoja

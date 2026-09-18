@@ -25,8 +25,8 @@
      pesado. Archivo es la tipografía de texto del sistema. -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=64">
-<link rel="stylesheet" href="css/styles.css?v=64">
+<link rel="stylesheet" href="css/tokens.css?v=65">
+<link rel="stylesheet" href="css/styles.css?v=65">
 </head>
 
 <body>
@@ -77,37 +77,40 @@
 
 <main id="contenido">
 
-  <!-- ============ Portada ============ -->
+  <!-- ============ Portada ============
+       A lo Patch: un solo golpe centrado, no dos columnas. El
+       titular manda, y la obra del estudio baja a ser la tarjeta
+       blanca que flota debajo, como la ilustración de la
+       referencia. -->
   <section class="portada" id="inicio">
-    <div class="marco portada__grid">
+    <div class="marco portada__centro">
 
-      <div>
-        <p class="rotulo entra" style="--espera:60ms">Estudio creativo multidisciplinario</p>
+      <p class="rotulo entra" style="--espera:60ms">Estudio creativo multidisciplinario</p>
 
-        <h1 class="portada__titulo entra" style="--espera:140ms">
-          Branding, video, audio<span class="enflor" aria-hidden="true"></span>
-          y desarrollo con un solo equipo.
-        </h1>
+      <h1 class="portada__titulo entra" style="--espera:140ms">
+        Branding, video, audio y desarrollo<br class="portada__salto">
+        con un solo equipo.
+      </h1>
 
-        <p class="lead portada__lead entra" style="--espera:260ms">
-          Hacemos identidad, fotografía, video, sitio y campañas sin repartir
-          el proyecto entre proveedores.
-        </p>
+      <p class="lead portada__lead entra" style="--espera:260ms">
+        Hacemos identidad, fotografía, video, sitio y campañas sin repartir
+        el proyecto entre proveedores.
+      </p>
 
-        <div class="portada__acciones entra" style="--espera:360ms">
-          <a class="btn btn--tinta" href="#contacto">
-            Hablemos <span aria-hidden="true">&#8599;</span>
-          </a>
-          <a class="btn btn--linea" href="#servicios">
-            Ver servicios <span aria-hidden="true">&#8595;</span>
-          </a>
-        </div>
+      <div class="portada__acciones entra" style="--espera:360ms">
+        <a class="btn btn--tinta" href="#contacto">
+          Hablemos <span aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="btn btn--linea" href="#servicios">
+          Ver servicios <span aria-hidden="true">&#8595;</span>
+        </a>
       </div>
 
-      <!-- La obra del estudio: el cursor la recorre como una
-           hoja de contacto, y el color de alrededor sale de la
-           imagen que esté al frente. -->
-      <div class="retrato" id="retrato">
+      <!-- La tarjeta blanca de la portada: la obra del estudio.
+           El cursor la recorre como una hoja de contacto, y el
+           color de alrededor sale de la imagen que esté al
+           frente. -->
+      <div class="retrato entra" id="retrato" style="--espera:480ms">
         <span class="retrato__ambiente" aria-hidden="true"></span>
 
         <div class="retrato__caja" id="obra-caja" role="img"
@@ -115,11 +118,6 @@
           <div class="retrato__pila" id="obra-pila"></div>
           <div class="retrato__velo" aria-hidden="true"></div>
           <div class="retrato__logo" id="obra-logo" aria-hidden="true"></div>
-        </div>
-
-        <div class="retrato__nota" aria-hidden="true">
-          <img src="assets/campo-alto.png" alt=""
-               width="548" height="250" loading="lazy" decoding="async">
         </div>
 
         <p class="retrato__pie">
@@ -141,14 +139,19 @@
     <div class="tira__pista" id="tira-pista"></div>
   </div>
 
-  <!-- ============ Estudio ============ -->
+  <!-- ============ Estudio ============
+       Split de 2 columnas, a lo Patch: el texto a la izquierda,
+       la nota a la derecha, no apiladas una sobre otra. -->
   <section class="manifiesto" id="estudio">
     <span class="mancha mancha--estudio" id="mancha" aria-hidden="true"></span>
-    <div class="marco">
-      <h2 class="manifiesto__frase" id="frase">
-        Aquí el diseño, la cámara, el audio y el código trabajan en el mismo
-        estudio. Un equipo, no cinco proveedores.
-      </h2>
+    <div class="marco manifiesto__grid">
+      <div class="manifiesto__col">
+        <p class="rotulo rev">Estudio</p>
+        <h2 class="manifiesto__frase" id="frase">
+          Aquí el diseño, la cámara, el audio y el código trabajan en el mismo
+          estudio. Un equipo, no cinco proveedores.
+        </h2>
+      </div>
       <div class="manifiesto__nota rev">
         <p>
           La identidad ya considera cómo se va a ver en video, y el sitio ya
@@ -162,43 +165,38 @@
     </div>
   </section>
 
-  <!-- ============ Servicios ============ -->
+  <!-- ============ Servicios ============
+       Sidebar fijo + lista numerada, el mismo patrón que ya usa
+       Proceso: no hace falta abrir ocho láminas para leer ocho
+       nombres, sólo pasar el cursor. -->
   <section class="seccion" id="servicios">
-    <div class="marco">
-      <div class="herbario__cabecera rev">
+    <div class="marco servicios">
+
+      <div class="servicios__fijo">
         <p class="rotulo">Servicios</p>
-        <h2 class="titulo">Ocho áreas de trabajo.</h2>
+        <h2 class="titulo" style="margin-top:1.1rem">Ocho áreas de trabajo.</h2>
         <p class="lead">
-          Ábrelas para ver qué incluye cada una. Se contratan por separado o
-          como un solo proyecto.
+          Pasa el cursor sobre cada una para ver qué incluye. Se contratan
+          por separado o como un solo proyecto.
         </p>
       </div>
 
-      <div class="herbario rev" id="herbario" style="--espera:120ms"></div>
+      <div class="items" id="servicios-items"></div>
     </div>
   </section>
 
-  <!-- ============ Trabajo ============ -->
+  <!-- ============ Trabajo ============
+       Grid estático de 3 columnas, a lo Patch: sin arrastrar
+       nada, todas las piezas a la vista de una vez. -->
   <section class="seccion" id="trabajo">
     <div class="marco">
       <div class="trabajo__cabecera rev">
-        <div class="trabajo__fila">
-          <div>
-            <p class="rotulo">Trabajo</p>
-            <h2 class="titulo" style="margin-top:1.1rem">Algunas piezas.</h2>
-          </div>
-          <div class="mandos">
-            <button class="mando" id="anterior" type="button" aria-label="Pieza anterior">&#8592;</button>
-            <button class="mando" id="siguiente" type="button" aria-label="Pieza siguiente">&#8594;</button>
-          </div>
-        </div>
+        <p class="rotulo">Trabajo</p>
+        <h2 class="titulo" style="margin-top:1.1rem">Algunas piezas.</h2>
         <p class="lead">Pasa el cursor sobre cada una para verla a color.</p>
       </div>
-    </div>
 
-    <div class="marco">
-      <div class="carrusel" id="carrusel" tabindex="0" role="region"
-           aria-label="Piezas de trabajo, se desplaza en horizontal"></div>
+      <div class="piezas" id="piezas"></div>
 
       <div class="trabajo__cierre rev">
         <p>¿Quieres ver proyectos completos?</p>
@@ -338,9 +336,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=64" defer></script>
-<script src="js/holo.js?v=64" defer></script>
-<script src="js/app.js?v=64" defer></script>
+<script src="js/data.js?v=65" defer></script>
+<script src="js/holo.js?v=65" defer></script>
+<script src="js/app.js?v=65" defer></script>
 
 </body>
 </html>
