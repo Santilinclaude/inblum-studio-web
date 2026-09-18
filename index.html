@@ -19,21 +19,18 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/tile.png">
 <!-- PP Right es de paga; Anton es la sustituta que la propia
      referencia de Patch recomienda para el peso condensado más
      pesado. Archivo es la tipografía de texto del sistema. -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=69">
-<link rel="stylesheet" href="css/styles.css?v=69">
+<link rel="stylesheet" href="css/tokens.css?v=70">
+<link rel="stylesheet" href="css/styles.css?v=70">
 </head>
 
 <body>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
-
-<canvas class="holo" id="holo" aria-hidden="true"></canvas>
 
 <!-- El mismo hilo que se llena en Proceso, pero de toda la
      página: cuánto llevas recorrido, de un vistazo. -->
@@ -87,11 +84,6 @@
       <span class="senal-scroll__pulso"></span>
     </span>
   </section>
-
-  <!-- ============ Tira ============ -->
-  <div class="tira campo-indigo">
-    <div class="tira__pista" id="tira-pista"></div>
-  </div>
 
   <!-- ============ Estudio ============
        Split de 2 columnas, a lo Patch: el texto a la izquierda,
@@ -169,9 +161,6 @@
   <section class="seccion proceso-seccion" id="proceso">
     <div class="mesa">
       <span class="marcador" aria-hidden="true">04</span>
-      <!-- El campo de objetos lo arma js/app.js con la lista MUSEO
-           de js/data.js: ahí se cambian las piezas. -->
-      <div class="museo" id="museo" aria-hidden="true"></div>
 
       <div class="marco proceso">
 
@@ -298,9 +287,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=69" defer></script>
-<script src="js/holo.js?v=69" defer></script>
-<script src="js/app.js?v=69" defer></script>
+<script src="js/data.js?v=70" defer></script>
+<script src="js/app.js?v=70" defer></script>
 
 </body>
 </html>
