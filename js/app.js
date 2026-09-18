@@ -107,6 +107,38 @@
     }, { threshold: 0 }).observe(centinela);
   }
 
+  /* Mientras cualquier campo índigo (portada, tira o contacto)
+     todavía asoma detrás del nav, el nav se queda transparente y
+     pasa a blanco (ver .nav[data-sobre-indigo] en el CSS): sin
+     esto, el fondo esmerilado se vería otra vez como una tira
+     lavanda pegada encima del índigo, sólo que al final de la
+     página en vez de al principio. */
+  const camposIndigo = $$('.campo-indigo');
+
+  if (nav && camposIndigo.length) {
+    let pedidoNav = false;
+
+    function marcarSobreIndigo() {
+      pedidoNav = false;
+      const altoNav = nav.offsetHeight;
+      const sobre = camposIndigo.some(function (c) {
+        const r = c.getBoundingClientRect();
+        return r.top < altoNav && r.bottom > 0;
+      });
+      nav.setAttribute('data-sobre-indigo', String(sobre));
+    }
+
+    function pedirMarcarSobreIndigo() {
+      if (pedidoNav) return;
+      pedidoNav = true;
+      window.requestAnimationFrame(marcarSobreIndigo);
+    }
+
+    marcarSobreIndigo();
+    window.addEventListener('scroll', pedirMarcarSobreIndigo, { passive: true });
+    window.addEventListener('resize', pedirMarcarSobreIndigo);
+  }
+
   const botonMenu = $('#menu');
   const cortina   = $('#cortina');
 

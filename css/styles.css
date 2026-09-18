@@ -292,23 +292,38 @@ a, button, label, select, summary {
 
 /* ---------- 4. Navegación ---------------------------------- */
 
+/* El fondo esmerilado sólo aparece sobre superficie clara: la
+   portada ya es índigo a sangre, y una franja blanca traslúcida
+   encima se veía como una tira lavanda pegada al filo — ni el
+   blanco del esmerilado ni el índigo de abajo, un tercer color
+   que no pinta nadie. Mientras el nav todavía flota sobre la
+   portada ("data-sobre-indigo"), se queda transparente de verdad
+   y el contenido pasa a blanco; el fondo esmerilado vuelve en
+   cuanto el índigo ya se fue detrás. */
 .nav {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: var(--z-nav);
   padding-block: clamp(.9rem, 1.6vw, 1.4rem);
-  background: color-mix(in srgb, var(--papel) 72%, transparent);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  background: transparent;
   border-bottom: 1px solid transparent;
   transition: padding-block .7s var(--tallo), border-color .7s var(--tallo),
-              background-color .7s var(--tallo);
+              background-color .7s var(--tallo), color .5s var(--tallo);
 }
-.nav[data-fijo="true"] {
-  padding-block: .6rem;
+.nav[data-fijo="true"] { padding-block: .6rem; }
+.nav[data-fijo="true"]:not([data-sobre-indigo="true"]) {
   border-bottom-color: var(--filo-2);
   background: color-mix(in srgb, var(--papel) 88%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
+
+.nav[data-sobre-indigo="true"] { color: #FFFFFF; }
+.nav[data-sobre-indigo="true"] .nav__marca img {
+  filter: brightness(0) invert(1);
+}
+.nav[data-sobre-indigo="true"] .menu-btn { border-color: rgba(255, 255, 255, .55); }
+.nav[data-sobre-indigo="true"] .menu-btn span { background: #FFFFFF; }
 
 .nav__fila {
   display: flex;
@@ -320,7 +335,7 @@ a, button, label, select, summary {
 .nav__marca img {
   height: 26px;
   width: auto;
-  transition: height .7s var(--tallo);
+  transition: height .7s var(--tallo), filter .5s var(--tallo);
 }
 .nav[data-fijo="true"] .nav__marca img { height: 22px; }
 
@@ -336,7 +351,9 @@ a, button, label, select, summary {
   white-space: nowrap;
   transition: color .4s var(--brote);
 }
+.nav[data-sobre-indigo="true"] .nav__medio a { color: rgba(255, 255, 255, .78); }
 .nav__medio a:hover { color: var(--tinta); }
+.nav[data-sobre-indigo="true"] .nav__medio a:hover { color: #FFFFFF; }
 .nav__medio a::after {
   content: "";
   position: absolute;
