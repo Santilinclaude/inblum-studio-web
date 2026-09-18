@@ -26,18 +26,19 @@ body {
   max-width: 100%;
 }
 
-/* Un solo peso para todo el titular, nunca más grueso que 500:
-   a lo arte*, lo enorme del tamaño ya hace el trabajo que antes
-   hacía el 700 — engordarlo encima se siente corporativo, no
-   editorial. El interlineado baja de .95 a .86 porque a estos
-   tamaños tan grandes el aire entre líneas se ve como un hueco,
-   no como respiro. */
+/* A lo Patch: el titular no se aplasta con tracking negativo,
+   se apila. Anton ya viene condensado y pesado por naturaleza —
+   lo que le hace falta es un poco de aire entre letras, no menos,
+   por eso el tracking es positivo. El interlineado por debajo de
+   1 es lo que hace que las líneas se vean como bloques de
+   concreto en vez de prosa. */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
-  font-weight: 500;
-  line-height: .86;
-  letter-spacing: -.035em;
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: .015em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
@@ -58,7 +59,7 @@ a, button, label, select, summary {
 :focus-visible {
   outline: 2px solid var(--acento);
   outline-offset: 4px;
-  border-radius: 6px;
+  border-radius: var(--r);
 }
 
 ::selection { background: var(--acento); color: var(--papel); }
@@ -131,16 +132,21 @@ a, button, label, select, summary {
 
 .seccion { padding-block: var(--sec-y); }
 
-/* Rótulo de herbario: mono, versalitas, con su regla. */
+/* Rótulo: Archivo 600 versalitas — la etiqueta pequeña del
+   sistema. El naranja no pasa contraste en texto suelto de este
+   tamaño (falla incluso el mínimo de texto grande), así que el
+   color aquí es el índigo: es el que carga los titulares sobre
+   fondo claro. */
 .rotulo {
   display: inline-flex;
   align-items: center;
   gap: .7rem;
   font-family: var(--f-mono);
   font-size: var(--t-micro);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .24em;
-  color: var(--acento);
+  letter-spacing: .1em;
+  color: var(--filo);
   width: fit-content;
 }
 .rotulo::before {
@@ -184,21 +190,41 @@ a, button, label, select, summary {
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(.985); }
 
+/* El único botón lleno del sistema, y siempre en naranja: ésta
+   es la acción, todo lo demás es contorno o texto. */
 .btn--tinta {
-  background: var(--tinta);
-  color: var(--papel);
-  box-shadow: var(--sombra);
+  background: var(--acento);
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .03em;
+  font-size: .9rem;
 }
-.btn--tinta:hover { background: #000; box-shadow: var(--sombra-alta); }
+.btn--tinta:hover { background: var(--acento-oscuro); }
 
+/* El botón fantasma: transparente, borde de 1px. Sobre papel
+   claro el borde es índigo; sobre un campo índigo (--filo se
+   redefine ahí a blanco) el borde se vuelve blanco solo, sin
+   tocar esta regla. */
 .btn--linea {
   background: transparent;
   color: var(--tinta);
   border-color: var(--filo);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .03em;
+  font-size: .9rem;
 }
-.btn--linea:hover { border-color: var(--tinta); background: var(--papel-2); }
+/* El relleno de :hover sale de "currentColor" (no de --papel-2)
+   para que funcione igual sobre papel claro y sobre el campo
+   índigo, donde "color" ya vale blanco por la propia herencia
+   del token --tinta. */
+.btn--linea:hover {
+  border-color: var(--tinta);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
 
-.btn--chico { padding: .7rem 1.25rem; font-size: .93rem; }
+.btn--chico { padding: .7rem 1.25rem; font-size: .8rem; }
 
 .enlace {
   position: relative;
@@ -349,6 +375,8 @@ a, button, label, select, summary {
 .menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translate(-50%, 4px) rotate(45deg); }
 .menu-btn[aria-expanded="true"] span:nth-child(2) { transform: translate(-50%, -4px) rotate(-45deg); }
 
+/* El menú abierto es su propio campo índigo, a sangre: el mismo
+   momento de máximo impacto que la portada. */
 .cortina {
   position: fixed;
   inset: 0;
@@ -357,7 +385,8 @@ a, button, label, select, summary {
   align-content: center;
   gap: .25rem;
   padding: 6rem var(--aire) 3rem;
-  background: var(--papel);
+  background: var(--indigo);
+  color: #FFFFFF;
   opacity: 0;
   visibility: hidden;
   transition: opacity .6s var(--brote), visibility .6s var(--brote);
@@ -366,9 +395,10 @@ a, button, label, select, summary {
 .cortina a {
   font-family: var(--f-display);
   font-size: clamp(2.6rem, 12vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -.04em;
-  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  line-height: 1.05;
   opacity: 0;
   transform: translateY(2.5rem);
   transition: opacity .7s var(--brote), transform .7s var(--brote), color .3s;
@@ -380,9 +410,10 @@ a, button, label, select, summary {
   margin-top: 2.5rem;
   font-family: var(--f-mono);
   font-size: var(--t-micro);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .22em;
-  color: var(--tinta-3);
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .6);
 }
 
 @media (max-width: 940px) {
@@ -390,14 +421,29 @@ a, button, label, select, summary {
   .menu-btn { display: block; }
 }
 
-/* ---------- 5. Portada (división editorial) ---------------- */
+/* ---------- 5. Portada (campo índigo a sangre) -------------- */
 
+/* El primer golpe del sistema: índigo a toda la pantalla, texto
+   en blanco. Los tokens de superficie se redefinen aquí mismo
+   (--tinta, --filo y compañía) para que todo lo de adentro que ya
+   lee esos nombres —rótulo, botones de contorno, la señal de
+   scroll— se invierta solo. --papel y --lamina se quedan en
+   blanco global a propósito: así cualquier tarjeta blanca que
+   viva aquí adentro sigue leyéndose como una "White Illustration
+   Card" flotando sobre el campo, sin que haga falta tocarla. */
 .portada {
   position: relative;
   min-height: 100dvh;
   display: flex;
   align-items: center;
   padding-block: clamp(7rem, 13vh, 10rem) clamp(3rem, 7vh, 6rem);
+  background: var(--indigo);
+  color: #FFFFFF;
+  --tinta:   #FFFFFF;
+  --tinta-2: rgba(255, 255, 255, .74);
+  --tinta-3: rgba(255, 255, 255, .5);
+  --filo:    rgba(255, 255, 255, .55);
+  --filo-2:  rgba(255, 255, 255, .22);
 }
 
 .portada__grid {
@@ -449,10 +495,10 @@ a, button, label, select, summary {
 .portada__titulo {
   margin-top: 1.75rem;
   font-size: var(--t-hero);
-  font-weight: 500;
-  letter-spacing: -.05em;
-  line-height: .85;
-  max-width: 19ch;
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: .87;
+  max-width: 17ch;
 }
 
 /* Una foto diminuta metida dentro del titular, como un
@@ -652,8 +698,8 @@ a, button, label, select, summary {
   animation: entrar .9s var(--brote) 1.5s forwards;
 }
 .retrato__pie b {
-  font-weight: 400;
-  color: var(--acento);
+  font-weight: 700;
+  color: var(--tinta);
   letter-spacing: .12em;
   transition: color .5s var(--tallo);
 }
@@ -677,7 +723,7 @@ a, button, label, select, summary {
   z-index: var(--z-base);
   padding-block: clamp(1.2rem, 2.2vw, 1.8rem);
   overflow: hidden;
-  background: var(--azul-electrico);
+  background: var(--indigo);
   color: #FFFFFF;
 }
 
@@ -701,8 +747,9 @@ a, button, label, select, summary {
   padding-inline: clamp(.6rem, 1.3vw, 1.2rem);
   font-family: var(--f-display);
   font-size: clamp(1.05rem, 2.1vw, 1.75rem);
-  font-weight: 500;
-  letter-spacing: -.03em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   color: #FFFFFF;
   white-space: nowrap;
 }
@@ -719,18 +766,23 @@ a, button, label, select, summary {
 
 /* ---------- 8. Manifiesto (revelado palabra a palabra) ----- */
 
+/* La niebla, la primera banda clara después del índigo de la
+   portada: el sistema alterna blanco/niebla/índigo, nunca dos
+   campos índigo seguidos. */
 .manifiesto {
   position: relative;
   overflow: hidden;
   padding-block: clamp(6rem, 11vw, 10rem);
+  background: var(--papel-2);
 }
 
 .manifiesto__frase {
   font-family: var(--f-display);
   font-size: clamp(1.9rem, 4.4vw, 4rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   max-width: 26ch;
 }
 .manifiesto__frase .pal {
@@ -738,7 +790,11 @@ a, button, label, select, summary {
   transition: opacity .6s var(--tallo);
 }
 .manifiesto__frase .pal.viva { opacity: 1; }
-.manifiesto__frase .pal--acento.viva { color: var(--acento); }
+/* Índigo, no naranja: el naranja no pasa contraste como texto
+   suelto sobre un fondo claro (ver la lección con --acento en
+   .rotulo, arriba). El índigo es justo el color que este sistema
+   reserva para titulares sobre superficie clara. */
+.manifiesto__frase .pal--acento.viva { color: var(--filo); }
 
 .manifiesto__nota {
   margin-top: clamp(2.5rem, 5vw, 4rem);
@@ -821,20 +877,18 @@ a, button, label, select, summary {
   100% { transform: scale(1.1); }
 }
 
-/* Un baño de color de marca por lámina: azul, rosa y amarillo se
-   van turnando, y sube al abrirse. */
+/* Un baño de índigo por lámina, y sube al abrirse. Antes se
+   turnaban tres colores de marca; el sistema de Patch es de dos
+   colores nada más, así que el baño es uno solo. */
 .pieza__tinte {
   position: absolute;
   inset: 0;
-  background: var(--tinte, var(--azul-electrico));
-  opacity: .07;
+  background: var(--indigo);
+  opacity: .05;
   transition: opacity .9s var(--brote);
   pointer-events: none;
 }
-.pieza[data-abierta="true"] .pieza__tinte { opacity: .17; }
-.pieza:nth-child(3n+1) { --tinte: var(--azul-electrico); }
-.pieza:nth-child(3n+2) { --tinte: var(--rosa-vivo); }
-.pieza:nth-child(3n+3) { --tinte: var(--amarillo-vivo); }
+.pieza[data-abierta="true"] .pieza__tinte { opacity: .12; }
 
 .pieza__boton {
   position: relative;
@@ -850,11 +904,13 @@ a, button, label, select, summary {
   cursor: pointer;
 }
 
+/* El marcador numerado del sistema: PP Right (Anton) en índigo,
+   igual que la referencia lo pide para los números de sección. */
 .pieza__n {
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  letter-spacing: .16em;
-  color: var(--acento);
+  font-family: var(--f-display);
+  font-size: 1.1rem;
+  letter-spacing: .02em;
+  color: var(--filo);
   flex-shrink: 0;
 }
 
@@ -862,9 +918,10 @@ a, button, label, select, summary {
   flex: 1;
   font-family: var(--f-display);
   font-size: clamp(1.2rem, 3.4vw, 1.7rem);
-  font-weight: 600;
-  letter-spacing: -.03em;
-  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .pieza__cruz {
@@ -903,8 +960,9 @@ a, button, label, select, summary {
 .pieza__frase {
   font-family: var(--f-display);
   font-size: var(--t-h3);
-  font-weight: 500;
-  letter-spacing: -.02em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   line-height: 1.2;
   max-width: 30ch;
 }
@@ -999,9 +1057,10 @@ a, button, label, select, summary {
   .pieza__contenido .pieza__titulo-abierto {
     font-family: var(--f-display);
     font-size: clamp(1.8rem, 2.6vw, 2.6rem);
-    font-weight: 700;
-    letter-spacing: -.035em;
-    line-height: 1;
+    font-weight: 400;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    line-height: .95;
   }
 }
 
@@ -1009,6 +1068,10 @@ a, button, label, select, summary {
 @media (min-width: 1040px) { .pieza__titulo-abierto { display: block; } }
 
 /* ---------- 10. Láminas de trabajo (carrusel) -------------- */
+
+/* Otra banda de niebla: el ritmo alterna blanco/niebla entre el
+   índigo de la portada y el del cierre en Contacto. */
+#trabajo { background: var(--papel-2); }
 
 .trabajo__cabecera {
   display: grid;
@@ -1038,9 +1101,9 @@ a, button, label, select, summary {
               border-color .5s var(--brote), color .5s var(--brote);
 }
 .mando:hover {
-  background: var(--rosa-vivo);
-  color: var(--tinta);
-  border-color: var(--rosa-vivo);
+  background: var(--indigo);
+  color: #FFFFFF;
+  border-color: var(--indigo);
   transform: translateY(-2px);
 }
 .mando[disabled] { opacity: .35; cursor: not-allowed; transform: none; }
@@ -1080,7 +1143,7 @@ a, button, label, select, summary {
   transition: box-shadow .8s var(--brote);
 }
 .placa:hover .placa__foto { box-shadow: var(--sombra-alta); }
-.placa__foto .foto { height: 100%; border-radius: 16px; }
+.placa__foto .foto { height: 100%; border-radius: var(--r); }
 .placa__foto img {
   filter: saturate(.55) contrast(1.06);
   transform: scale(1.02);
@@ -1095,16 +1158,17 @@ a, button, label, select, summary {
   padding-inline: .35rem;
 }
 .placa__n {
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  letter-spacing: .16em;
-  color: var(--acento);
+  font-family: var(--f-display);
+  font-size: 1rem;
+  letter-spacing: .02em;
+  color: var(--filo);
 }
 .placa__titulo {
   font-family: var(--f-display);
   font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: -.02em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
 }
 .placa__area {
   grid-column: 2;
@@ -1127,38 +1191,18 @@ a, button, label, select, summary {
   color: var(--tinta-2);
 }
 
-/* ---------- 11. Proceso (museo flotante, sección propia) ---- */
+/* ---------- 11. Proceso (museo flotante, banda de niebla) --- */
 
-/* La única sección que cambia de tema: una vitrina gris claro en
-   vez del papel cálido del resto del sitio, con un solo acento
-   ácido (verde-limón) y objetos de la obra flotando sin marco,
-   como piezas sobre una pared de museo. Los tokens de color se
-   redefinen aquí mismo (--papel, --tinta y compañía) y también la
-   tipografía (--f-display, --f-texto): como el resto de la hoja
-   de estilos ya lee esos nombres en vez de valores sueltos, todo
-   lo de adentro cambia solo, sin tocar cada regla una por una.
-   Es el único cambio de tema en el sitio: una excusa deliberada,
-   no un accidente. */
+/* Ya no hace falta un tema propio aquí: el sistema entero es
+   blanco/niebla/índigo/naranja, así que Proceso sólo pide la
+   banda de niebla (papel-2) para seguir el ritmo alterno, y hereda
+   el resto —tinta, índigo, Anton, Archivo— del root sin tocar
+   nada. Lo único que de verdad distingue la sección sigue siendo
+   la mesa y el museo flotante de abajo. */
 .proceso-seccion {
   position: relative;
   overflow: clip;
-  --papel:    #E7E7E2;
-  --papel-2:  #DBDBD4;
-  --tinta:    #0A0A0A;
-  --tinta-2:  #5B5B54;
-  --tinta-3:  #86867C;
-  --filo:     rgba(10, 10, 10, .16);
-  --filo-2:   rgba(10, 10, 10, .08);
-  /* El verde-limón es ilegible como texto sobre este gris (por
-     eso .tiempo__n activo no lo usa, ver abajo): se reserva para
-     rellenos con tinta encima —el rótulo en píldora, la marca del
-     hilo— nunca como color de letra suelta. */
-  --acento:   #E2FF70;
-  --f-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --f-texto:   "Inter", ui-sans-serif, system-ui, sans-serif;
-  /* La sección es la pared; la mesa de adentro es el lienzo. */
   background: var(--papel-2);
-  color: var(--tinta);
   padding-block: clamp(1rem, 2.4vw, 2.25rem);
 }
 
@@ -1167,11 +1211,13 @@ a, button, label, select, summary {
    se recorta contra su filo, y ese recorte es parte del dibujo.
    overflow: clip y no hidden a propósito: "hidden" convertiría a
    la mesa en contenedor de scroll y el título de al lado dejaría
-   de quedarse fijo. */
+   de quedarse fijo. El borde de 1px en índigo es lo que la vuelve
+   una tarjeta del sistema, no un simple bloque de color. */
 .mesa {
   position: relative;
   overflow: clip;
-  border-radius: clamp(18px, 2vw, 32px);
+  border: 1px solid var(--filo);
+  border-radius: var(--r-lamina);
   background: var(--papel);
   margin-inline: clamp(.5rem, 1.4vw, 1.25rem);
   padding-block: var(--sec-y);
@@ -1288,12 +1334,14 @@ a, button, label, select, summary {
 
 /* El anillo de gelatina: la única pieza que carga el acento, y lo
    carga como material, no como texto. */
+/* El único anillo que carga color de marca: naranja, y lo carga
+   como material (un objeto), no como texto. */
 .museo__pieza--anillo {
   aspect-ratio: 1.55 / 1;
   border-radius: 50%;
   background:
     radial-gradient(ellipse at 38% 28%, rgba(255,255,255,.92) 0 5%, transparent 32%),
-    conic-gradient(from 140deg, #cdf24a, #f3ff9f 20%, #a9da30 45%, #ebffb1 66%, #b7e33b 85%, #cdf24a);
+    conic-gradient(from 140deg, #ff622b, #ffab86 20%, #e54f1f 45%, #ffcbb0 66%, #d8451a 85%, #ff622b);
   -webkit-mask: radial-gradient(ellipse closest-side at 50% 50%, #0000 0 45%, #000 49%);
           mask: radial-gradient(ellipse closest-side at 50% 50%, #0000 0 45%, #000 49%);
 }
@@ -1327,6 +1375,9 @@ a, button, label, select, summary {
 /* El rótulo, a lo etiqueta de museo: píldora sólida en el acento,
    con la tinta encima —el único lugar donde el verde-limón carga
    texto, porque aquí el texto es oscuro, no el verde. */
+/* El rótulo, aquí, es una etiqueta llena en vez de un texto con
+   rayita: naranja de fondo, tinta encima — el mismo naranja del
+   botón principal, en su único uso legítimo como relleno. */
 .proceso-seccion .rotulo {
   color: var(--tinta);
   background: var(--acento);
@@ -1434,69 +1485,55 @@ a, button, label, select, summary {
 .tiempo__n {
   font-family: var(--f-display);
   font-size: clamp(2.6rem, 5.5vw, 4.5rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: .82;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--filo);
   transition: color .7s var(--brote), -webkit-text-stroke-color .7s var(--brote), translate .5s var(--brote);
 }
+/* El naranja tampoco pasa contraste como número suelto sobre la
+   niebla de Proceso (la misma razón que ya vale para --acento en
+   .rotulo, arriba), así que el número activo se llena de tinta en
+   vez de naranja. Como .tiempo sólo vive dentro de Proceso, esto
+   nunca llega a mostrarse en naranja de verdad. */
 .tiempo.activo .tiempo__n,
 .tiempo:hover .tiempo__n {
-  color: var(--acento);
+  color: var(--tinta);
   -webkit-text-stroke-color: transparent;
   translate: .12em 0;
-}
-/* En Proceso el acento es el verde-limón: como texto sobre este
-   gris no pasa contraste, así que el número activo se llena de
-   tinta en vez de acento (más específica que la regla de arriba,
-   gana sin tocarla). */
-.proceso-seccion .tiempo.activo .tiempo__n,
-.proceso-seccion .tiempo:hover .tiempo__n {
-  color: var(--tinta);
 }
 
 .tiempo__nombre {
   font-family: var(--f-display);
   font-size: var(--t-h3);
-  font-weight: 600;
-  letter-spacing: -.03em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   margin-bottom: .4rem;
 }
 .tiempo p { color: var(--tinta-2); max-width: 52ch; }
 
-/* Tipografía monocromática y compacta, sólo aquí: tracking
-   negativo más marcado que en el resto del sitio. */
-.proceso-seccion .titulo { letter-spacing: -.03em; }
-.proceso-seccion .tiempo__nombre { letter-spacing: -.045em; }
-.proceso-seccion .tiempo__n { letter-spacing: -.02em; }
-
 /* ---------- 12. Contacto ----------------------------------- */
 
-/* El contacto es un bloque amarillo a sangre: el momento de
-   máxima energía, justo donde se pide la acción. */
+/* El cierre hace pareja con la portada: el mismo campo índigo a
+   sangre, el momento de máxima energía justo donde se pide la
+   acción. Los mismos tokens que en .portada se redefinen aquí, así
+   que el rótulo, el lead, las etiquetas y los bordes se invierten
+   solos sin una sola regla extra por componente. --papel y
+   --lamina se quedan blancos a propósito: el formulario sigue
+   siendo una "White Illustration Card" flotando sobre el índigo. */
 #contacto {
-  background: var(--amarillo-vivo);
-  color: var(--tinta);
-}
-#contacto .rotulo,
-#contacto .lead,
-#contacto .dato__clave { color: rgba(20, 21, 15, .68); }
-#contacto .rotulo::before { background: rgba(20, 21, 15, .5); }
-#contacto .redes a {
-  border-color: rgba(20, 21, 15, .28);
-  color: rgba(20, 21, 15, .8);
+  background: var(--indigo);
+  color: #FFFFFF;
+  --tinta:   #FFFFFF;
+  --tinta-2: rgba(255, 255, 255, .74);
+  --tinta-3: rgba(255, 255, 255, .5);
+  --filo:    rgba(255, 255, 255, .55);
+  --filo-2:  rgba(255, 255, 255, .22);
 }
 #contacto .redes a:hover {
-  background: var(--tinta);
-  border-color: var(--tinta);
-  color: var(--amarillo-vivo);
+  background: color-mix(in srgb, currentColor 14%, transparent);
 }
-#contacto a.dato__valor::after { background: var(--tinta); }
-#contacto .forma { border-color: rgba(20, 21, 15, .12); }
-#contacto .campo input,
-#contacto .campo select,
-#contacto .campo textarea { background: var(--papel); }
-#contacto .campo__error { color: #A81757; }
 
 .contacto { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
 @media (min-width: 1000px) {
@@ -1506,9 +1543,10 @@ a, button, label, select, summary {
 .contacto__izq { display: grid; gap: 2.25rem; align-content: start; }
 .contacto__titulo {
   font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 700;
-  letter-spacing: -.05em;
-  line-height: .9;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  line-height: .88;
 }
 
 .datos { display: grid; gap: 1.6rem; }
@@ -1538,8 +1576,9 @@ a, button, label, select, summary {
   position: relative;
   font-family: var(--f-display);
   font-size: clamp(1.2rem, 2vw, 1.55rem);
-  font-weight: 600;
-  letter-spacing: -.025em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   justify-self: start;
   padding-bottom: 2px;
 }
@@ -1572,12 +1611,25 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
   transform: translateY(-2px);
 }
 
+/* La "White Illustration Card" del sistema: blanca con borde de
+   1px índigo siempre, la lleve un fondo claro o el propio índigo
+   a sangre de Contacto. Por eso es también su propia isla de modo
+   claro — redefine tinta/filo hacia adentro, así que la etiqueta,
+   el texto y los campos de este formulario nunca heredan el
+   blanco invertido de #contacto, aunque la tarjeta misma flote
+   sobre él. */
 .forma {
+  --tinta:    #212121;
+  --tinta-2:  #5C5C5C;
+  --tinta-3:  #9A9A9A;
+  --filo:     #1F00FF;
+  --filo-2:   #ECECEC;
+  color: var(--tinta);
   display: grid;
   gap: 1.35rem;
   padding: clamp(1.5rem, 3.2vw, 2.75rem);
   background: var(--lamina);
-  border: 1px solid var(--filo-2);
+  border: 1px solid var(--filo);
   border-radius: var(--r-lamina);
   box-shadow: var(--sombra);
 }
@@ -1600,7 +1652,7 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
   background: var(--papel);
   color: var(--tinta);
   border: 1.5px solid var(--filo-2);
-  border-radius: 12px;
+  border-radius: var(--r);
   transition: border-color .4s var(--brote), background-color .4s var(--brote);
 }
 .campo textarea { min-height: 140px; resize: vertical; }
@@ -1626,12 +1678,12 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 .campo__error {
   min-height: 1em;
   font-size: var(--t-micro);
-  color: var(--acento);
+  color: var(--error);
   font-weight: 500;
 }
 .campo[data-invalido="true"] input,
 .campo[data-invalido="true"] select,
-.campo[data-invalido="true"] textarea { border-color: var(--acento); }
+.campo[data-invalido="true"] textarea { border-color: var(--error); }
 
 .forma__pie {
   display: flex;
@@ -1643,8 +1695,8 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 .forma__nota { font-size: var(--t-micro); color: var(--tinta-3); max-width: 30ch; }
 .forma__estado { display: none; font-size: var(--t-chico); color: var(--tinta-2); }
 .forma__estado[data-visible="true"] { display: block; }
-.forma__estado[data-tipo="ok"] { color: var(--verde); font-weight: 500; }
-.forma__estado[data-tipo="error"] { color: var(--acento); }
+.forma__estado[data-tipo="ok"] { color: var(--filo); font-weight: 500; }
+.forma__estado[data-tipo="error"] { color: var(--error); }
 
 /* ---------- 13. Pie ---------------------------------------- */
 
@@ -1657,8 +1709,6 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
   background: var(--tinta);
   color: var(--papel);
 }
-.pie__enlaces a { color: rgba(245, 246, 249, .68); }
-.pie__enlaces a:hover { color: var(--rosa-vivo); }
 .pie__legal {
   border-top-color: rgba(245, 246, 249, .16);
   color: rgba(245, 246, 249, .5);
@@ -1674,12 +1724,13 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 .pie__frase {
   font-family: var(--f-display);
   font-size: clamp(1.4rem, 2.4vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -.03em;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: uppercase;
   max-width: 20ch;
 }
 .pie__enlaces { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; }
-.pie__enlaces a { color: var(--tinta-2); font-size: .95rem; }
+.pie__enlaces a { color: rgba(245, 246, 249, .68); font-size: .95rem; }
 .pie__enlaces a:hover { color: var(--acento); }
 
 .pie__legal {
