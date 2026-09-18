@@ -433,11 +433,13 @@ a, button, label, select, summary {
    Card" flotando sobre el campo, sin que haga falta tocarla. */
 .portada {
   position: relative;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  padding-block: clamp(7rem, 13vh, 10rem) clamp(3rem, 7vh, 6rem);
-  background: var(--indigo);
+  overflow: clip;
+  padding-block: clamp(6rem, 11vh, 8.5rem) clamp(4rem, 8vh, 6rem);
+  background-color: var(--indigo);
+  /* La cuadrícula de plano: cada mosaico dibuja su propio filo
+     derecho e inferior punteado, así que al repetirse arma una
+     retícula continua sin que se note la costura. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cline x1='140' y1='0' x2='140' y2='140' stroke='white' stroke-opacity='.22' stroke-width='1' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='140' x2='140' y2='140' stroke='white' stroke-opacity='.22' stroke-width='1' stroke-dasharray='4 4'/%3E%3C/svg%3E");
   color: #FFFFFF;
   --tinta:   #FFFFFF;
   --tinta-2: rgba(255, 255, 255, .74);
@@ -446,16 +448,53 @@ a, button, label, select, summary {
   --filo-2:  rgba(255, 255, 255, .22);
 }
 
-/* A lo Patch: portada de un solo golpe, centrada, no dos
-   columnas repartidas. El titular manda la lectura y la obra baja
-   a ser la tarjeta que flota debajo. */
-.portada__centro {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  width: 100%;
+/* El titular a todo lo ancho, pegado al ras izquierdo — nada de
+   columna angosta centrada. */
+.portada__titulo {
+  font-size: var(--t-hero);
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: .87;
+  max-width: 22ch;
 }
-.portada__centro .rotulo { justify-content: center; }
+
+/* La banda de tres partes: una frase corta a cada lado, la
+   tarjeta de la obra en medio. En angosto se apila. */
+.portada__banda {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: center;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+}
+@media (min-width: 900px) {
+  .portada__banda { grid-template-columns: minmax(0, 1fr) minmax(260px, 400px) minmax(0, 1fr); }
+}
+
+.portada__ala {
+  display: none;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--filo-2);
+}
+.portada__ala .rotulo { color: #FFFFFF; }
+@media (min-width: 900px) {
+  .portada__ala { display: block; }
+  .portada__ala--der { text-align: right; }
+  .portada__ala--der .rotulo { justify-content: flex-end; }
+  .portada__ala--der .rotulo::before { order: 2; }
+}
+
+.portada__pie {
+  display: grid;
+  gap: clamp(1.6rem, 2.6vw, 2.2rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+.portada__lead { max-width: 44ch; }
+
+.portada__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+}
 
 /* La señal de scroll: el mismo hilo con marca que ya se usa en
    Proceso, aquí a la entrada en vez de a la salida. Se desplaza
@@ -493,30 +532,6 @@ a, button, label, select, summary {
 }
 @media (max-width: 699px) { .senal-scroll { display: none; } }
 
-.portada__titulo {
-  margin-top: 1.75rem;
-  font-size: var(--t-hero);
-  font-weight: 400;
-  letter-spacing: .01em;
-  line-height: .87;
-  max-width: 15ch;
-}
-.portada__salto { display: none; }
-@media (min-width: 640px) { .portada__salto { display: inline; } }
-
-.portada__lead {
-  margin-top: clamp(1.6rem, 2.6vw, 2.2rem);
-  max-width: 44ch;
-}
-
-.portada__acciones {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: .8rem;
-  margin-top: clamp(2rem, 3.4vw, 3rem);
-}
-
 /* ---------- 6. El retrato ---------------------------------
    La obra del estudio dentro de un marco fijo. El cursor la
    recorre como una hoja de contacto y el color del ambiente se
@@ -542,11 +557,11 @@ a, button, label, select, summary {
   position: relative;
   overflow: clip;
   display: grid;
-  gap: 1.1rem;
+  gap: .8rem;
   width: 100%;
-  max-width: 760px;
-  margin-top: clamp(3rem, 6vw, 4.5rem);
-  padding: clamp(.6rem, 1.4vw, 1rem);
+  max-width: 400px;
+  margin-inline: auto;
+  padding: clamp(.5rem, 1.2vw, .8rem);
   background: var(--lamina);
   border: 1px solid var(--filo);
   border-radius: var(--r-lamina);
@@ -578,7 +593,7 @@ a, button, label, select, summary {
   z-index: 1;
   overflow: hidden;
   border-radius: var(--r);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1;
   padding: 10px;
   background: color-mix(in srgb, var(--obra-1) 26%, var(--lamina));
   clip-path: inset(100% 0 0 0);
@@ -689,7 +704,6 @@ a, button, label, select, summary {
   transition: color .5s var(--tallo);
 }
 
-@media (min-width: 1000px) { .retrato__caja { aspect-ratio: 16 / 8; } }
 
 /* ---------- 7. Tira infinita ------------------------------- */
 
