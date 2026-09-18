@@ -41,35 +41,6 @@
       .replace(/"/g, '&quot;');
   }
 
-  /* ---------- 1. La mancha del estudio -----------------------
-     La fotografía de marca, ampliada detrás de la frase. Crece
-     muy despacio mientras se recorre la sección: sólo transform,
-     nada de repintar.
-     --------------------------------------------------------- */
-
-  const mancha = document.querySelector('#mancha');
-
-  if (mancha) {
-    mancha.style.backgroundImage = 'url(assets/campo-bajo.png)';
-    mancha.style.inset = 'auto -8% -18% auto';
-    mancha.style.width = 'clamp(280px, 46vw, 720px)';
-    mancha.style.height = 'clamp(280px, 46vw, 720px)';
-
-    if (conGsap) {
-      window.gsap.fromTo(mancha,
-        { scale: .82, yPercent: 6 },
-        {
-          scale: 1.08, yPercent: -6, ease: 'none',
-          scrollTrigger: {
-            trigger: mancha.parentElement,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-    }
-  }
-
   /* ---------- 1b. Progreso de la página -----------------------
      La misma barra que se llena en Proceso, pero de toda la
      hoja: cuánto scroll llevas, de un vistazo. Sin GSAP: es un

@@ -92,22 +92,6 @@ a, button, label, select, summary {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
 }
 
-/* Mancha de color: la propia fotografía, ampliada y fundida
-   contra el papel. Aparece detrás de la frase del estudio y
-   crece muy despacio. Es color real, no un degradado inventado. */
-.mancha {
-  position: absolute;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: saturate(1.1);
-  opacity: .34;
-  -webkit-mask-image: radial-gradient(closest-side, #000 32%, transparent 78%);
-          mask-image: radial-gradient(closest-side, #000 32%, transparent 78%);
-  pointer-events: none;
-  will-change: transform;
-}
-
 /* ---------- 3. Piezas repetidas ---------------------------- */
 
 .marco {
