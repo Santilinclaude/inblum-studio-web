@@ -130,7 +130,31 @@ a, button, label, select, summary {
   padding-inline: var(--aire);
 }
 
-.seccion { padding-block: var(--sec-y); }
+.seccion { position: relative; padding-block: var(--sec-y); }
+
+/* El "Square Corner Marker" del sistema: un ancla estructural en
+   la esquina de cada sección, con su número de dos cifras — el
+   mismo componente que ya lleva el rótulo, en versión de
+   escuadra. Se ancla al marco, no al filo de la pantalla, para
+   quedar alineado con el resto del contenido. */
+.marcador {
+  position: absolute;
+  top: clamp(1.5rem, 3vw, 2.5rem);
+  right: max(var(--aire), calc((100% - var(--marco)) / 2 + var(--aire)));
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--filo);
+  border-radius: var(--r);
+  font-family: var(--f-display);
+  font-size: .95rem;
+  letter-spacing: .02em;
+  color: var(--filo);
+  pointer-events: none;
+}
+@media (max-width: 700px) { .marcador { display: none; } }
 
 /* Rótulo: Archivo 600 versalitas — la etiqueta pequeña del
    sistema. El naranja no pasa contraste en texto suelto de este
@@ -492,14 +516,22 @@ a, button, label, select, summary {
    reserva para titulares sobre superficie clara. */
 .manifiesto__frase .pal--acento.viva { color: var(--filo); }
 
+/* La "Promise Sidebar" de la referencia: tarjeta bordeada, no
+   texto suelto — el mismo lenguaje de borde+radio que ya cargan
+   el resto de las tarjetas del sitio. */
 .manifiesto__nota {
   display: grid;
-  gap: 1.25rem;
+  gap: 1rem;
   align-content: start;
+  padding: clamp(1.25rem, 2.6vw, 1.75rem);
+  border: 1px solid var(--filo);
+  border-radius: var(--r-lamina);
+  background: var(--lamina);
   color: var(--tinta-2);
   font-size: var(--t-lead);
   line-height: 1.5;
 }
+.manifiesto__nota .rotulo { margin-bottom: .35rem; }
 @media (min-width: 900px) { .manifiesto__nota { margin-top: clamp(2rem, 5vw, 5rem); } }
 
 /* ---------- 9. Servicios (sidebar fijo + lista) -------------
@@ -710,6 +742,11 @@ a, button, label, select, summary {
   margin-inline: clamp(.5rem, 1.4vw, 1.25rem);
   padding-block: var(--sec-y);
 }
+/* El marcador vive dentro de la mesa, no de la sección: la
+   fórmula de "right" de .marcador está pensada para alinear con
+   el filo del marco, no con el de esta tarjeta ya angosta por su
+   propio margen. */
+.mesa .marcador { right: clamp(1rem, 2.4vw, 1.75rem); }
 
 /* ---- El museo flotante ----
    Dos capas de profundidad. La de fondo va pálida, casi de yeso,

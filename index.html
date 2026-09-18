@@ -25,8 +25,8 @@
      pesado. Archivo es la tipografía de texto del sistema. -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=68">
-<link rel="stylesheet" href="css/styles.css?v=68">
+<link rel="stylesheet" href="css/tokens.css?v=69">
+<link rel="stylesheet" href="css/styles.css?v=69">
 </head>
 
 <body>
@@ -97,6 +97,7 @@
        Split de 2 columnas, a lo Patch: el texto a la izquierda,
        la nota a la derecha, no apiladas una sobre otra. -->
   <section class="manifiesto" id="estudio">
+    <span class="marcador" aria-hidden="true">01</span>
     <span class="mancha mancha--estudio" id="mancha" aria-hidden="true"></span>
     <div class="marco manifiesto__grid">
       <div class="manifiesto__col">
@@ -106,7 +107,10 @@
           estudio. Un equipo, no cinco proveedores.
         </h2>
       </div>
+      <!-- La "Promise Sidebar" de la referencia: nota en tarjeta
+           bordeada, no texto suelto flotando junto al titular. -->
       <div class="manifiesto__nota rev">
+        <p class="rotulo">La promesa</p>
         <p>
           La identidad ya considera cómo se va a ver en video, y el sitio ya
           sabe qué fotografía va a recibir. Nada se traduce entre despachos.
@@ -124,6 +128,7 @@
        Proceso: no hace falta abrir ocho láminas para leer ocho
        nombres, sólo pasar el cursor. -->
   <section class="seccion" id="servicios">
+    <span class="marcador" aria-hidden="true">02</span>
     <div class="marco servicios">
 
       <div class="servicios__fijo">
@@ -143,6 +148,7 @@
        Grid estático de 3 columnas, a lo Patch: sin arrastrar
        nada, todas las piezas a la vista de una vez. -->
   <section class="seccion" id="trabajo">
+    <span class="marcador" aria-hidden="true">03</span>
     <div class="marco">
       <div class="trabajo__cabecera rev">
         <p class="rotulo">Trabajo</p>
@@ -162,6 +168,7 @@
   <!-- ============ Proceso ============ -->
   <section class="seccion proceso-seccion" id="proceso">
     <div class="mesa">
+      <span class="marcador" aria-hidden="true">04</span>
       <!-- El campo de objetos lo arma js/app.js con la lista MUSEO
            de js/data.js: ahí se cambian las piezas. -->
       <div class="museo" id="museo" aria-hidden="true"></div>
@@ -188,6 +195,7 @@
 
   <!-- ============ Contacto ============ -->
   <section class="seccion campo-indigo" id="contacto">
+    <span class="marcador" aria-hidden="true">05</span>
     <div class="marco contacto">
 
       <div class="contacto__izq rev">
@@ -290,9 +298,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=68" defer></script>
-<script src="js/holo.js?v=68" defer></script>
-<script src="js/app.js?v=68" defer></script>
+<script src="js/data.js?v=69" defer></script>
+<script src="js/holo.js?v=69" defer></script>
+<script src="js/app.js?v=69" defer></script>
 
 </body>
 </html>
