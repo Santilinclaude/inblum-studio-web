@@ -25,8 +25,8 @@
      pesado. Archivo es la tipografía de texto del sistema. -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=67">
-<link rel="stylesheet" href="css/styles.css?v=67">
+<link rel="stylesheet" href="css/tokens.css?v=68">
+<link rel="stylesheet" href="css/styles.css?v=68">
 </head>
 
 <body>
@@ -39,50 +39,13 @@
      página: cuánto llevas recorrido, de un vistazo. -->
 <div class="progreso" aria-hidden="true"><span class="progreso__linea" id="progreso-linea"></span></div>
 
-<!-- ============ Navegación ============ -->
-<header class="nav" id="nav">
-  <div class="marco nav__fila">
-    <a class="nav__marca" href="#inicio" aria-label="Inblüm Studio, inicio" translate="no">
-      <img src="assets/wordmark.png" alt="Inblüm Studio" width="580" height="300">
-    </a>
-
-    <nav class="nav__medio" aria-label="Principal">
-      <a href="#servicios">Servicios</a>
-      <a href="#trabajo">Trabajo</a>
-      <a href="#estudio">Estudio</a>
-      <a href="#proceso">Proceso</a>
-    </nav>
-
-    <div class="nav__der">
-      <a class="btn btn--tinta btn--chico" href="#contacto">
-        Hablemos <span aria-hidden="true">&#8599;</span>
-      </a>
-      <button class="menu-btn" id="menu" type="button"
-              aria-expanded="false" aria-controls="cortina" aria-label="Abrir el menú">
-        <span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<!-- ============ Menú de pantalla completa ============ -->
-<div class="cortina" id="cortina" data-abierta="false">
-  <a href="#servicios" style="--espera:60ms">Servicios</a>
-  <a href="#trabajo"   style="--espera:120ms">Trabajo</a>
-  <a href="#estudio"   style="--espera:180ms">Estudio</a>
-  <a href="#proceso"   style="--espera:240ms">Proceso</a>
-  <a href="#contacto"  style="--espera:300ms">Hablemos</a>
-  <p class="cortina__pie">Estudio creativo multidisciplinario</p>
-</div>
-
 <main id="contenido">
 
   <!-- ============ Portada ============
-       Calcada de la referencia: el titular a todo lo ancho,
-       pegado al ras izquierdo, sobre la cuadrícula punteada del
-       campo índigo; abajo, una banda de tres partes con la
-       tarjeta blanca de la obra en medio y una frase corta a cada
-       lado. -->
+       El titular a todo lo ancho, pegado al ras izquierdo, sobre
+       la cuadrícula punteada del campo índigo; abajo, una frase
+       corta a cada lado. Sin nav fijo arriba: la navegación vive
+       en el pie de página. -->
   <section class="portada campo-indigo" id="inicio">
     <div class="marco">
 
@@ -93,25 +56,6 @@
       <div class="portada__banda entra" style="--espera:280ms">
         <div class="portada__ala">
           <p class="rotulo">Estudio creativo multidisciplinario</p>
-        </div>
-
-        <!-- La tarjeta blanca de la portada: la obra del estudio.
-             El cursor la recorre como una hoja de contacto, y el
-             color de alrededor sale de la imagen que esté al
-             frente. -->
-        <div class="retrato" id="retrato">
-          <span class="retrato__ambiente" aria-hidden="true"></span>
-
-          <div class="retrato__caja" id="obra-caja" role="img"
-               aria-label="Obra del estudio. Mueve el cursor sobre la imagen para recorrerla.">
-            <div class="retrato__pila" id="obra-pila"></div>
-            <div class="retrato__velo" aria-hidden="true"></div>
-            <div class="retrato__logo" id="obra-logo" aria-hidden="true"></div>
-          </div>
-
-          <p class="retrato__pie">
-            <b id="obra-titulo">Inblüm Studio</b><span id="obra-nota">Identidad</span>
-          </p>
         </div>
 
         <div class="portada__ala portada__ala--der">
@@ -346,9 +290,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=67" defer></script>
-<script src="js/holo.js?v=67" defer></script>
-<script src="js/app.js?v=67" defer></script>
+<script src="js/data.js?v=68" defer></script>
+<script src="js/holo.js?v=68" defer></script>
+<script src="js/app.js?v=68" defer></script>
 
 </body>
 </html>

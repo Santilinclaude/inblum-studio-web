@@ -290,154 +290,6 @@ a, button, label, select, summary {
   transform-origin: left;
 }
 
-/* ---------- 4. Navegación ---------------------------------- */
-
-/* El fondo esmerilado sólo aparece sobre superficie clara: la
-   portada ya es índigo a sangre, y una franja blanca traslúcida
-   encima se veía como una tira lavanda pegada al filo — ni el
-   blanco del esmerilado ni el índigo de abajo, un tercer color
-   que no pinta nadie. Mientras el nav todavía flota sobre la
-   portada ("data-sobre-indigo"), se queda transparente de verdad
-   y el contenido pasa a blanco; el fondo esmerilado vuelve en
-   cuanto el índigo ya se fue detrás. */
-.nav {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: var(--z-nav);
-  padding-block: clamp(.9rem, 1.6vw, 1.4rem);
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: padding-block .7s var(--tallo), border-color .7s var(--tallo),
-              background-color .7s var(--tallo), color .5s var(--tallo);
-}
-.nav[data-fijo="true"] { padding-block: .6rem; }
-.nav[data-fijo="true"]:not([data-sobre-indigo="true"]) {
-  border-bottom-color: var(--filo-2);
-  background: color-mix(in srgb, var(--papel) 88%, transparent);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-}
-
-.nav[data-sobre-indigo="true"] { color: #FFFFFF; }
-.nav[data-sobre-indigo="true"] .nav__marca img {
-  filter: brightness(0) invert(1);
-}
-.nav[data-sobre-indigo="true"] .menu-btn { border-color: rgba(255, 255, 255, .55); }
-.nav[data-sobre-indigo="true"] .menu-btn span { background: #FFFFFF; }
-
-.nav__fila {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-}
-
-.nav__marca img {
-  height: 26px;
-  width: auto;
-  transition: height .7s var(--tallo), filter .5s var(--tallo);
-}
-.nav[data-fijo="true"] .nav__marca img { height: 22px; }
-
-.nav__medio {
-  display: flex;
-  align-items: center;
-  gap: clamp(1.1rem, 2.4vw, 2.6rem);
-}
-.nav__medio a {
-  position: relative;
-  font-size: .95rem;
-  color: var(--tinta-2);
-  white-space: nowrap;
-  transition: color .4s var(--brote);
-}
-.nav[data-sobre-indigo="true"] .nav__medio a { color: rgba(255, 255, 255, .78); }
-.nav__medio a:hover { color: var(--tinta); }
-.nav[data-sobre-indigo="true"] .nav__medio a:hover { color: #FFFFFF; }
-.nav__medio a::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -5px;
-  height: 1.5px;
-  background: var(--acento);
-  scale: 0 1;
-  transform-origin: right;
-  transition: scale .5s var(--brote);
-}
-.nav__medio a:hover::after { transform-origin: left; scale: 1 1; }
-
-.nav__der { display: flex; align-items: center; gap: .75rem; }
-
-.menu-btn {
-  display: none;
-  position: relative;
-  width: 2.9rem;
-  height: 2.9rem;
-  border: 1.5px solid var(--filo);
-  border-radius: var(--r-pill);
-  background: transparent;
-  cursor: pointer;
-}
-.menu-btn span {
-  position: absolute;
-  left: 50%;
-  width: 1.05rem;
-  height: 1.5px;
-  background: var(--tinta);
-  border-radius: 2px;
-  transition: transform .7s var(--brote);
-}
-.menu-btn span:nth-child(1) { top: calc(50% - 4px); transform: translate(-50%, 0); }
-.menu-btn span:nth-child(2) { top: calc(50% + 4px); transform: translate(-50%, 0); }
-.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translate(-50%, 4px) rotate(45deg); }
-.menu-btn[aria-expanded="true"] span:nth-child(2) { transform: translate(-50%, -4px) rotate(-45deg); }
-
-/* El menú abierto es su propio campo índigo, a sangre: el mismo
-   momento de máximo impacto que la portada. */
-.cortina {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-menu);
-  display: grid;
-  align-content: center;
-  gap: .25rem;
-  padding: 6rem var(--aire) 3rem;
-  background: var(--indigo);
-  color: #FFFFFF;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .6s var(--brote), visibility .6s var(--brote);
-}
-.cortina[data-abierta="true"] { opacity: 1; visibility: visible; }
-.cortina a {
-  font-family: var(--f-display);
-  font-size: clamp(2.6rem, 12vw, 5rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  line-height: 1.05;
-  opacity: 0;
-  transform: translateY(2.5rem);
-  transition: opacity .7s var(--brote), transform .7s var(--brote), color .3s;
-  transition-delay: var(--espera, 0ms);
-}
-.cortina[data-abierta="true"] a { opacity: 1; transform: none; }
-.cortina a:hover { color: var(--acento); }
-.cortina__pie {
-  margin-top: 2.5rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: rgba(255, 255, 255, .6);
-}
-
-@media (max-width: 940px) {
-  .nav__medio, .nav__der .btn { display: none; }
-  .menu-btn { display: block; }
-}
-
 /* ---------- 5. Portada (campo índigo a sangre) -------------- */
 
 /* El primer golpe del sistema: índigo a toda la pantalla, texto
@@ -456,7 +308,7 @@ a, button, label, select, summary {
   /* La cuadrícula de plano: cada mosaico dibuja su propio filo
      derecho e inferior punteado, así que al repetirse arma una
      retícula continua sin que se note la costura. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cline x1='140' y1='0' x2='140' y2='140' stroke='white' stroke-opacity='.22' stroke-width='1' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='140' x2='140' y2='140' stroke='white' stroke-opacity='.22' stroke-width='1' stroke-dasharray='4 4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cline x1='140' y1='0' x2='140' y2='140' stroke='white' stroke-opacity='.45' stroke-width='1' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='140' x2='140' y2='140' stroke='white' stroke-opacity='.45' stroke-width='1' stroke-dasharray='4 4'/%3E%3C/svg%3E");
   color: #FFFFFF;
   --tinta:   #FFFFFF;
   --tinta-2: rgba(255, 255, 255, .74);
@@ -475,8 +327,8 @@ a, button, label, select, summary {
   max-width: 22ch;
 }
 
-/* La banda de tres partes: una frase corta a cada lado, la
-   tarjeta de la obra en medio. En angosto se apila. */
+/* La banda de dos frases cortas, una a cada lado. En angosto se
+   apila. */
 .portada__banda {
   display: grid;
   gap: clamp(1.5rem, 4vw, 2.5rem);
@@ -484,7 +336,7 @@ a, button, label, select, summary {
   margin-top: clamp(2.5rem, 5vw, 4.5rem);
 }
 @media (min-width: 900px) {
-  .portada__banda { grid-template-columns: minmax(0, 1fr) minmax(260px, 400px) minmax(0, 1fr); }
+  .portada__banda { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .portada__ala {
@@ -548,179 +400,6 @@ a, button, label, select, summary {
   100% { transform: translateY(var(--alto)); opacity: 0; }
 }
 @media (max-width: 699px) { .senal-scroll { display: none; } }
-
-/* ---------- 6. El retrato ---------------------------------
-   La obra del estudio dentro de un marco fijo. El cursor la
-   recorre como una hoja de contacto y el color del ambiente se
-   toma de la imagen que esté al frente, igual que el fondo del
-   reproductor de Apple Music.
-   --------------------------------------------------------- */
-
-/* Colores registrados: al declararlos así, el navegador sabe
-   interpolarlos y el cambio de una obra a otra es un fundido de
-   color, no un salto. */
-@property --obra-1 {
-  syntax: "<color>"; inherits: true; initial-value: #1957D8;
-}
-@property --obra-2 {
-  syntax: "<color>"; inherits: true; initial-value: #FF3D9A;
-}
-
-/* La "White Illustration Card" de la portada: blanca con borde
-   índigo de 1px, igual que cualquier tarjeta del sistema —
-   flotando sobre el campo a sangre, con la obra del estudio
-   adentro en vez de un boceto. */
-.retrato {
-  position: relative;
-  overflow: clip;
-  display: grid;
-  gap: .8rem;
-  width: 100%;
-  max-width: 400px;
-  margin-inline: auto;
-  padding: clamp(.5rem, 1.2vw, .8rem);
-  background: var(--lamina);
-  border: 1px solid var(--filo);
-  border-radius: var(--r-lamina);
-  --obra-1: #1957D8;
-  --obra-2: #FF3D9A;
-}
-
-/* El ambiente: dos manchas amplias del color de la obra. Son
-   degradados, no desenfoques, así que no cuestan nada. Se quedan
-   dentro de la tarjeta ("overflow:clip" en .retrato de arriba):
-   ahora que hay un borde de verdad, el resplandor se lee como
-   acabado interior, no como bruma fuera de la tarjeta. */
-.retrato__ambiente {
-  position: absolute;
-  inset: -14% -26% -10% -34%;
-  z-index: 0;
-  border-radius: 50%;
-  background:
-    radial-gradient(46% 46% at 34% 28%, var(--obra-1) 0%, transparent 68%),
-    radial-gradient(44% 44% at 72% 74%, var(--obra-2) 0%, transparent 70%);
-  opacity: .5;
-  pointer-events: none;
-  transition: opacity .8s var(--tallo);
-}
-.retrato[data-activa="true"] .retrato__ambiente { opacity: .78; }
-
-.retrato__caja {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  border-radius: var(--r);
-  aspect-ratio: 1;
-  padding: 10px;
-  background: color-mix(in srgb, var(--obra-1) 26%, var(--lamina));
-  clip-path: inset(100% 0 0 0);
-  animation: abrirse 1.5s var(--tallo) .25s forwards;
-  transition: background-color .7s var(--tallo);
-}
-@keyframes abrirse { to { clip-path: inset(0 0 0 0); } }
-
-.retrato__pila { position: absolute; inset: 10px; z-index: 0; }
-
-/* Cover, siempre: ningún recuadro deja ver el papel de atrás. */
-.retrato__pila img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 6px;
-  opacity: 0;
-  transform: scale(1.01);
-}
-.retrato__pila img.esta { opacity: 1; transform: scale(1); }
-
-/* La primera entra con su propio asentamiento, como antes. */
-.retrato__pila img.esta:first-child { animation: asentar 2.4s var(--brote) forwards; }
-@keyframes asentar { from { transform: scale(1.07); } to { transform: scale(1); } }
-
-/* El velo: oscurece la fotografía de fondo para que las letras
-   del logotipo, que muestran la misma imagen sin oscurecer,
-   salgan a relucir como una ventana encendida. */
-.retrato__velo {
-  position: absolute;
-  inset: 10px;
-  z-index: 1;
-  border-radius: 6px;
-  background: linear-gradient(165deg,
-              rgba(10, 9, 14, .16) 0%,
-              rgba(10, 9, 14, .5) 62%,
-              rgba(10, 9, 14, .66) 100%);
-  pointer-events: none;
-}
-
-/* El logotipo: la misma fotografía activa, recortada con la
-   forma exacta de "INBLÜM STUDIO". Cada obra lo enciende con su
-   propio color y su propia textura, nunca uno inventado. */
-.retrato__logo {
-  position: absolute;
-  inset: 10px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-.retrato__logo-mark {
-  position: absolute;
-  width: min(74%, 360px);
-  aspect-ratio: 580 / 300;
-  background-repeat: no-repeat, no-repeat;
-  background-size: cover, cover;
-  background-position: center, center;
-  /* La textura se combina con un degradado de sus propios
-     colores mediante "screen": así ninguna foto oscura deja el
-     logotipo ilegible, el color de piso lo pone la misma obra. */
-  background-blend-mode: screen;
-  -webkit-mask-image: url(../assets/wordmark.png);
-          mask-image: url(../assets/wordmark.png);
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-          mask-position: center;
-  -webkit-mask-size: contain;
-          mask-size: contain;
-  mask-mode: alpha;
-  opacity: 0;
-  transform: scale(.97);
-  filter: drop-shadow(0 10px 26px rgba(6, 5, 10, .5))
-          drop-shadow(0 0 34px rgba(255, 255, 255, .16));
-}
-.retrato__logo-mark.esta { opacity: 1; transform: scale(1); }
-
-/* Dentro de la tarjeta, siempre tinta oscura: la tarjeta es
-   blanca aunque la portada entera sea índigo (el mismo truco que
-   ya usa .forma, en Contacto, para la suya). */
-.retrato__pie {
-  --tinta:   #212121;
-  --tinta-3: #9A9A9A;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: baseline;
-  gap: .75rem;
-  padding: .3rem .5rem .1rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--tinta-3);
-  opacity: 0;
-  animation: entrar .9s var(--brote) 1.5s forwards;
-}
-.retrato__pie b {
-  font-weight: 700;
-  color: var(--tinta);
-  letter-spacing: .12em;
-  transition: color .5s var(--tallo);
-}
-
 
 /* ---------- 7. Tira infinita ------------------------------- */
 
@@ -1585,8 +1264,5 @@ a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
     transition-duration: .001ms !important;
   }
   .rev, .entra { opacity: 1; transform: none; }
-  .retrato__caja { clip-path: none; }
-  .retrato__caja img { transform: none; }
-  .retrato__pie { opacity: 1; transform: none; }
   .manifiesto__frase .pal { opacity: 1; }
 }
