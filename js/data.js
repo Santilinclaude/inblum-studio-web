@@ -149,18 +149,20 @@ const OBRA = [
 ];
 
 /* ---------- 4. Proyectos de portafolio -----------------------
-   Cada proyecto es una fila de la galería: tres celdas de imagen
-   (la cuadrícula de líneas finas) y, debajo, su ficha —número,
-   nombre con año y servicios.
+   Cada proyecto es un bloque de la galería: un mosaico de tres
+   columnas (nueve espacios, tres filas) con líneas finas entre
+   celdas y, debajo, su ficha —número, nombre con año y servicios.
 
-   PENDIENTE: todo esto es de relleno. Las celdas usan fotos de
-   picsum.photos y texturas de assets/obra. Para publicar trabajo
-   real: copia las imágenes a assets/work/, pon cada ruta en `img`
-   y cambia `titulo`, `anio` y `servicios` por los del proyecto.
-   - celdas: las que quieras; se acomodan de tres en tres. Con
-     `dispositivo: true` la imagen se muestra dentro de una
-     tableta (para capturas de sitios y apps); sin eso, ocupa la
-     celda completa. Tamaño recomendado: 1200x850 px.
+   PENDIENTE: todo esto es de relleno. Las tabletas muestran
+   texturas de assets/obra y las imágenes altas, fotos de
+   picsum.photos. Para publicar trabajo real: copia las imágenes a
+   assets/work/, pon cada ruta en `img` y cambia `titulo`, `anio` y
+   `servicios` por los del proyecto.
+   - celdas: en orden de lectura; la cuadrícula las acomoda sola.
+     Con `dispositivo: true` la imagen se muestra dentro de una
+     tableta sobre negro (capturas de sitios y apps). Con
+     `alto: 2` la celda ocupa dos filas (retratos, fotografía
+     vertical: 820x1160 px). Las demás, 820x580 px.
    - servicios: una línea por servicio, de la lista SERVICIOS.
    ------------------------------------------------------------ */
 const PIEZAS = [
@@ -169,10 +171,13 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Branding / identidad de marca', 'Diseño gráfico', 'Diseño editorial'],
     celdas: [
-      { img: 'assets/obra/papel-1.jpg', alt: '', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-branding-mesa/1200/850',
-        alt: 'Materiales impresos de una identidad de marca sobre una mesa de trabajo' },
-      { img: 'assets/obra/pincelada.jpg', alt: '' }
+      { img: 'assets/obra/papel-1.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-identidad-a/820/1160', alt: 'Identidad y sistema gráfico', alto: 2 },
+      { img: 'assets/obra/papel-2.jpg', dispositivo: true },
+      { img: 'assets/obra/collage.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-identidad-b/820/1160', alt: 'Identidad y sistema gráfico', alto: 2 },
+      { img: 'assets/obra/minimal.jpg', dispositivo: true },
+      { img: 'assets/obra/azulejo.jpg', dispositivo: true }
     ]
   },
   {
@@ -180,10 +185,14 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Fotografía de producto y publicitaria', 'Edición de imagen'],
     celdas: [
-      { img: 'assets/obra/marmol.jpg', alt: '' },
-      { img: 'https://picsum.photos/seed/inblum-producto-estudio/1200/850',
-        alt: 'Montaje de estudio para fotografía de producto' },
-      { img: 'assets/obra/minimal.jpg', alt: '', dispositivo: true }
+      { img: 'https://picsum.photos/seed/inblum-producto-a/820/1160', alt: 'Fotografía de producto', alto: 2 },
+      { img: 'assets/obra/cimatica.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-producto-c/820/580', alt: 'Fotografía de producto' },
+      { img: 'assets/obra/pincelada.jpg', dispositivo: true },
+      { img: 'assets/obra/concreto.jpg', dispositivo: true },
+      { img: 'assets/obra/marmol.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-producto-d/820/580', alt: 'Fotografía de producto' },
+      { img: 'assets/obra/hoja.jpg', dispositivo: true }
     ]
   },
   {
@@ -191,10 +200,14 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Video y fotografía documental', 'Edición de video', 'Preproducción audiovisual'],
     celdas: [
-      { img: 'assets/obra/hoja.jpg', alt: '' },
-      { img: 'assets/obra/luz.jpg', alt: '', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-rodaje-camara/1200/850',
-        alt: 'Cámara de cine montada durante un rodaje' }
+      { img: 'assets/obra/luz.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-rodaje-c/820/580', alt: 'Rodaje documental' },
+      { img: 'https://picsum.photos/seed/inblum-rodaje-a/820/1160', alt: 'Rodaje documental', alto: 2 },
+      { img: 'assets/obra/algas.jpg', dispositivo: true },
+      { img: 'assets/obra/piel.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-rodaje-d/820/580', alt: 'Rodaje documental' },
+      { img: 'assets/obra/porcelana.jpg', dispositivo: true },
+      { img: 'assets/obra/mar.jpg', dispositivo: true }
     ]
   },
   {
@@ -202,10 +215,13 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Producción de podcasts', 'Audio y grabación', 'Mezcla de sonido'],
     celdas: [
-      { img: 'assets/obra/cimatica.jpg', alt: '', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-cabina-audio/1200/850',
-        alt: 'Cabina de grabación con micrófono y consola' },
-      { img: 'assets/obra/algas.jpg', alt: '' }
+      { img: 'assets/obra/flores.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-podcast-a/820/1160', alt: 'Producción de podcast', alto: 2 },
+      { img: 'assets/obra/jardin.jpg', dispositivo: true },
+      { img: 'assets/obra/abstracto.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-podcast-b/820/1160', alt: 'Producción de podcast', alto: 2 },
+      { img: 'assets/obra/papel-1.jpg', dispositivo: true },
+      { img: 'assets/obra/papel-2.jpg', dispositivo: true }
     ]
   },
   {
@@ -213,10 +229,14 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Diseño UI/UX', 'Programación web', 'SEO'],
     celdas: [
-      { img: 'assets/obra/azulejo.jpg', alt: '' },
-      { img: 'assets/obra/collage.jpg', alt: '', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-interfaz-pantalla/1200/850',
-        alt: 'Interfaz de un sitio web mostrada en pantalla' }
+      { img: 'https://picsum.photos/seed/inblum-sitio-a/820/1160', alt: 'Sitio y aplicación', alto: 2 },
+      { img: 'assets/obra/collage.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-sitio-c/820/580', alt: 'Sitio y aplicación' },
+      { img: 'assets/obra/minimal.jpg', dispositivo: true },
+      { img: 'assets/obra/azulejo.jpg', dispositivo: true },
+      { img: 'assets/obra/cimatica.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-sitio-d/820/580', alt: 'Sitio y aplicación' },
+      { img: 'assets/obra/pincelada.jpg', dispositivo: true }
     ]
   },
   {
@@ -224,10 +244,14 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Gestión de redes sociales y community management', 'Diseño gráfico', 'Copywriting y redacción publicitaria'],
     celdas: [
-      { img: 'https://picsum.photos/seed/inblum-campana-social/1200/850',
-        alt: 'Piezas gráficas de una campaña vistas en un teléfono' },
-      { img: 'assets/obra/papel-2.jpg', alt: '', dispositivo: true },
-      { img: 'assets/obra/piel.jpg', alt: '' }
+      { img: 'assets/obra/concreto.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-campana-c/820/580', alt: 'Campaña en redes' },
+      { img: 'https://picsum.photos/seed/inblum-campana-a/820/1160', alt: 'Campaña en redes', alto: 2 },
+      { img: 'assets/obra/marmol.jpg', dispositivo: true },
+      { img: 'assets/obra/hoja.jpg', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-campana-d/820/580', alt: 'Campaña en redes' },
+      { img: 'assets/obra/luz.jpg', dispositivo: true },
+      { img: 'assets/obra/algas.jpg', dispositivo: true }
     ]
   }
 ];

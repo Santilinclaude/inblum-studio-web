@@ -131,10 +131,11 @@
   }
 
   /* ---------- 5. Proyectos de trabajo (galería) ---------------
-     A lo Grafik: cada proyecto es una fila de celdas de imagen
-     separadas por líneas finas y, debajo, su ficha en tres
-     columnas alineadas con las celdas: número, nombre con año y
-     servicios. Todo el contenido vive en PIEZAS (js/data.js).
+     A lo Grafik: cada proyecto es un mosaico de tres columnas con
+     líneas finas entre celdas (algunas ocupan dos filas) y, debajo,
+     su ficha en tres columnas alineadas con las celdas: número,
+     nombre con año y servicios. Todo el contenido vive en PIEZAS
+     (js/data.js).
      --------------------------------------------------------- */
 
   const piezas = $('#piezas');
@@ -144,15 +145,17 @@
       ? '<p class="lead">Estamos preparando esta sección. Mientras tanto, ' +
         'escríbenos y te compartimos el portafolio completo en PDF.</p>'
       : PIEZAS.map(function (p, i) {
-        const celdas = p.celdas.map(function (c, k) {
+        const celdas = p.celdas.map(function (c) {
           // Lo que se ve al abrir la página carga de inmediato; el
           // resto, hasta que se acerque.
           const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
           const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
                       carga + ' decoding="async">';
-          return c.dispositivo
-            ? '<figure class="celda celda--dispositivo"><div class="dispositivo">' + img + '</div></figure>'
-            : '<figure class="celda">' + img + '</figure>';
+          const clase = 'celda' + (c.dispositivo ? ' celda--dispositivo' : '') +
+                        (c.alto === 2 ? ' celda--alta' : '');
+          return '<figure class="' + clase + '">' +
+                 (c.dispositivo ? '<div class="dispositivo">' + img + '</div>' : img) +
+                 '</figure>';
         }).join('');
 
         return '' +

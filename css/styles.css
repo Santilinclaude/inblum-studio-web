@@ -599,28 +599,42 @@ a, button, label, select, summary {
   max-width: none;
 }
 
-/* La galería: pantalla completa, sin márgenes ni canales. Cada
-   celda dibuja su borde izquierdo y superior, y el contenedor el
-   derecho y el inferior, así las líneas nunca se duplican. */
+/* La galería: pantalla completa. Cada proyecto es un mosaico de
+   tres columnas y tres filas; algunas celdas ocupan dos filas. Las
+   líneas de 1px no son bordes: son el propio papel asomando por el
+   canal de 1px entre celdas —sobre negro se leen claras, sobre
+   foto casi no se ven—, como en la referencia. */
 .piezas { display: block; }
+
+/* El contenedor de medidas: las filas se calculan a partir de su
+   ancho (la celda es √2:1, la proporción de la hoja A), no del de
+   la ventana, para que el scroll vertical no las descuadre. */
+.proyecto { container-type: inline-size; --cols: 2; }
+@media (min-width: 1000px) { .proyecto { --cols: 3; } }
+
 .proyecto__celdas {
   display: grid;
-  grid-template-columns: 1fr;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: calc(100vw / var(--cols) / 1.414);          /* respaldo */
+  grid-auto-flow: dense;
+  gap: 1px;
+  background: var(--papel);
 }
-@media (min-width: 640px)  { .proyecto__celdas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1000px) { .proyecto__celdas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@supports (width: 1cqw) {
+  .proyecto__celdas {
+    grid-auto-rows: calc((100cqw - (var(--cols) - 1) * 1px) / var(--cols) / 1.414);
+  }
+}
 
 .celda {
   position: relative;
   margin: 0;
-  aspect-ratio: 1 / 1;             /* celdas cuadradas, 9x9 */
+  min-width: 0;
+  min-height: 0;
   overflow: hidden;
   background: #FFFFFF;
-  border-top: 1px solid #000;
-  border-left: 1px solid #000;
 }
+.celda--alta { grid-row: span 2; }
 .celda img {
   display: block;
   width: 100%;
@@ -649,9 +663,9 @@ a, button, label, select, summary {
 }
 .dispositivo img { border-radius: 3px; }
 
-/* La ficha: tres columnas alineadas con las celdas de arriba, sobre
-   el papel. El texto arranca al ras de la línea vertical, con 12px
-   de aire; el resto de la banda queda en blanco a propósito. */
+/* La ficha: tres columnas alineadas con las de arriba, sobre el
+   papel. El texto arranca a 12px del filo de la columna; el resto
+   de la banda queda en blanco a propósito. */
 .proyecto__ficha {
   display: grid;
   grid-template-columns: 1fr;
@@ -662,14 +676,12 @@ a, button, label, select, summary {
 @media (min-width: 1000px) {
   .proyecto__ficha {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0;
+    column-gap: 1px;
+    row-gap: 0;
     min-height: 225px;
     padding: 24px 0 0;
   }
-  .proyecto__ficha p { padding-left: 13px; }
-}
-@media (min-width: 640px) and (max-width: 999px) {
-  .proyecto__ficha { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-bottom: 48px; }
+  .proyecto__ficha p { padding-left: 12px; }
 }
 
 /* El cierre: una línea de texto, como el pie de Grafik. */
