@@ -20,11 +20,13 @@
   --tinta:    #000000;
   --filo:     #000000;   /* la línea de 1px */
 
-  /* --- Tipografía: una familia, un peso ---
-     El original es Grotesk (de paga); la referencia misma nombra
-     a Inter a peso 400 con tracking negativo como el sustituto
-     libre más cercano. */
-  --f-texto:   "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* --- Tipografía: una sola familia para todo el sitio ---
+     Helvetica. No es libre ni está en Google Fonts, así que se pide
+     al sistema del visitante: Helvetica de verdad en Mac, iPhone e
+     iPad; Arial (que se hizo para igualar sus métricas) en Windows;
+     la sans-serif del sistema en el resto. Para que salga idéntica
+     en todos lados hace falta una licencia web (ver el README). */
+  --f-texto:   "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* Tres tamaños, ni uno más: la jerarquía sale del contenido. */
   --t-texto: 1.25rem;    /* 20px: texto y fichas */
@@ -32,9 +34,12 @@
   --t-h-lg:  2.5rem;     /* 40px: titular grande */
 
   /* --- Apertura: la primera página (dirección "Beings") ---
-     Una paleta y una tipografía propias, sólo para la portada y su
-     panel oscuro; el resto del sitio sigue en Grafik. Los nombres
-     del sistema original van entre paréntesis. */
+     Una paleta propia, sólo para la portada y su panel oscuro; el
+     resto del sitio sigue en Grafik. La tipografía es la misma de
+     todo el sitio: las cuatro caras de la referencia se resuelven con
+     Helvetica en peso 500 (texto) y 700 (cabecera, titular,
+     declaración y la palabra grande). Los nombres del sistema
+     original van entre paréntesis. */
   --b-blanco:   #ffffff;   /* lienzo (Paper White) */
   --b-cacao:    #1b0800;   /* tinta y superficie oscura (Cocoa Ink) */
   --b-umbra:    #381a06;   /* panel de la declaración (Home Umber) */
@@ -43,12 +48,6 @@
   --b-rubor:    #fae3cf;   /* escala del lavado (Join Blush) */
   --b-arcilla:  #78492d;   /* escala del lavado (Shortlist Clay) */
   --b-gris:     #999999;   /* sólo el aro (Fine Grey) */
-
-  /* Los sustitutos libres de las cuatro caras de la referencia. */
-  --f-bonto:   "Anton", Impact, "Arial Narrow", sans-serif;                          /* Bonto */
-  --f-negra:   "Archivo Black", "Archivo", ui-sans-serif, system-ui, sans-serif;     /* Die Grotesk C Black */
-  --f-fuerte:  "Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif;       /* Die Grotesk B Bold */
-  --f-semi:    "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif; /* Die Grotesk B SemiBold */
 
   /* --- Ritmo --- */
   --aire:   12px;        /* margen y canal de todo el sitio */

@@ -7,13 +7,13 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
 ## El diseño: dos referencias
 
 - **Grafik** es la base de todo el sitio: lienzo de papel hueso, tinta negra,
-  una sola tipografía (Inter 400) en tres tamaños (20, 38 y 40 px), cero radio,
+  una sola tipografía (Helvetica) en tres tamaños (20, 38 y 40 px), cero radio,
   cero sombra y líneas de 1px como único esqueleto. El color vive dentro del
   trabajo, nunca en la interfaz.
 - **Beings** es sólo la primera página (la *Apertura*): una palabra enorme, un
   retrato recortado al ras, texto de 12px en mayúsculas y campos cálidos que se
-  lavan del blanco al marrón. Trae su propia paleta y sus propias tipografías,
-  y no se mezcla con lo demás.
+  lavan del blanco al marrón. Trae su propia paleta, pero la misma tipografía
+  que todo lo demás.
 
 ## Secciones, en orden
 
@@ -34,7 +34,7 @@ inblum-web/
 ├── CNAME
 ├── css/
 │   ├── tokens.css     los dos sistemas: Grafik (papel, tinta, tamaños) y
-│   │                  Beings (--b-* y --f-*, sólo para la Apertura)
+│   │                  Beings (--b-*, sólo para la Apertura)
 │   └── styles.css     el sitio, por secciones numeradas
 ├── js/
 │   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos
@@ -80,20 +80,26 @@ en la sección 0 de `js/app.js`.
 
 ## Tipografía y librerías
 
-- **Inter 400** para todo el sitio, desde Google Fonts. Grotesk, la de la
-  referencia Grafik, es de paga; Inter es el sustituto que la propia referencia
-  sugiere.
-- La **Apertura** usa los sustitutos libres de las cuatro caras de Beings:
-  Anton (Bonto), Archivo 700 (Die Grotesk B Bold), Archivo Black (Die Grotesk C
-  Black) y Space Grotesk 500 (Die Grotesk B SemiBold).
+- **Helvetica** para todo el sitio, incluida la Apertura: peso 400 en Grafik y
+  500 / 700 en la Apertura (texto y cabecera, titular, declaración y la palabra
+  grande). Está en `--f-texto`, en `css/tokens.css`, como
+  `"Helvetica Neue", Helvetica, Arial, sans-serif`.
+- Helvetica **no es libre ni está en Google Fonts**, así que no se descarga: se
+  pide al sistema del visitante. En Mac, iPhone y iPad sale Helvetica de verdad;
+  en Windows sale Arial (se hizo para igualar sus métricas) y en Android, la
+  sans-serif del sistema. Es lo que hace cualquier sitio que usa Helvetica sin
+  licencia web.
 - **GSAP + ScrollTrigger** desde CDN, sólo para lo que va enganchado al scroll
   (entrada y lavado de la Apertura, frase palabra por palabra, regla del
   proceso). Si el CDN no carga, la página funciona igual: lo mismo se resuelve
   con IntersectionObserver.
 
-Si quieres el sitio sin dependencias externas, descarga los `.woff2` y los dos
-archivos de GSAP, ponlos en `assets/` y cambia los `<link>` y `<script>` del
-`<head>`.
+Si quieres que Helvetica salga idéntica en todos los dispositivos, compra la
+licencia web (Helvetica Now o Neue Haas Grotesk, de Monotype), pon los `.woff2`
+en `assets/fonts/`, declara la familia con `@font-face` al principio de
+`css/tokens.css` y ponla de primera en `--f-texto`. Para dejar el sitio sin
+dependencias externas, descarga también los dos archivos de GSAP, ponlos en
+`assets/` y cambia los `<script>` del `<head>`.
 
 ## Qué falta por llenar
 

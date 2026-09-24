@@ -3,8 +3,8 @@
    Sistema "Grafik": papel hueso, tinta negra, una tipografía a un
    peso, cero radio, cero sombra. Las líneas de 1px son el esqueleto
    de cada sección; nada de color en la interfaz. La primera página
-   (Apertura) sigue otra referencia, "Beings", con paleta y
-   tipografías propias.
+   (Apertura) sigue otra referencia, "Beings", con paleta propia; la
+   tipografía es una sola para todo el sitio: Helvetica.
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -28,7 +28,6 @@ body {
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -.005em;
-  font-feature-settings: "dlig";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -254,20 +253,19 @@ main > section + section { border-top: 1px solid var(--filo); }
 /* ---------- 5. Apertura (la primera página) -----------------
    Dirección "Beings": una palabra enorme, un retrato recortado al
    ras, texto mínimo de 12px y campos cálidos que se lavan del blanco
-   al marrón. Trae su propia paleta y sus propias tipografías (tokens
-   "--b-*" y "--f-*"); el resto del sitio sigue en Grafik. Radio 0 y
-   ninguna sombra: las separaciones son bordes duros de imagen y
-   cambios de campo. */
+   al marrón. Trae su propia paleta (tokens "--b-*"); el resto del
+   sitio sigue en Grafik. La tipografía es la de todo el sitio,
+   Helvetica: 500 para el texto y 700 para la cabecera, el titular, la
+   declaración y la palabra grande. Radio 0 y ninguna sombra: las
+   separaciones son bordes duros de imagen y cambios de campo. */
 
 .apertura {
   background: var(--b-blanco);
   color: var(--b-cacao);
-  font-family: var(--f-semi);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: 0;
-  font-feature-settings: normal;
   overflow-x: clip;            /* al abrir, el logotipo mide más que la pantalla; "clip" no rompe el sticky */
 }
 .apertura :focus-visible { outline-color: var(--b-cacao); }
@@ -283,7 +281,7 @@ main > section + section { border-top: 1px solid var(--filo); }
 }
 .ap-nav a,
 .ap-intro__acciones a {
-  font: 700 12px/16.8px var(--f-fuerte);
+  font: 700 12px/16.8px var(--f-texto);
   text-transform: uppercase;
   padding-block: 8px;
 }
@@ -360,7 +358,7 @@ main > section + section { border-top: 1px solid var(--filo); }
   top: 28.8%;
   left: 100%;
   margin-left: 6px;
-  font: 700 12px/16.8px var(--f-fuerte);
+  font: 700 12px/16.8px var(--f-texto);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -381,8 +379,8 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-segunda { aspect-ratio: 4 / 5; }
 
 .ap-intro { display: grid; gap: var(--aire); max-width: 26rem; margin: var(--aire) 0 48px; }
-.ap-intro__titulo { font: 700 22px/1.1 var(--f-fuerte); letter-spacing: 0; }
-.ap-intro__texto { max-width: 34ch; }
+.ap-intro__titulo { font: 700 22px/1.1 var(--f-texto); letter-spacing: 0; }
+.ap-intro__texto { max-width: 44ch; }
 .ap-intro__acciones { display: flex; flex-wrap: wrap; gap: 0 24px; }
 .ap-intro__acciones a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
@@ -448,7 +446,7 @@ main > section + section { border-top: 1px solid var(--filo); }
 /* 30px/35.25px es la medida de la referencia; en pantallas chicas baja a
    24px para que la declaración no ocupe tres pantallas. */
 .ap-panel__frase,
-.ap-panel__lema { font: 400 24px/1.175 var(--f-negra); letter-spacing: 0; }
+.ap-panel__lema { font: 700 24px/1.175 var(--f-texto); letter-spacing: 0; }
 .ap-panel__frase { max-width: 56ch; }
 @media (min-width: 1000px) {
   .ap-panel__frase,
@@ -458,14 +456,14 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-panel__fila { display: grid; gap: 24px; margin-top: var(--aire); }
 .ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
 .ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-umbra); }
-.ap-panel__nota { max-width: 32ch; color: var(--b-leche); }
+.ap-panel__nota { max-width: 44ch; color: var(--b-leche); }
 
 /* La palabra de la sección, en Bonto a 66px y subrayada: es el enlace
    que baja a Trabajo. */
 .ap-panel__titulo {
   display: block;
   width: fit-content;
-  font: 400 66px/66px var(--f-bonto);
+  font: 700 66px/66px var(--f-texto);
   letter-spacing: -1.98px;
   text-decoration: underline;
   text-decoration-thickness: 2px;

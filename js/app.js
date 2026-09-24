@@ -28,12 +28,12 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     /* Los límites de cada ScrollTrigger se miden una sola vez,
-       apenas se crean. Si eso pasa antes de que Cabinet Grotesk
-       o JetBrains Mono terminen de cargar, los títulos cambian
-       de tamaño después y todo lo que sigue se recorre: el mapa
-       de scroll queda calculado contra una página que ya no
-       existe. Se refresca en cuanto las tipografías y las
-       imágenes asientan la página de verdad. */
+       apenas se crean. Si eso pasa antes de que asienten las
+       imágenes (o una tipografía web, si algún día se añade una
+       licencia de Helvetica), la página cambia de alto después y
+       todo lo que sigue se recorre: el mapa de scroll queda
+       calculado contra una página que ya no existe. Se refresca
+       en cuanto todo eso termina de cargar. */
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () { window.ScrollTrigger.refresh(); });
     }
