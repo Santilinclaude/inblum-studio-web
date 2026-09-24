@@ -318,8 +318,8 @@ main > section + section { border-top: 1px solid var(--filo); }
 
 /* --- El logotipo completo: el recuadro de flores y el nombre en dos
    líneas, en un solo SVG (el nombre toma el color del texto). Va
-   encima del texto, arriba de la columna derecha; en pantallas chicas
-   sube encima del retrato. */
+   encima del texto, en la columna derecha; en pantallas chicas sube
+   encima del retrato. */
 .ap-logo {
   width: min(15rem, 70%);
   margin: var(--aire) 0 24px;
@@ -384,10 +384,11 @@ main > section + section { border-top: 1px solid var(--filo); }
     max-height: calc(100svh - 2 * var(--aire));
   }
 
-  /* La columna derecha: arriba, el logotipo con el texto debajo; más
-     abajo, la segunda imagen. La primera fila mide por lo menos lo que
-     queda de pantalla (menos la cabecera y los márgenes), así la imagen
-     no asoma hasta que se baja. */
+  /* La columna derecha: el logotipo con el texto debajo, apoyado en
+     el borde de abajo de la pantalla (a la altura del pie del retrato),
+     y más abajo la segunda imagen. La primera fila mide por lo menos lo
+     que queda de pantalla (menos la cabecera y los márgenes): eso
+     sostiene el bloque abajo y la imagen no asoma hasta que se baja. */
   .ap-lado {
     grid-column: 7 / span 6; grid-row: 1;
     display: grid;
@@ -395,7 +396,7 @@ main > section + section { border-top: 1px solid var(--filo); }
     grid-template-rows: minmax(calc(100svh - 61px), auto) auto;
     row-gap: 48px;
   }
-  .ap-cabeza { display: block; }
+  .ap-cabeza { display: block; align-self: end; }
   .ap-logo { width: calc(50% - 6px); margin: 0 0 36px; }
   .ap-intro { margin: 0; }
   .ap-intro__titulo { font-size: var(--t-h); }

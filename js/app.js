@@ -49,7 +49,8 @@
   /* ---------- 0. Apertura (la primera página) -----------------
      Una sola mejora sobre una portada que ya funciona sin ella: el
      lavado. Conforme se baja, el fondo pasa del blanco al marrón del
-     panel oscuro (blanco, rubor, arcilla, úmbra). Sólo en escritorio:
+     panel oscuro (blanco, rubor, arcilla, úmbra) y el texto pasa de
+     cacao a durazno cuando el fondo ya está oscuro. Sólo en escritorio:
      en pantallas chicas el panel llega justo después del texto y no
      hay dónde lavar.
      --------------------------------------------------------- */
@@ -57,21 +58,22 @@
   const apertura = $('#inicio');
   const cuerpo   = apertura && $('.ap-cuerpo', apertura);
   const panel    = apertura && $('.ap-panel', apertura);
-  const intro    = apertura && $('.ap-intro', apertura);
+  const cabeza   = apertura && $('.ap-cabeza', apertura);
 
-  if (conGsap && cuerpo && panel && intro) {
+  if (conGsap && cuerpo && panel && cabeza) {
     window.gsap.matchMedia().add('(min-width: 1000px)', function () {
-      // El lavado arranca cuando el texto ya salió por arriba (así no
-      // queda tinta oscura sobre un fondo que se oscurece) y termina
-      // justo cuando asoma el panel, que ya es del color final.
+      // El lavado dura media pantalla de scroll y termina justo cuando
+      // asoma el panel, que ya es del color final. El logotipo y el
+      // texto se apoyan abajo de la pantalla, así que siguen a la vista
+      // mientras el fondo se oscurece: a media subida cambian de cacao
+      // a durazno (el color de la declaración) para no perderse sobre
+      // el marrón.
       window.gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: cuerpo,
           start: function () {
-            const fin = window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;
-            const sale = window.scrollY + intro.getBoundingClientRect().bottom;
-            return Math.max(0, Math.min(sale, fin - window.innerHeight * .5));
+            return Math.max(0, window.scrollY + panel.getBoundingClientRect().top - window.innerHeight * 1.5);
           },
           end: function () {
             return window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;
@@ -82,7 +84,8 @@
       })
         .to(apertura, { backgroundColor: '#fae3cf', duration: 1 })
         .to(apertura, { backgroundColor: '#78492d', duration: 1 })
-        .to(apertura, { backgroundColor: '#381a06', duration: 1 });
+        .to(apertura, { backgroundColor: '#381a06', duration: 1 })
+        .to(cabeza,   { color: '#f6c9a1', duration: .06 }, 1.84);
     });
   }
 

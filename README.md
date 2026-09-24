@@ -59,8 +59,10 @@ en la sección 0 de `js/app.js`.
   líneas) es un SVG en línea en `index.html`. El nombre está vectorizado del
   logotipo original y toma el color del texto; el recuadro es
   `assets/apertura/logo-flor.jpg`, recortado del mismo original, y conserva sus
-  esquinas redondeadas. Va encima del texto, arriba de la columna derecha (tres
-  columnas de ancho); en pantallas chicas, arriba de todo, sobre el retrato.
+  esquinas redondeadas. Va encima del texto, en la columna derecha (tres
+  columnas de ancho); en pantallas chicas, arriba de todo, sobre el retrato. El
+  bloque del logotipo y el texto se apoya en el borde de abajo de la pantalla
+  (`align-self: end` en `.ap-cabeza`).
 - **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
   resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
   en `.ap-intro` de `css/styles.css`.
@@ -77,8 +79,9 @@ en la sección 0 de `js/app.js`.
   Los textos alternativos están en `index.html`; cámbialos con la imagen.
 - **El lavado**: conforme se baja, el fondo pasa de blanco a rubor, arcilla y
   úmbra (los mismos colores de `tokens.css`) y termina justo cuando asoma el
-  panel. Sólo en escritorio: en pantallas chicas el panel llega enseguida y no
-  hay dónde lavar.
+  panel. El logotipo y el texto siguen a la vista mientras el fondo se
+  oscurece, así que a media subida pasan de cacao a durazno. Sólo en escritorio:
+  en pantallas chicas el panel llega enseguida y no hay dónde lavar.
 
 ## Tipografía y librerías
 
