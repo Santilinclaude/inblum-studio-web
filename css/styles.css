@@ -1,6 +1,8 @@
 /* ============================================================
-   INBLÜM STUDIO · Hoja principal (parte 1 de 2)
-   Base · papel · pétalos · piezas · navegación · portada
+   INBLÜM STUDIO · Hoja principal
+   Sistema "Grafik": papel hueso, tinta negra, una tipografía a un
+   peso, cero radio, cero sombra. Las líneas de 1px son el esqueleto
+   de cada sección; nada de color en la interfaz.
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -10,37 +12,38 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: var(--aire);
 }
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   background: var(--papel);
   color: var(--tinta);
   font-family: var(--f-texto);
   font-size: var(--t-texto);
-  line-height: 1.58;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.005em;
+  font-feature-settings: "dlig";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  width: 100%;
-  max-width: 100%;
 }
 
-/* A lo Patch: el titular no se aplasta con tracking negativo,
-   se apila. Anton ya viene condensado y pesado por naturaleza —
-   lo que le hace falta es un poco de aire entre letras, no menos,
-   por eso el tracking es positivo. El interlineado por debajo de
-   1 es lo que hace que las líneas se vean como bloques de
-   concreto en vez de prosa. */
+/* Un solo peso para todo: ni negritas ni finos. La jerarquía sale
+   del tamaño y del contenido. */
 h1, h2, h3, h4 {
   margin: 0;
-  font-family: var(--f-display);
+  font-family: var(--f-texto);
+  font-size: var(--t-h-lg);
   font-weight: 400;
-  line-height: .88;
-  letter-spacing: .015em;
-  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -.01em;
   text-wrap: balance;
 }
+h3, h4 { font-size: var(--t-h); line-height: 1.11; letter-spacing: -.02em; }
+b, strong { font-weight: 400; }
 
 p  { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
@@ -49,228 +52,80 @@ h1, h2, h3, h4, p, li, a, label { overflow-wrap: break-word; }
 img { display: block; max-width: 100%; height: auto; }
 a   { color: inherit; text-decoration: none; }
 
-button, input, select, textarea { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
 
 a, button, label, select, summary {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-:focus-visible {
-  outline: 2px solid var(--acento);
-  outline-offset: 4px;
-  border-radius: var(--r);
-}
+:focus-visible { outline: 1px solid var(--tinta); outline-offset: 3px; }
 
-::selection { background: var(--acento); color: var(--papel); }
+::selection { background: var(--tinta); color: var(--papel); }
 
 .saltar {
   position: fixed;
   top: 0; left: 50%;
   translate: -50% -140%;
   z-index: var(--z-menu);
-  padding: .8rem 1.4rem;
+  padding: 12px 24px;
   background: var(--tinta);
   color: var(--papel);
-  border-radius: 0 0 var(--r) var(--r);
-  font-weight: 500;
-  transition: translate .5s var(--brote);
+  transition: translate .4s var(--brote);
 }
 .saltar:focus-visible { translate: -50% 0; }
 
-/* ---------- 2. El papel ------------------------------------ */
+/* ---------- 2. Piezas repetidas ---------------------------- */
 
-/* El grano: una textura de ruido muy fina, encima de todo pero
-   sin recibir puntero. */
-.grano {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-grano);
-  pointer-events: none;
-  opacity: .5;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
-}
+/* Sin tope de ancho ni margen propio: cada bloque trae sus 12px, así
+   las columnas de texto caen justo bajo las líneas de la galería. */
+.marco { position: relative; z-index: var(--z-base); width: 100%; }
 
-/* ---------- 3. Piezas repetidas ---------------------------- */
+.seccion { padding-block: var(--sec-y); }
 
-.marco {
-  position: relative;
-  z-index: var(--z-base);
-  width: 100%;
-  max-width: var(--marco);
-  margin-inline: auto;
-  padding-inline: var(--aire);
-}
+/* Cada sección se abre con una línea de 1px, no con un cambio de
+   color de fondo. */
+main > section + section { border-top: 1px solid var(--filo); }
 
-.seccion { position: relative; padding-block: var(--sec-y); }
+.rotulo { line-height: 1; }
 
-/* El "Square Corner Marker" del sistema: un ancla estructural en
-   la esquina de cada sección, con su número de dos cifras — el
-   mismo componente que ya lleva el rótulo, en versión de
-   escuadra. Se ancla al marco, no al filo de la pantalla, para
-   quedar alineado con el resto del contenido. */
-.marcador {
-  position: absolute;
-  top: clamp(1.5rem, 3vw, 2.5rem);
-  right: max(var(--aire), calc((100% - var(--marco)) / 2 + var(--aire)));
-  z-index: 1;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--filo);
-  border-radius: var(--r);
-  font-family: var(--f-display);
-  font-size: .95rem;
-  letter-spacing: .02em;
-  color: var(--filo);
-  pointer-events: none;
-}
-@media (max-width: 700px) { .marcador { display: none; } }
+.lead { max-width: 44ch; }
 
-/* Rótulo: Archivo 600 versalitas — la etiqueta pequeña del
-   sistema. El naranja no pasa contraste en texto suelto de este
-   tamaño (falla incluso el mínimo de texto grande), así que el
-   color aquí es el índigo: es el que carga los titulares sobre
-   fondo claro. */
-.rotulo {
-  display: inline-flex;
-  align-items: center;
-  gap: .7rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--filo);
-  width: fit-content;
-}
-.rotulo::before {
-  content: "";
-  width: clamp(1.5rem, 4vw, 3.25rem);
-  height: 1px;
-  background: currentColor;
-  opacity: .5;
-}
+.titulo { max-width: 22ch; }
 
-.lead {
-  font-size: var(--t-lead);
-  line-height: 1.5;
-  color: var(--tinta-2);
-  max-width: 44ch;
-}
-
-.titulo { font-size: var(--t-h2); max-width: 18ch; }
-
-/* Botones: tinta sólida o contorno, siempre legibles. */
+/* Botones: rectángulos de línea fina, sin radio. El lleno es negro;
+   el de contorno, transparente. Al pasar el cursor se invierten. */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: .75rem;
-  padding: 1rem 1.75rem;
-  border: 1.5px solid transparent;
-  border-radius: var(--r-boton);
-  font-family: var(--f-texto);
-  font-size: 1rem;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: transform .5s var(--brote),
-              background-color .5s var(--brote),
-              color .5s var(--brote),
-              border-color .5s var(--brote),
-              box-shadow .5s var(--brote);
-}
-.btn span[aria-hidden] { transition: transform .5s var(--brote); }
-.btn:hover span[aria-hidden] { transform: translate(4px, -3px); }
-.btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0) scale(.985); }
-
-/* El único botón lleno del sistema, y siempre en naranja: ésta
-   es la acción, todo lo demás es contorno o texto. */
-.btn--tinta {
-  background: var(--acento);
-  color: #FFFFFF;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: .03em;
-  font-size: .9rem;
-}
-.btn--tinta:hover { background: var(--acento-oscuro); }
-
-/* El botón fantasma: transparente, borde de 1px. Sobre papel
-   claro el borde es índigo; sobre un campo índigo (--filo se
-   redefine ahí a blanco) el borde se vuelve blanco solo, sin
-   tocar esta regla. */
-.btn--linea {
+  gap: 12px;
+  padding: 12px 24px;
+  border: 1px solid var(--filo);
+  border-radius: 0;
   background: transparent;
   color: var(--tinta);
-  border-color: var(--filo);
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: .03em;
-  font-size: .9rem;
+  font-size: var(--t-texto);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .3s var(--tallo), color .3s var(--tallo);
 }
-/* El relleno de :hover sale de "currentColor" (no de --papel-2)
-   para que funcione igual sobre papel claro y sobre el campo
-   índigo, donde "color" ya vale blanco por la propia herencia
-   del token --tinta. */
-.btn--linea:hover {
-  border-color: var(--tinta);
-  background: color-mix(in srgb, currentColor 10%, transparent);
-}
-
-.btn--chico { padding: .7rem 1.25rem; font-size: .8rem; }
+.btn--tinta { background: var(--tinta); color: var(--papel); }
+.btn--tinta:hover { background: transparent; color: var(--tinta); }
+.btn--linea:hover { background: var(--tinta); color: var(--papel); }
 
 .enlace {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  font-weight: 500;
-  padding-bottom: 3px;
-}
-.enlace::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 1.5px;
-  background: var(--acento);
-  transform-origin: right;
-  scale: 0 1;
-  transition: scale .6s var(--brote);
-}
-.enlace:hover::after { transform-origin: left; scale: 1 1; }
-.enlace span[aria-hidden] { transition: transform .5s var(--brote); }
-.enlace:hover span[aria-hidden] { transform: translate(4px, -3px); }
-
-/* Lámina: la hoja de papel donde se monta cada espécimen. */
-.lamina {
-  background: var(--lamina);
-  border: 1px solid var(--filo-2);
-  border-radius: var(--r-lamina);
-  box-shadow: var(--sombra);
+  gap: 8px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-/* Marco de foto con física de acercamiento. */
-.foto {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--r);
-  background: var(--papel-2);
-}
-.foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.1s var(--brote), filter 1.1s var(--brote);
-}
-
-/* ---------- 3b. Progreso ------------------------------------
-   El mismo truco que la regla de Proceso (una barra que se llena
-   según "--avance"), pero para la página entera: "--recorrido"
-   se actualiza en cada scroll y va de 0 a 1. */
+/* ---------- 3. Progreso ------------------------------------
+   Una línea negra de 2px arriba del todo que se llena con el
+   recorrido de la página ("--recorrido", de 0 a 1). */
 .progreso {
   position: fixed;
   inset: 0 0 auto 0;
@@ -282,328 +137,28 @@ a, button, label, select, summary {
   display: block;
   height: 100%;
   width: 100%;
-  background: var(--acento);
+  background: var(--tinta);
   transform: scaleX(var(--recorrido, 0));
   transform-origin: left;
 }
 
-/* ---------- 5. Portada (campo índigo a sangre) -------------- */
+/* ---------- 4. Trabajo (galería) ---------------------------- */
 
-/* El primer golpe del sistema: índigo a toda la pantalla, texto
-   en blanco. Los tokens de superficie se redefinen aquí mismo
-   (--tinta, --filo y compañía) para que todo lo de adentro que ya
-   lee esos nombres —rótulo, botones de contorno, la señal de
-   scroll— se invierta solo. --papel y --lamina se quedan en
-   blanco global a propósito: así cualquier tarjeta blanca que
-   viva aquí adentro sigue leyéndose como una "White Illustration
-   Card" flotando sobre el campo, sin que haga falta tocarla. */
-.portada {
-  position: relative;
-  overflow: clip;
-  padding-block: clamp(6rem, 11vh, 8.5rem) clamp(4rem, 8vh, 6rem);
-  background-color: var(--indigo);
-  /* La cuadrícula de plano: cada mosaico dibuja su propio filo
-     derecho e inferior punteado, así que al repetirse arma una
-     retícula continua sin que se note la costura. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cline x1='140' y1='0' x2='140' y2='140' stroke='white' stroke-opacity='.45' stroke-width='1' stroke-dasharray='4 4'/%3E%3Cline x1='0' y1='140' x2='140' y2='140' stroke='white' stroke-opacity='.45' stroke-width='1' stroke-dasharray='4 4'/%3E%3C/svg%3E");
-  color: #FFFFFF;
-  --tinta:   #FFFFFF;
-  --tinta-2: rgba(255, 255, 255, .74);
-  --tinta-3: rgba(255, 255, 255, .5);
-  --filo:    rgba(255, 255, 255, .55);
-  --filo-2:  rgba(255, 255, 255, .22);
-}
-
-/* El titular a todo lo ancho, pegado al ras izquierdo — nada de
-   columna angosta centrada. */
-.portada__titulo {
-  font-size: var(--t-hero);
-  font-weight: 400;
-  letter-spacing: .01em;
-  line-height: .87;
-  max-width: 22ch;
-}
-
-/* La banda de dos frases cortas, una a cada lado. En angosto se
-   apila. */
-.portada__banda {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 2.5rem);
-  align-items: center;
-  margin-top: clamp(2.5rem, 5vw, 4.5rem);
-}
-@media (min-width: 900px) {
-  .portada__banda { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-.portada__ala {
-  display: none;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--filo-2);
-}
-.portada__ala .rotulo { color: #FFFFFF; }
-@media (min-width: 900px) {
-  .portada__ala { display: block; }
-  .portada__ala--der { text-align: right; }
-  .portada__ala--der .rotulo { justify-content: flex-end; }
-  .portada__ala--der .rotulo::before { order: 2; }
-}
-
-.portada__pie {
-  display: grid;
-  gap: clamp(1.6rem, 2.6vw, 2.2rem);
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-}
-.portada__lead { max-width: 44ch; }
-
-.portada__acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .8rem;
-}
-
-/* La señal de scroll: el mismo hilo con marca que ya se usa en
-   Proceso, aquí a la entrada en vez de a la salida. Se desplaza
-   con la propia sección, así que se va sola al bajar — no hace
-   falta ocultarla a mano. */
-.senal-scroll {
-  --alto: clamp(46px, 7vh, 64px);
-  position: absolute;
-  left: 50%;
-  bottom: clamp(1.5rem, 4vh, 3rem);
-  translate: -50% 0;
-  width: 1px;
-  height: var(--alto);
-  background: var(--filo);
-  pointer-events: none;
-  overflow: hidden;
-}
-.senal-scroll__pulso {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 6px;
-  height: 6px;
-  margin-left: -2.5px;
-  margin-top: -3px;
-  border-radius: 50%;
-  background: var(--acento);
-  animation: bajar-senal 2.4s var(--tallo) infinite;
-}
-@keyframes bajar-senal {
-  0%   { transform: translateY(-6px); opacity: 0; }
-  25%  { opacity: 1; }
-  75%  { opacity: 1; }
-  100% { transform: translateY(var(--alto)); opacity: 0; }
-}
-@media (max-width: 699px) { .senal-scroll { display: none; } }
-
-/* ---------- 8. Manifiesto (revelado palabra a palabra) ----- */
-
-/* La niebla, la primera banda clara después del índigo de la
-   portada: el sistema alterna blanco/niebla/índigo, nunca dos
-   campos índigo seguidos. */
-.manifiesto {
-  position: relative;
-  overflow: hidden;
-  padding-block: clamp(6rem, 11vw, 10rem);
-  background: var(--papel-2);
-}
-
-/* El split de 2 columnas, a lo Patch: texto a la izquierda, nota
-   a la derecha. En angosto se apilan, como siempre. */
-.manifiesto__grid {
-  display: grid;
-  gap: clamp(2rem, 4vw, 3.5rem);
-}
-@media (min-width: 900px) {
-  .manifiesto__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
-}
-.manifiesto__col { display: grid; gap: 1.1rem; align-content: start; }
-
-.manifiesto__frase {
-  font-family: var(--f-display);
-  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
-  font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  max-width: 20ch;
-}
-.manifiesto__frase .pal {
-  opacity: .16;
-  transition: opacity .6s var(--tallo);
-}
-.manifiesto__frase .pal.viva { opacity: 1; }
-/* Índigo, no naranja: el naranja no pasa contraste como texto
-   suelto sobre un fondo claro (ver la lección con --acento en
-   .rotulo, arriba). El índigo es justo el color que este sistema
-   reserva para titulares sobre superficie clara. */
-.manifiesto__frase .pal--acento.viva { color: var(--filo); }
-
-/* La "Promise Sidebar" de la referencia: tarjeta bordeada, no
-   texto suelto — el mismo lenguaje de borde+radio que ya cargan
-   el resto de las tarjetas del sitio. */
-.manifiesto__nota {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-  padding: clamp(1.25rem, 2.6vw, 1.75rem);
-  border: 1px solid var(--filo);
-  border-radius: var(--r-lamina);
-  background: var(--lamina);
-  color: var(--tinta-2);
-  font-size: var(--t-lead);
-  line-height: 1.5;
-}
-.manifiesto__nota .rotulo { margin-bottom: .35rem; }
-@media (min-width: 900px) { .manifiesto__nota { margin-top: clamp(2rem, 5vw, 5rem); } }
-
-/* ---------- 9. Servicios (sidebar fijo + lista) -------------
-   El mismo patrón que Proceso: una columna fija con el título y
-   la lista a la derecha, cada fila numerada. El detalle de cada
-   servicio se abre con el cursor o el foco, no con un clic.
-   --------------------------------------------------------- */
-
-.servicios { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
-@media (min-width: 1000px) {
-  .servicios { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
-  .servicios__fijo { position: sticky; top: 14vh; align-self: start; }
-}
-.servicios__fijo .lead { margin-top: 1.25rem; }
-
-.items { display: grid; }
-
-.item {
-  border-top: 1px solid var(--filo-2);
-  transition: opacity .7s var(--tallo);
-}
-.item:last-child { border-bottom: 1px solid var(--filo-2); }
-.items .item:not([data-abierta="true"]):not(:hover):not(:focus-within) { opacity: .5; }
-
-.item__boton {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: clamp(1rem, 3vw, 2rem);
-  width: 100%;
-  padding-block: clamp(1.1rem, 2.4vw, 1.6rem);
-  background: none;
-  border: 0;
-  text-align: left;
-  cursor: pointer;
-}
-.item__n {
-  font-family: var(--f-display);
-  font-size: 1.1rem;
-  letter-spacing: .02em;
-  color: var(--filo);
-  flex-shrink: 0;
-}
-.item__nombre {
-  font-family: var(--f-display);
-  font-size: clamp(1.15rem, 2.6vw, 1.6rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  line-height: 1.1;
-}
-
-.item__cuerpo {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows .6s var(--brote);
-}
-.item[data-abierta="true"] .item__cuerpo { grid-template-rows: 1fr; }
-.item__interior { overflow: hidden; }
-/* El sangrado deja el detalle alineado bajo el nombre, no bajo el
-   número: 3.25rem cubre el ancho del "01" más el aire del botón. */
-.item__contenido {
-  display: grid;
-  gap: 1rem;
-  padding: 0 0 clamp(1.5rem, 3vw, 2.25rem) 3.25rem;
-}
-@media (max-width: 480px) { .item__contenido { padding-left: 0; } }
-
-.item__frase { color: var(--tinta-2); max-width: 48ch; }
-
-.item__lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: .45rem 2rem;
-}
-.item__lista li {
-  display: flex;
-  align-items: baseline;
-  gap: .65rem;
-  font-size: var(--t-chico);
-  color: var(--tinta-3);
-}
-.item__lista li::before {
-  content: "";
-  width: 9px;
-  height: 1.5px;
-  background: var(--filo);
-  flex-shrink: 0;
-  transform: translateY(-.35em);
-}
-
-/* ---------- 10. Trabajo (galería editorial, a lo Grafik) ----
-   Esta sección deja el sistema de Patch a propósito y adopta el de
-   Grafik: papel hueso, tinta negra, una sola tipografía a un solo
-   peso, cero radio, cero sombra, y las líneas de 1px como único
-   esqueleto. Los tokens se redefinen aquí mismo, como en Contacto:
-   todo lo que ya lee --tinta/--papel se ajusta solo. */
-#trabajo {
-  --papel:    #F0EEEB;
-  --tinta:    #000000;
-  --tinta-2:  #000000;
-  --tinta-3:  #000000;
-  --filo:     #000000;
-  --filo-2:   #000000;
-  --f-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --f-texto:   "Inter", ui-sans-serif, system-ui, sans-serif;
-  padding-block: 24px 0;
-  background: var(--papel);
-  color: var(--tinta);
-  font-family: var(--f-texto);
-  font-size: 1.25rem;              /* 20px: el único tamaño de texto */
-  line-height: 1;
-  letter-spacing: -.005em;
-  font-weight: 400;
-  font-feature-settings: "dlig";
-  overflow: clip;
-}
+#trabajo { padding-block: 24px 0; overflow: clip; }
 
 /* La cabecera: un titular y una línea, pegados al margen. */
 .trabajo__cabecera {
   display: grid;
   gap: 12px;
-  padding-inline: 12px;
+  padding-inline: var(--aire);
   margin-bottom: 80px;
-}
-#trabajo .titulo {
-  font-family: var(--f-display);
-  font-size: 2.5rem;               /* 40px */
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -.01em;
-  text-transform: none;
-  max-width: none;
-}
-#trabajo .lead {
-  font-size: 1.25rem;
-  line-height: 1;
-  letter-spacing: -.005em;
-  color: var(--tinta);
-  max-width: none;
 }
 
 /* La galería: pantalla completa. Cada proyecto es un mosaico de
    tres columnas y tres filas; algunas celdas ocupan dos filas. Las
    líneas de 1px no son bordes: son el propio papel asomando por el
    canal de 1px entre celdas —sobre negro se leen claras, sobre
-   foto casi no se ven—, como en la referencia. */
+   foto casi no se ven—. */
 .piezas { display: block; }
 
 /* El contenedor de medidas: las filas se calculan a partir de su
@@ -632,7 +187,7 @@ a, button, label, select, summary {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background: #FFFFFF;
+  background: var(--lamina);
 }
 .celda--alta { grid-row: span 2; }
 .celda img {
@@ -651,7 +206,7 @@ a, button, label, select, summary {
 .celda--dispositivo {
   display: grid;
   place-items: center;
-  background: #000000;
+  background: var(--negro);
 }
 .dispositivo {
   width: 72%;
@@ -670,7 +225,8 @@ a, button, label, select, summary {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  padding: 24px 12px 80px;
+  padding: 24px var(--aire) 80px;
+  line-height: 1;
 }
 .proyecto__ficha p { margin: 0; }
 @media (min-width: 1000px) {
@@ -681,7 +237,7 @@ a, button, label, select, summary {
     min-height: 225px;
     padding: 24px 0 0;
   }
-  .proyecto__ficha p { padding-left: 12px; }
+  .proyecto__ficha p { padding-left: var(--aire); }
 }
 
 /* El cierre: una línea de texto, como el pie de Grafik. */
@@ -690,446 +246,350 @@ a, button, label, select, summary {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px 24px;
-  padding: 24px 12px;
+  padding: 24px var(--aire);
 }
-#trabajo .enlace {
-  font-weight: 400;
-  padding-bottom: 0;
+
+/* ---------- 5. Portada -------------------------------------- */
+
+.portada { padding-block: var(--sec-y); }
+
+/* El titular, a 40px y pegado al margen: el aire hace el trabajo
+   que en otros sistemas hace el tamaño. */
+.portada__titulo { padding-inline: var(--aire); max-width: 30ch; }
+
+/* La banda de tres columnas: dos frases cortas y la explicación,
+   alineadas con las columnas de la galería. */
+.portada__banda {
+  display: grid;
+  gap: 24px;
+  margin-top: 160px;
+}
+.portada__banda > * { padding-inline: var(--aire); }
+@media (min-width: 1000px) {
+  .portada__banda { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+}
+
+.portada__pie { display: grid; gap: 24px; align-content: start; }
+.portada__acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ---------- 6. Estudio (manifiesto) ------------------------- */
+
+.manifiesto { padding-block: var(--sec-y); }
+
+.manifiesto__grid { display: grid; gap: 48px; }
+.manifiesto__col {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding-inline: var(--aire);
+}
+.manifiesto__nota {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding-inline: var(--aire);
+}
+.manifiesto__nota p { max-width: 36ch; }
+@media (min-width: 1000px) {
+  .manifiesto__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .manifiesto__col  { grid-column: 1 / span 2; }
+  .manifiesto__nota { border-left: 1px solid var(--filo); }
+}
+
+.manifiesto__frase { max-width: 26ch; }
+.manifiesto__frase .pal {
+  opacity: .16;
+  transition: opacity .6s var(--tallo);
+}
+.manifiesto__frase .pal.viva { opacity: 1; }
+/* Sin color que la resalte: la palabra clave se subraya cuando la
+   frase ya está leída. */
+.manifiesto__frase .pal--acento.viva {
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-#trabajo .enlace::after { display: none; }
-
-/* ---------- 11. Proceso (museo flotante, banda de niebla) --- */
-
-/* Ya no hace falta un tema propio aquí: el sistema entero es
-   blanco/niebla/índigo/naranja, así que Proceso sólo pide la
-   banda de niebla (papel-2) para seguir el ritmo alterno, y hereda
-   el resto —tinta, índigo, Anton, Archivo— del root sin tocar
-   nada. Lo único que de verdad distingue la sección sigue siendo
-   la mesa y el museo flotante de abajo. */
-.proceso-seccion {
-  position: relative;
-  overflow: clip;
-  background: var(--papel-2);
-  padding-block: clamp(1rem, 2.4vw, 2.25rem);
+  text-underline-offset: .12em;
 }
 
-/* La mesa: un lienzo de esquinas redondas, despegado de los filos
-   de la pantalla, donde flotan los objetos. Todo lo que se sale
-   se recorta contra su filo, y ese recorte es parte del dibujo.
-   overflow: clip y no hidden a propósito: "hidden" convertiría a
-   la mesa en contenedor de scroll y el título de al lado dejaría
-   de quedarse fijo. El borde de 1px en índigo es lo que la vuelve
-   una tarjeta del sistema, no un simple bloque de color. */
-.mesa {
-  position: relative;
-  overflow: clip;
-  border: 1px solid var(--filo);
-  border-radius: var(--r-lamina);
-  background: var(--papel);
-  margin-inline: clamp(.5rem, 1.4vw, 1.25rem);
-  padding-block: var(--sec-y);
-}
-/* El marcador vive dentro de la mesa, no de la sección: la
-   fórmula de "right" de .marcador está pensada para alinear con
-   el filo del marco, no con el de esta tarjeta ya angosta por su
-   propio margen. */
-.mesa .marcador { right: clamp(1rem, 2.4vw, 1.75rem); }
+/* ---------- 7. Servicios (sidebar fijo + lista) --------------- */
 
-/* El rótulo de Proceso es una etiqueta llena en vez de un texto
-   con rayita: naranja de fondo, tinta encima — el mismo naranja
-   del botón principal, en su único uso legítimo como relleno. */
-.proceso-seccion .rotulo {
-  color: var(--tinta);
-  background: var(--acento);
-  padding: .4rem 1rem;
-  border-radius: var(--r-pill);
+.servicios, .proceso { display: grid; gap: 48px; }
+.servicios__fijo, .proceso__fijo {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding-inline: var(--aire);
 }
-.proceso-seccion .rotulo::before { content: none; }
-
-.proceso { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
 @media (min-width: 1000px) {
-  .proceso { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
-  .proceso__fijo {
-    position: sticky;
-    top: 14vh;
-    align-self: start;
-  }
-  /* El mapeo del fondo se fue, pero el aire entre tiempos se
-     queda: la sección respira mejor así, sin sentirse
-     apretujada. */
-  .proceso .tiempo { padding-block: clamp(3.5rem, 11vh, 7rem); }
+  .servicios, .proceso { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .servicios__fijo, .proceso__fijo { position: sticky; top: var(--aire); align-self: start; }
+  .items, .tiempos { grid-column: 2 / span 2; border-left: 1px solid var(--filo); }
 }
 
-/* :not(.rotulo): el rótulo también es un <p>, y sin esto la
-   regla de abajo (más específica que .rotulo por sí sola) le
-   gana y lo deja gris en vez de en el acento. */
-.proceso__texto p:not(.rotulo) { margin-top: 1.25rem; color: var(--tinta-2); max-width: 30ch; }
+.items { display: grid; }
 
-/* En pantalla angosta el árbol se queda arriba, pegado, y los
-   tiempos pasan por debajo. */
-@media (max-width: 999px) {
-  .proceso__texto { margin-bottom: .5rem; }
+.item { border-top: 1px solid var(--filo); }
+.item:last-child { border-bottom: 1px solid var(--filo); }
+
+.item__boton {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: baseline;
+  width: 100%;
+  padding: 12px var(--aire);
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
 }
+.item__n { line-height: 1; }
+.item__nombre {
+  font-size: var(--t-h);
+  line-height: 1.11;
+  letter-spacing: -.02em;
+}
+/* La fila abierta se subraya, como el "Grafik" del menú de la
+   referencia. */
+.item[data-abierta="true"] .item__nombre {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .12em;
+}
+
+.item__cuerpo {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s var(--brote);
+}
+.item[data-abierta="true"] .item__cuerpo { grid-template-rows: 1fr; }
+.item__interior { overflow: hidden; }
+.item__contenido {
+  display: grid;
+  gap: 12px;
+  padding: 0 var(--aire) 24px calc(var(--aire) + 3rem);
+}
+.item__frase { max-width: 44ch; }
+.item__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 4px 24px;
+}
+.item__lista li::before { content: "— "; }
+
+/* ---------- 8. Proceso -------------------------------------- */
 
 /* En lugar de una ilustración, una regla que se llena conforme
-   avanzas. Marca cuánto has recorrido sin dibujar nada. */
+   avanzas ("--avance", de 0 a 1) con una marca cuadrada que baja. */
 .hilo {
   position: relative;
-  margin-top: clamp(2rem, 4vw, 3rem);
   width: 1px;
   height: clamp(140px, 20vh, 240px);
-  background: var(--filo);
+  margin-top: 24px;
+  background: color-mix(in srgb, var(--tinta) 20%, transparent);
 }
 .hilo::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--acento);
+  background: var(--tinta);
   transform: scaleY(var(--avance, 0));
   transform-origin: top;
   transition: transform .25s linear;
 }
 .hilo__marca {
   position: absolute;
-  left: 50%;
+  left: 0;
   top: 0;
-  width: 10px;
-  height: 10px;
-  margin-left: -4.5px;
-  margin-top: -5px;
-  border-radius: 50%;
-  background: var(--acento);
-  box-shadow: 0 0 0 4px var(--papel);
+  width: 9px;
+  height: 9px;
+  margin-left: -4px;
+  margin-top: -4px;
+  background: var(--tinta);
   transform: translateY(calc(var(--avance, 0) * clamp(140px, 20vh, 240px)));
   transition: transform .25s linear;
 }
-/* Un pulso que respira en la marca: la única pieza de la hoja
-   que se mueve sola, sin que el cursor ni el scroll la toquen. */
-.hilo__marca::after {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px solid var(--acento);
-  opacity: 0;
-  animation: pulso 2.4s ease-out infinite;
-}
-@keyframes pulso {
-  0%   { transform: scale(.6); opacity: .55; }
-  100% { transform: scale(1.9); opacity: 0; }
-}
 @media (max-width: 999px) { .hilo { display: none; } }
 
-/* Los tiempos que no se están leyendo se apagan un poco: el que
-   está activo (o bajo el cursor) gana foco de verdad, no sólo el
-   número cambia de color.
-   El apagado va en un selector aparte y más específico que
-   ".tiempo" a secas: ".tiempo" también lleva la clase ".rev", y
-   una vez que ".rev.dentro" lo revela (0,2,0) le gana a
-   ".tiempo" solo (0,1,0) y lo deja siempre en opacity:1 pase lo
-   que pase — el apagado nunca se veía. ".proceso .tiempo:not()"
-   (0,3,0) sí le gana. */
+.tiempos { display: grid; }
 .tiempo {
   display: grid;
-  gap: .6rem clamp(1.5rem, 3vw, 3rem);
-  padding-block: clamp(1.75rem, 3.4vw, 2.75rem);
-  border-top: 1px solid var(--filo-2);
-  transition: opacity .7s var(--tallo);
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px 0;
+  padding: clamp(24px, 6vh, 64px) var(--aire);
+  border-top: 1px solid var(--filo);
 }
-.tiempo:last-child { border-bottom: 1px solid var(--filo-2); }
-.proceso .tiempo:not(.activo):not(:hover) { opacity: .5; }
-@media (min-width: 640px) {
-  .tiempo { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
-}
-
-.tiempo__n {
-  font-family: var(--f-display);
-  font-size: clamp(2.6rem, 5.5vw, 4.5rem);
-  font-weight: 400;
-  line-height: .82;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--filo);
-  transition: color .7s var(--brote), -webkit-text-stroke-color .7s var(--brote), translate .5s var(--brote);
-}
-/* El naranja tampoco pasa contraste como número suelto sobre la
-   niebla de Proceso (la misma razón que ya vale para --acento en
-   .rotulo, arriba), así que el número activo se llena de tinta en
-   vez de naranja. Como .tiempo sólo vive dentro de Proceso, esto
-   nunca llega a mostrarse en naranja de verdad. */
-.tiempo.activo .tiempo__n,
-.tiempo:hover .tiempo__n {
-  color: var(--tinta);
-  -webkit-text-stroke-color: transparent;
-  translate: .12em 0;
-}
-
-.tiempo__nombre {
-  font-family: var(--f-display);
-  font-size: var(--t-h3);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  margin-bottom: .4rem;
-}
-.tiempo p { color: var(--tinta-2); max-width: 52ch; }
-
-/* ---------- 12. Contacto ----------------------------------- */
-
-/* El cierre hace pareja con la portada: el mismo campo índigo a
-   sangre, el momento de máxima energía justo donde se pide la
-   acción. Los mismos tokens que en .portada se redefinen aquí, así
-   que el rótulo, el lead, las etiquetas y los bordes se invierten
-   solos sin una sola regla extra por componente. --papel y
-   --lamina se quedan blancos a propósito: el formulario sigue
-   siendo una "White Illustration Card" flotando sobre el índigo. */
-#contacto {
-  background: var(--indigo);
-  color: #FFFFFF;
-  --tinta:   #FFFFFF;
-  --tinta-2: rgba(255, 255, 255, .74);
-  --tinta-3: rgba(255, 255, 255, .5);
-  --filo:    rgba(255, 255, 255, .55);
-  --filo-2:  rgba(255, 255, 255, .22);
-}
-#contacto .redes a:hover {
-  background: color-mix(in srgb, currentColor 14%, transparent);
-}
-
-.contacto { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+.tiempo:last-child { border-bottom: 1px solid var(--filo); }
 @media (min-width: 1000px) {
-  .contacto { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
+  .proceso .tiempo { padding-block: clamp(3rem, 12vh, 6rem); }
+}
+.tiempo__n { line-height: 1; grid-row: 1 / span 2; }
+.tiempo__nombre {
+  font-size: var(--t-h);
+  line-height: 1.11;
+  letter-spacing: -.02em;
+}
+.tiempo p { grid-column: 2; max-width: 44ch; }
+/* El paso que se está leyendo se subraya. */
+.tiempo.activo .tiempo__nombre,
+.tiempo:hover .tiempo__nombre {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .12em;
 }
 
-.contacto__izq { display: grid; gap: 2.25rem; align-content: start; }
-.contacto__titulo {
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  line-height: .88;
+/* ---------- 9. Contacto ------------------------------------- */
+
+.contacto { display: grid; gap: 48px; }
+
+.contacto__izq {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding-inline: var(--aire);
+}
+@media (min-width: 1000px) {
+  .contacto { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .forma { grid-column: 2 / span 2; margin-inline: var(--aire); }
 }
 
-.datos { display: grid; gap: 1.6rem; }
-/* Cada dato entra por su cuenta, no los cuatro de golpe con el
-   resto de la columna: .contacto__izq ya es .rev, esto se monta
-   encima con un "--i" propio por dato. */
+.datos { display: grid; gap: 24px; }
+/* Cada dato entra por su cuenta: .contacto__izq ya es .rev, esto se
+   monta encima con un "--i" propio por dato. */
 .dato {
   display: grid;
-  gap: .3rem;
+  gap: 4px;
   opacity: 0;
-  transform: translateY(1.25rem);
-  transition: opacity .7s var(--brote), transform .7s var(--brote);
+  transform: translateY(1rem);
+  transition: opacity .6s var(--brote), transform .6s var(--brote);
 }
 .contacto__izq.dentro .dato {
   opacity: 1;
   transform: none;
   transition-delay: calc(var(--i, 0) * 80ms);
 }
-.dato__clave {
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  text-transform: uppercase;
-  letter-spacing: .2em;
-  color: var(--tinta-3);
-}
-.dato__valor {
-  position: relative;
-  font-family: var(--f-display);
-  font-size: clamp(1.2rem, 2vw, 1.55rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
+.dato__clave { line-height: 1; }
+a.dato__valor {
   justify-self: start;
-  padding-bottom: 2px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
-a.dato__valor::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 1.5px;
-  background: var(--acento);
-  scale: 0 1;
-  transform-origin: right;
-  transition: scale .6s var(--brote);
-}
-a.dato__valor:hover::after { transform-origin: left; scale: 1 1; }
 
-.redes { display: flex; flex-wrap: wrap; gap: .5rem; }
+.redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .redes a {
-  padding: .5rem 1.05rem;
-  border: 1.5px solid var(--filo);
-  border-radius: var(--r-boton);
-  font-size: .88rem;
-  color: var(--tinta-2);
-  transition: transform .5s var(--brote), color .5s var(--brote),
-              border-color .5s var(--brote), background-color .5s var(--brote);
-}
-.redes a:hover {
-  color: var(--papel);
-  background: var(--tinta);
-  border-color: var(--tinta);
-  transform: translateY(-2px);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-/* La "White Illustration Card" del sistema: blanca con borde de
-   1px índigo siempre, la lleve un fondo claro o el propio índigo
-   a sangre de Contacto. Por eso es también su propia isla de modo
-   claro — redefine tinta/filo hacia adentro, así que la etiqueta,
-   el texto y los campos de este formulario nunca heredan el
-   blanco invertido de #contacto, aunque la tarjeta misma flote
-   sobre él. */
+/* La ficha blanca del formulario: papel blanco sobre el lienzo, con
+   su línea de 1px. */
 .forma {
-  --tinta:    #212121;
-  --tinta-2:  #5C5C5C;
-  --tinta-3:  #9A9A9A;
-  --filo:     #1F00FF;
-  --filo-2:   #ECECEC;
-  color: var(--tinta);
   display: grid;
-  gap: 1.35rem;
-  padding: clamp(1.5rem, 3.2vw, 2.75rem);
+  gap: 24px;
+  padding: 24px;
   background: var(--lamina);
   border: 1px solid var(--filo);
-  border-radius: var(--r-lamina);
-  box-shadow: var(--sombra);
 }
 
-.campo { display: grid; gap: .5rem; }
-.campo label {
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  text-transform: uppercase;
-  letter-spacing: .18em;
-  color: var(--tinta-2);
-}
-.campo__ayuda { font-size: var(--t-micro); color: var(--tinta-3); }
+.campo { display: grid; gap: 8px; }
+.campo__ayuda { line-height: 1; }
 
 .campo input,
 .campo select,
 .campo textarea {
   width: 100%;
-  padding: .9rem 1.1rem;
-  background: var(--papel);
+  padding: 11px 14px;
+  background: var(--lamina);
   color: var(--tinta);
-  border: 1.5px solid var(--filo-2);
-  border-radius: var(--r);
-  transition: border-color .4s var(--brote), background-color .4s var(--brote);
+  border: 1px solid var(--filo);
+  border-radius: 0;
 }
-.campo textarea { min-height: 140px; resize: vertical; }
+.campo textarea { min-height: 160px; resize: vertical; }
 .campo input::placeholder,
-.campo textarea::placeholder { color: var(--tinta-3); }
-.campo input:hover,
-.campo select:hover,
-.campo textarea:hover { border-color: var(--filo); }
+.campo textarea::placeholder { color: color-mix(in srgb, var(--tinta) 45%, transparent); }
 .campo input:focus,
 .campo textarea:focus,
-.campo select:focus { background: var(--lamina); }
+.campo select:focus { outline: 1px solid var(--tinta); outline-offset: 2px; }
 
 .campo select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--tinta-2) 50%),
-                    linear-gradient(135deg, var(--tinta-2) 50%, transparent 50%);
-  background-position: right 1.2rem center, right 1rem center;
+  background-image: linear-gradient(45deg, transparent 50%, var(--tinta) 50%),
+                    linear-gradient(135deg, var(--tinta) 50%, transparent 50%);
+  background-position: right 22px center, right 16px center;
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
-  padding-right: 2.6rem;
+  padding-right: 44px;
 }
 
-.campo__error {
-  min-height: 1em;
-  font-size: var(--t-micro);
-  color: var(--error);
-  font-weight: 500;
-}
+/* Sin color de error: una raya al frente del mensaje y el campo
+   inválido con un segundo filo a su alrededor. */
+.campo__error { min-height: 1em; line-height: 1; }
+.campo__error:not(:empty)::before { content: "— "; }
 .campo[data-invalido="true"] input,
 .campo[data-invalido="true"] select,
-.campo[data-invalido="true"] textarea { border-color: var(--error); }
+.campo[data-invalido="true"] textarea { outline: 2px solid var(--filo); outline-offset: 2px; }
 
 .forma__pie {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 12px 24px;
 }
-.forma__nota { font-size: var(--t-micro); color: var(--tinta-3); max-width: 30ch; }
-.forma__estado { display: none; font-size: var(--t-chico); color: var(--tinta-2); }
+.forma__nota { max-width: 30ch; line-height: 1; }
+.forma__estado { display: none; }
 .forma__estado[data-visible="true"] { display: block; }
-.forma__estado[data-tipo="ok"] { color: var(--filo); font-weight: 500; }
-.forma__estado[data-tipo="error"] { color: var(--error); }
+.forma__estado[data-tipo="error"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
 
-/* ---------- 13. Pie ---------------------------------------- */
+/* ---------- 10. Pie ----------------------------------------- */
 
+/* Sólo texto, como el pie de la referencia. */
 .pie {
-  position: relative;
-  z-index: var(--z-base);
-  padding-top: clamp(4rem, 8vw, 7rem);
-  padding-bottom: 2rem;
-  overflow: hidden;
-  background: var(--tinta);
-  color: var(--papel);
+  padding: 24px var(--aire);
+  border-top: 1px solid var(--filo);
 }
-.pie__legal {
-  border-top-color: rgba(245, 246, 249, .16);
-  color: rgba(245, 246, 249, .5);
-}
-
 .pie__fila {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
-}
-@media (min-width: 760px) { .pie__fila { grid-template-columns: minmax(0, 1fr) auto; } }
-
-.pie__frase {
-  font-family: var(--f-display);
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
-  max-width: 20ch;
-}
-.pie__enlaces { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; }
-.pie__enlaces a { color: rgba(245, 246, 249, .68); font-size: .95rem; }
-.pie__enlaces a:hover { color: var(--acento); }
-
-.pie__legal {
-  margin-top: clamp(3rem, 7vw, 6rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--filo-2);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: .5rem 1.5rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  text-transform: uppercase;
-  letter-spacing: .16em;
-  color: var(--tinta-3);
+  gap: 12px 24px;
+}
+.pie__frase { max-width: 36ch; }
+.pie__enlaces { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.pie__enlaces a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pie__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 80px;
+  line-height: 1;
 }
 
-/* ---------- 14. Revelados ---------------------------------- */
+/* ---------- 11. Revelados ----------------------------------- */
 
 .rev {
   opacity: 0;
-  transform: translateY(3rem);
-  transition: opacity .9s var(--brote), transform .9s var(--brote);
+  transform: translateY(2rem);
+  transition: opacity .8s var(--brote), transform .8s var(--brote);
   transition-delay: var(--espera, 0ms);
 }
 .rev.dentro { opacity: 1; transform: none; }
 
 .entra {
   opacity: 0;
-  transform: translateY(2rem);
-  animation: entrar 1s var(--brote) forwards;
+  transform: translateY(1.5rem);
+  animation: entrar .9s var(--brote) forwards;
   animation-delay: var(--espera, 0ms);
 }
 @keyframes entrar { to { opacity: 1; transform: none; } }
 
-/* ---------- 15. Menos movimiento --------------------------- */
+/* ---------- 12. Menos movimiento ---------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -74,7 +74,7 @@
 
   if (items) {
     items.innerHTML = SERVICIOS.map(function (s, i) {
-      const n = String(i + 1).padStart(2, '0');
+      const n = String(i + 1);
       const detalle = s.items.map(function (it, k) {
         return '<li style="--n:' + k + '">' + escapar(it) + '</li>';
       }).join('');
@@ -178,7 +178,7 @@
     tiempos.innerHTML = PASOS.map(function (p, i) {
       return '' +
         '<div class="tiempo rev" style="--espera:' + (i * 70) + 'ms">' +
-          '<span class="tiempo__n" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span>' +
+          '<span class="tiempo__n" aria-hidden="true">' + String(i + 1) + '</span>' +
           '<div>' +
             '<h3 class="tiempo__nombre">' + escapar(p.nombre) + '</h3>' +
             '<p>' + escapar(p.texto) + '</p>' +

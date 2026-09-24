@@ -1,90 +1,46 @@
 /* ============================================================
    INBLÜM STUDIO · Sistema
-   Dirección: "Patch" — blueprint eléctrico sobre papel de dibujo.
-   Un sistema de dos colores: el índigo carga toda la identidad
-   (fondos a sangre, bordes, titulares), el naranja es el único
-   acento cálido y se reserva para la acción. El resto lo cargan
-   el blanco y una escala de cuatro grises. Nada de sombras: el
-   borde de 1px es el que define cada superficie.
+   Dirección: "Grafik" — galería editorial sobre papel hueso.
+   Un anuario de diseño puesto en pantalla: tres colores (papel
+   hueso, tinta negra y blanco), una sola tipografía a un solo
+   peso, cero radio, cero sombra, y líneas de 1px como único
+   esqueleto. El color vive dentro de la obra, nunca en la
+   interfaz.
    ============================================================ */
 
 :root {
   color-scheme: light;
 
-  /* --- El papel: blanco y su escala de grises --- */
-  --papel:    #FFFFFF;
-  --papel-2:  #F2F2F2;   /* niebla: superficie secundaria */
-  --papel-3:  #F8F8F8;   /* hueso: superficie terciaria */
-  --lamina:   #FFFFFF;   /* la tarjeta siempre blanca, aun sobre índigo */
+  /* --- Superficies --- */
+  --papel:    #F0EEEB;   /* el lienzo: hueso, no blanco */
+  --lamina:   #FFFFFF;   /* la inserción blanca sobre el lienzo */
+  --negro:    #000000;   /* superficie invertida (celdas de tableta) */
 
-  /* --- La tinta: casi negro, con calidez --- */
-  --tinta:    #212121;
-  --tinta-2:  #5C5C5C;
-  --tinta-3:  #9A9A9A;
-  --filo:     #1F00FF;   /* el borde de 1px que sostiene cada tarjeta */
-  --filo-2:   #ECECEC;   /* niebla: borde discreto, inputs */
+  /* --- La tinta: un solo negro para todo --- */
+  --tinta:    #000000;
+  --filo:     #000000;   /* la línea de 1px */
 
-  /* --- El único color de marca: índigo eléctrico --- */
-  --indigo:      #1F00FF;
-  --gridline:    #D3D3D3;   /* divisores mayores, acentos apagados */
+  /* --- Tipografía: una familia, un peso ---
+     El original es Grotesk (de paga); la referencia misma nombra
+     a Inter a peso 400 con tracking negativo como el sustituto
+     libre más cercano. */
+  --f-texto:   "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* --- El único acento cálido: naranja, sólo para la acción --- */
-  --acento:         #FF622B;
-  --acento-oscuro:  #E54F1F;   /* hover del botón lleno */
+  /* Tres tamaños, ni uno más: la jerarquía sale del contenido. */
+  --t-texto: 1.25rem;    /* 20px: texto y fichas */
+  --t-h:     2.375rem;   /* 38px: titular */
+  --t-h-lg:  2.5rem;     /* 40px: titular grande */
 
-  /* Un rojo aparte, sólo para validación de formulario: no es
-     parte de la paleta de marca (el sistema es de dos colores),
-     es la única concesión semántica que necesita cualquier sitio
-     con un formulario de verdad. */
-  --error: #E5484D;
-
-  /* --- Tipografía ---
-     PP Right es de paga; Anton es la sustituta que la propia
-     referencia sugiere para el peso más pesado y condensado.
-     Archivo es gratuita y es la que ya pide el sistema. */
-  --f-display: "Anton", "Archivo Black", sans-serif;
-  --f-texto:   "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --f-mono:    "Archivo", ui-sans-serif, system-ui, sans-serif;
-
-  /* Escala tipográfica de Patch: interlineado por debajo de 1 en
-     los titulares (se apilan como bloques, no fluyen como prosa)
-     y tracking positivo, no negativo — Anton ya viene apretado
-     por naturaleza; el tracking aquí es para que respire, no para
-     comprimir más. */
-  --t-hero:  clamp(2.75rem, 7.2vw, 8.3125rem);   /* hasta 133px, "display" */
-  --t-h2:    clamp(2.25rem, 5.6vw, 3.875rem);    /* hasta 62px, "heading" */
-  --t-h3:    clamp(1.25rem, 2vw, 1.5rem);        /* ~24px, "subheading" */
-  --t-lead:  clamp(1.0625rem, 1.3vw, 1.1875rem); /* ~19px */
-  --t-texto: 1.0625rem;                          /* 17px, "body" */
-  --t-chico: .875rem;                            /* 14px, "body-sm" */
-  --t-micro: .8125rem;                           /* 13px, etiqueta/caption */
-
-  /* --- Ritmo: más compacto que el editorial de antes --- */
-  --marco:  1200px;
-  --aire:   clamp(1.25rem, 3.4vw, 3rem);
-  --sec-y:  clamp(3.5rem, 6vw, 5.625rem);
-
-  /* --- Forma: un solo radio, 5px, en todo --- */
-  --r:        5px;
-  --r-lamina: 5px;
-  --r-pill:   5px;
-  --r-boton:  5px;
+  /* --- Ritmo --- */
+  --aire:   12px;        /* margen y canal de todo el sitio */
+  --sec-y:  80px;        /* entre secciones */
 
   /* --- Movimiento --- */
-  --brote:  cubic-bezier(.2, .8, .2, 1);    /* abre como un brote */
-  --tallo:  cubic-bezier(.65, 0, .35, 1);   /* avanza parejo */
-  --salto:  cubic-bezier(.34, 1.56, .64, 1);/* rebota al florecer */
-
-  /* --- Sombra: ninguna. El borde de 1px carga el peso
-     estructural que antes cargaba la sombra. --- */
-  --sombra:      none;
-  --sombra-alta: none;
+  --brote:  cubic-bezier(.2, .8, .2, 1);
+  --tallo:  cubic-bezier(.65, 0, .35, 1);
 
   /* --- Capas --- */
-  --z-fondo:     0;
   --z-base:      1;
-  --z-nav:       30;
   --z-progreso:  35;
   --z-menu:      40;
-  --z-grano:     60;
 }
