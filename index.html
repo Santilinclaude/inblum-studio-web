@@ -22,10 +22,10 @@
 <!-- PP Right es de paga; Anton es la sustituta que la propia
      referencia de Patch recomienda para el peso condensado más
      pesado. Archivo es la tipografía de texto del sistema. -->
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=72">
-<link rel="stylesheet" href="css/styles.css?v=72">
+<link rel="stylesheet" href="css/tokens.css?v=73">
+<link rel="stylesheet" href="css/styles.css?v=73">
 </head>
 
 <body>
@@ -39,23 +39,21 @@
 <main id="contenido">
 
   <!-- ============ Trabajo ============
-       Grid estático de 3 columnas, a lo Patch: sin arrastrar
-       nada, todas las piezas a la vista de una vez. -->
+       A lo Grafik: una galería editorial sobre papel hueso. Cada
+       proyecto es una fila de celdas de imagen separadas por líneas
+       finas, con su ficha debajo. Sin marcador ni rótulo: aquí el
+       sistema visual es otro (una tipografía, un peso, cero radio). -->
   <section class="seccion" id="trabajo">
-    <span class="marcador" aria-hidden="true">01</span>
-    <div class="marco">
-      <div class="trabajo__cabecera rev">
-        <p class="rotulo">Trabajo</p>
-        <h2 class="titulo" style="margin-top:1.1rem">Algunas piezas.</h2>
-        <p class="lead">Pasa el cursor sobre cada una para verla a color.</p>
-      </div>
+    <header class="trabajo__cabecera">
+      <h2 class="titulo">Algunas piezas.</h2>
+      <p class="lead">Pasa el cursor sobre cada una para verla a color.</p>
+    </header>
 
-      <div class="piezas" id="piezas"></div>
+    <div class="piezas" id="piezas"></div>
 
-      <div class="trabajo__cierre rev">
-        <p>¿Quieres ver proyectos completos?</p>
-        <a class="enlace" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
-      </div>
+    <div class="trabajo__cierre">
+      <p>¿Quieres ver proyectos completos?</p>
+      <a class="enlace" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
     </div>
   </section>
 
@@ -110,7 +108,7 @@
        Split de 2 columnas, a lo Patch: el texto a la izquierda,
        la nota a la derecha, no apiladas una sobre otra. -->
   <section class="manifiesto" id="estudio">
-    <span class="marcador" aria-hidden="true">02</span>
+    <span class="marcador" aria-hidden="true">01</span>
     <div class="marco manifiesto__grid">
       <div class="manifiesto__col">
         <p class="rotulo rev">Estudio</p>
@@ -140,7 +138,7 @@
        Proceso: no hace falta abrir ocho láminas para leer ocho
        nombres, sólo pasar el cursor. -->
   <section class="seccion" id="servicios">
-    <span class="marcador" aria-hidden="true">03</span>
+    <span class="marcador" aria-hidden="true">02</span>
     <div class="marco servicios">
 
       <div class="servicios__fijo">
@@ -159,7 +157,7 @@
   <!-- ============ Proceso ============ -->
   <section class="seccion proceso-seccion" id="proceso">
     <div class="mesa">
-      <span class="marcador" aria-hidden="true">04</span>
+      <span class="marcador" aria-hidden="true">03</span>
 
       <div class="marco proceso">
 
@@ -183,7 +181,7 @@
 
   <!-- ============ Contacto ============ -->
   <section class="seccion campo-indigo" id="contacto">
-    <span class="marcador" aria-hidden="true">05</span>
+    <span class="marcador" aria-hidden="true">04</span>
     <div class="marco contacto">
 
       <div class="contacto__izq rev">
@@ -286,8 +284,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=72" defer></script>
-<script src="js/app.js?v=72" defer></script>
+<script src="js/data.js?v=73" defer></script>
+<script src="js/app.js?v=73" defer></script>
 
 </body>
 </html>

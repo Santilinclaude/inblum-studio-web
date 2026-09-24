@@ -148,56 +148,87 @@ const OBRA = [
   { img: 'assets/obra/luz.jpg',         titulo: 'Luz filtrada',          nota: 'Luz' }
 ];
 
-/* ---------- 4. Piezas de portafolio -------------------------
-   PENDIENTE: estas seis piezas muestran las disciplinas con
-   imágenes de relleno (picsum.photos). Para publicar trabajo
-   real: copia la foto a assets/work/, pon la ruta en `img` y
-   cambia `titulo` y `meta` por los del proyecto.
-   Tamaño recomendado: 1600x1200 px (o 1200x1600 en las dos
-   piezas verticales, la segunda y la tercera).
+/* ---------- 4. Proyectos de portafolio -----------------------
+   Cada proyecto es una fila de la galería: tres celdas de imagen
+   (la cuadrícula de líneas finas) y, debajo, su ficha —número,
+   nombre con año y servicios.
+
+   PENDIENTE: todo esto es de relleno. Las celdas usan fotos de
+   picsum.photos y texturas de assets/obra. Para publicar trabajo
+   real: copia las imágenes a assets/work/, pon cada ruta en `img`
+   y cambia `titulo`, `anio` y `servicios` por los del proyecto.
+   - celdas: las que quieras; se acomodan de tres en tres. Con
+     `dispositivo: true` la imagen se muestra dentro de una
+     tableta (para capturas de sitios y apps); sin eso, ocupa la
+     celda completa. Tamaño recomendado: 1200x850 px.
+   - servicios: una línea por servicio, de la lista SERVICIOS.
    ------------------------------------------------------------ */
 const PIEZAS = [
   {
     titulo: 'Identidad y sistema gráfico',
-    meta: 'Branding',
-    img: 'https://picsum.photos/seed/inblum-branding-mesa/1600/1200?blur=2',
-    ancho: 1600, alto: 1200,
-    alt: 'Materiales impresos de una identidad de marca sobre una mesa de trabajo'
+    anio: 2026,
+    servicios: ['Branding / identidad de marca', 'Diseño gráfico', 'Diseño editorial'],
+    celdas: [
+      { img: 'assets/obra/papel-1.jpg', alt: '', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-branding-mesa/1200/850',
+        alt: 'Materiales impresos de una identidad de marca sobre una mesa de trabajo' },
+      { img: 'assets/obra/pincelada.jpg', alt: '' }
+    ]
   },
   {
     titulo: 'Fotografía de producto',
-    meta: 'Fotografía',
-    img: 'https://picsum.photos/seed/inblum-producto-estudio/1200/1600?blur=2',
-    ancho: 1200, alto: 1600,
-    alt: 'Montaje de estudio para fotografía de producto'
+    anio: 2026,
+    servicios: ['Fotografía de producto y publicitaria', 'Edición de imagen'],
+    celdas: [
+      { img: 'assets/obra/marmol.jpg', alt: '' },
+      { img: 'https://picsum.photos/seed/inblum-producto-estudio/1200/850',
+        alt: 'Montaje de estudio para fotografía de producto' },
+      { img: 'assets/obra/minimal.jpg', alt: '', dispositivo: true }
+    ]
   },
   {
     titulo: 'Rodaje documental',
-    meta: 'Producción audiovisual',
-    img: 'https://picsum.photos/seed/inblum-rodaje-camara/1200/1600?blur=2',
-    ancho: 1200, alto: 1600,
-    alt: 'Cámara de cine montada durante un rodaje'
+    anio: 2026,
+    servicios: ['Video y fotografía documental', 'Edición de video', 'Preproducción audiovisual'],
+    celdas: [
+      { img: 'assets/obra/hoja.jpg', alt: '' },
+      { img: 'assets/obra/luz.jpg', alt: '', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-rodaje-camara/1200/850',
+        alt: 'Cámara de cine montada durante un rodaje' }
+    ]
   },
   {
     titulo: 'Producción de podcast',
-    meta: 'Audio',
-    img: 'https://picsum.photos/seed/inblum-cabina-audio/1600/1200?blur=2',
-    ancho: 1600, alto: 1200,
-    alt: 'Cabina de grabación con micrófono y consola'
+    anio: 2026,
+    servicios: ['Producción de podcasts', 'Audio y grabación', 'Mezcla de sonido'],
+    celdas: [
+      { img: 'assets/obra/cimatica.jpg', alt: '', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-cabina-audio/1200/850',
+        alt: 'Cabina de grabación con micrófono y consola' },
+      { img: 'assets/obra/algas.jpg', alt: '' }
+    ]
   },
   {
     titulo: 'Sitio y aplicación',
-    meta: 'Digital y desarrollo',
-    img: 'https://picsum.photos/seed/inblum-interfaz-pantalla/1600/1200?blur=2',
-    ancho: 1600, alto: 1200,
-    alt: 'Interfaz de un sitio web mostrada en pantalla'
+    anio: 2026,
+    servicios: ['Diseño UI/UX', 'Programación web', 'SEO'],
+    celdas: [
+      { img: 'assets/obra/azulejo.jpg', alt: '' },
+      { img: 'assets/obra/collage.jpg', alt: '', dispositivo: true },
+      { img: 'https://picsum.photos/seed/inblum-interfaz-pantalla/1200/850',
+        alt: 'Interfaz de un sitio web mostrada en pantalla' }
+    ]
   },
   {
     titulo: 'Campaña en redes',
-    meta: 'Marketing digital',
-    img: 'https://picsum.photos/seed/inblum-campana-social/1600/1200?blur=2',
-    ancho: 1600, alto: 1200,
-    alt: 'Piezas gráficas de una campaña vistas en un teléfono'
+    anio: 2026,
+    servicios: ['Gestión de redes sociales y community management', 'Diseño gráfico', 'Copywriting y redacción publicitaria'],
+    celdas: [
+      { img: 'https://picsum.photos/seed/inblum-campana-social/1200/850',
+        alt: 'Piezas gráficas de una campaña vistas en un teléfono' },
+      { img: 'assets/obra/papel-2.jpg', alt: '', dispositivo: true },
+      { img: 'assets/obra/piel.jpg', alt: '' }
+    ]
   }
 ];
 

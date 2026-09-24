@@ -548,93 +548,146 @@ a, button, label, select, summary {
   transform: translateY(-.35em);
 }
 
-/* ---------- 10. Láminas de trabajo (grid) ------------------- */
+/* ---------- 10. Trabajo (galería editorial, a lo Grafik) ----
+   Esta sección deja el sistema de Patch a propósito y adopta el de
+   Grafik: papel hueso, tinta negra, una sola tipografía a un solo
+   peso, cero radio, cero sombra, y las líneas de 1px como único
+   esqueleto. Los tokens se redefinen aquí mismo, como en Contacto:
+   todo lo que ya lee --tinta/--papel se ajusta solo. */
+#trabajo {
+  --papel:    #F0EEEB;
+  --tinta:    #000000;
+  --tinta-2:  #000000;
+  --tinta-3:  #000000;
+  --filo:     #000000;
+  --filo-2:   #000000;
+  --f-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --f-texto:   "Inter", ui-sans-serif, system-ui, sans-serif;
+  padding-block: 24px 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--f-texto);
+  font-size: 1.25rem;              /* 20px: el único tamaño de texto */
+  line-height: 1;
+  letter-spacing: -.005em;
+  font-weight: 400;
+  font-feature-settings: "dlig";
+  overflow: clip;
+}
 
-/* Otra banda de niebla: el ritmo alterna blanco/niebla entre el
-   índigo de la portada y el del cierre en Contacto. */
-#trabajo { background: var(--papel-2); }
-
+/* La cabecera: un titular y una línea, pegados al margen. */
 .trabajo__cabecera {
   display: grid;
-  gap: 1.25rem;
-  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  gap: 12px;
+  padding-inline: 12px;
+  margin-bottom: 80px;
 }
-
-/* El grid fijo: tres columnas en escritorio, todas las piezas a
-   la vista de una vez — nada que arrastrar. */
-.piezas {
-  display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
-}
-@media (min-width: 700px) {
-  .piezas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1100px) {
-  .piezas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-.placa {
-  display: grid;
-  gap: 1rem;
-  transition: transform .8s var(--brote);
-}
-.placa:hover { transform: translateY(-6px); }
-
-.placa__foto {
-  aspect-ratio: 4 / 5;
-  border-radius: var(--r-lamina);
-  border: 1px solid var(--filo);
-  background: var(--lamina);
-  padding: 10px;
-}
-.placa__foto .foto { height: 100%; border-radius: var(--r); }
-.placa__foto img {
-  filter: saturate(.55) contrast(1.06);
-  transform: scale(1.02);
-}
-.placa:hover img,
-.placa:focus-within img { filter: saturate(1.1) contrast(1.02); transform: scale(1.07); }
-
-.placa__pie {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: .35rem .9rem;
-  padding-inline: .35rem;
-}
-.placa__n {
+#trabajo .titulo {
   font-family: var(--f-display);
-  font-size: 1rem;
-  letter-spacing: .02em;
-  color: var(--filo);
-}
-.placa__titulo {
-  font-family: var(--f-display);
-  font-size: 1.1rem;
+  font-size: 2.5rem;               /* 40px */
   font-weight: 400;
-  letter-spacing: .01em;
-  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  text-transform: none;
+  max-width: none;
 }
-.placa__area {
-  grid-column: 2;
-  font-family: var(--f-mono);
-  font-size: var(--t-micro);
-  text-transform: uppercase;
-  letter-spacing: .16em;
-  color: var(--tinta-3);
+#trabajo .lead {
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: -.005em;
+  color: var(--tinta);
+  max-width: none;
 }
 
+/* La galería: pantalla completa, sin márgenes ni canales. Cada
+   celda dibuja su borde izquierdo y superior, y el contenedor el
+   derecho y el inferior, así las líneas nunca se duplican. */
+.piezas { display: block; }
+.proyecto__celdas {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+@media (min-width: 640px)  { .proyecto__celdas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .proyecto__celdas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.celda {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1.414 / 1;         /* √2, la proporción de la hoja A */
+  overflow: hidden;
+  background: #FFFFFF;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+}
+.celda img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.12);
+  transition: filter .7s var(--tallo);
+}
+.celda:hover img { filter: none; }
+
+/* La tableta: el trabajo mostrado en su medio, sobre negro. El
+   borde redondeado y el bisel son del aparato —parte del contenido,
+   no del sistema—: hacen las veces del mockup que llegará después. */
+.celda--dispositivo {
+  display: grid;
+  place-items: center;
+  background: #000000;
+}
+.dispositivo {
+  width: 72%;
+  aspect-ratio: 1.3 / 1;
+  padding: 6px;
+  background: #0B0B0B;
+  border: 1px solid #4A4A4A;
+  border-radius: 12px;
+}
+.dispositivo img { border-radius: 3px; }
+
+/* La ficha: tres columnas alineadas con las celdas de arriba, sobre
+   el papel. El texto arranca al ras de la línea vertical, con 12px
+   de aire; el resto de la banda queda en blanco a propósito. */
+.proyecto__ficha {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 24px 12px 80px;
+}
+.proyecto__ficha p { margin: 0; }
+@media (min-width: 1000px) {
+  .proyecto__ficha {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    min-height: 225px;
+    padding: 24px 0 0;
+  }
+  .proyecto__ficha p { padding-left: 13px; }
+}
+@media (min-width: 640px) and (max-width: 999px) {
+  .proyecto__ficha { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-bottom: 48px; }
+}
+
+/* El cierre: una línea de texto, como el pie de Grafik. */
 .trabajo__cierre {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: 1rem 2rem;
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--filo-2);
-  color: var(--tinta-2);
+  gap: 12px 24px;
+  padding: 24px 12px;
 }
+#trabajo .enlace {
+  font-weight: 400;
+  padding-bottom: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+#trabajo .enlace::after { display: none; }
 
 /* ---------- 11. Proceso (museo flotante, banda de niebla) --- */
 

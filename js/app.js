@@ -130,10 +130,12 @@
     abrir(0);
   }
 
-  /* ---------- 5. Piezas de trabajo (grid) --------------------
-     Antes era un carrusel de arrastre; a lo Patch, un grid fijo
-     de 3 columnas: todas las piezas a la vista, sin arrastrar
-     nada. --------------------------------------------------- */
+  /* ---------- 5. Proyectos de trabajo (galería) ---------------
+     A lo Grafik: cada proyecto es una fila de celdas de imagen
+     separadas por líneas finas y, debajo, su ficha en tres
+     columnas alineadas con las celdas: número, nombre con año y
+     servicios. Todo el contenido vive en PIEZAS (js/data.js).
+     --------------------------------------------------------- */
 
   const piezas = $('#piezas');
 
@@ -142,22 +144,26 @@
       ? '<p class="lead">Estamos preparando esta sección. Mientras tanto, ' +
         'escríbenos y te compartimos el portafolio completo en PDF.</p>'
       : PIEZAS.map(function (p, i) {
-        const n = String(i + 1).padStart(2, '0');
+        const celdas = p.celdas.map(function (c, k) {
+          // Lo que se ve al abrir la página carga de inmediato; el
+          // resto, hasta que se acerque.
+          const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
+          const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
+                      carga + ' decoding="async">';
+          return c.dispositivo
+            ? '<figure class="celda celda--dispositivo"><div class="dispositivo">' + img + '</div></figure>'
+            : '<figure class="celda">' + img + '</figure>';
+        }).join('');
+
         return '' +
-          '<figure class="placa rev" style="--espera:' + (i * 40) + 'ms">' +
-            '<div class="placa__foto">' +
-              '<div class="foto">' +
-                '<img src="' + escapar(p.img) + '" alt="' + escapar(p.alt) + '"' +
-                ' width="' + (p.ancho || 1600) + '" height="' + (p.alto || 1200) + '"' +
-                ' loading="lazy" decoding="async">' +
-              '</div>' +
+          '<article class="proyecto">' +
+            '<div class="proyecto__celdas">' + celdas + '</div>' +
+            '<div class="proyecto__ficha">' +
+              '<p>' + (i + 1) + '</p>' +
+              '<p>' + escapar(p.titulo) + '<br>' + escapar(p.anio) + ' —</p>' +
+              '<p>' + p.servicios.map(escapar).join('<br>') + '</p>' +
             '</div>' +
-            '<figcaption class="placa__pie">' +
-              '<span class="placa__n">' + n + '</span>' +
-              '<span class="placa__titulo">' + escapar(p.titulo) + '</span>' +
-              '<span class="placa__area">' + escapar(p.meta) + '</span>' +
-            '</figcaption>' +
-          '</figure>';
+          '</article>';
       }).join('');
   }
 
