@@ -251,13 +251,14 @@ main > section + section { border-top: 1px solid var(--filo); }
 }
 
 /* ---------- 5. Apertura (la primera página) -----------------
-   Dirección "Beings": una palabra enorme, un retrato recortado al
-   ras, texto mínimo de 12px y campos cálidos que se lavan del blanco
-   al marrón. Trae su propia paleta (tokens "--b-*"); el resto del
-   sitio sigue en Grafik. La tipografía es la de todo el sitio,
-   Helvetica: 500 para el texto y 700 para la cabecera, el titular, la
-   declaración y la palabra grande. Radio 0 y ninguna sombra: las
-   separaciones son bordes duros de imagen y cambios de campo. */
+   Dirección "Beings": un retrato recortado al ras, texto mínimo de
+   12px, el logotipo completo a un lado y campos cálidos que se lavan
+   del blanco al marrón. Trae su propia paleta (tokens "--b-*"); el
+   resto del sitio sigue en Grafik. La tipografía es la de todo el
+   sitio, Helvetica: 500 para el texto y 700 para la cabecera, el
+   titular, la declaración y la palabra grande. Radio 0 y ninguna
+   sombra: las separaciones son bordes duros de imagen y cambios de
+   campo. */
 
 .apertura {
   background: var(--b-blanco);
@@ -266,7 +267,6 @@ main > section + section { border-top: 1px solid var(--filo); }
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: 0;
-  overflow-x: clip;            /* al abrir, el logotipo mide más que la pantalla; "clip" no rompe el sticky */
 }
 .apertura :focus-visible { outline-color: var(--b-cacao); }
 
@@ -316,56 +316,22 @@ main > section + section { border-top: 1px solid var(--filo); }
   .ap-nav__cta { grid-column: 11 / span 2; justify-self: end; }
 }
 
-/* --- El logotipo, a lo ancho. "IN", la foto y "BLÜM" son tres
-   piezas de una fila: al cerrarse la foto (width: 0) las letras se
-   juntan con su espaciado de origen. Las proporciones salen del
-   trazo: la palabra cerrada ocupa --marca % del ancho, la foto el
-   resto; 0.2575 / 0.7425 es dónde se corta entre la N y la B; 0.0725
-   es lo que sobresalen los puntos de la Ü por encima de las
-   mayúsculas; 1.06 es el cociente entre el hueco de la foto y la
-   altura de una mayúscula. */
-.ap-marca {
-  --marca: 84;
-  display: flex;
-  align-items: flex-start;
-  margin: 8px 0 0;
-  padding-inline: var(--aire);
+/* --- El logotipo completo: el recuadro de flores y el nombre en dos
+   líneas, en un solo SVG (el nombre toma el color del texto). Se queda
+   a un lado: en pantallas chicas, arriba y a la izquierda; en
+   escritorio, en las tres últimas columnas, contra el borde derecho de
+   la cabecera. */
+.ap-logo {
+  width: min(15rem, 70%);
+  margin: var(--aire) 0 24px;
   font: inherit;
   letter-spacing: 0;
 }
-.ap-marca svg {
-  display: block;
-  height: auto;
-  fill: currentColor;
-  fill-rule: evenodd;
-}
-.ap-marca__in   { flex: none; width: calc(var(--marca) * .2575%); }
-.ap-marca__blum { position: relative; flex: none; width: calc(var(--marca) * .7425%); }
-.ap-marca__blum svg { width: 100%; }
-
-.ap-marca__foto {
-  flex: none;
-  width: 0;
-  aspect-ratio: 1.06;
-  margin-top: calc(var(--marca) * .0725%);
-  overflow: hidden;
-}
-.ap-marca__foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
-
-/* La marca de al lado: donde la referencia pone su ®, aquí va "Studio". */
-.ap-marca__sello {
-  position: absolute;
-  top: 28.8%;
-  left: 100%;
-  margin-left: 6px;
-  font: 700 12px/16.8px var(--f-texto);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+.ap-logo svg { display: block; width: 100%; height: auto; }
 
 /* --- El cuerpo: el retrato, el texto y la segunda imagen. En
    escritorio el retrato se queda fijo mientras la segunda imagen sube
-   a su lado, y el aro cruza la frontera entre las dos. */
+   a su lado. */
 .ap-cuerpo { position: relative; padding: var(--aire); }
 
 .ap-retrato,
@@ -385,15 +351,18 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-intro__acciones a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
 
-.ap-orbita { display: none; }
-
 @media (min-width: 1000px) {
   .ap-cuerpo {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: var(--aire);
     align-items: start;
-    overflow: clip;              /* el aro no se sale de su sección; "clip" no rompe el sticky */
+  }
+  .ap-logo {
+    grid-column: 10 / span 3; grid-row: 1;
+    z-index: 2;
+    width: 100%;
+    margin: 0;
   }
   .ap-retrato {
     grid-column: 1 / span 6; grid-row: 1;
@@ -403,31 +372,14 @@ main > section + section { border-top: 1px solid var(--filo); }
     max-height: calc(100svh - 2 * var(--aire));
   }
   .ap-lado { grid-column: 7 / span 6; grid-row: 1; }
-  .ap-intro { margin: 0; }
-  .ap-segunda { margin-top: clamp(160px, 55vh, 520px); }
-
-  /* El aro: una caja de alto cero que se pega al centro de la
-     pantalla; el círculo cuelga de su esquina y su radio lo mueve
-     app.js (así el trazo se queda en 1px al crecer). */
-  .ap-orbita {
-    display: block;
-    grid-column: 1 / -1; grid-row: 1;
-    position: sticky;
-    top: 50vh;
-    top: 50svh;
-    z-index: 3;
-    height: 0;
-    margin-top: clamp(260px, 30vw, 460px);
-    pointer-events: none;
-  }
-  .ap-orbita svg {
-    position: absolute;
-    left: 50%; top: 0;
-    width: 1px; height: 1px;
-    overflow: visible;
-    fill: none;
-    stroke: var(--b-gris);
-    stroke-width: 1;
+  /* El texto ocupa sus tres columnas; las tres de la derecha son del
+     logotipo. */
+  .ap-intro { width: calc(50% - 6px); margin: 0; }
+  /* La segunda imagen arranca justo debajo del borde de la pantalla:
+     no asoma hasta que se baja. */
+  .ap-segunda {
+    margin-top: max(160px, calc(100vh - 200px));
+    margin-top: max(160px, calc(100svh - 200px));
   }
 }
 
@@ -458,8 +410,8 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-umbra); }
 .ap-panel__nota { max-width: 44ch; color: var(--b-leche); }
 
-/* La palabra de la sección, en Bonto a 66px y subrayada: es el enlace
-   que baja a Trabajo. */
+/* La palabra de la sección, a 66px y subrayada (el "Bonto" de la
+   referencia, aquí en Helvetica Bold): es el enlace que baja a Trabajo. */
 .ap-panel__titulo {
   display: block;
   width: fit-content;
@@ -480,18 +432,6 @@ main > section + section { border-top: 1px solid var(--filo); }
   .ap-panel__foto { grid-column: 5 / span 4; aspect-ratio: 816 / 1456; }
   .ap-panel__nota { grid-column: 9 / span 4; align-self: center; }
 }
-
-/* --- La entrada. "intro" la pone un script del <head> y app.js la
-   quita al terminar: describe la portada al abrir (foto entre las
-   letras, retrato abajo, texto y aro sin aparecer). Sin la clase,
-   todo está en su lugar final. */
-.intro .ap-marca__foto { width: calc((100 - var(--marca)) * 1%); }
-.intro .ap-marca__sello,
-.intro .ap-nav__enlaces a,
-.intro .ap-nav__cta,
-.intro .ap-intro > *,
-.intro .ap-orbita { opacity: 0; }
-.intro .ap-retrato { transform: translateY(115vh); }
 
 /* ---------- 6. Estudio (manifiesto) ------------------------- */
 

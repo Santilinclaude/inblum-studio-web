@@ -19,7 +19,7 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Logotipo a lo ancho, retrato, aro fino y un panel oscuro que da paso a Trabajo |
+| Apertura | Retrato fijo, el texto, el logotipo completo a un lado y un panel oscuro que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 con su ficha debajo |
 | Estudio | La frase que se enciende palabra por palabra y la nota a la derecha |
 | Servicios | Las ocho áreas; el detalle se abre con el cursor o el foco |
@@ -38,7 +38,7 @@ inblum-web/
 │   └── styles.css     el sitio, por secciones numeradas
 ├── js/
 │   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos
-│   └── app.js         entrada y lavado de la Apertura, listas, galería,
+│   └── app.js         lavado de la Apertura, listas, galería,
 │                      revelados, regla del proceso y formulario
 └── assets/
     ├── apertura/      las cuatro ilustraciones de la primera página
@@ -55,10 +55,12 @@ y hoy no se usan.
 Está en `index.html` (bloque `Apertura`), en la sección 5 de `css/styles.css` y
 en la sección 0 de `js/app.js`.
 
-- **El logotipo** es el original vectorizado: dos SVG en línea, "IN" y "BLÜM",
-  con una foto entre ellos. Al cargar, la foto se cierra y las letras se juntan
-  con su espaciado de origen. Para cambiar el tamaño de la palabra cerrada,
-  `--marca` en `.ap-marca` (por defecto 84, en % del ancho).
+- **El logotipo completo** (el recuadro de flores y "INBLÜM STUDIO" en dos
+  líneas) es un SVG en línea en `index.html`. El nombre está vectorizado del
+  logotipo original y toma el color del texto; el recuadro es
+  `assets/apertura/logo-flor.jpg`, recortado del mismo original, y conserva sus
+  esquinas redondeadas. Va a un lado: en escritorio, en las tres últimas
+  columnas; en pantallas chicas, arriba y a la izquierda.
 - **Las ilustraciones** son de relleno, tomadas del portafolio. Para cambiarlas,
   reemplaza el archivo en `assets/apertura/` con la misma proporción:
 
@@ -67,16 +69,13 @@ en la sección 0 de `js/app.js`.
   | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
   | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
   | `rosa.jpg` | Alta, al centro del panel oscuro | 9:16 |
-  | `fieltro.jpg` | La foto que abre el logotipo | casi cuadrada |
+  | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen.
 - **El lavado**: conforme se baja, el fondo pasa de blanco a rubor, arcilla y
   úmbra (los mismos colores de `tokens.css`) y termina justo cuando asoma el
   panel. Sólo en escritorio: en pantallas chicas el panel llega enseguida y no
-  hay dónde lavar. El aro crece con el mismo recorrido.
-- **La entrada** la describe la clase `intro` del `<html>`, que pone un script
-  del `<head>` y quita `app.js` al terminar. Si GSAP no llega en cinco segundos,
-  se quita sola: la página nunca queda escondida.
+  hay dónde lavar.
 
 ## Tipografía y librerías
 
@@ -90,8 +89,7 @@ en la sección 0 de `js/app.js`.
   sans-serif del sistema. Es lo que hace cualquier sitio que usa Helvetica sin
   licencia web.
 - **GSAP + ScrollTrigger** desde CDN, sólo para lo que va enganchado al scroll
-  (entrada y lavado de la Apertura, frase palabra por palabra, regla del
-  proceso). Si el CDN no carga, la página funciona igual: lo mismo se resuelve
+  (lavado de la Apertura, frase palabra por palabra, regla del proceso). Si el CDN no carga, la página funciona igual: lo mismo se resuelve
   con IntersectionObserver.
 
 Si quieres que Helvetica salga idéntica en todos los dispositivos, compra la
@@ -157,8 +155,7 @@ python3 -m http.server 4180
 Luego abre <http://localhost:4180>.
 
 Truco útil: `http://localhost:4180/?revelado=todo` muestra la página como
-quedaría ya recorrida, sin la entrada de la Apertura ni los revelados. Sirve
-para revisarla o capturarla.
+quedaría ya recorrida, sin los revelados. Sirve para revisarla o capturarla.
 
 Si editas `css/` o `js/` y no ves el cambio, recarga forzando caché
 (Cmd+Shift+R): el navegador guarda esos archivos. Al publicar una versión nueva,
@@ -167,7 +164,7 @@ sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga la entrada, el lavado y los revelados: la
+- `prefers-reduced-motion` apaga el lavado y los revelados: la
   página queda completa y legible, en su estado final.
 - Navegación por teclado completa: enlace para saltar al contenido, foco
   visible y las filas de Servicios se recorren con las flechas.
