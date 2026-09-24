@@ -71,7 +71,7 @@
           start: function () {
             const fin = window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;
             const sale = window.scrollY + intro.getBoundingClientRect().bottom;
-            return Math.max(0, Math.min(sale, fin - window.innerHeight * .35));
+            return Math.max(0, Math.min(sale, fin - window.innerHeight * .5));
           },
           end: function () {
             return window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;

@@ -251,9 +251,9 @@ main > section + section { border-top: 1px solid var(--filo); }
 }
 
 /* ---------- 5. Apertura (la primera página) -----------------
-   Dirección "Beings": un retrato recortado al ras, texto mínimo de
-   12px, el logotipo completo a un lado y campos cálidos que se lavan
-   del blanco al marrón. Trae su propia paleta (tokens "--b-*"); el
+   Dirección "Beings": un retrato recortado al ras, el logotipo
+   completo con el texto debajo, cabecera y notas de 12px y campos
+   cálidos que se lavan del blanco al marrón. Trae su propia paleta (tokens "--b-*"); el
    resto del sitio sigue en Grafik. La tipografía es la de todo el
    sitio, Helvetica: 500 para el texto y 700 para la cabecera, el
    titular, la declaración y la palabra grande. Radio 0 y ninguna
@@ -317,10 +317,9 @@ main > section + section { border-top: 1px solid var(--filo); }
 }
 
 /* --- El logotipo completo: el recuadro de flores y el nombre en dos
-   líneas, en un solo SVG (el nombre toma el color del texto). Se queda
-   a un lado: en pantallas chicas, arriba y a la izquierda; en
-   escritorio, en las tres últimas columnas, contra el borde derecho de
-   la cabecera. */
+   líneas, en un solo SVG (el nombre toma el color del texto). Va
+   encima del texto, arriba de la columna derecha; en pantallas chicas
+   sube encima del retrato. */
 .ap-logo {
   width: min(15rem, 70%);
   margin: var(--aire) 0 24px;
@@ -329,9 +328,9 @@ main > section + section { border-top: 1px solid var(--filo); }
 }
 .ap-logo svg { display: block; width: 100%; height: auto; }
 
-/* --- El cuerpo: el retrato, el texto y la segunda imagen. En
-   escritorio el retrato se queda fijo mientras la segunda imagen sube
-   a su lado. */
+/* --- El cuerpo: el retrato y, a su lado, el logotipo con el texto y la
+   segunda imagen. En escritorio el retrato se queda fijo mientras la
+   segunda imagen sube a su lado. */
 .ap-cuerpo { position: relative; padding: var(--aire); }
 
 .ap-retrato,
@@ -344,12 +343,31 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-retrato img { object-position: 50% 0; }
 .ap-segunda { aspect-ratio: 4 / 5; }
 
-.ap-intro { display: grid; gap: var(--aire); max-width: 26rem; margin: var(--aire) 0 48px; }
-.ap-intro__titulo { font: 700 22px/1.1 var(--f-texto); letter-spacing: 0; }
-.ap-intro__texto { max-width: 44ch; }
+/* El texto, grande: en escritorio con los tamaños del resto del sitio
+   (titular de 38px, texto de 20px); más chico en pantallas chicas. */
+.ap-intro { display: grid; gap: 20px; margin: var(--aire) 0 48px; }
+.ap-intro__titulo { font: 700 28px/1.1 var(--f-texto); letter-spacing: -.02em; }
+.ap-intro__texto { max-width: 40ch; font-size: 17px; line-height: 1.25; }
 .ap-intro__acciones { display: flex; flex-wrap: wrap; gap: 0 24px; }
-.ap-intro__acciones a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ap-intro__acciones a {
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
 .ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
+
+@media (max-width: 999px) {
+  /* En una sola columna el logotipo va arriba de todo, luego el retrato
+     y luego el texto: los dos envoltorios se disuelven y "order"
+     acomoda las piezas. */
+  .ap-cuerpo { display: flex; flex-direction: column; }
+  .ap-lado, .ap-cabeza { display: contents; }
+  .ap-logo    { order: 0; }
+  .ap-retrato { order: 1; }
+  .ap-intro   { order: 2; }
+  .ap-segunda { order: 3; }
+}
 
 @media (min-width: 1000px) {
   .ap-cuerpo {
@@ -358,12 +376,6 @@ main > section + section { border-top: 1px solid var(--filo); }
     column-gap: var(--aire);
     align-items: start;
   }
-  .ap-logo {
-    grid-column: 10 / span 3; grid-row: 1;
-    z-index: 2;
-    width: 100%;
-    margin: 0;
-  }
   .ap-retrato {
     grid-column: 1 / span 6; grid-row: 1;
     position: sticky;
@@ -371,16 +383,23 @@ main > section + section { border-top: 1px solid var(--filo); }
     max-height: calc(100vh - 2 * var(--aire));
     max-height: calc(100svh - 2 * var(--aire));
   }
-  .ap-lado { grid-column: 7 / span 6; grid-row: 1; }
-  /* El texto ocupa sus tres columnas; las tres de la derecha son del
-     logotipo. */
-  .ap-intro { width: calc(50% - 6px); margin: 0; }
-  /* La segunda imagen arranca justo debajo del borde de la pantalla:
+
+  /* La columna derecha: arriba, el logotipo con el texto debajo; más
+     abajo, la segunda imagen. La primera fila mide por lo menos lo que
+     queda de pantalla (menos la cabecera y los márgenes), así la imagen
      no asoma hasta que se baja. */
-  .ap-segunda {
-    margin-top: max(160px, calc(100vh - 200px));
-    margin-top: max(160px, calc(100svh - 200px));
+  .ap-lado {
+    grid-column: 7 / span 6; grid-row: 1;
+    display: grid;
+    grid-template-rows: minmax(calc(100vh - 61px), auto) auto;
+    grid-template-rows: minmax(calc(100svh - 61px), auto) auto;
+    row-gap: 48px;
   }
+  .ap-cabeza { display: block; }
+  .ap-logo { width: calc(50% - 6px); margin: 0 0 36px; }
+  .ap-intro { margin: 0; }
+  .ap-intro__titulo { font-size: var(--t-h); }
+  .ap-intro__texto { max-width: 44ch; font-size: var(--t-texto); }
 }
 
 /* --- El panel oscuro: la declaración, en durazno sobre úmbra. Es el

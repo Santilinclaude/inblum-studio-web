@@ -19,7 +19,7 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Retrato fijo, el texto, el logotipo completo a un lado y un panel oscuro que da paso a Trabajo |
+| Apertura | Retrato fijo, el logotipo completo con el texto debajo y un panel oscuro que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 con su ficha debajo |
 | Estudio | La frase que se enciende palabra por palabra y la nota a la derecha |
 | Servicios | Las ocho áreas; el detalle se abre con el cursor o el foco |
@@ -59,8 +59,11 @@ en la sección 0 de `js/app.js`.
   líneas) es un SVG en línea en `index.html`. El nombre está vectorizado del
   logotipo original y toma el color del texto; el recuadro es
   `assets/apertura/logo-flor.jpg`, recortado del mismo original, y conserva sus
-  esquinas redondeadas. Va a un lado: en escritorio, en las tres últimas
-  columnas; en pantallas chicas, arriba y a la izquierda.
+  esquinas redondeadas. Va encima del texto, arriba de la columna derecha (tres
+  columnas de ancho); en pantallas chicas, arriba de todo, sobre el retrato.
+- **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
+  resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
+  en `.ap-intro` de `css/styles.css`.
 - **Las ilustraciones** son de relleno, tomadas del portafolio. Para cambiarlas,
   reemplaza el archivo en `assets/apertura/` con la misma proporción:
 
