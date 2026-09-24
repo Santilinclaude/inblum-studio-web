@@ -1,47 +1,29 @@
 # Inblüm Studio · sitio del estudio
 
 Una sola página, estática, sin paso de compilación. Se abre con doble clic en
-`index.html` y se publica subiendo la carpeta tal cual.
+`index.html` y se publica subiendo la carpeta tal cual. Vive en GitHub Pages
+(rama `main`, dominio en `CNAME`): cada commit que se sube a `main` se publica.
 
-## La idea: in bloom
+## El diseño: dos referencias
 
-Inblüm es "en flor". El sitio toma esa idea al pie de la letra y la convierte
-en un herbario: papel, láminas, rótulos a máquina de escribir y dibujos
-botánicos que crecen conforme se recorre la página.
+- **Grafik** es la base de todo el sitio: lienzo de papel hueso, tinta negra,
+  una sola tipografía (Inter 400) en tres tamaños (20, 38 y 40 px), cero radio,
+  cero sombra y líneas de 1px como único esqueleto. El color vive dentro del
+  trabajo, nunca en la interfaz.
+- **Beings** es sólo la primera página (la *Apertura*): una palabra enorme, un
+  retrato recortado al ras, texto de 12px en mayúsculas y campos cálidos que se
+  lavan del blanco al marrón. Trae su propia paleta y sus propias tipografías,
+  y no se mezcla con lo demás.
 
-- **La fotografía manda.** El cartel de marca aparece grande y a sangre por el
-  filo derecho, con una segunda toma colgando de su canto izquierdo. Al cargar,
-  la imagen se abre de abajo hacia arriba mientras la foto de dentro asienta su
-  escala. No hay ni un dibujo hecho a mano: la fotografía ya es buena, sólo hay
-  que presentarla.
-- **El cartel es una hoja de contacto.** Recorrer el marco con el cursor pasa
-  entre 20 fotografías y texturas, todas recortadas al mismo encuadre, sin un
-  solo espacio en blanco. El nombre del estudio queda siempre encima, como una
-  ventana recortada con la forma exacta del logotipo: las letras muestran la
-  misma imagen que hay detrás, así que cambian de color y de textura con cada
-  una. Ninguna foto oscura lo deja ilegible porque el color de piso de las
-  letras sale de la propia imagen (ver la sección de abajo).
-- **Papel y tinta.** Fondo de papel hueso con grano y tinta casi negra. Todo el
-  color sale del pigmento de la fotografía original. Un solo acento: el rosa.
-- **Luz holográfica de fondo.** Un shader a pantalla completa simula la luz
-  descompuesta en el canto de un cristal: bandas de cian, azul, magenta y ámbar
-  que se mueven con el tiempo, con el cursor y con el desplazamiento. Se
-  multiplica sobre el papel, así que tiñe sin ensuciar, y se retira del centro
-  para que la tipografía siempre gane.
-- **Bloom como comportamiento.** Lo que florece son las cosas al abrirse: la
-  frase se enciende palabra por palabra, las ocho láminas se despliegan a lo
-  ancho y las piezas de trabajo pasan de desaturado a color.
-
-## Secciones
+## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
-| Portada | Qué hace el estudio y la hoja de contacto que se recorre con el cursor |
-| Tira | Las ocho áreas pasando de largo, sin parar |
-| Estudio | La frase que se enciende palabra por palabra |
-| Servicios | Herbario de ocho láminas que se abren a lo ancho |
-| Trabajo | Carrusel de láminas montadas, se arrastra con el cursor |
-| Proceso | Los cuatro tiempos, sección oscura con una regla que se llena al avanzar |
+| Apertura | Logotipo a lo ancho, retrato, aro fino y un panel oscuro que da paso a Trabajo |
+| Trabajo | Galería: cada proyecto es un mosaico de 3x3 con su ficha debajo |
+| Estudio | La frase que se enciende palabra por palabra y la nota a la derecha |
+| Servicios | Las ocho áreas; el detalle se abre con el cursor o el foco |
+| Proceso | Los cuatro tiempos, con una regla que se llena al avanzar |
 | Contacto | Datos directos y formulario |
 
 ## Estructura
@@ -49,63 +31,65 @@ botánicos que crecen conforme se recorre la página.
 ```
 inblum-web/
 ├── index.html
+├── CNAME
 ├── css/
-│   ├── tokens.css     papel, tinta, pigmentos, ritmo, curvas
-│   └── styles.css     el sitio, en dos partes comentadas
+│   ├── tokens.css     los dos sistemas: Grafik (papel, tinta, tamaños) y
+│   │                  Beings (--b-* y --f-*, sólo para la Apertura)
+│   └── styles.css     el sitio, por secciones numeradas
 ├── js/
-│   ├── data.js        ← EDITA AQUÍ: servicios, portafolio, contacto y OBRA
-│   ├── holo.js         el fondo holográfico (WebGL, sin librerías)
-│   └── app.js          herbario, carrusel, revelados, formulario y la
-│                        hoja de contacto del cartel
+│   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos
+│   └── app.js         entrada y lavado de la Apertura, listas, galería,
+│                      revelados, regla del proceso y formulario
 └── assets/
-    ├── wordmark.png     el nombre, recortado del logotipo (también se usa
-    │                    como máscara del logotipo sobre cada textura)
-    ├── poster.png       el cartel completo
-    ├── tile.png         el recuadro floral (flor y pétalos)
-    ├── campo-*.png      recortes de pigmento para las láminas
-    ├── obra/             19 fotografías y texturas para el cartel de
-    │                    portada, más el logo animado
+    ├── apertura/      las cuatro ilustraciones de la primera página
+    ├── obra/          texturas que se ven dentro de las tabletas de Trabajo
+    ├── poster.png     imagen para compartir el enlace (og:image)
     └── favicon.png
 ```
 
-### El cartel de portada, por dentro
+`assets/wordmark.png`, `tile*.png` y `campo-*.png` son de versiones anteriores
+y hoy no se usan.
 
-En `js/data.js`, el arreglo `OBRA` define qué se ve al recorrer el cartel con
-el cursor. Cada entrada es una imagen, un título y una categoría corta:
+## La Apertura, por dentro
 
-```js
-{ img: 'assets/obra/marmol.jpg', titulo: 'Mármol', nota: 'Mineral' }
-```
+Está en `index.html` (bloque `Apertura`), en la sección 5 de `css/styles.css` y
+en la sección 0 de `js/app.js`.
 
-Para agregar o quitar una: copia la imagen a `assets/obra/` (recomendado:
-recorte vertical, cualquier tamaño, se ajusta solo) y agrega o quita su
-renglón. La primera entrada siempre es la marca; las demás pueden ser tantas
-como quieras, se reparten solas a lo ancho del cartel.
+- **El logotipo** es el original vectorizado: dos SVG en línea, "IN" y "BLÜM",
+  con una foto entre ellos. Al cargar, la foto se cierra y las letras se juntan
+  con su espaciado de origen. Para cambiar el tamaño de la palabra cerrada,
+  `--marca` en `.ap-marca` (por defecto 84, en % del ancho).
+- **Las ilustraciones** son de relleno, tomadas del portafolio. Para cambiarlas,
+  reemplaza el archivo en `assets/apertura/` con la misma proporción:
 
-Dos cosas pasan automáticamente con cada imagen nueva, sin anotar nada a mano:
+  | Archivo | Dónde sale | Proporción |
+  |---|---|---|
+  | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
+  | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
+  | `rosa.jpg` | Alta, al centro del panel oscuro | 9:16 |
+  | `fieltro.jpg` | La foto que abre el logotipo | casi cuadrada |
 
-1. **El color ambiental.** Se leen sus píxeles en un lienzo diminuto, se
-   agrupan por tono y ganan los dos colores con más presencia. Esos dos
-   colores encienden el resplandor que rodea al cartel.
-2. **El color de piso del logotipo.** Los mismos dos colores arman un
-   degradado que se mezcla con la fotografía (con `background-blend-mode:
-   screen`) dentro de las letras. Así, aunque la foto sea casi negra (el
-   mármol, por ejemplo), el logotipo nunca deja de leerse: toma como mínimo
-   el color de la propia imagen.
-
-Todo lo de `assets/` sale del logotipo original que está en
-`Desktop/Inblüm/Logos`. No hay ilustración: cada mancha de color es un recorte
-de esa misma fotografía.
+  Los textos alternativos están en `index.html`; cámbialos con la imagen.
+- **El lavado**: conforme se baja, el fondo pasa de blanco a rubor, arcilla y
+  úmbra (los mismos colores de `tokens.css`) y termina justo cuando asoma el
+  panel. Sólo en escritorio: en pantallas chicas el panel llega enseguida y no
+  hay dónde lavar. El aro crece con el mismo recorrido.
+- **La entrada** la describe la clase `intro` del `<html>`, que pone un script
+  del `<head>` y quita `app.js` al terminar. Si GSAP no llega en cinco segundos,
+  se quita sola: la página nunca queda escondida.
 
 ## Tipografía y librerías
 
-- **Cabinet Grotesk** para títulos y **Satoshi** para texto, desde Fontshare.
-- **JetBrains Mono** para los rótulos de herbario, desde Google Fonts.
-- **GSAP + ScrollTrigger** desde CDN, sólo para lo que necesita ir enganchado al
-  scroll: encender la frase palabra por palabra, llenar la regla del proceso,
-  el paralaje corto de la fotografía y la mancha de color. Si el CDN no carga,
-  la página funciona igual: lo mismo se resuelve con IntersectionObserver.
-- **El fondo holográfico no usa ninguna librería**: WebGL a pelo.
+- **Inter 400** para todo el sitio, desde Google Fonts. Grotesk, la de la
+  referencia Grafik, es de paga; Inter es el sustituto que la propia referencia
+  sugiere.
+- La **Apertura** usa los sustitutos libres de las cuatro caras de Beings:
+  Anton (Bonto), Archivo 700 (Die Grotesk B Bold), Archivo Black (Die Grotesk C
+  Black) y Space Grotesk 500 (Die Grotesk B SemiBold).
+- **GSAP + ScrollTrigger** desde CDN, sólo para lo que va enganchado al scroll
+  (entrada y lavado de la Apertura, frase palabra por palabra, regla del
+  proceso). Si el CDN no carga, la página funciona igual: lo mismo se resuelve
+  con IntersectionObserver.
 
 Si quieres el sitio sin dependencias externas, descarga los `.woff2` y los dos
 archivos de GSAP, ponlos en `assets/` y cambia los `<link>` y `<script>` del
@@ -114,34 +98,31 @@ archivos de GSAP, ponlos en `assets/` y cambia los `<link>` y `<script>` del
 ## Qué falta por llenar
 
 ### 1. Datos de contacto
-En `js/data.js`, hasta arriba, marcados con `PENDIENTE`:
+En `js/data.js`, hasta arriba, marcados con `PENDIENTE`: correo, teléfono,
+ciudad y redes.
+
+### 2. Proyectos
+También en `js/data.js`, en `PIEZAS`. Todo es de relleno: las tabletas muestran
+texturas de `assets/obra` y las imágenes altas son fotos de `picsum.photos`.
+Para publicar trabajo real:
+
+1. Copia las imágenes a `assets/work/` (820x580 px las normales, 820x1160 las
+   altas).
+2. Pon cada ruta en `img` y cambia `titulo`, `anio` y `servicios`.
 
 ```js
-const CONTACTO = {
-  correo:   'hola@inblumstudio.com',   // PENDIENTE: correo real
-  telefono: '+52 55 0000 0000',        // PENDIENTE: teléfono real
-  ciudad:   'Ciudad de México',        // PENDIENTE: ciudad real
-  redes: [ ... ]                       // PENDIENTE: URLs reales
-};
+{ titulo: 'Campaña Primavera', anio: 2026,
+  servicios: ['Branding / identidad de marca', 'Diseño gráfico'],
+  celdas: [
+    { img: 'assets/work/primavera-1.jpg', alt: 'Cartel pegado en la calle' },
+    { img: 'assets/work/primavera-2.jpg', alt: 'Retrato de la campaña', alto: 2 },
+    { img: 'assets/work/sitio.jpg', dispositivo: true }
+  ] }
 ```
 
-### 2. Portafolio
-También en `js/data.js`. Las seis piezas usan fotografías de relleno de
-`picsum.photos`, desaturadas para que se lean como una serie. Para publicar
-trabajo real:
-
-1. Copia la imagen a `assets/work/` (1600x1200 px, o 1200x1600 si es vertical).
-2. Cambia `img` por la ruta local, ajusta `ancho` y `alto`, y escribe `titulo`,
-   `meta` y `alt` reales.
-
-```js
-{ titulo: 'Campaña Primavera', meta: 'Branding',
-  img: 'assets/work/primavera.jpg', ancho: 1600, alto: 1200,
-  alt: 'Cartel de la campaña pegado en la calle' }
-```
-
-El carrusel acepta las piezas que quieras: crece solo. Si dejas `PIEZAS` vacío,
-la sección muestra un aviso en lugar de romperse.
+`dispositivo: true` muestra la imagen dentro de una tableta sobre negro
+(capturas de sitios y apps). `alto: 2` hace que la celda ocupe dos filas. La
+cuadrícula acomoda las celdas sola; un proyecto completo suma nueve espacios.
 
 ### 3. Recibir los mensajes del formulario
 Hoy el formulario **abre el correo del visitante** con el mensaje ya escrito.
@@ -151,31 +132,12 @@ Para que te llegue directo a tu bandeja:
 2. En `js/app.js`, busca el comentario `Sin servidor:` y sustituye el bloque del
    `mailto` por el `fetch` que está ahí documentado, con tu ID.
 
-En Netlify, la otra opción es añadir `netlify` y `name="contacto"` a la etiqueta
-`<form>` y quitar el `preventDefault`.
-
 ## Una nota sobre el catálogo
 
 El sitio reproduce íntegro el `Catalogo_de_Servicios.docx`. La octava área,
 *Marketing digital*, aparece en el documento con un solo renglón. Si ahí se
-quedó corto, agrega los renglones que falten en `js/data.js` y la lámina crece
+quedó corto, agrega los renglones que falten en `js/data.js` y la fila crece
 sola.
-
-## Paleta
-
-| | |
-|---|---|
-| Papel | `#F1F0EA` · lámina `#FBFAF7` · segundo plano `#E7E6DE` |
-| Tinta | `#14150F` · secundaria `#4B4D42` · terciaria `#767869` |
-| Rosa (acento) | `#C4256F` · vivo `#FF3D9A` |
-| Azul eléctrico (tira) | `#1957D8` |
-| Amarillo (contacto) | `#F5D923` |
-
-Los tres colores del cartel no viven en detalles sino en bloques enteros: la
-tira de disciplinas es azul con tipografía blanca, el contacto es un bloque
-amarillo a sangre, el pie cierra en tinta, y cada lámina de servicios lleva su
-propio baño de color turnando azul, rosa y amarillo. El papel entre bloque y
-bloque es donde se ve la luz holográfica.
 
 ## Verlo en local
 
@@ -188,25 +150,25 @@ python3 -m http.server 4180
 
 Luego abre <http://localhost:4180>.
 
-Truco útil: `http://localhost:4180/?revelado=todo` muestra la página entera de
-golpe, sin esperar los revelados. Sirve para revisarla o capturarla.
+Truco útil: `http://localhost:4180/?revelado=todo` muestra la página como
+quedaría ya recorrida, sin la entrada de la Apertura ni los revelados. Sirve
+para revisarla o capturarla.
 
 Si editas `css/` o `js/` y no ves el cambio, recarga forzando caché
-(Cmd+Shift+R): el navegador guarda esos archivos. Al publicar una versión
-nueva, sube el número de `?v=1` en las etiquetas `<link>` y `<script>` del
+(Cmd+Shift+R): el navegador guarda esos archivos. Al publicar una versión nueva,
+sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 `<head>` y nadie verá una copia vieja.
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga todo: el fondo holográfico se retira y las
-  aperturas y revelados quedan en su estado final. La página completa y
-  legible, sin una sola animación.
-- El fondo se dibuja a media resolución (42% en móvil, 55% en escritorio) y se
-  detiene cuando la pestaña se oculta.
+- `prefers-reduced-motion` apaga la entrada, el lavado y los revelados: la
+  página queda completa y legible, en su estado final.
 - Navegación por teclado completa: enlace para saltar al contenido, foco
-  visible, menú de pantalla completa con Escape, las ocho láminas se recorren
-  con las flechas, y el carrusel también.
+  visible y las filas de Servicios se recorren con las flechas.
 - El formulario valida en español, explica qué falta campo por campo y lleva el
   foco al primer error.
-- Sólo se animan `transform`, `opacity` y `clip-path`; nada que obligue a
-  recalcular la maqueta. Las imágenes traen medidas, así que la página no salta al cargar.
+- El logotipo lleva su nombre accesible ("Inblüm Studio") y las ilustraciones
+  su texto alternativo.
+- Las celdas de la galería reservan su espacio y las imágenes de la Apertura
+  traen sus medidas, así que la página no salta al cargar; las que quedan lejos
+  se cargan al acercarse.

@@ -1,8 +1,9 @@
 /* ============================================================
    INBLÜM STUDIO · Comportamiento
-   El contenido vive en js/data.js. Aquí está la mecánica: las
-   listas de Servicios y Proceso, el grid de Trabajo, la regla del
-   proceso, los revelados enganchados al scroll y el formulario.
+   El contenido vive en js/data.js. Aquí está la mecánica: la
+   entrada y el lavado de la primera página, las listas de Servicios
+   y Proceso, el grid de Trabajo, la regla del proceso, los
+   revelados enganchados al scroll y el formulario.
 
    GSAP se carga desde CDN y sólo mejora lo que ya funciona:
    si no llega, todo queda visible y se anima con CSS.
@@ -18,6 +19,10 @@
   const conPuntero = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const conGsap    = !quieto.matches && typeof window.gsap !== 'undefined' &&
                      typeof window.ScrollTrigger !== 'undefined';
+
+  // "?revelado=todo" deja la página como quedaría ya recorrida: sin
+  // entrada ni revelados. Sirve para capturas e impresión.
+  const sinRevelado = /(\?|&)revelado=todo\b/.test(window.location.search);
 
   if (conGsap) {
     window.gsap.registerPlugin(window.ScrollTrigger);
@@ -39,6 +44,113 @@
     return String(txt)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  /* ---------- 0. Apertura (la primera página) -----------------
+     Tres mejoras sobre una portada que ya funciona sin ellas:
+       · la entrada: el logotipo abre con una foto entre "IN" y
+         "BLÜM"; la foto se cierra, sube el retrato y aparece el
+         texto. La clase "intro" del <html> describe el arranque
+         (ver css/styles.css) y aquí se quita al terminar;
+       · el lavado: conforme se baja, el fondo pasa del blanco al
+         marrón del panel oscuro (blanco, rubor, arcilla, úmbra);
+       · el aro, que crece mientras el retrato queda fijo.
+     Las dos últimas sólo en escritorio: en pantallas chicas el
+     panel llega justo después del texto y no hay dónde lavar.
+     --------------------------------------------------------- */
+
+  const apertura = $('#inicio');
+
+  if (apertura) {
+    const raiz = document.documentElement;
+
+    // ---- La entrada
+    if (conGsap && raiz.classList.contains('intro')) {
+      window.__introLista = true;
+
+      const g       = window.gsap;
+      const foto    = $('.ap-marca__foto', apertura);
+      const imgFoto = $('img', foto);
+      const sello   = $('.ap-marca__sello', apertura);
+      const retrato = $('.ap-retrato', apertura);
+      const textos  = $$('.ap-intro > *', apertura);
+      const enlaces = $$('.ap-nav__enlaces a, .ap-nav__cta', apertura);
+      const orbita  = $('.ap-orbita', apertura);
+
+      // La foto tiene que estar lista antes de cerrarse; si tarda, no
+      // se espera más de un segundo.
+      const lista = imgFoto && imgFoto.decode ? imgFoto.decode().catch(function () {}) : Promise.resolve();
+      const tope  = new Promise(function (ok) { window.setTimeout(ok, 1200); });
+
+      Promise.race([lista, tope]).then(function () {
+        g.timeline({
+          defaults: { ease: 'power3.inOut' },
+          onComplete: function () { raiz.classList.remove('intro'); }
+        })
+          .to(foto,    { width: 0, duration: 1.05 }, .5)
+          .to(sello,   { opacity: 1, duration: .5, ease: 'power1.out' }, 1.35)
+          .to(retrato, { y: 0, duration: 1.15, ease: 'power3.out' }, 1)
+          .to(textos,  { opacity: 1, duration: .7, ease: 'power1.out', stagger: .1 }, 1.55)
+          .to(enlaces, { opacity: 1, duration: .7, ease: 'power1.out', stagger: .07 }, 1.7)
+          .to(orbita,  { opacity: 1, duration: 1.2, ease: 'power1.out' }, 1.9);
+      });
+    } else {
+      raiz.classList.remove('intro');
+    }
+
+    // ---- El lavado y el aro
+    const cuerpo = $('.ap-cuerpo', apertura);
+    const panel  = $('.ap-panel', apertura);
+    const intro  = $('.ap-intro', apertura);
+    const aro    = $('.ap-orbita__aro', apertura);
+
+    if (conGsap && cuerpo && panel && intro && aro) {
+      window.gsap.matchMedia().add('(min-width: 1000px)', function () {
+        const g = window.gsap;
+
+        // El aro parte de un radio proporcional al ancho y termina
+        // en 2.6 veces eso. Se anima el radio, no la escala, para que
+        // el trazo se quede en 1px.
+        const r0 = Math.max(90, Math.min(160, window.innerWidth * .08));
+        aro.setAttribute('r', r0);
+        g.to(aro, {
+          attr: { r: r0 * 2.6 },
+          ease: 'none',
+          scrollTrigger: {
+            trigger: cuerpo,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true
+          }
+        });
+
+        // El lavado arranca cuando el texto ya salió por arriba (así
+        // no queda tinta oscura sobre un fondo que se oscurece) y
+        // termina justo cuando asoma el panel, que ya es del color
+        // final. El aro, gris sobre blanco, pasa a durazno en el
+        // último tramo.
+        g.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: cuerpo,
+            start: function () {
+              const fin = window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;
+              const sale = window.scrollY + intro.getBoundingClientRect().bottom;
+              return Math.max(0, Math.min(sale, fin - window.innerHeight * .35));
+            },
+            end: function () {
+              return window.scrollY + panel.getBoundingClientRect().top - window.innerHeight;
+            },
+            scrub: true,
+            invalidateOnRefresh: true
+          }
+        })
+          .to(apertura, { backgroundColor: '#fae3cf', duration: 1 })
+          .to(apertura, { backgroundColor: '#78492d', duration: 1 })
+          .to(apertura, { backgroundColor: '#381a06', duration: 1 })
+          .to(aro, { stroke: '#f6c9a1', duration: 1.2 }, 1.4);
+      });
+    }
   }
 
   /* ---------- 1b. Progreso de la página -----------------------
@@ -224,7 +336,6 @@
   /* ---------- 8. Revelados ----------------------------------- */
 
   const porRevelar = $$('.rev');
-  const sinRevelado = /(\?|&)revelado=todo\b/.test(window.location.search);
 
   if (porRevelar.length) {
     if (sinRevelado || quieto.matches || !('IntersectionObserver' in window)) {

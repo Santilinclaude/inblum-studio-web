@@ -3,6 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* Estado de arranque de la entrada de la portada (ver "Apertura" en
+   css/styles.css): la clase "intro" la deja abierta, con la foto entre
+   las letras, y app.js la quita al terminar. Si el script principal no
+   llega en unos segundos se quita sola: la página nunca queda escondida. */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (/(\?|&)revelado=todo\b/.test(location.search)) return;
+  var raiz = document.documentElement;
+  raiz.classList.add('intro');
+  setTimeout(function () { if (!window.__introLista) raiz.classList.remove('intro'); }, 5000);
+})();
+</script>
 <title>Inblüm Studio · Branding, video, audio y desarrollo</title>
 <meta name="description" content="Estudio creativo donde branding, fotografía, video, audio, desarrollo web e inteligencia artificial se producen con un mismo equipo. Ocho áreas de trabajo.">
 <meta name="theme-color" content="#F0EEEB">
@@ -17,15 +30,19 @@
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 
+<link rel="preload" as="image" href="assets/apertura/fieltro.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Grotesk (la de Grafik) es de paga; la propia referencia nombra
-     a Inter a peso 400 como el sustituto libre más cercano. Una sola
-     familia y un solo peso para todo el sitio. -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+     a Inter a peso 400 como el sustituto libre más cercano: es la voz de
+     todo el sitio. La primera página (Apertura) usa las cuatro caras de
+     su propia referencia, en sus sustitutos libres: Anton (Bonto),
+     Archivo 700 (Die Grotesk B Bold), Archivo Black (Die Grotesk C Black)
+     y Space Grotesk 500 (Die Grotesk B SemiBold). -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@700&family=Archivo+Black&family=Inter:wght@400&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=76">
-<link rel="stylesheet" href="css/styles.css?v=76">
+<link rel="stylesheet" href="css/tokens.css?v=79">
+<link rel="stylesheet" href="css/styles.css?v=79">
 </head>
 
 <body>
@@ -37,6 +54,107 @@
 <div class="progreso" aria-hidden="true"><span class="progreso__linea" id="progreso-linea"></span></div>
 
 <main id="contenido">
+
+  <!-- ============ Apertura ============
+       La primera página, a lo Beings: una palabra enorme, un retrato
+       recortado al ras, una línea de texto y un aro fino. Al abrir, el
+       logotipo se estira con una foto entre "IN" y "BLÜM"; la foto se
+       cierra, sube el retrato y aparece el resto. Al bajar, el fondo se
+       lava del blanco al marrón hasta el panel oscuro que da paso a
+       Trabajo. Sin GSAP todo queda en su estado final. Las ilustraciones
+       son de relleno: se cambian en assets/apertura/. -->
+  <div class="apertura" id="inicio">
+
+    <header class="ap-nav">
+      <a class="ap-nav__marca" href="#inicio" aria-current="page">Inblüm Studio</a>
+      <nav class="ap-nav__enlaces" aria-label="Principal">
+        <a href="#trabajo">Trabajo</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#estudio">Estudio</a>
+        <a href="#proceso">Proceso</a>
+      </nav>
+      <a class="ap-nav__cta" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
+    </header>
+
+    <!-- El logotipo real, vectorizado: "IN" y "BLÜM" son dos piezas con la
+         foto en medio; al cerrarse la foto, las letras quedan a su
+         espaciado de origen. -->
+    <h1 class="ap-marca" aria-label="Inblüm Studio">
+      <svg class="ap-marca__in" viewBox="0 0 257.5 251.7" aria-hidden="true" focusable="false">
+        <path d="M11.5 73.5l-2.1 .5l-2.5 1.2l-1.8 1.3l-1.8 1.8l-1.3 1.9l-1.1 2.1l-.6 2.1l-.3 2.3v150.6l.3 3.2l.6 2.1l.9 1.9l.6 1.1l1.6 2l1.8 1.5l1.3 .9l1.9 .8l1.7 .6l1.1 .2l1.9 .1h22.6l2.2-.2l2.2-.5l2.1-1l1.9-1.3l1.6-1.5l1.6-2.1l1.1-2.1l.5-1.6l.4-2.3v-153.2l-.3-1.9l-.6-1.7l-.8-1.9l-1.3-1.9l-1.5-1.6l-1.3-1l-1.9-1.2l-2-.8l-2.1-.5l-1.8-.1h-22.6z"/>
+        <path d="M97.5 72.6l-1.8 .4l-1.9 .9l-1.5 1.1l-1.2 1.1l-.9 1.4l-.6 1.1l-.5 1.3l-.4 2.3v158.7l.3 1.9l.2 1l.7 1.6l.9 1.4l1.8 1.8l1.4 .9l.9 .4l2 .7l2.7 .2h27.2l2.2-.1l1.2-.2l2.3-.9l1.8-1.3l.9-.9l1.2-1.6l.7-1.5l.6-1.7l.2-1.7v-51.1l.1-1.2l.5-1.2l1-1.3l.9-1l1.3-.9l1.5-.8l1.3-.5l2.6-.3l2.6 .4l1.9 .8l1.1 .6l.8 .7l1.5 1.6l37.5 60.7l1.7 1.9l1 .8l1.1 .7l1.2 .6l.8 .2l1.3 .1h33.5l1.3-.1l1.1-.3l1.6-.7l1.3-1l1.2-1.4l.8-1.5l.5-1.7l.1-1.8v-162l-.1-1.7l-.5-1.3l-.6-1.2l-.7-1.1l-.9-.9l-1.6-1.1l-1.3-.5l-1.8-.4h-33.9l-.7 .1l-1.5 .3l-1.2 .6l-1.6 1.1l-1.3 1.5l-.6 1.1l-.4 .9l-.4 1.6l-.1 1v65.2l-.2 .8l-.4 .5l-1.5 1.2l-1.9 .8l-1.8 .1l-1.7-.2l-1.5-.6l-1.3-1l-1.3-1.4l-41.2-64.7l-2.9-4.8l-.8-1l-.9-1l-1-.7l-1.7-1l-2.4-.7l-1.6-.2h-28.1z"/>
+      </svg>
+      <span class="ap-marca__foto" aria-hidden="true">
+        <img src="assets/apertura/fieltro.jpg" alt="" width="720" height="680" decoding="async">
+      </span>
+      <span class="ap-marca__blum">
+        <svg viewBox="257.5 0 742.5 251.7" aria-hidden="true" focusable="false">
+          <path d="M281.6 72.6l-1.8 .4l-1.2 .6l-1.1 .7l-1.2 1.1l-.8 1l-.9 1.8l-.5 1.3l-.1 1.3v169.6l.1 .9l.2 .3l.9 .1h18.5l2.3-.1l52.9-.1l2.7-.1h24.9l2.3-.1h19.4l4.1-.2l3.6-.5l4-.9l3.1-1l3.6-1.4l3.6-1.8l2.6-1.5l2.7-1.8l3-2.4l3.9-3.8l1.7-1.9l1.4-1.8l2.7-4.1l2.2-4.1l1.8-4.5l1.4-4.9l.9-5l.4-5.4l-.4-4.5l-.5-3.6l-.9-4.5l-.9-3.2l-.5-1.7l-1.4-3.6l-8.2-18.8l-.9-3.2l-.5-3.5v-3.1l.4-2.8l.5-2.6l.4-1.4l.9-2.2l4.3-10.6l.9-2.7l.9-3.7l.5-4.4l.1-2.7l-.1-3.6l-.4-3.6l-.5-2.7l-1-3.5l-1.3-3.3l-.7-1.5l-1.3-2.7l-2-3.4l-2.1-3l-2.4-3l-2.8-3.1l-3.8-3.4l-2.1-1.6l-2.6-1.8l-4-2.4l-4.9-2.3l-4-1.4l-5-1.3l-2.2-.5l-2.8-.4l-5.3-.3h-38.5l-2.3-.1h-52.4l-2.3-.1h-9.1zM330 109.7l-1.8 .4l-1.4 .4l-1.8 .9l-1.1 .7l-1.6 1.1l-1.6 1.6l-1.6 2l-1.1 2l-.9 2.3l-.5 2.2l-.1 4.1l.1 2.2l.5 2.2l.6 1.7l.7 1.5l.9 1.4l1 1.3l1.8 1.8l2.1 1.5l2.1 1.1l2.3 .8l1.9 .3l1.7 .2h39.8l2.1-.1l2.3-.5l1.9-.6l2.2-1.1l1.6-1.1l1.2-1.1l1.5-1.6l1.1-1.6l1.1-2.1l.9-2.7l.4-3.5v-2.2l-.3-2.8l-.8-2.7l-.6-1.3l-.8-1.4l-.9-1.3l-1.1-1.3l-2.2-1.9l-1.7-1l-1.8-.9l-1.6-.5l-1.9-.4l-2.2-.2h-39.8zM330.9 182.1l-2.3 .4l-2.6 .9l-2.6 1.5l-1.8 1.4l-1.1 1.2l-1 1.2l-1.4 2.3l-1 2.5l-.5 2.2l-.1 1.8l.1 4.5l.6 2.6l.5 1.3l.7 1.5l1.4 2.2l1.7 1.9l1.3 1.1l1.3 .9l2.4 1.2l2.5 .8l1.4 .3l1.3 .1h40.7l2.3-.2l2.1-.5l2-.7l1.5-.8l1.6-1.1l1.2-1l2-2.1l1-1.7l.9-1.8l.9-2.7l.4-3.5v-2.2l-.3-2.3l-.6-2.5l-.8-2l-.9-1.4l-.9-1.3l-1.1-1.2l-1.2-1.1l-1.5-1.2l-2.7-1.4l-2.3-.7l-2.7-.4z"/>
+        <path d="M487.4 72.6l-2.2 .5l-1.3 .4l-1.2 .6l-2.3 1.3l-1.7 1.6l-1 1.2l-.7 1l-1.1 2.1l-.4 1l-.5 1.7l-.2 2.2l-.1 154.7l.3 2.7l.5 1.3l1 2.1l.9 1l1.1 1.1l1 .8l1.1 .7l2.3 .8l2.2 .3h114.9h.9l.3-.1l.2-.3l.1-1.3l-.4-14.5l-.1-16.7l-.2-1.4v-4.5l-.1-3.2l-.3-1.5l-.4-1l-.6-1.2l-.9-1.4l-1.3-1.3l-1.1-.7l-1.2-.6l-1.3-.5l-1.8-.3h-48.4l-4-.4l-2.2-.5l-2.7-.9l-2.1-1l-2-1.1l-1.9-1.4l-2.3-2.2l-1.3-1.4l-1.3-1.9l-1.6-2.9l-1.2-3.3l-.6-2.1l-.5-4l-.1-3.2l-.3-5.4l-.5-14.5l-.1-35.3l-.1-6.3l-.1-1.9l-.2-8.1l-.6-9.9l.1-8.6l-.2-1.6l-.3-1.5l-.7-1.6l-.6-1.1l-1-1.3l-.9-1l-1.5-1.2l-1.1-.7l-1.2-.5l-1.4-.4l-4-.5l-14-.9l-1.8-.1z"/>
+        <path d="M627.6 72.6l-2.2 .4l-1.3 .5l-1.2 .5l-2.3 1.4l-1.6 1.6l-.8 .9l-.9 1.4l-1.1 2.1l-.5 1.7l-.4 2.7v93.2l.4 5.8l.9 6.4l.5 2.6l.8 3.2l1.5 4.9l2.3 5.8l1.1 2.5l1.6 3l3 5l3.4 4.8l2 2.5l3 3.3l2.8 2.8l2.8 2.5l2.8 2.2l3.1 2.3l2.7 1.8l4.3 2.5l3.9 2l3.5 1.5l3.6 1.4l3.1 .9l3.2 .9l4 .9l3.1 .5l3.6 .5l5 .2h24l4-.2l4.1-.5l5-.9l3.9-1l4.5-1.3l4.6-1.8l2.2-1l4.2-2.1l3.2-1.8l3.6-2.3l3.3-2.4l2.8-2.3l2.7-2.3l3.3-3.4l2.8-3.1l3.2-4.1l2.7-4l1.4-2.3l1.4-2.6l1.7-3.3l2.5-6.1l1.2-3.7l1-3.5l1.3-6.4l.5-4l.4-5.9v-95l-.3-2.2l-.6-1.7l-.6-1.2l-1.1-1.6l-1.4-1.3l-1.1-.8l-1.1-.6l-2-.7l-1.9-.3l-20.7-.1l-2.7 .4l-1.4 .4l-1.3 .5l-1.7 1l-2.6 1.9l-2 2.5l-1.1 2.1l-.5 1.3l-.4 1.8l-.2 1.8l-.1 76.9l-.4 4.9l-.9 4.1l-.8 2.7l-1 2.6l-1.3 2.8l-1.5 2.6l-1.7 2.4l-2 2.5l-1.5 1.6l-1.9 1.8l-2.5 2l-2.7 1.9l-2 1.1l-3 1.5l-2.3 .9l-3.1 .9l-3.6 .9l-3.7 .4l-2.6 .1l-2.2-.1l-3.2-.4l-2.7-.5l-3.1-.8l-2.7-1l-2.7-1.3l-2.6-1.5l-2.4-1.6l-2.6-2l-2.5-2.5l-1.5-1.7l-1.4-1.8l-1.8-2.7l-1.3-2.3l-1.4-3.1l-.8-2.3l-1-4l-.5-2.7l-.1-2.7l-.1-76.9l-.4-3.6l-.8-2.7l-.9-1.8l-.7-1.1l-1.1-1.6l-1.3-1.4l-1.2-1.1l-1.6-1.1l-1.7-1l-2.7-1l-2.6-.5l-5.4-.4l-6.8-.2l-6.3-.3zM654.8 .2l-2.3 .4l-3.5 1l-3.2 1.3l-2.3 1.3l-2.7 1.8l-2 1.6l-2.1 2l-1.8 2.3l-1.3 1.8l-1.6 2.9l-1.4 3.2l-.8 2.7l-.6 2.6l-.3 3.7v2.7l.4 3.6l.5 2.5l1.3 3.8l1.4 3l1 1.7l2.3 3.1l1.3 1.5l2.3 2.2l2.1 1.6l2.5 1.5l2.6 1.4l2 .8l3.1 .9l2.6 .6l4.1 .3l.8 .1l4.1-.4l2.7-.5l3.1-1l2.2-.9l2.4-1.2l2.2-1.4l2.1-1.5l3-2.9l1.5-1.7l2-2.9l1-1.8l1.3-2.8l1-3l.5-2.1l.5-3.2l.1-3.1l-.2-3.2l-.4-2.7l-.9-3.5l-1.2-2.9l-1.1-2.1l-1.5-2.5l-1.8-2.3l-2.2-2.3l-1.7-1.5l-2.9-2.1l-2.8-1.6l-2.2-1l-2.7-.9l-2.2-.5l-3.1-.5l-4.6-.1zM734.9 .2l-2.3 .5l-3.1 .8l-2.3 .9l-3 1.5l-2.4 1.6l-2.3 1.8l-2.3 2.3l-2.3 2.7l-1.4 2.2l-1.3 2.3l-1.1 2.5l-.8 2.7l-.5 2.2l-.5 3.2l-.1 2.7l.2 3.5l.5 2.7l.8 3.2l1.2 2.9l1.2 2.4l1.4 2.2l1.5 2.1l2.9 3l1.7 1.5l3 2l2.9 1.6l2.9 1.2l2.4 .7l3 .6l4.1 .4l4.9-.4l2.7-.6l3.1-.9l2.8-1.2l2.9-1.6l3.2-2.3l1.4-1.3l2.2-2.3l1.6-2l1.1-1.6l1.4-2.7l1.2-2.8l1-3.1l.5-2.2l.4-3.6v-3.2l-.4-3.2l-.5-2.6l-1-3.1l-.9-2.2l-1.4-2.6l-1.8-2.7l-2.5-3l-1.4-1.3l-2.3-1.8l-2.5-1.6l-2.9-1.6l-2.6-1l-3.1-.9l-3.1-.6l-1.8-.1h-3.6z"/>
+        <path d="M962.9 72.6l-2.7 .4l-1.8 .5l-1.6 .6l-1.9 .8l-1.9 1.2l-1.6 1.2l-1.7 1.5l-1.1 1.2l-1.4 1.7l-1 1.7l-24.1 41.9l-1.3 1.5l-.9 .9l-1.1 .7l-1.1 .7l-1.6 .7l-1.3 .4l-2.2 .2l-2.7-.2l-2.6-.9l-1.2-.6l-1.1-.7l-1-.8l-.9-1l-1.5-2.1l-28.4-41.7l-1-1.3l-1.3-1.4l-2-1.6l-1.4-.9l-1.1-.6l-1.9-.8l-1.7-.6l-2.2-.4l-21.7-1.4h-2.8l-1.2 .1l-1.5 .3l-2.2 .9l-1.2 .7l-1.3 .9l-1.1 1.1l-.9 1l-1.3 2.2l-.6 1.7l-.6 2.1l-.1 2.3v149.3l.2 3l.5 1.8l.8 2.3l.7 1.2l1 1.6l1.3 1.4l1.5 1.3l1.6 1.1l1.8 .9l2.7 .9l1.8 .2h33h.9l.3-.2l.2-.3v-.8v-66.9l.2-.9l.2-.7l.5-.8l.7-.7l.5-.5l.9-.4l.6-.2l.9-.1l2.2 .1l2.5 .6l1.3 .5l1.7 .9l2.1 1.6l1.1 1.2l1.2 1.5l7.4 12.5l1.8 2.3l1.4 1.3l2.4 1.7l2.1 1l3.1 .9l3.1 .3l3.2-.2l2.6-.6l1.3-.5l1.8-.9l2.4-1.6l1.4-1.3l1.3-1.5l10.9-14.8l1.4-1.4l1.8-1.4l2.4-1.2l1.3-.5l1.7-.4l1.4-.1h1.8l.8 .1l.9 .4l1 .8l.8 1.1l.5 1.3l.1 1v64.7l.2 .8l.3 .2l.8 .1h32.6l1.8-.1l1.8-.3l1.7-.6l2.1-1l1.4-.9l1.2-1l.7-.7l1.3-1.4l1.2-2l.8-1.8l.6-1.7l.4-2.7v-146.1v-.9l-.4-2.3l-.5-1.7l-.9-2.2l-1.3-2.3l-1-1.3l-1.1-1.1l-2-1.7l-2.2-1.4l-2.2-1l-2.1-.6l-1.9-.3l-1.7-.1h-17.6z"/>
+        </svg>
+        <span class="ap-marca__sello" aria-hidden="true">Studio</span>
+      </span>
+    </h1>
+
+    <div class="ap-cuerpo">
+      <figure class="ap-retrato">
+        <img src="assets/apertura/retrato.jpg" width="1100" height="1375" fetchpriority="high" decoding="async"
+             alt="Ilustración de una mujer que asoma el rostro sobre el cuello de un abrigo cubierto de cuervos azules">
+      </figure>
+
+      <div class="ap-lado">
+        <div class="ap-intro">
+          <h2 class="ap-intro__titulo">Branding, video, audio y desarrollo con un solo equipo.</h2>
+          <p class="ap-intro__texto">
+            Estudio creativo multidisciplinario. Hacemos identidad, fotografía,
+            video, sitio y campañas sin repartir el proyecto entre proveedores.
+          </p>
+          <div class="ap-intro__acciones">
+            <a href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
+            <a href="#servicios">Ver servicios <span aria-hidden="true">&#8595;</span></a>
+          </div>
+        </div>
+
+        <figure class="ap-segunda">
+          <img src="assets/apertura/mano.jpg" width="1000" height="1252" loading="lazy" decoding="async"
+               alt="Ilustración de una mano de uñas rojas que sostiene un teléfono borroso frente a un rascacielos y un cielo azul">
+        </figure>
+      </div>
+
+      <!-- El aro: una sola línea fina que cruza la frontera entre las dos
+           imágenes y crece con el scroll. -->
+      <div class="ap-orbita" aria-hidden="true">
+        <svg focusable="false"><circle class="ap-orbita__aro" cx="0" cy="0" r="100"/></svg>
+      </div>
+    </div>
+
+    <section class="ap-panel" aria-labelledby="ap-lema">
+      <p class="ap-panel__frase rev">
+        Lo que ponemos en pantalla, en el altavoz y en la calle importa. Por eso
+        cuidamos cada pieza desde la primera idea hasta el último archivo, en un
+        solo estudio y con un solo criterio.
+      </p>
+
+      <div class="ap-panel__fila">
+        <div class="ap-panel__izq">
+          <p class="ap-panel__lema rev" id="ap-lema">Todo el estudio detrás de cada proyecto.</p>
+          <a class="ap-panel__titulo rev" href="#trabajo">Trabajo</a>
+        </div>
+
+        <figure class="ap-panel__foto rev" style="--espera:120ms">
+          <img src="assets/apertura/rosa.jpg" width="816" height="1456" loading="lazy" decoding="async"
+               alt="Ilustración de una mujer de vestido y sombrero rosas que pasea a un caniche blanco por una avenida de noche">
+        </figure>
+
+        <p class="ap-panel__nota rev" style="--espera:240ms">
+          Empezamos por escuchar. Después decidimos qué áreas entran y en qué
+          orden, para que cada pieza llegue lista para la siguiente.
+        </p>
+      </div>
+    </section>
+  </div>
 
   <!-- ============ Trabajo ============
        A lo Grafik: una galería editorial sobre papel hueso. Cada
@@ -54,41 +172,6 @@
     <div class="trabajo__cierre">
       <p>¿Quieres ver proyectos completos?</p>
       <a class="enlace" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
-    </div>
-  </section>
-
-  <!-- ============ Portada ============
-       Un titular a 40px pegado al margen y, debajo, una banda de tres
-       columnas alineadas con las de la galería. Sin nav fijo arriba:
-       la navegación vive en el pie de página. -->
-  <section class="portada" id="inicio">
-    <div class="marco">
-
-      <h1 class="portada__titulo entra" style="--espera:100ms">
-        Branding, video, audio y desarrollo con un solo equipo.
-      </h1>
-
-      <div class="portada__banda entra" style="--espera:280ms">
-        <p class="rotulo">Estudio creativo multidisciplinario</p>
-        <p class="rotulo">Un equipo, no cinco proveedores</p>
-
-        <div class="portada__pie">
-          <p class="lead">
-            Hacemos identidad, fotografía, video, sitio y campañas sin repartir
-            el proyecto entre proveedores.
-          </p>
-
-          <div class="portada__acciones">
-            <a class="btn btn--tinta" href="#contacto">
-              Hablemos <span aria-hidden="true">&#8599;</span>
-            </a>
-            <a class="btn btn--linea" href="#servicios">
-              Ver servicios <span aria-hidden="true">&#8595;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -257,8 +340,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=76" defer></script>
-<script src="js/app.js?v=76" defer></script>
+<script src="js/data.js?v=79" defer></script>
+<script src="js/app.js?v=79" defer></script>
 
 </body>
 </html>

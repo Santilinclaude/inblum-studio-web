@@ -2,7 +2,9 @@
    INBLÜM STUDIO · Hoja principal
    Sistema "Grafik": papel hueso, tinta negra, una tipografía a un
    peso, cero radio, cero sombra. Las líneas de 1px son el esqueleto
-   de cada sección; nada de color en la interfaz.
+   de cada sección; nada de color en la interfaz. La primera página
+   (Apertura) sigue otra referencia, "Beings", con paleta y
+   tipografías propias.
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -249,28 +251,249 @@ main > section + section { border-top: 1px solid var(--filo); }
   padding: 24px var(--aire);
 }
 
-/* ---------- 5. Portada -------------------------------------- */
+/* ---------- 5. Apertura (la primera página) -----------------
+   Dirección "Beings": una palabra enorme, un retrato recortado al
+   ras, texto mínimo de 12px y campos cálidos que se lavan del blanco
+   al marrón. Trae su propia paleta y sus propias tipografías (tokens
+   "--b-*" y "--f-*"); el resto del sitio sigue en Grafik. Radio 0 y
+   ninguna sombra: las separaciones son bordes duros de imagen y
+   cambios de campo. */
 
-.portada { padding-block: var(--sec-y); }
+.apertura {
+  background: var(--b-blanco);
+  color: var(--b-cacao);
+  font-family: var(--f-semi);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-feature-settings: normal;
+  overflow-x: clip;            /* al abrir, el logotipo mide más que la pantalla; "clip" no rompe el sticky */
+}
+.apertura :focus-visible { outline-color: var(--b-cacao); }
 
-/* El titular, a 40px y pegado al margen: el aire hace el trabajo
-   que en otros sistemas hace el tamaño. */
-.portada__titulo { padding-inline: var(--aire); max-width: 30ch; }
-
-/* La banda de tres columnas: dos frases cortas y la explicación,
-   alineadas con las columnas de la galería. */
-.portada__banda {
+/* --- La cabecera de servicio: 12px en mayúsculas, sin fondo. En
+   escritorio se reparte por las columnas de la retícula de 12. */
+.ap-nav {
   display: grid;
-  gap: 24px;
-  margin-top: 160px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--aire);
+  align-items: center;
+  padding: 4px var(--aire) 0;
 }
-.portada__banda > * { padding-inline: var(--aire); }
+.ap-nav a,
+.ap-intro__acciones a {
+  font: 700 12px/16.8px var(--f-fuerte);
+  text-transform: uppercase;
+  padding-block: 8px;
+}
+.ap-nav a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ap-nav__marca {
+  grid-column: 1; grid-row: 1;
+  justify-self: start;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ap-nav__cta { grid-column: 2; grid-row: 1; }
+.ap-nav__enlaces {
+  grid-column: 1 / -1; grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
 @media (min-width: 1000px) {
-  .portada__banda { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+  .ap-nav { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .ap-nav__marca   { grid-column: 1 / span 3; }
+  .ap-nav__enlaces {
+    grid-column: 4 / span 7; grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .ap-nav__enlaces a:nth-child(1) { grid-column: 1; }
+  .ap-nav__enlaces a:nth-child(2) { grid-column: 3; }
+  .ap-nav__enlaces a:nth-child(3) { grid-column: 5; }
+  .ap-nav__enlaces a:nth-child(4) { grid-column: 7; }
+  .ap-nav__cta { grid-column: 11 / span 2; justify-self: end; }
 }
 
-.portada__pie { display: grid; gap: 24px; align-content: start; }
-.portada__acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+/* --- El logotipo, a lo ancho. "IN", la foto y "BLÜM" son tres
+   piezas de una fila: al cerrarse la foto (width: 0) las letras se
+   juntan con su espaciado de origen. Las proporciones salen del
+   trazo: la palabra cerrada ocupa --marca % del ancho, la foto el
+   resto; 0.2575 / 0.7425 es dónde se corta entre la N y la B; 0.0725
+   es lo que sobresalen los puntos de la Ü por encima de las
+   mayúsculas; 1.06 es el cociente entre el hueco de la foto y la
+   altura de una mayúscula. */
+.ap-marca {
+  --marca: 84;
+  display: flex;
+  align-items: flex-start;
+  margin: 8px 0 0;
+  padding-inline: var(--aire);
+  font: inherit;
+  letter-spacing: 0;
+}
+.ap-marca svg {
+  display: block;
+  height: auto;
+  fill: currentColor;
+  fill-rule: evenodd;
+}
+.ap-marca__in   { flex: none; width: calc(var(--marca) * .2575%); }
+.ap-marca__blum { position: relative; flex: none; width: calc(var(--marca) * .7425%); }
+.ap-marca__blum svg { width: 100%; }
+
+.ap-marca__foto {
+  flex: none;
+  width: 0;
+  aspect-ratio: 1.06;
+  margin-top: calc(var(--marca) * .0725%);
+  overflow: hidden;
+}
+.ap-marca__foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+
+/* La marca de al lado: donde la referencia pone su ®, aquí va "Studio". */
+.ap-marca__sello {
+  position: absolute;
+  top: 28.8%;
+  left: 100%;
+  margin-left: 6px;
+  font: 700 12px/16.8px var(--f-fuerte);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* --- El cuerpo: el retrato, el texto y la segunda imagen. En
+   escritorio el retrato se queda fijo mientras la segunda imagen sube
+   a su lado, y el aro cruza la frontera entre las dos. */
+.ap-cuerpo { position: relative; padding: var(--aire); }
+
+.ap-retrato,
+.ap-segunda,
+.ap-panel__foto { margin: 0; overflow: hidden; background: var(--b-cacao); }
+.ap-retrato img,
+.ap-segunda img,
+.ap-panel__foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ap-retrato { aspect-ratio: 4 / 5; }
+.ap-retrato img { object-position: 50% 0; }
+.ap-segunda { aspect-ratio: 4 / 5; }
+
+.ap-intro { display: grid; gap: var(--aire); max-width: 26rem; margin: var(--aire) 0 48px; }
+.ap-intro__titulo { font: 700 22px/1.1 var(--f-fuerte); letter-spacing: 0; }
+.ap-intro__texto { max-width: 34ch; }
+.ap-intro__acciones { display: flex; flex-wrap: wrap; gap: 0 24px; }
+.ap-intro__acciones a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
+
+.ap-orbita { display: none; }
+
+@media (min-width: 1000px) {
+  .ap-cuerpo {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+    align-items: start;
+    overflow: clip;              /* el aro no se sale de su sección; "clip" no rompe el sticky */
+  }
+  .ap-retrato {
+    grid-column: 1 / span 6; grid-row: 1;
+    position: sticky;
+    top: var(--aire);
+    max-height: calc(100vh - 2 * var(--aire));
+    max-height: calc(100svh - 2 * var(--aire));
+  }
+  .ap-lado { grid-column: 7 / span 6; grid-row: 1; }
+  .ap-intro { margin: 0; }
+  .ap-segunda { margin-top: clamp(160px, 55vh, 520px); }
+
+  /* El aro: una caja de alto cero que se pega al centro de la
+     pantalla; el círculo cuelga de su esquina y su radio lo mueve
+     app.js (así el trazo se queda en 1px al crecer). */
+  .ap-orbita {
+    display: block;
+    grid-column: 1 / -1; grid-row: 1;
+    position: sticky;
+    top: 50vh;
+    top: 50svh;
+    z-index: 3;
+    height: 0;
+    margin-top: clamp(260px, 30vw, 460px);
+    pointer-events: none;
+  }
+  .ap-orbita svg {
+    position: absolute;
+    left: 50%; top: 0;
+    width: 1px; height: 1px;
+    overflow: visible;
+    fill: none;
+    stroke: var(--b-gris);
+    stroke-width: 1;
+  }
+}
+
+/* --- El panel oscuro: la declaración, en durazno sobre úmbra. Es el
+   destino del lavado del fondo; por eso lleva su propio color, el
+   mismo con el que termina. */
+.ap-panel {
+  display: grid;
+  gap: var(--aire);
+  padding: var(--aire);
+  background: var(--b-umbra);
+  color: var(--b-durazno);
+}
+.ap-panel :focus-visible { outline-color: var(--b-durazno); }
+
+/* 30px/35.25px es la medida de la referencia; en pantallas chicas baja a
+   24px para que la declaración no ocupe tres pantallas. */
+.ap-panel__frase,
+.ap-panel__lema { font: 400 24px/1.175 var(--f-negra); letter-spacing: 0; }
+.ap-panel__frase { max-width: 56ch; }
+@media (min-width: 1000px) {
+  .ap-panel__frase,
+  .ap-panel__lema { font-size: 30px; }
+}
+
+.ap-panel__fila { display: grid; gap: 24px; margin-top: var(--aire); }
+.ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+.ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-umbra); }
+.ap-panel__nota { max-width: 32ch; color: var(--b-leche); }
+
+/* La palabra de la sección, en Bonto a 66px y subrayada: es el enlace
+   que baja a Trabajo. */
+.ap-panel__titulo {
+  display: block;
+  width: fit-content;
+  font: 400 66px/66px var(--f-bonto);
+  letter-spacing: -1.98px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+.ap-panel__titulo:hover { text-decoration-thickness: 4px; }
+
+@media (min-width: 1000px) {
+  .ap-panel__fila {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .ap-panel__izq  { grid-column: 1 / span 4; }
+  .ap-panel__foto { grid-column: 5 / span 4; aspect-ratio: 816 / 1456; }
+  .ap-panel__nota { grid-column: 9 / span 4; align-self: center; }
+}
+
+/* --- La entrada. "intro" la pone un script del <head> y app.js la
+   quita al terminar: describe la portada al abrir (foto entre las
+   letras, retrato abajo, texto y aro sin aparecer). Sin la clase,
+   todo está en su lugar final. */
+.intro .ap-marca__foto { width: calc((100 - var(--marca)) * 1%); }
+.intro .ap-marca__sello,
+.intro .ap-nav__enlaces a,
+.intro .ap-nav__cta,
+.intro .ap-intro > *,
+.intro .ap-orbita { opacity: 0; }
+.intro .ap-retrato { transform: translateY(115vh); }
 
 /* ---------- 6. Estudio (manifiesto) ------------------------- */
 
@@ -581,14 +804,6 @@ a.dato__valor {
 }
 .rev.dentro { opacity: 1; transform: none; }
 
-.entra {
-  opacity: 0;
-  transform: translateY(1.5rem);
-  animation: entrar .9s var(--brote) forwards;
-  animation-delay: var(--espera, 0ms);
-}
-@keyframes entrar { to { opacity: 1; transform: none; } }
-
 /* ---------- 12. Menos movimiento ---------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -598,6 +813,6 @@ a.dato__valor {
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
-  .rev, .entra { opacity: 1; transform: none; }
+  .rev { opacity: 1; transform: none; }
   .manifiesto__frase .pal { opacity: 1; }
 }
