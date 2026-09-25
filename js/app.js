@@ -89,6 +89,175 @@
     });
   }
 
+  /* ---------- 0b. El titular que rota -------------------------
+     El titular de la Apertura alterna entre las frases de FRASES
+     (js/data.js). Cada letra recorre un espectro de colores —del
+     rosa al naranja, el amarillo, el celeste y el azul— y se
+     desvanece, con un desfase de izquierda a derecha; la frase
+     siguiente entra con el mismo recorrido a la inversa. Los tiempos
+     se midieron cuadro por cuadro en la animación de referencia.
+
+     No usa GSAP: el estado de cada letra es una función del tiempo
+     (pintar), y un requestAnimationFrame sólo lo avanza. Se pausa
+     con el cursor encima (al terminar la transición en curso, para
+     que nunca se quede el texto a medio desvanecer) y fuera de
+     pantalla, y no corre con "reducir movimiento" ni con
+     ?revelado=todo: ahí queda la primera frase.
+     --------------------------------------------------------- */
+
+  const titular = $('.rota');
+
+  if (titular && typeof FRASES !== 'undefined' && FRASES.length > 1 &&
+      !quieto.matches && !sinRevelado) {
+
+    const T = {
+      espera: 6,      // cada frase se queda quieta 6s
+      salida: .93,    // una letra tarda 0.93s en recorrer el espectro al salir...
+      entrada: .85,   // ...y 0.85s al entrar
+      pasoS: .0205,   // desfase entre letras (s por carácter), de izquierda a derecha
+      pasoE: .0215,
+      solape: 1.11    // la frase siguiente empieza a entrar 1.11s después de que la anterior empezó a salir
+    };
+
+    // El espectro de una letra al salir, del color base a transparente
+    // (al entrar se recorre a la inversa). Son los colores medidos en
+    // la referencia, a intervalos iguales.
+    const ESPECTRO = [
+      '#f8cefe', '#e58ff4', '#e966f5', '#e84b86', '#e63c35', '#f26424', '#f7a541', '#f4cb74',
+      '#ecd3ad', '#dcd9fa', '#8cc6f4', '#36b0f2', '#1c92d4', '#1f719f', '#1a4e70', '#1b3142'
+    ];
+
+    const rgba = function (hex) {
+      const n = parseInt(hex.slice(1), 16);
+      return [n >> 16, (n >> 8) & 255, n & 255, 1];
+    };
+    const rgbBase = window.getComputedStyle(titular).color.match(/[\d.]+/g).map(Number);
+    const ultimo  = rgba(ESPECTRO[ESPECTRO.length - 1]);
+    const PUNTOS  = [[rgbBase[0], rgbBase[1], rgbBase[2], 1]]
+      .concat(ESPECTRO.map(rgba), [[ultimo[0], ultimo[1], ultimo[2], 0]]);
+    const TRAMOS  = PUNTOS.length - 1;
+
+    // p = 0 es el color base de la letra; p = 1, transparente.
+    function colorEn(p) {
+      const x = Math.min(Math.max(p, 0), 1) * TRAMOS;
+      const i = Math.min(Math.floor(x), TRAMOS - 1);
+      const f = x - i;
+      const a = PUNTOS[i];
+      const b = PUNTOS[i + 1];
+      return 'rgba(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' +
+                       Math.round(a[1] + (b[1] - a[1]) * f) + ',' +
+                       Math.round(a[2] + (b[2] - a[2]) * f) + ',' +
+                       (a[3] + (b[3] - a[3]) * f).toFixed(3) + ')';
+    }
+
+    // Cada frase es un bloque con sus letras en <span>; las palabras
+    // no se parten (white-space: nowrap) y los espacios cuentan para
+    // el desfase, como en la referencia. Sólo la primera frase queda
+    // para los lectores de pantalla.
+    const frases = FRASES.map(function (texto) {
+      const cont = document.createElement('span');
+      cont.className = 'rota__frase';
+      cont.setAttribute('aria-hidden', 'true');
+      const chars = [];
+      let n = 0;
+      texto.split(' ').forEach(function (palabra, w) {
+        if (w > 0) { cont.appendChild(document.createTextNode(' ')); n++; }
+        const pal = document.createElement('span');
+        pal.className = 'rota__pal';
+        Array.from(palabra).forEach(function (ch) {
+          const c = document.createElement('span');
+          c.textContent = ch;
+          pal.appendChild(c);
+          chars.push({ el: c, i: n, col: '' });
+          n++;
+        });
+        cont.appendChild(pal);
+      });
+      return { el: cont, chars: chars, n: n };
+    });
+
+    titular.textContent = '';
+    frases.forEach(function (f) { titular.appendChild(f.el); });
+    titular.setAttribute('aria-label', FRASES[0]);
+    titular.classList.add('rota--viva');
+
+    // El calendario de un ciclo completo, con la frase 0 empezando a entrar en t = 0.
+    let cursor = 0;
+    frases.forEach(function (f) {
+      f.e0 = cursor;                                        // empieza a entrar
+      f.e1 = f.e0 + (f.n - 1) * T.pasoE + T.entrada;        // ya entró entera
+      f.s0 = f.e1 + T.espera;                               // empieza a salir
+      f.s1 = f.s0 + (f.n - 1) * T.pasoS + T.salida;         // ya salió entera
+      cursor = f.s0 + T.solape;                             // la siguiente empieza a entrar
+    });
+    const CICLO = cursor;
+
+    function pintar(tau) {
+      frases.forEach(function (f, k) {
+        // La salida de la última frase se alarga un poco más allá del
+        // ciclo, sobre la entrada de la primera.
+        let t = tau;
+        if (k === frases.length - 1 && tau < f.s1 - CICLO) t = tau + CICLO;
+
+        const dentro = t >= f.e0 && t <= f.s1;
+        f.el.classList.toggle('activa', dentro);
+        if (!dentro) return;
+
+        f.chars.forEach(function (c) {
+          const pe = (t - f.e0 - c.i * T.pasoE) / T.entrada;   // progreso de entrada
+          const ps = (t - f.s0 - c.i * T.pasoS) / T.salida;    // progreso de salida
+          let col = '';                                        // en reposo: el color base
+          if (ps >= 1 || pe <= 0) col = 'rgba(0,0,0,0)';
+          else if (ps > 0)        col = colorEn(ps);
+          else if (pe < 1)        col = colorEn(1 - pe);
+          if (c.col !== col) { c.el.style.color = col; c.col = col; }
+        });
+      });
+    }
+
+    // Reposo: ninguna letra está a mitad de recorrido.
+    function enReposo(tau) {
+      return frases.some(function (f) { return tau >= f.e1 && tau < f.s0; });
+    }
+
+    // Arranca con la primera frase ya entera.
+    let reloj     = frases[0].e1;
+    let previo    = 0;
+    let vista     = true;
+    let conCursor = false;   // el cursor está encima
+    let congelada = false;   // congelada a mano (para revisar, desde la consola)
+
+    pintar(reloj);
+
+    function marco(ahora) {
+      const parar = congelada || (conCursor && enReposo(reloj % CICLO));
+      if (previo && vista && !parar) reloj += Math.min(.1, (ahora - previo) / 1000);
+      previo = ahora;
+      if (vista) pintar(reloj % CICLO);
+      window.requestAnimationFrame(marco);
+    }
+    window.requestAnimationFrame(marco);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { vista = e[0].isIntersecting; }).observe(titular);
+    }
+    if (conPuntero) {
+      titular.addEventListener('pointerenter', function () { conCursor = true; });
+      titular.addEventListener('pointerleave', function () { conCursor = false; });
+    }
+
+    // Para revisar cualquier instante desde la consola:
+    //   document.querySelector('.rota').rotador.ir(9.5)
+    titular.rotador = {
+      ciclo: CICLO,
+      frases: frases.map(function (f) { return { e0: f.e0, e1: f.e1, s0: f.s0, s1: f.s1 }; }),
+      pausar: function (si) { congelada = si; },
+      tiempo: function () { return reloj % CICLO; },
+      enReposo: function (t) { return enReposo(t); },
+      ir: function (t) { reloj = t; pintar(reloj % CICLO); }
+    };
+  }
+
   /* ---------- 1b. Progreso de la página -----------------------
      La misma barra que se llena en Proceso, pero de toda la
      hoja: cuánto scroll llevas, de un vistazo. Sin GSAP: es un

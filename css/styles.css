@@ -347,6 +347,15 @@ main > section + section { border-top: 1px solid var(--filo); }
    (titular de 38px, texto de 20px); más chico en pantallas chicas. */
 .ap-intro { display: grid; gap: 20px; margin: var(--aire) 0 48px; }
 .ap-intro__titulo { font: 700 28px/1.1 var(--f-texto); letter-spacing: -.02em; }
+
+/* El titular que rota (ver la sección 0b de js/app.js): las frases se
+   apilan en la misma celda —la celda mide lo que la más alta, así el
+   bloque no salta al cambiar de frase— y sólo se ve la activa. Cada
+   letra es un <span> al que app.js le va cambiando el color. */
+.rota--viva { display: grid; }
+.rota--viva .rota__frase { grid-area: 1 / 1; visibility: hidden; }
+.rota--viva .rota__frase.activa { visibility: visible; }
+.rota__pal { white-space: nowrap; }
 .ap-intro__texto { max-width: 40ch; font-size: 17px; line-height: 1.25; }
 .ap-intro__acciones { display: flex; flex-wrap: wrap; gap: 0 24px; }
 .ap-intro__acciones a {

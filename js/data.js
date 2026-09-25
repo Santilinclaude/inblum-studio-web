@@ -1,7 +1,8 @@
 /* ============================================================
    INBLÜM STUDIO · Contenido editable
    Este es el único archivo que necesitas tocar para cambiar
-   servicios, piezas de portafolio y datos de contacto.
+   servicios, piezas de portafolio, datos de contacto y las frases
+   del titular.
    ============================================================ */
 
 /* ---------- 1. Contacto -------------------------------------
@@ -118,34 +119,21 @@ const SERVICIOS = [
   }
 ];
 
-/* ---------- 3. La secuencia de la portada -------------------
-   Las imágenes que se pasan con el cursor sobre el cartel de la
-   portada. La primera es la marca; las demás, obra del estudio.
-   Para añadir una: copia el archivo a assets/obra/ y agrega su
-   renglón aquí. El color del ambiente se saca solo de cada
-   imagen, no hay que anotarlo.
+/* ---------- 3. Frases del titular -------------------------
+   El titular de la primera página va alternando entre estas frases:
+   cada letra recorre un espectro de colores y se desvanece, y entra
+   la frase siguiente, en loop. La primera es la que se lee cuando no
+   hay animación (sin JavaScript, con "reducir movimiento" o con un
+   lector de pantalla) y tiene que ser igual al texto del <h2> de
+   index.html. Frases de unos 55 caracteres son lo ideal: ocupan dos
+   líneas y el bloque no se mueve al cambiar. Los tiempos están en la
+   sección 0b de js/app.js.
    ------------------------------------------------------------ */
-const OBRA = [
-  { img: 'assets/campo-alto.png',   titulo: 'Inblüm Studio', nota: 'Identidad' },
-  { img: 'assets/obra/holografico.jpg', titulo: 'Gradiente holográfico', nota: 'Luz' },
-  { img: 'assets/obra/algas.jpg',       titulo: 'Fondo marino',          nota: 'Orgánico' },
-  { img: 'assets/obra/flores.jpg',      titulo: 'Flor de temporada',     nota: 'Botánico' },
-  { img: 'assets/obra/abstracto.jpg',   titulo: 'Abstracto experimental', nota: 'Gráfico' },
-  { img: 'assets/obra/jardin.jpg',      titulo: 'Jardín digital',        nota: 'Pixelado' },
-  { img: 'assets/obra/mar.jpg',         titulo: 'Textura de mar',        nota: 'Agua' },
-  { img: 'assets/obra/piel.jpg',        titulo: 'Piel animal',           nota: 'Patrón' },
-  { img: 'assets/obra/papel-1.jpg',     titulo: 'Papelería 01',          nota: 'Editorial' },
-  { img: 'assets/obra/papel-2.jpg',     titulo: 'Papelería 02',          nota: 'Editorial' },
-  { img: 'assets/obra/porcelana.jpg',   titulo: 'Porcelana',             nota: 'Mineral' },
-  { img: 'assets/obra/pincelada.jpg',   titulo: 'Pincelada a mano',      nota: 'Artesanal' },
-  { img: 'assets/obra/minimal.jpg',     titulo: 'Minimalismo',           nota: 'Escena' },
-  { img: 'assets/obra/hoja.jpg',        titulo: 'Hoja tropical',         nota: 'Botánico' },
-  { img: 'assets/obra/concreto.jpg',    titulo: 'Concreto',              nota: 'Mineral' },
-  { img: 'assets/obra/collage.jpg',     titulo: 'Collage',               nota: 'Capas' },
-  { img: 'assets/obra/cimatica.jpg',    titulo: 'Cimática',              nota: 'Patrón' },
-  { img: 'assets/obra/azulejo.jpg',     titulo: 'Azulejo',               nota: 'Ornamento' },
-  { img: 'assets/obra/marmol.jpg',      titulo: 'Mármol',                nota: 'Mineral' },
-  { img: 'assets/obra/luz.jpg',         titulo: 'Luz filtrada',          nota: 'Luz' }
+const FRASES = [
+  'Branding, video, audio y desarrollo con un solo equipo.',
+  'Un solo equipo en lugar de cinco proveedores distintos.',
+  'De la primera idea al último archivo, en un solo estudio.',
+  'Un interlocutor, un calendario y un presupuesto para todo.'
 ];
 
 /* ---------- 4. Proyectos de portafolio -----------------------
