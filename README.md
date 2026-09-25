@@ -82,8 +82,9 @@ en la sección 0 de `js/app.js`.
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
   retrato es un recorte 4:5 de una foto vertical (1109 × 2000 px), tomado 210 px
   más abajo del borde de arriba: para subir o bajar el encuadre hay que volver a
-  recortar la foto original. Su `src` lleva `?v=2`: súbelo cada vez que cambies el
-  archivo, para que nadie vea la copia vieja guardada en el navegador.
+  recortar la foto original. Su `src` lleva un `?v=` con un número: súbelo cada vez
+  que cambies el archivo, para que nadie vea la copia vieja guardada en el
+  navegador.
 - **El titular que rota**: el `<h2>` alterna entre las frases de `FRASES`
   (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
   espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
