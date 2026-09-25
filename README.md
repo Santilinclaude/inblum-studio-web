@@ -67,7 +67,7 @@ en la sección 0 de `js/app.js`.
 - **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
   resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
   en `.ap-intro` de `css/styles.css`.
-- **Las imágenes**: el retrato es una foto del estudio (el libro «2026 Inblüm
+- **Las imágenes**: el retrato es una foto del estudio (el libro «Inblüm
   Studio, Volume 1»); `mano.jpg` y `rosa.jpg` son ilustraciones de relleno,
   tomadas del portafolio. Para cambiar cualquiera, reemplaza el archivo en
   `assets/apertura/` con la misma proporción:
@@ -80,7 +80,7 @@ en la sección 0 de `js/app.js`.
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
-  retrato es un recorte 4:5 de una foto vertical (1109 × 2000 px), tomado 210 px
+  retrato es un recorte 4:5 de una foto vertical (1107 × 2000 px), tomado 210 px
   más abajo del borde de arriba: para subir o bajar el encuadre hay que volver a
   recortar la foto original. Su `src` lleva un `?v=` con un número: súbelo cada vez
   que cambies el archivo, para que nadie vea la copia vieja guardada en el
