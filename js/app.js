@@ -94,8 +94,9 @@
      (js/data.js). Cada letra recorre un espectro de colores —del
      rosa al naranja, el amarillo, el celeste y el azul— y se
      desvanece, con un desfase de izquierda a derecha; la frase
-     siguiente entra con el mismo recorrido a la inversa. Los tiempos
-     se midieron cuadro por cuadro en la animación de referencia.
+     siguiente entra con el mismo recorrido a la inversa. El recorrido
+     y el orden son los de la animación de referencia, medidos cuadro
+     por cuadro; el ritmo se aceleró (ver T).
 
      No usa GSAP: el estado de cada letra es una función del tiempo
      (pintar), y un requestAnimationFrame sólo lo avanza. Se pausa
@@ -110,13 +111,15 @@
   if (titular && typeof FRASES !== 'undefined' && FRASES.length > 1 &&
       !quieto.matches && !sinRevelado) {
 
+    // Los tiempos, en segundos. Entre paréntesis, lo que medí en la
+    // referencia; aquí van más rápidos porque así se sentía largo.
     const T = {
-      espera: 6,      // cada frase se queda quieta 6s
-      salida: .93,    // una letra tarda 0.93s en recorrer el espectro al salir...
-      entrada: .85,   // ...y 0.85s al entrar
-      pasoS: .0205,   // desfase entre letras (s por carácter), de izquierda a derecha
-      pasoE: .0215,
-      solape: 1.11    // la frase siguiente empieza a entrar 1.11s después de que la anterior empezó a salir
+      espera: 3,      // cada frase se queda quieta 3s (referencia: 6)
+      salida: .6,     // una letra tarda 0.6s en recorrer el espectro al salir (.93)...
+      entrada: .55,   // ...y 0.55s al entrar (.85)
+      pasoS: .013,    // desfase entre letras, de izquierda a derecha, por carácter (.0205)
+      pasoE: .0138,   // (.0215)
+      solape: .7      // la frase siguiente empieza a entrar 0.7s después de que la anterior empezó a salir (1.11)
     };
 
     // El espectro de una letra al salir, del color base a transparente

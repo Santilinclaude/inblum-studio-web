@@ -82,10 +82,11 @@ en la sección 0 de `js/app.js`.
   (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
   espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
   desfase de izquierda a derecha; la frase siguiente entra con el mismo recorrido
-  a la inversa, en loop. Es la animación de una referencia, con sus tiempos
-  medidos cuadro por cuadro: cada frase se queda quieta 6 s, una letra tarda
-  0.93 s en salir y 0.85 s en entrar, y hay 21 ms de desfase por letra. Esos
-  números y el espectro están en la sección 0b de `js/app.js`. Frases de unos 55
+  a la inversa, en loop. Es la animación de una referencia: el recorrido de
+  colores y el orden se midieron cuadro por cuadro, y el ritmo se aceleró (cada
+  frase se queda quieta 3 s, una letra tarda 0.6 s en salir y 0.55 s en entrar,
+  con 13 ms de desfase por letra; la referencia iba al doble de espera). Los
+  tiempos (`T`) y el espectro están en la sección 0b de `js/app.js`. Frases de unos 55
   caracteres son lo ideal: ocupan dos líneas y el bloque no se mueve. La primera
   frase es la que ve quien no tiene animación (sin JavaScript, con "reducir
   movimiento" o con `?revelado=todo`) y la que leen los lectores de pantalla; se
