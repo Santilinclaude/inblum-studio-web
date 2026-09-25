@@ -51,6 +51,19 @@ inblum-web/
 `assets/wordmark.png`, `tile*.png` y `campo-*.png` son de versiones anteriores
 y hoy no se usan.
 
+## La barra de arriba
+
+Queda fija en toda la página, hasta el pie (`position: sticky`). Por eso el
+`<header class="ap-nav">` está antes de `<main>` y no dentro de la Apertura: un
+elemento sticky sólo se queda mientras dure su contenedor. Lleva fondo blanco y,
+en cuanto se baja, una línea de 1px debajo (`js/app.js`, sección 1c); arriba del
+todo no la tiene. Su alto es `--nav-h` (`css/tokens.css`): 36.8px en escritorio,
+un renglón, y 69.6px en pantallas chicas, donde son dos. De ese alto dependen el
+retrato fijo de la Apertura, las columnas fijas de Servicios y Proceso y los
+saltos a cada sección (`scroll-padding-top` en `html`): si cambias el tamaño de
+la barra, cambia también `--nav-h`. La línea de avance de la página va encima de
+ella (las capas están en `css/tokens.css`).
+
 ## La Apertura, por dentro
 
 Está en `index.html` (bloque `Apertura`), en la sección 5 de `css/styles.css` y

@@ -49,6 +49,9 @@
   /* --- Ritmo --- */
   --aire:   12px;        /* margen y canal de todo el sitio */
   --sec-y:  80px;        /* entre secciones */
+  --nav-h:  69.6px;      /* alto de la barra de arriba, que queda fija: dos
+                            renglones en pantallas chicas (4px de aire +
+                            2 x 32.8px); en escritorio es uno, ver abajo */
 
   /* --- Movimiento --- */
   --brote:  cubic-bezier(.2, .8, .2, 1);
@@ -56,6 +59,11 @@
 
   /* --- Capas --- */
   --z-base:      1;
-  --z-progreso:  35;
-  --z-menu:      40;
+  --z-menu:      40;     /* la barra de arriba */
+  --z-progreso:  45;     /* la línea de avance, sobre la barra */
+  --z-saltar:    50;     /* "Saltar al contenido", sobre todo */
+}
+
+@media (min-width: 1000px) {
+  :root { --nav-h: 36.8px; }   /* un solo renglón: 4px de aire + 32.8px */
 }

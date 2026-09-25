@@ -283,6 +283,22 @@
     window.addEventListener('resize', fijarRecorrido);
   }
 
+  /* ---------- 1c. La barra de arriba --------------------------
+     Que quede fija en toda la página es CSS (sticky). Lo único que
+     hace el script es ponerle una línea de 1px debajo en cuanto se
+     baja, para que se note dónde acaba y lo que sube por debajo no
+     parezca cortado sin motivo. Arriba del todo no lleva línea.
+     --------------------------------------------------------- */
+  const barra = $('.ap-nav');
+
+  if (barra) {
+    const marcarBarra = function () {
+      barra.classList.toggle('ap-nav--baja', window.scrollY > 2);
+    };
+    marcarBarra();
+    window.addEventListener('scroll', marcarBarra, { passive: true });
+  }
+
   /* ---------- 4. Servicios (sidebar fijo + lista) -------------
      El mismo patrón que Proceso: una fila por servicio, con su
      número y su nombre siempre visibles; el detalle (la frase y

@@ -20,8 +20,8 @@
 <!-- La tipografía es Helvetica, la del sistema del visitante (ver
      --f-texto en css/tokens.css): no se descarga ninguna fuente. -->
 
-<link rel="stylesheet" href="css/tokens.css?v=92">
-<link rel="stylesheet" href="css/styles.css?v=92">
+<link rel="stylesheet" href="css/tokens.css?v=94">
+<link rel="stylesheet" href="css/styles.css?v=94">
 </head>
 
 <body>
@@ -31,6 +31,20 @@
 <!-- El mismo hilo que se llena en Proceso, pero de toda la
      página: cuánto llevas recorrido, de un vistazo. -->
 <div class="progreso" aria-hidden="true"><span class="progreso__linea" id="progreso-linea"></span></div>
+
+<!-- La barra de arriba queda fija en toda la página (sticky). Va aquí,
+     fuera de la Apertura, para que siga ahí hasta el pie. Su alto es
+     --nav-h, en css/tokens.css. -->
+<header class="ap-nav">
+  <a class="ap-nav__marca" href="#inicio" aria-current="page">Inblüm Studio</a>
+  <nav class="ap-nav__enlaces" aria-label="Principal">
+    <a href="#trabajo">Trabajo</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#estudio">Estudio</a>
+    <a href="#proceso">Proceso</a>
+  </nav>
+  <a class="ap-nav__cta" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
+</header>
 
 <main id="contenido">
 
@@ -43,17 +57,6 @@
        foto del estudio; las otras dos imágenes son ilustraciones de
        relleno: se cambian en assets/apertura/. -->
   <div class="apertura" id="inicio">
-
-    <header class="ap-nav">
-      <a class="ap-nav__marca" href="#inicio" aria-current="page">Inblüm Studio</a>
-      <nav class="ap-nav__enlaces" aria-label="Principal">
-        <a href="#trabajo">Trabajo</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#estudio">Estudio</a>
-        <a href="#proceso">Proceso</a>
-      </nav>
-      <a class="ap-nav__cta" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
-    </header>
 
     <div class="ap-cuerpo">
       <div class="ap-lado">
@@ -307,8 +310,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=92" defer></script>
-<script src="js/app.js?v=92" defer></script>
+<script src="js/data.js?v=94" defer></script>
+<script src="js/app.js?v=94" defer></script>
 
 </body>
 </html>
