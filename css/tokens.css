@@ -34,19 +34,17 @@
   --t-h-lg:  2.5rem;     /* 40px: titular grande */
 
   /* --- Apertura: la primera página (dirección "Beings") ---
-     Una paleta propia, sólo para la portada y su panel oscuro; el
-     resto del sitio sigue en Grafik. La tipografía es la misma de
-     todo el sitio: las cuatro caras de la referencia se resuelven con
+     Una paleta propia, sólo para la portada y su panel; el resto del
+     sitio sigue en Grafik. La tipografía es la misma de todo el sitio:
      Helvetica en peso 500 (texto) y 700 (cabecera, titular,
-     declaración y la palabra grande). Los nombres del sistema
-     original van entre paréntesis. */
-  --b-blanco:   #ffffff;   /* lienzo (Paper White) */
-  --b-cacao:    #1b0800;   /* tinta y superficie oscura (Cocoa Ink) */
-  --b-umbra:    #381a06;   /* panel de la declaración (Home Umber) */
-  --b-durazno:  #f6c9a1;   /* texto sólo sobre cacao o úmbra (Talent Peach) */
-  --b-leche:    #fff4ec;   /* texto suave sobre oscuro (Milk Paper) */
-  --b-rubor:    #fae3cf;   /* escala del lavado (Join Blush) */
-  --b-arcilla:  #78492d;   /* escala del lavado (Shortlist Clay) */
+     declaración y la palabra grande). El verde es el de la referencia
+     que se eligió (#888740): el fondo se lava del blanco a él pasando
+     por dos tintes, y la tinta sobre ese verde da 5.2:1 de contraste. */
+  --b-blanco:    #ffffff;   /* lienzo */
+  --b-cacao:     #1b0800;   /* tinta (Cocoa Ink) */
+  --b-verde:     #888740;   /* el panel, y donde termina el lavado */
+  --b-lavado-1:  #f0f2d6;   /* primer tramo del lavado: un tinte casi blanco */
+  --b-lavado-2:  #c9cb96;   /* segundo tramo: un verde salvia */
 
   /* --- Ritmo --- */
   --aire:   12px;        /* margen y canal de todo el sitio */

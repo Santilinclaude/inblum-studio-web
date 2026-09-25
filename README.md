@@ -11,15 +11,15 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
   cero sombra y líneas de 1px como único esqueleto. El color vive dentro del
   trabajo, nunca en la interfaz.
 - **Beings** es sólo la primera página (la *Apertura*): una palabra enorme, un
-  retrato recortado al ras, texto de 12px en mayúsculas y campos cálidos que se
-  lavan del blanco al marrón. Trae su propia paleta, pero la misma tipografía
+  retrato recortado al ras, texto de 12px en mayúsculas y un campo verde al que
+  se lava el fondo desde el blanco. Trae su propia paleta, pero la misma tipografía
   que todo lo demás.
 
 ## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Retrato fijo, el logotipo completo con el texto debajo y un panel oscuro que da paso a Trabajo |
+| Apertura | Retrato fijo, el logotipo completo con el texto debajo y un panel verde que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 con su ficha debajo |
 | Estudio | La frase que se enciende palabra por palabra y la nota a la derecha |
 | Servicios | Las ocho áreas; el detalle se abre con el cursor o el foco |
@@ -73,14 +73,17 @@ en la sección 0 de `js/app.js`.
   |---|---|---|
   | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
   | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
-  | `rosa.jpg` | Alta, al centro del panel oscuro | 9:16 |
+  | `rosa.jpg` | Alta, al centro del panel verde | 9:16 |
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen.
-- **El lavado**: conforme se baja, el fondo pasa de blanco a rubor, arcilla y
-  úmbra (los mismos colores de `tokens.css`) y termina justo cuando asoma el
-  panel. Sólo en escritorio: en pantallas chicas el panel llega enseguida y no
-  hay dónde lavar.
+- **El verde y el lavado**: el verde del panel (`--b-verde`, `#888740`) es el de
+  la referencia elegida. Conforme se baja, el fondo pasa del blanco a él por
+  `--b-lavado-1` y `--b-lavado-2` (todos en `css/tokens.css`, que `app.js` lee) y
+  termina justo cuando asoma el panel. El texto del panel va en tinta, no en
+  color claro: sobre ese verde da 5.2:1 de contraste. Para cambiar el tono, edita
+  esos tres valores. El lavado es sólo de escritorio: en pantallas chicas el panel
+  llega enseguida y no hay dónde lavar.
 
 ## Tipografía y librerías
 

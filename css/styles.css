@@ -252,9 +252,9 @@ main > section + section { border-top: 1px solid var(--filo); }
 
 /* ---------- 5. Apertura (la primera página) -----------------
    Dirección "Beings": un retrato recortado al ras, el logotipo
-   completo con el texto debajo, cabecera y notas de 12px y campos
-   cálidos que se lavan del blanco al marrón. Trae su propia paleta (tokens "--b-*"); el
-   resto del sitio sigue en Grafik. La tipografía es la de todo el
+   completo con el texto debajo, cabecera y notas de 12px y un campo
+   verde al que se lava el fondo desde el blanco. Trae su propia paleta
+   (tokens "--b-*"); el resto del sitio sigue en Grafik. La tipografía es la de todo el
    sitio, Helvetica: 500 para el texto y 700 para la cabecera, el
    titular, la declaración y la palabra grande. Radio 0 y ninguna
    sombra: las separaciones son bordes duros de imagen y cambios de
@@ -402,17 +402,16 @@ main > section + section { border-top: 1px solid var(--filo); }
   .ap-intro__texto { max-width: 44ch; font-size: var(--t-texto); }
 }
 
-/* --- El panel oscuro: la declaración, en durazno sobre úmbra. Es el
+/* --- El panel verde: la declaración, en tinta sobre verde. Es el
    destino del lavado del fondo; por eso lleva su propio color, el
    mismo con el que termina. */
 .ap-panel {
   display: grid;
   gap: var(--aire);
   padding: var(--aire);
-  background: var(--b-umbra);
-  color: var(--b-durazno);
+  background: var(--b-verde);
+  color: var(--b-cacao);
 }
-.ap-panel :focus-visible { outline-color: var(--b-durazno); }
 
 /* 30px/35.25px es la medida de la referencia; en pantallas chicas baja a
    24px para que la declaración no ocupe tres pantallas. */
@@ -426,8 +425,8 @@ main > section + section { border-top: 1px solid var(--filo); }
 
 .ap-panel__fila { display: grid; gap: 24px; margin-top: var(--aire); }
 .ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
-.ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-umbra); }
-.ap-panel__nota { max-width: 44ch; color: var(--b-leche); }
+.ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-verde); }
+.ap-panel__nota { max-width: 44ch; }
 
 /* La palabra de la sección, a 66px y subrayada (el "Bonto" de la
    referencia, aquí en Helvetica Bold): es el enlace que baja a Trabajo. */

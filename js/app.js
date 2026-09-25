@@ -48,8 +48,9 @@
 
   /* ---------- 0. Apertura (la primera página) -----------------
      Una sola mejora sobre una portada que ya funciona sin ella: el
-     lavado. Conforme se baja, el fondo pasa del blanco al marrón del
-     panel oscuro (blanco, rubor, arcilla, úmbra). Sólo en escritorio:
+     lavado. Conforme se baja, el fondo pasa del blanco al verde del
+     panel (blanco, --b-lavado-1, --b-lavado-2, --b-verde: los colores
+     viven en css/tokens.css). Sólo en escritorio:
      en pantallas chicas el panel llega justo después del texto y no
      hay dónde lavar.
      --------------------------------------------------------- */
@@ -65,6 +66,9 @@
       // texto, en medio de la primera pantalla, ya salieron por arriba
       // (o van saliendo, todavía sobre un fondo claro) cuando el fondo
       // se oscurece.
+      const paleta = window.getComputedStyle(document.documentElement);
+      const tono = function (token) { return paleta.getPropertyValue(token).trim(); };
+
       window.gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
@@ -79,9 +83,9 @@
           invalidateOnRefresh: true
         }
       })
-        .to(apertura, { backgroundColor: '#fae3cf', duration: 1 })
-        .to(apertura, { backgroundColor: '#78492d', duration: 1 })
-        .to(apertura, { backgroundColor: '#381a06', duration: 1 });
+        .to(apertura, { backgroundColor: tono('--b-lavado-1'), duration: 1 })
+        .to(apertura, { backgroundColor: tono('--b-lavado-2'), duration: 1 })
+        .to(apertura, { backgroundColor: tono('--b-verde'), duration: 1 });
     });
   }
 
