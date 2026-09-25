@@ -67,8 +67,10 @@ en la sección 0 de `js/app.js`.
 - **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
   resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
   en `.ap-intro` de `css/styles.css`.
-- **Las ilustraciones** son de relleno, tomadas del portafolio. Para cambiarlas,
-  reemplaza el archivo en `assets/apertura/` con la misma proporción:
+- **Las imágenes**: el retrato es una foto del estudio (el libro «2026 Inblüm
+  Studio, Volume 1»); `mano.jpg` y `rosa.jpg` son ilustraciones de relleno,
+  tomadas del portafolio. Para cambiar cualquiera, reemplaza el archivo en
+  `assets/apertura/` con la misma proporción:
 
   | Archivo | Dónde sale | Proporción |
   |---|---|---|
