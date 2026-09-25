@@ -79,7 +79,11 @@ en la sección 0 de `js/app.js`.
   | `rosa.jpg` | Alta, al centro del panel verde | 9:16 |
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
-  Los textos alternativos están en `index.html`; cámbialos con la imagen.
+  Los textos alternativos están en `index.html`; cámbialos con la imagen. El
+  retrato es un recorte 4:5 de una foto vertical (1109 × 2000 px), tomado 210 px
+  más abajo del borde de arriba: para subir o bajar el encuadre hay que volver a
+  recortar la foto original. Su `src` lleva `?v=2`: súbelo cada vez que cambies el
+  archivo, para que nadie vea la copia vieja guardada en el navegador.
 - **El titular que rota**: el `<h2>` alterna entre las frases de `FRASES`
   (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
   espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
