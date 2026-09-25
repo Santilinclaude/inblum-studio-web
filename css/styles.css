@@ -384,11 +384,10 @@ main > section + section { border-top: 1px solid var(--filo); }
     max-height: calc(100svh - 2 * var(--aire));
   }
 
-  /* La columna derecha: el logotipo con el texto debajo, apoyado en
-     el borde de abajo de la pantalla (a la altura del pie del retrato),
-     y más abajo la segunda imagen. La primera fila mide por lo menos lo
-     que queda de pantalla (menos la cabecera y los márgenes): eso
-     sostiene el bloque abajo y la imagen no asoma hasta que se baja. */
+  /* La columna derecha: el logotipo con el texto debajo, en medio de
+     lo que queda de pantalla bajo la cabecera, y más abajo la segunda
+     imagen. La primera fila mide por lo menos esa altura: eso centra el
+     bloque y la imagen no asoma hasta que se baja. */
   .ap-lado {
     grid-column: 7 / span 6; grid-row: 1;
     display: grid;
@@ -396,7 +395,7 @@ main > section + section { border-top: 1px solid var(--filo); }
     grid-template-rows: minmax(calc(100svh - 61px), auto) auto;
     row-gap: 48px;
   }
-  .ap-cabeza { display: block; align-self: end; }
+  .ap-cabeza { display: block; align-self: center; }
   .ap-logo { width: calc(50% - 6px); margin: 0 0 36px; }
   .ap-intro { margin: 0; }
   .ap-intro__titulo { font-size: var(--t-h); }

@@ -49,8 +49,7 @@
   /* ---------- 0. Apertura (la primera página) -----------------
      Una sola mejora sobre una portada que ya funciona sin ella: el
      lavado. Conforme se baja, el fondo pasa del blanco al marrón del
-     panel oscuro (blanco, rubor, arcilla, úmbra) y el texto pasa de
-     cacao a durazno cuando el fondo ya está oscuro. Sólo en escritorio:
+     panel oscuro (blanco, rubor, arcilla, úmbra). Sólo en escritorio:
      en pantallas chicas el panel llega justo después del texto y no
      hay dónde lavar.
      --------------------------------------------------------- */
@@ -58,16 +57,14 @@
   const apertura = $('#inicio');
   const cuerpo   = apertura && $('.ap-cuerpo', apertura);
   const panel    = apertura && $('.ap-panel', apertura);
-  const cabeza   = apertura && $('.ap-cabeza', apertura);
 
-  if (conGsap && cuerpo && panel && cabeza) {
+  if (conGsap && cuerpo && panel) {
     window.gsap.matchMedia().add('(min-width: 1000px)', function () {
       // El lavado dura media pantalla de scroll y termina justo cuando
       // asoma el panel, que ya es del color final. El logotipo y el
-      // texto se apoyan abajo de la pantalla, así que siguen a la vista
-      // mientras el fondo se oscurece: a media subida cambian de cacao
-      // a durazno (el color de la declaración) para no perderse sobre
-      // el marrón.
+      // texto, en medio de la primera pantalla, ya salieron por arriba
+      // (o van saliendo, todavía sobre un fondo claro) cuando el fondo
+      // se oscurece.
       window.gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
@@ -84,8 +81,7 @@
       })
         .to(apertura, { backgroundColor: '#fae3cf', duration: 1 })
         .to(apertura, { backgroundColor: '#78492d', duration: 1 })
-        .to(apertura, { backgroundColor: '#381a06', duration: 1 })
-        .to(cabeza,   { color: '#f6c9a1', duration: .06 }, 1.84);
+        .to(apertura, { backgroundColor: '#381a06', duration: 1 });
     });
   }
 
