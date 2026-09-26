@@ -80,24 +80,28 @@ en la sección 0 de `js/app.js`.
 - **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
   resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
   en `.ap-intro` de `css/styles.css`.
-- **Las imágenes**: el retrato es una foto del estudio (el libro «Inblüm
-  Studio, Volume 1»); `mano.jpg` y `rosa.jpg` son ilustraciones de relleno,
+- **Las imágenes**: el retrato es una ilustración con el nombre del estudio (la
+  mujer de la regadera); `mano.jpg` y `rosa.jpg` son ilustraciones de relleno,
   tomadas del portafolio. Para cambiar cualquiera, reemplaza el archivo en
   `assets/apertura/` con la misma proporción:
 
   | Archivo | Dónde sale | Proporción |
   |---|---|---|
-  | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
+  | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 2:3 |
   | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
   | `rosa.jpg` | Alta, al centro del panel verde | 9:16 |
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
-  retrato es un recorte 4:5 de una foto vertical (1107 × 2000 px), tomado 210 px
-  más abajo del borde de arriba: para subir o bajar el encuadre hay que volver a
-  recortar la foto original. Su `src` lleva un `?v=` con un número: súbelo cada vez
-  que cambies el archivo, para que nadie vea la copia vieja guardada en el
-  navegador.
+  retrato es un recorte 2:3 (1086 × 1629 px) de una ilustración vertical de
+  1121 × 2000 px: se tomó desde 35 px del borde izquierdo (para quitar una franja
+  oscura, la sombra del lomo del escaneo) y 215 px del de arriba (para que las dos
+  cabezas y los zapatos quepan con aire). Es 2:3 y no 4:5 porque en 4:5 se
+  cortaba una cabeza o unos zapatos; si cambias el encuadre hay que volver a
+  recortar la original. Su `src` lleva un `?v=` con un número: súbelo cada vez que
+  cambies el archivo, para que nadie vea la copia vieja guardada en el navegador.
+  Si algún día vuelve una foto 4:5, cambia también `aspect-ratio` en `.ap-retrato`
+  (`css/styles.css`).
 - **El titular que rota**: el `<h2>` alterna entre las frases de `FRASES`
   (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
   espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
