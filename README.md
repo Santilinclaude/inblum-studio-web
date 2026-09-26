@@ -93,10 +93,10 @@ en la sección 0 de `js/app.js`.
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
-  retrato es un recorte 4:5 (1109 × 1386 px) de una foto vertical de 1109 × 2000
-  px, tomado 210 px más abajo del borde de arriba: el libro queda cerca del centro
-  y la hoja de la planta se corta un poco arriba. Para subir o bajar el encuadre
-  hay que volver a recortar la foto original. Su `src` lleva un `?v=` con un
+  retrato es un recorte 4:5 (1040 × 1300 px) de una foto vertical de 1109 × 2000
+  px, centrado en el libro: se tomó desde 68 px del borde izquierdo y 316 px del
+  de arriba, así que el libro queda justo en el centro del marco. Para mover el
+  encuadre hay que volver a recortar la foto original. Su `src` lleva un `?v=` con un
   número: súbelo cada vez que cambies el archivo, para que nadie vea la copia
   vieja guardada en el navegador. La proporción del marco está en `aspect-ratio`
   de `.ap-retrato` (`css/styles.css`): con una imagen que no sea 4:5, por ejemplo
