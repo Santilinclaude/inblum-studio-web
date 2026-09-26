@@ -466,7 +466,9 @@ main > section + section { border-top: 1px solid var(--filo); }
 
 .ap-panel__fila { display: grid; gap: 24px; margin-top: var(--aire); }
 .ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
-.ap-panel__foto { aspect-ratio: 3 / 4; background: var(--b-verde); }
+/* La ilustración del panel es vertical (9:16) y lleva su nombre en medio:
+   se ve entera también en pantallas chicas, sin recortarla. */
+.ap-panel__foto { aspect-ratio: 9 / 16; background: var(--b-verde); }
 .ap-panel__nota { max-width: 44ch; }
 
 /* La palabra de la sección, a 66px y subrayada (el "Bonto" de la
@@ -488,7 +490,7 @@ main > section + section { border-top: 1px solid var(--filo); }
     column-gap: var(--aire);
   }
   .ap-panel__izq  { grid-column: 1 / span 4; }
-  .ap-panel__foto { grid-column: 5 / span 4; aspect-ratio: 816 / 1456; }
+  .ap-panel__foto { grid-column: 5 / span 4; }
   .ap-panel__nota { grid-column: 9 / span 4; align-self: center; }
 }
 

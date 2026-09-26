@@ -81,15 +81,16 @@ en la sección 0 de `js/app.js`.
   resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
   en `.ap-intro` de `css/styles.css`.
 - **Las imágenes**: el retrato es una foto del estudio (el libro «2026 Inblüm
-  Studio»); `mano.jpg` y `rosa.jpg` son ilustraciones de relleno, tomadas del
-  portafolio. Para cambiar cualquiera, reemplaza el archivo en
-  `assets/apertura/` con la misma proporción:
+  Studio»); `mano.jpg` es una ilustración de relleno, tomada del portafolio, y
+  `regadera.jpg`, la del panel verde, es una ilustración con el nombre del
+  estudio. Para cambiar cualquiera, reemplaza el archivo en `assets/apertura/`
+  con la misma proporción:
 
   | Archivo | Dónde sale | Proporción |
   |---|---|---|
   | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
   | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
-  | `rosa.jpg` | Alta, al centro del panel verde | 9:16 |
+  | `regadera.jpg` | Alta, al centro del panel verde | 9:16 |
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
@@ -101,7 +102,10 @@ en la sección 0 de `js/app.js`.
   vieja guardada en el navegador. La proporción del marco está en `aspect-ratio`
   de `.ap-retrato` (`css/styles.css`): con una imagen que no sea 4:5, por ejemplo
   una ilustración vertical completa, cámbiala junto con el archivo (ver el
-  comentario ahí).
+  comentario ahí). `regadera.jpg` es un recorte 9:16 (900 × 1600 px) de una
+  ilustración de 1121 × 2000 px: se le quitó una franja oscura del borde
+  izquierdo, la sombra del lomo del escaneo. Se ve entera también en pantallas
+  chicas (`.ap-panel__foto` es 9:16 en todos los tamaños).
 - **El titular que rota**: el `<h2>` alterna entre las frases de `FRASES`
   (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
   espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
