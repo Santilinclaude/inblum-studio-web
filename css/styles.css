@@ -365,9 +365,11 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-retrato img,
 .ap-segunda img,
 .ap-panel__foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* El retrato es 2:3, la proporción de la ilustración que lleva: así se
-   ve entera (en 4:5 se cortaba una cabeza o unos zapatos). */
-.ap-retrato { aspect-ratio: 2 / 3; }
+/* El retrato es 4:5, como la foto que lleva. Con la ilustración de la
+   regadera (vertical, con el nombre en medio) fue 2:3 para que se viera
+   entera, pero dejaba un hueco grande antes del texto: si vuelve una
+   imagen así, cambia esta proporción y la del README. */
+.ap-retrato { aspect-ratio: 4 / 5; }
 .ap-retrato img { object-position: 50% 0; }
 .ap-segunda { aspect-ratio: 4 / 5; }
 
