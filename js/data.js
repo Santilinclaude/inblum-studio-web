@@ -161,7 +161,7 @@ const PIEZAS = [
     celdas: [
       { img: 'assets/work/graf-bruja-escalera.jpg?v=2', alt: 'Ilustración de una bruja de traje verde sentada en una escalera eléctrica, con el Empire State y una luna creciente al fondo', alto: 2 },
       { img: 'assets/work/graf-abrigo-cuervos.jpg', alt: 'Ilustración de una mujer envuelta en un abrigo con estampado de cuervos' },
-      { img: 'assets/obra/papel-1.jpg', dispositivo: true },
+      { img: 'assets/work/graf-guitarra-robot.jpg', alt: 'Ilustración de una figura cromada con destellos de luz que toca una guitarra eléctrica blanca, contra un cielo azul' },
       { img: 'assets/obra/papel-2.jpg', dispositivo: true },
       { img: 'assets/work/graf-cerezas-cigarro.jpg?v=2', alt: 'Ilustración de cuatro cerezas en llamas sobre un plato, con un cigarro encendido recargado en ellas', alto: 2 },
       { img: 'assets/obra/collage.jpg', dispositivo: true },
