@@ -157,9 +157,13 @@ En `js/data.js`, hasta arriba, marcados con `PENDIENTE`: correo, teléfono,
 ciudad y redes.
 
 ### 2. Proyectos
-También en `js/data.js`, en `PIEZAS`. Todo es de relleno: las tabletas muestran
-texturas de `assets/obra` y las imágenes altas son fotos de `picsum.photos`.
-Para publicar trabajo real:
+También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
+tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
+`picsum.photos`. La excepción es "Identidad y sistema gráfico": tres de sus
+celdas ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin
+tableta porque no son capturas de pantalla; la de la bruja en la escalera
+eléctrica es la alta (`alto: 2`), a pedido de quien encargó el sitio. Para
+publicar trabajo real en el resto de los proyectos:
 
 1. Copia las imágenes a `assets/work/` (820x580 px las normales, 820x1160 las
    altas).
