@@ -159,7 +159,7 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Branding / identidad de marca', 'Diseño gráfico', 'Diseño editorial'],
     celdas: [
-      { img: 'assets/work/graf-bruja-escalera.jpg', alt: 'Ilustración de una bruja de traje verde sentada en una escalera eléctrica, con el Empire State y una luna creciente al fondo', alto: 2 },
+      { img: 'assets/work/graf-bruja-escalera.jpg?v=2', alt: 'Ilustración de una bruja de traje verde sentada en una escalera eléctrica, con el Empire State y una luna creciente al fondo', alto: 2 },
       { img: 'assets/work/graf-abrigo-cuervos.jpg', alt: 'Ilustración de una mujer envuelta en un abrigo con estampado de cuervos' },
       { img: 'assets/obra/papel-1.jpg', dispositivo: true },
       { img: 'assets/obra/papel-2.jpg', dispositivo: true },
