@@ -299,6 +299,52 @@
     window.addEventListener('scroll', marcarBarra, { passive: true });
   }
 
+  /* ---------- 1d. La sección en la que estás ------------------
+     El enlace de la barra que corresponde a la sección que ocupa el
+     centro de la pantalla se subraya (y lleva aria-current), para
+     que siempre se sepa dónde se está.
+     --------------------------------------------------------- */
+  const enlacesBarra = $$('.ap-nav__enlaces a, .ap-nav__cta');
+
+  if (enlacesBarra.length && 'IntersectionObserver' in window) {
+    const porSeccion = {};
+    enlacesBarra.forEach(function (a) {
+      const id = (a.getAttribute('href') || '').slice(1);
+      if (id) porSeccion[id] = a;
+    });
+    const marcarEnlace = function (id) {
+      enlacesBarra.forEach(function (a) {
+        const es = a === porSeccion[id];
+        a.classList.toggle('actual', es);
+        if (es) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    };
+    const ojoSecciones = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) marcarEnlace(e.target.id);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    ['inicio', 'trabajo', 'estudio', 'servicios', 'proceso', 'contacto'].forEach(function (id) {
+      const s = document.getElementById(id);
+      if (s) ojoSecciones.observe(s);
+    });
+  }
+
+  /* ---------- 1e. El recuadro de flores del manifiesto ---------
+     Sube un poco más despacio que la página (sólo con GSAP y sin
+     "reducir movimiento"), como si flotara sobre el campo fucsia.
+     --------------------------------------------------------- */
+  const flor = $('#flor');
+
+  if (flor && conGsap && !sinRevelado) {
+    window.gsap.fromTo(flor, { yPercent: 12 }, {
+      yPercent: -12,
+      ease: 'none',
+      scrollTrigger: { trigger: flor, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  }
+
   /* ---------- 4. Servicios (sidebar fijo + lista) -------------
      El mismo patrón que Proceso: una fila por servicio, con su
      número y su nombre siempre visibles; el detalle (la frase y
@@ -308,18 +354,31 @@
 
   const items = $('#servicios-items');
 
+  // Cada fila abierta se llena con uno de los colores de la marca, en
+  // este orden, y con la tinta que le da contraste (ver css/tokens.css).
+  const TONOS = [
+    ['var(--flor)',  'var(--crema)'],
+    ['var(--cielo)', 'var(--crema)'],
+    ['var(--polen)', 'var(--tinta)'],
+    ['var(--hoja)',  'var(--tinta)']
+  ];
+  const dosCifras = function (n) { return (n < 10 ? '0' : '') + n; };
+
   if (items) {
     items.innerHTML = SERVICIOS.map(function (s, i) {
-      const n = String(i + 1);
+      const n = dosCifras(i + 1);
+      const tono = TONOS[i % TONOS.length];
       const detalle = s.items.map(function (it, k) {
         return '<li style="--n:' + k + '">' + escapar(it) + '</li>';
       }).join('');
       return '' +
-        '<article class="item rev" data-abierta="false" style="--espera:' + (i * 40) + 'ms">' +
+        '<article class="item rev" data-abierta="false" style="--espera:' + (i * 40) + 'ms;' +
+        '--tono:' + tono[0] + ';--sobre:' + tono[1] + '">' +
           '<button class="item__boton" type="button" id="btn-' + s.id + '"' +
           ' aria-expanded="false" aria-controls="cuerpo-' + s.id + '">' +
             '<span class="item__n">' + n + '</span>' +
             '<span class="item__nombre">' + escapar(s.nombre) + '</span>' +
+            '<span class="item__signo" aria-hidden="true"></span>' +
           '</button>' +
           '<div class="item__cuerpo" id="cuerpo-' + s.id + '" role="region"' +
           ' aria-labelledby="btn-' + s.id + '">' +
@@ -367,40 +426,51 @@
   }
 
   /* ---------- 5. Proyectos de trabajo (galería) ---------------
-     A lo Grafik: cada proyecto es un mosaico de tres columnas con
-     líneas finas entre celdas (algunas ocupan dos filas) y, debajo,
-     su ficha en tres columnas alineadas con las celdas: número,
-     nombre con año y servicios. Todo el contenido vive en PIEZAS
+     Cada proyecto es un mosaico de tres columnas (algunas celdas
+     ocupan dos filas) con celdas redondeadas como el recuadro del
+     logotipo y, debajo, su ficha alineada con las columnas: número,
+     nombre con año y servicios. Las piezas reales (assets/work) van a
+     color; el relleno (las texturas de assets/obra y las fotos de
+     muestra) va en gris hasta que llegue el trabajo real, y toma su
+     color con el cursor. Cada celda entra con una máscara que se abre
+     de abajo hacia arriba. Todo el contenido vive en PIEZAS
      (js/data.js).
      --------------------------------------------------------- */
 
   const piezas = $('#piezas');
+  const esRelleno = function (src) { return /^https?:|assets\/obra\//.test(src); };
 
   if (piezas) {
     piezas.innerHTML = !PIEZAS.length
-      ? '<p class="lead">Estamos preparando esta sección. Mientras tanto, ' +
+      ? '<p class="cabecera__lead">Estamos preparando esta sección. Mientras tanto, ' +
         'escríbenos y te compartimos el portafolio completo en PDF.</p>'
       : PIEZAS.map(function (p, i) {
-        const celdas = p.celdas.map(function (c) {
+        const celdas = p.celdas.map(function (c, k) {
           // Lo que se ve al abrir la página carga de inmediato; el
           // resto, hasta que se acerque.
           const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
           const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
                       carga + ' decoding="async">';
-          const clase = 'celda' + (c.dispositivo ? ' celda--dispositivo' : '') +
-                        (c.alto === 2 ? ' celda--alta' : '');
-          return '<figure class="' + clase + '">' +
+          const clase = 'celda rev' + (c.dispositivo ? ' celda--dispositivo' : '') +
+                        (c.alto === 2 ? ' celda--alta' : '') +
+                        (esRelleno(c.img) ? ' celda--relleno' : '');
+          return '<figure class="' + clase + '" style="--espera:' + (k * 70) + 'ms">' +
                  (c.dispositivo ? '<div class="dispositivo">' + img + '</div>' : img) +
                  '</figure>';
         }).join('');
 
+        const etiquetas = p.servicios.map(function (s) {
+          return '<li>' + escapar(s) + '</li>';
+        }).join('');
+
         return '' +
-          '<article class="proyecto">' +
+          '<article class="proyecto" aria-label="' + escapar(p.titulo) + '">' +
             '<div class="proyecto__celdas">' + celdas + '</div>' +
             '<div class="proyecto__ficha">' +
-              '<p>' + (i + 1) + '</p>' +
-              '<p>' + escapar(p.titulo) + '<br>' + escapar(p.anio) + ' —</p>' +
-              '<p>' + p.servicios.map(escapar).join('<br>') + '</p>' +
+              '<p class="proyecto__n">' + dosCifras(i + 1) + '</p>' +
+              '<p class="proyecto__nombre">' + escapar(p.titulo) +
+                '<span class="proyecto__anio">' + escapar(p.anio) + '</span></p>' +
+              '<ul class="proyecto__etiquetas">' + etiquetas + '</ul>' +
             '</div>' +
           '</article>';
       }).join('');
@@ -414,7 +484,7 @@
     tiempos.innerHTML = PASOS.map(function (p, i) {
       return '' +
         '<div class="tiempo rev" style="--espera:' + (i * 70) + 'ms">' +
-          '<span class="tiempo__n" aria-hidden="true">' + String(i + 1) + '</span>' +
+          '<span class="tiempo__n" aria-hidden="true">' + dosCifras(i + 1) + '</span>' +
           '<div>' +
             '<h3 class="tiempo__nombre">' + escapar(p.nombre) + '</h3>' +
             '<p>' + escapar(p.texto) + '</p>' +
@@ -506,13 +576,18 @@
           scrub: true
         }
       });
-      // El color del acento entra cuando la frase ya está leída.
+      // El resaltado de las palabras clave entra cuando la frase ya está
+      // leída, y se va si se vuelve a subir: si se quedara, pintaría de
+      // amarillo unas palabras todavía apagadas.
+      const acentos = $$('.pal--acento', frase);
+      const resaltar = function (si) {
+        acentos.forEach(function (p) { p.classList.toggle('viva', si); });
+      };
       window.ScrollTrigger.create({
         trigger: frase,
         start: 'bottom 62%',
-        onEnter: function () {
-          $$('.pal--acento', frase).forEach(function (p) { p.classList.add('viva'); });
-        }
+        onEnter: function () { resaltar(true); },
+        onLeaveBack: function () { resaltar(false); }
       });
     } else if ('IntersectionObserver' in window) {
       const ojo2 = new IntersectionObserver(function (e) {
@@ -527,8 +602,12 @@
   }
 
   /* ---------- 10. El avance del proceso ----------------------
-     Una regla que se llena conforme se recorre la sección y una
-     marca que baja con ella. El progreso se mide, no se ilustra.
+     Una regla que se llena conforme se recorre la sección, con el
+     recuadro de flores como marca que avanza. En escritorio los
+     cuatro tiempos van en fila y la regla corre a lo ancho, encima de
+     ellos; en pantallas chicas van uno bajo otro y la regla no se
+     muestra. En los dos casos el tiempo encendido sale del avance: el
+     cuarto de recorrido en el que va la regla.
      --------------------------------------------------------- */
 
   const hilo = $('#hilo');
@@ -537,25 +616,10 @@
   if (seccionProceso) {
     const pasos = $$('.tiempo', seccionProceso);
 
-    // El tiempo marcado es el que de verdad está a la altura de
-    // la vista, no el que toque por cuenta.
-    if ('IntersectionObserver' in window && !sinRevelado) {
-      const ojoPasos = new IntersectionObserver(function (entradas) {
-        entradas.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          pasos.forEach(function (t) { t.classList.remove('activo'); });
-          e.target.classList.add('activo');
-        });
-      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-      pasos.forEach(function (t) { ojoPasos.observe(t); });
-    }
-
     function avanzar(p) {
       if (hilo) hilo.style.setProperty('--avance', p.toFixed(3));
-      if (sinRevelado || quieto.matches) {
-        const activo = Math.min(pasos.length - 1, Math.floor(p * pasos.length));
-        pasos.forEach(function (t, i) { t.classList.toggle('activo', i === activo && p > .04); });
-      }
+      const activo = Math.min(pasos.length - 1, Math.max(0, Math.ceil(p * pasos.length) - 1));
+      pasos.forEach(function (t, i) { t.classList.toggle('activo', i === activo && p > .02); });
     }
 
     if (sinRevelado || quieto.matches) {

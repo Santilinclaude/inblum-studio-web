@@ -1,10 +1,19 @@
 /* ============================================================
    INBLÜM STUDIO · Hoja principal
-   Sistema "Grafik": papel hueso, tinta negra, una tipografía a un
-   peso, cero radio, cero sombra. Las líneas de 1px son el esqueleto
-   de cada sección; nada de color en la interfaz. La primera página
-   (Apertura) sigue otra referencia, "Beings", con paleta propia; la
-   tipografía es una sola para todo el sitio: Helvetica.
+   Un solo sistema para todo el sitio, a partir de la marca y de la
+   Apertura (dirección "Beings"): tinta cacao sobre papel blanco y
+   papel leche, titulares de Helvetica Bold enormes y apretados,
+   etiquetas de 12px en mayúsculas, líneas duras de 1px, y los
+   colores del recuadro de flores del logotipo como campos de color
+   (el fucsia del manifiesto, las filas de Servicios) y como acento.
+   Las imágenes llevan el radio del recuadro; los botones son
+   píldoras, como las letras redondas del nombre. Los valores viven
+   en css/tokens.css.
+
+   Orden de las secciones de la página, y su campo:
+   Apertura (blanco que se lava al verde) → panel verde → Trabajo
+   (leche) → Estudio (fucsia) → Servicios y Proceso (leche) →
+   Contacto y pie (cacao).
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -25,29 +34,29 @@ body {
   background: var(--papel);
   color: var(--tinta);
   font-family: var(--f-texto);
-  font-size: var(--t-texto);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -.005em;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+@media (min-width: 1000px) {
+  body { font-size: var(--t-texto); }
+}
 
-/* Un solo peso para todo: ni negritas ni finos. La jerarquía sale
-   del tamaño y del contenido. */
+/* Dos pesos: 500 para leer, 700 para todo lo que manda. */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-texto);
-  font-size: var(--t-h-lg);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -.01em;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -.02em;
   text-wrap: balance;
 }
-h3, h4 { font-size: var(--t-h); line-height: 1.11; letter-spacing: -.02em; }
-b, strong { font-weight: 400; }
+b, strong { font-weight: 700; }
 
-p  { margin: 0; }
+p  { margin: 0; text-wrap: pretty; }
 ul { margin: 0; padding: 0; list-style: none; }
 h1, h2, h3, h4, p, li, a, label { overflow-wrap: break-word; }
 
@@ -61,72 +70,108 @@ a, button, label, select, summary {
   -webkit-tap-highlight-color: transparent;
 }
 
-:focus-visible { outline: 1px solid var(--tinta); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--flor); outline-offset: 3px; }
 
-::selection { background: var(--tinta); color: var(--papel); }
+::selection { background: var(--flor); color: var(--crema); }
 
 .saltar {
   position: fixed;
-  top: 0; left: 50%;
-  translate: -50% -140%;
+  top: 8px; left: 50%;
+  translate: -50% -160%;
   z-index: var(--z-saltar);
-  padding: 12px 24px;
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
   background: var(--tinta);
-  color: var(--papel);
+  color: var(--crema);
+  font: 700 13px/1 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .03em;
   transition: translate .4s var(--brote);
 }
 .saltar:focus-visible { translate: -50% 0; }
 
 /* ---------- 2. Piezas repetidas ---------------------------- */
 
-/* Sin tope de ancho ni margen propio: cada bloque trae sus 12px, así
-   las columnas de texto caen justo bajo las líneas de la galería. */
-.marco { position: relative; z-index: var(--z-base); width: 100%; }
-
 .seccion { padding-block: var(--sec-y); }
 
-/* Cada sección se abre con una línea de 1px, no con un cambio de
-   color de fondo. */
-main > section + section { border-top: 1px solid var(--filo); }
+/* --- La cabecera de cada sección: una fila de 12px en mayúsculas
+   sobre una línea dura (número, nombre, nota), el titular enorme y
+   una entrada corta, recargada a la derecha en escritorio. La fila
+   se reparte por la misma retícula que la barra de arriba. */
+.cabecera {
+  display: grid;
+  gap: clamp(20px, 2.2vw, 32px);
+  padding-inline: var(--aire);
+  margin-bottom: clamp(48px, 6vw, 96px);
+}
 
-.rotulo { line-height: 1; }
+.cabecera__fila {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0 var(--aire);
+  padding-top: 10px;
+  border-top: 1px solid currentColor;
+  font: 700 var(--t-etiqueta)/1.4 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.cabecera__n { min-width: 3ch; font-variant-numeric: tabular-nums; }
+.cabecera__nota { text-align: right; }
 
-.lead { max-width: 44ch; }
+.cabecera__titulo {
+  font-size: var(--t-titulo);
+  line-height: .92;
+  letter-spacing: -.045em;
+  max-width: 14ch;
+}
 
-.titulo { max-width: 22ch; }
+.cabecera__lead { max-width: 40ch; color: var(--tenue); }
 
-/* Botones: rectángulos de línea fina, sin radio. El lleno es negro;
-   el de contorno, transparente. Al pasar el cursor se invierten. */
-.btn {
+@media (min-width: 1000px) {
+  .cabecera {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .cabecera__fila,
+  .cabecera__titulo { grid-column: 1 / -1; }
+  .cabecera__lead   { grid-column: 8 / span 5; }
+
+  .cabecera__fila {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .cabecera__fila > :nth-child(1) { grid-column: 1 / span 3; }
+  .cabecera__fila > :nth-child(2) { grid-column: 4 / span 4; }
+  .cabecera__fila > :nth-child(3) { grid-column: 8 / span 5; }
+}
+
+/* --- Botones: píldoras de cacao que se vuelven fucsia al pasar el
+   cursor y se hunden un poco al presionar. La variante --flor va al
+   revés, para los fondos oscuros. */
+.boton {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  border: 1px solid var(--filo);
-  border-radius: 0;
-  background: transparent;
-  color: var(--tinta);
-  font-size: var(--t-texto);
-  line-height: 1;
+  gap: 10px;
+  padding: 14px 22px 13px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--tinta);
+  color: var(--crema);
+  font: 700 13px/1 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .03em;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color .3s var(--tallo), color .3s var(--tallo);
+  transition: background-color .25s var(--tallo), color .25s var(--tallo), transform .25s var(--brote);
 }
-.btn--tinta { background: var(--tinta); color: var(--papel); }
-.btn--tinta:hover { background: transparent; color: var(--tinta); }
-.btn--linea:hover { background: var(--tinta); color: var(--papel); }
-
-.enlace {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
+.boton:hover  { background: var(--flor); color: var(--crema); }
+.boton:active { transform: scale(.97); }
+.boton--flor  { background: var(--flor); }
+.boton--flor:hover { background: var(--crema); color: var(--tinta); }
+.boton[disabled] { opacity: .6; cursor: progress; }
 
 /* ---------- 3. Progreso ------------------------------------
-   Una línea negra de 2px arriba del todo, sobre la barra fija, que se
+   Una línea fucsia de 2px arriba del todo, sobre la barra fija, que se
    llena con el recorrido de la página ("--recorrido", de 0 a 1). */
 .progreso {
   position: fixed;
@@ -139,57 +184,48 @@ main > section + section { border-top: 1px solid var(--filo); }
   display: block;
   height: 100%;
   width: 100%;
-  background: var(--tinta);
+  background: var(--flor);
   transform: scaleX(var(--recorrido, 0));
   transform-origin: left;
 }
 
 /* ---------- 4. Trabajo (galería) ---------------------------- */
 
-#trabajo { padding-block: 24px 0; overflow: clip; }
-
-/* La cabecera: un titular y una línea, pegados al margen. */
-.trabajo__cabecera {
-  display: grid;
-  gap: 12px;
-  padding-inline: var(--aire);
-  margin-bottom: 80px;
-}
-
-/* La galería: pantalla completa. Cada proyecto es un mosaico de
-   tres columnas y tres filas; algunas celdas ocupan dos filas. Las
-   líneas de 1px no son bordes: son el propio papel asomando por el
-   canal de 1px entre celdas —sobre negro se leen claras, sobre
-   foto casi no se ven—. */
-.piezas { display: block; }
+.piezas { display: grid; gap: clamp(56px, 7vw, 112px); }
 
 /* El contenedor de medidas: las filas se calculan a partir de su
    ancho (la celda es √2:1, la proporción de la hoja A), no del de
    la ventana, para que el scroll vertical no las descuadre. */
-.proyecto { container-type: inline-size; --cols: 2; }
+.proyecto {
+  container-type: inline-size;
+  --cols: 2;
+  padding-inline: var(--aire);
+}
 @media (min-width: 1000px) { .proyecto { --cols: 3; } }
 
 .proyecto__celdas {
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-  grid-auto-rows: calc(100vw / var(--cols) / 1.414);          /* respaldo */
+  grid-auto-rows: calc((100vw - 2 * var(--aire) - (var(--cols) - 1) * var(--canal)) / var(--cols) / 1.414);  /* respaldo */
   grid-auto-flow: dense;
-  gap: 1px;
-  background: var(--papel);
+  gap: var(--canal);
 }
 @supports (width: 1cqw) {
   .proyecto__celdas {
-    grid-auto-rows: calc((100cqw - (var(--cols) - 1) * 1px) / var(--cols) / 1.414);
+    grid-auto-rows: calc((100cqw - (var(--cols) - 1) * var(--canal)) / var(--cols) / 1.414);
   }
 }
 
+/* Cada celda es un recuadro redondeado, como el del logotipo. */
 .celda {
   position: relative;
   margin: 0;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background: var(--lamina);
+  border-radius: var(--r-tile);
+  background: rgb(27 8 0 / .06);
+  isolation: isolate;
 }
 .celda--alta { grid-row: span 2; }
 .celda img {
@@ -197,14 +233,43 @@ main > section + section { border-top: 1px solid var(--filo); }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.12);
-  transition: filter .7s var(--tallo);
+  transition: transform 1.1s var(--brote), filter .7s var(--tallo);
 }
-.celda:hover img { filter: none; }
+.celda:hover img { transform: scale(1.035); }
 
-/* La tableta: el trabajo mostrado en su medio, sobre negro. El
-   borde redondeado y el bisel son del aparato —parte del contenido,
-   no del sistema—: hacen las veces del mockup que llegará después. */
+/* El relleno va en gris hasta que llegue el trabajo real, y toma su
+   color con el cursor; las piezas reales, siempre a color. */
+.celda--relleno img { filter: grayscale(1) contrast(1.05); }
+.celda--relleno:hover img { filter: none; }
+
+/* Al entrar, una cortina del color del papel se retira hacia arriba y
+   la imagen se asienta desde un poco más grande. Es una cortina y no un
+   clip-path sobre la celda a propósito: con la celda recortada, el
+   navegador la da por invisible y el IntersectionObserver de app.js no
+   la vería entrar nunca. */
+.celda.rev { opacity: 1; transform: none; }
+/* Sin fondo mientras espera, para que no asome un filo alrededor de la
+   cortina. */
+.celda.rev:not(.dentro) { background: transparent; }
+.celda.rev::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--papel);
+  transform-origin: top;
+  transition: transform 1.1s var(--brote);
+  transition-delay: var(--espera, 0ms);
+  pointer-events: none;
+}
+.celda.rev.dentro::after { transform: scaleY(0); }
+.celda.rev img { transform: scale(1.12); transition-delay: var(--espera, 0ms), 0ms; }
+.celda.rev.dentro img { transform: none; }
+.celda.rev.dentro:hover img { transform: scale(1.035); transition-delay: 0ms; }
+
+/* La tableta: el trabajo mostrado en su medio, sobre un cacao hondo.
+   El bisel es del aparato —parte del contenido, no del sistema—: hace
+   las veces del mockup que llegará después. */
 .celda--dispositivo {
   display: grid;
   place-items: center;
@@ -214,52 +279,80 @@ main > section + section { border-top: 1px solid var(--filo); }
   width: 72%;
   aspect-ratio: 1.3 / 1;
   padding: 6px;
-  background: #0B0B0B;
-  border: 1px solid #4A4A4A;
+  background: #0d0400;
+  border: 1px solid rgb(255 244 236 / .16);
   border-radius: 12px;
 }
-.dispositivo img { border-radius: 3px; }
+.dispositivo img { border-radius: 4px; }
 
-/* La ficha: tres columnas alineadas con las de arriba, sobre el
-   papel. El texto arranca a 12px del filo de la columna; el resto
-   de la banda queda en blanco a propósito. */
+/* La ficha: el número grande, el nombre con el año y los servicios
+   como etiquetas. En escritorio, alineada con las tres columnas. */
 .proyecto__ficha {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  padding: 24px var(--aire) 80px;
-  line-height: 1;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: start;
+  padding-top: 18px;
 }
-.proyecto__ficha p { margin: 0; }
+.proyecto__n {
+  grid-row: span 2;
+  font: 700 clamp(2.5rem, 1.4rem + 3vw, 5rem)/.82 var(--f-texto);
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+}
+.proyecto__nombre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font: 700 clamp(1.25rem, 1rem + .8vw, 1.75rem)/1.1 var(--f-texto);
+  letter-spacing: -.025em;
+}
+.proyecto__anio {
+  font: 700 var(--t-etiqueta)/1 var(--f-texto);
+  letter-spacing: .02em;
+  color: var(--tenue);
+}
+.proyecto__etiquetas { display: flex; flex-wrap: wrap; gap: 6px; }
+.proyecto__etiquetas li {
+  padding: 6px 11px 5px;
+  border: 1px solid var(--filo);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  line-height: 1.2;
+}
 @media (min-width: 1000px) {
   .proyecto__ficha {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 1px;
-    row-gap: 0;
-    min-height: 225px;
-    padding: 24px 0 0;
+    column-gap: var(--canal);
+    padding-top: 22px;
   }
-  .proyecto__ficha p { padding-left: var(--aire); }
+  .proyecto__n { grid-row: auto; }
 }
 
-/* El cierre: una línea de texto, como el pie de Grafik. */
+/* El cierre de la galería: la pregunta en grande y el botón. */
 .trabajo__cierre {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px 24px;
-  padding: 24px var(--aire);
+  gap: 20px 32px;
+  margin: clamp(64px, 8vw, 128px) var(--aire) 0;
+  padding-top: clamp(24px, 3vw, 40px);
+  border-top: 1px solid var(--tinta);
+}
+.trabajo__pregunta {
+  max-width: 20ch;
+  font: 700 var(--t-grande)/1.02 var(--f-texto);
+  letter-spacing: -.035em;
 }
 
 /* ---------- 5. Apertura (la primera página) -----------------
    Dirección "Beings": un retrato recortado al ras, el logotipo
    completo con el texto debajo, cabecera y notas de 12px y un campo
    verde al que se lava el fondo desde el blanco. Trae su propia paleta
-   (tokens "--b-*"); el resto del sitio sigue en Grafik. La tipografía es la de todo el
-   sitio, Helvetica: 500 para el texto y 700 para la cabecera, el
-   titular, la declaración y la palabra grande. Radio 0 y ninguna
-   sombra: las separaciones son bordes duros de imagen y cambios de
-   campo. */
+   (tokens "--b-*"). Las imágenes llevan el radio del recuadro del
+   logotipo, como las del resto del sitio. */
 
 .apertura {
   background: var(--b-blanco);
@@ -276,8 +369,8 @@ main > section + section { border-top: 1px solid var(--filo); }
    ella), así que lleva fondo: lo que sube por debajo se corta en su
    borde. En escritorio se reparte por las columnas de la retícula de
    12. Su alto es --nav-h (css/tokens.css): de él dependen el retrato
-   fijo, las columnas fijas de Servicios y Proceso y los saltos a las
-   secciones; si cambias el tamaño de la barra, cámbialo también. */
+   fijo y los saltos a las secciones; si cambias el tamaño de la barra,
+   cámbialo también. */
 .ap-nav {
   position: sticky;
   top: 0;
@@ -286,12 +379,12 @@ main > section + section { border-top: 1px solid var(--filo); }
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: var(--aire);
   align-items: center;
-  padding: 4px var(--aire) 0;
+  padding: 4px var(--aire);
   background: var(--b-blanco);
   color: var(--b-cacao);
   letter-spacing: 0;
 }
-.ap-nav :focus-visible { outline-color: var(--b-cacao); }
+.ap-nav :focus-visible { outline-color: var(--flor); }
 
 /* En cuanto se baja (app.js pone la clase), una línea de 1px marca el
    borde de la barra. Va dentro de ella, así que no suma alto, y arriba
@@ -311,15 +404,46 @@ main > section + section { border-top: 1px solid var(--filo); }
   text-transform: uppercase;
   padding-block: 8px;
 }
-.ap-nav a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.ap-nav__marca {
-  grid-column: 1; grid-row: 1;
-  justify-self: start;
+/* La sección en la que estás (app.js) se subraya, igual que al pasar
+   el cursor. */
+.ap-nav__enlaces a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .2s var(--tallo);
 }
-.ap-nav__cta { grid-column: 2; grid-row: 1; }
+.ap-nav__enlaces a:hover,
+.ap-nav__enlaces a.actual { text-decoration-color: currentColor; }
+
+/* La marca: el recuadro de flores en miniatura y el nombre. */
+.ap-nav__marca {
+  grid-column: 1; grid-row: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Mide lo mismo que el renglón (16.8px), para no crecer la barra. */
+.ap-nav__flor {
+  width: 13px;
+  height: 16.8px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+/* "Hablemos", la única píldora de la barra. */
+.ap-nav__cta {
+  grid-column: 2; grid-row: 1;
+  padding-inline: 14px;
+  border-radius: var(--r-pill);
+  background: var(--b-cacao);
+  color: var(--crema);
+  transition: background-color .25s var(--tallo);
+}
+.ap-nav__cta:hover,
+.ap-nav__cta.actual { background: var(--flor); }
+
 .ap-nav__enlaces {
   grid-column: 1 / -1; grid-row: 2;
   display: flex;
@@ -339,13 +463,14 @@ main > section + section { border-top: 1px solid var(--filo); }
   .ap-nav__enlaces a:nth-child(2) { grid-column: 3; }
   .ap-nav__enlaces a:nth-child(3) { grid-column: 5; }
   .ap-nav__enlaces a:nth-child(4) { grid-column: 7; }
+  .ap-nav__enlaces a { justify-self: start; }
   .ap-nav__cta { grid-column: 11 / span 2; justify-self: end; }
 }
 
 /* --- El logotipo completo: el recuadro de flores y el nombre en dos
    líneas, en un solo SVG (el nombre toma el color del texto). Va
    encima del texto, en la columna derecha; en pantallas chicas sube
-   encima del retrato. */
+   encima del retrato. El pie reutiliza el mismo dibujo con <use>. */
 .ap-logo {
   width: min(15rem, 70%);
   margin: var(--aire) 0 24px;
@@ -361,7 +486,12 @@ main > section + section { border-top: 1px solid var(--filo); }
 
 .ap-retrato,
 .ap-segunda,
-.ap-panel__foto { margin: 0; overflow: hidden; background: var(--b-cacao); }
+.ap-panel__foto {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--r-tile);
+  background: var(--b-cacao);
+}
 .ap-retrato img,
 .ap-segunda img,
 .ap-panel__foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -373,8 +503,8 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-retrato img { object-position: 50% 0; }
 .ap-segunda { aspect-ratio: 4 / 5; }
 
-/* El texto, grande: en escritorio con los tamaños del resto del sitio
-   (titular de 38px, texto de 20px); más chico en pantallas chicas. */
+/* El texto, grande: en escritorio con 38px de titular y 20px de texto;
+   más chico en pantallas chicas. */
 .ap-intro { display: grid; gap: 20px; margin: var(--aire) 0 48px; }
 .ap-intro__titulo { font: 700 28px/1.1 var(--f-texto); letter-spacing: -.02em; }
 
@@ -386,15 +516,27 @@ main > section + section { border-top: 1px solid var(--filo); }
 .rota--viva .rota__frase { grid-area: 1 / 1; visibility: hidden; }
 .rota--viva .rota__frase.activa { visibility: visible; }
 .rota__pal { white-space: nowrap; }
-.ap-intro__texto { max-width: 40ch; font-size: 17px; line-height: 1.25; }
-.ap-intro__acciones { display: flex; flex-wrap: wrap; gap: 0 24px; }
+.ap-intro__texto { max-width: 40ch; font-size: 17px; line-height: 1.3; }
+.ap-intro__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 4px;
+}
 .ap-intro__acciones a {
-  font-size: 14px;
+  font-size: 13px;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 .ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
+.ap-intro__acciones .boton {
+  padding: 14px 22px 13px;
+  font-size: 13px;
+  line-height: 1;
+  text-decoration: none;
+}
 
 @media (max-width: 999px) {
   /* En una sola columna el logotipo va arriba de todo, luego el retrato
@@ -449,7 +591,7 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-panel {
   display: grid;
   gap: var(--aire);
-  padding: var(--aire);
+  padding: var(--aire) var(--aire) clamp(24px, 3vw, 48px);
   background: var(--b-verde);
   color: var(--b-cacao);
 }
@@ -471,18 +613,19 @@ main > section + section { border-top: 1px solid var(--filo); }
 .ap-panel__foto { aspect-ratio: 9 / 16; background: var(--b-verde); }
 .ap-panel__nota { max-width: 44ch; }
 
-/* La palabra de la sección, a 66px y subrayada (el "Bonto" de la
-   referencia, aquí en Helvetica Bold): es el enlace que baja a Trabajo. */
+/* La palabra de la sección, enorme y subrayada: es el enlace que baja a
+   Trabajo. */
 .ap-panel__titulo {
   display: block;
   width: fit-content;
-  font: 700 66px/66px var(--f-texto);
-  letter-spacing: -1.98px;
+  font: 700 clamp(4.125rem, 2rem + 4.4vw, 7rem)/.95 var(--f-texto);
+  letter-spacing: -.045em;
   text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
+  text-decoration-thickness: 3px;
+  text-underline-offset: .1em;
+  transition: color .25s var(--tallo);
 }
-.ap-panel__titulo:hover { text-decoration-thickness: 4px; }
+.ap-panel__titulo:hover { color: var(--crema); }
 
 @media (min-width: 1000px) {
   .ap-panel__fila {
@@ -494,88 +637,137 @@ main > section + section { border-top: 1px solid var(--filo); }
   .ap-panel__nota { grid-column: 9 / span 4; align-self: center; }
 }
 
-/* ---------- 6. Estudio (manifiesto) ------------------------- */
+/* ---------- 6. Estudio (manifiesto) -------------------------
+   El campo fucsia de las flores del logotipo, con la tinta en crema.
+   La frase se enciende palabra por palabra; las dos palabras clave se
+   marcan en amarillo polen cuando ya está leída. A un lado, el
+   recuadro de flores de la marca, flotando un poco más lento que la
+   página. */
 
-.manifiesto { padding-block: var(--sec-y); }
+.manifiesto {
+  padding: var(--sec-y) var(--aire) calc(var(--sec-y) * 1.1);
+  background: var(--flor);
+  color: var(--crema);
+  overflow: clip;
+}
+.manifiesto :focus-visible { outline-color: var(--crema); }
+.manifiesto ::selection { background: var(--crema); color: var(--flor); }
 
-.manifiesto__grid { display: grid; gap: 48px; }
-.manifiesto__col {
-  display: grid;
-  gap: 24px;
-  align-content: start;
-  padding-inline: var(--aire);
-}
-.manifiesto__nota {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-  padding-inline: var(--aire);
-}
-.manifiesto__nota p { max-width: 36ch; }
-@media (min-width: 1000px) {
-  .manifiesto__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .manifiesto__col  { grid-column: 1 / span 2; }
-  .manifiesto__nota { border-left: 1px solid var(--filo); }
-}
+.manifiesto__grid { display: grid; gap: clamp(36px, 4vw, 64px); }
 
-.manifiesto__frase { max-width: 26ch; }
+.manifiesto__frase {
+  max-width: 17ch;
+  font-size: clamp(2.5rem, 1rem + 4.6vw, 6.25rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
 .manifiesto__frase .pal {
-  opacity: .16;
-  transition: opacity .6s var(--tallo);
+  opacity: .24;
+  transition: opacity .6s var(--tallo), background-color .6s var(--tallo), color .6s var(--tallo);
 }
 .manifiesto__frase .pal.viva { opacity: 1; }
-/* Sin color que la resalte: la palabra clave se subraya cuando la
-   frase ya está leída. */
+/* El resaltado empieza un poco por debajo del borde de la caja de la
+   letra: con un interlineado tan cerrado, si no, taparía las colas
+   (la "q", la "p") del renglón de arriba. */
 .manifiesto__frase .pal--acento.viva {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: .12em;
+  padding: 0 .06em;
+  border-radius: .08em;
+  background: linear-gradient(to bottom, transparent 16%, var(--polen) 16%);
+  color: var(--tinta);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
-/* ---------- 7. Servicios (sidebar fijo + lista) --------------- */
-
-.servicios, .proceso { display: grid; gap: 48px; }
-.servicios__fijo, .proceso__fijo {
-  display: grid;
-  gap: 24px;
-  align-content: start;
-  padding-inline: var(--aire);
+.manifiesto__lado { display: grid; gap: 28px; align-content: start; }
+.manifiesto__flor {
+  width: min(62%, 320px);
+  margin: 0;
+  aspect-ratio: 480 / 635;
+  overflow: hidden;
+  border-radius: calc(var(--r-tile) * 1.4);
+  box-shadow: 0 32px 64px -24px rgb(74 8 40 / .55);
 }
+.manifiesto__flor img { width: 100%; height: 100%; object-fit: cover; }
+.manifiesto__nota { display: grid; gap: 12px; max-width: 34ch; font-size: 17px; }
+
 @media (min-width: 1000px) {
-  .servicios, .proceso { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .servicios__fijo, .proceso__fijo { position: sticky; top: calc(var(--nav-h) + var(--aire)); align-self: start; }
-  .items, .tiempos { grid-column: 2 / span 2; border-left: 1px solid var(--filo); }
+  .manifiesto__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .manifiesto__grid > .cabecera__fila { grid-column: 1 / -1; }
+  .manifiesto__frase { grid-column: 1 / span 8; }
+  .manifiesto__lado  { grid-column: 10 / span 3; }
+  .manifiesto__flor  { width: 100%; }
 }
 
-.items { display: grid; }
+/* ---------- 7. Servicios ------------------------------------
+   Una fila por área, a todo lo ancho, entre líneas duras. La fila
+   abierta (con el cursor, el foco o un toque) se llena de izquierda a
+   derecha con uno de los colores de la marca ("--tono", que pone
+   app.js) y su texto cambia a la tinta que le da contraste
+   ("--sobre"). */
 
-.item { border-top: 1px solid var(--filo); }
-.item:last-child { border-bottom: 1px solid var(--filo); }
+.items { display: grid; border-top: 1px solid var(--tinta); }
+
+.item {
+  position: relative;
+  border-bottom: 1px solid var(--tinta);
+  isolation: isolate;
+  transition: color .35s var(--tallo);
+}
+.item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--tono, var(--flor));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s var(--brote);
+}
+.item[data-abierta="true"] { color: var(--sobre, var(--crema)); }
+.item[data-abierta="true"]::before { transform: scaleX(1); }
 
 .item__boton {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  align-items: baseline;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 12px;
   width: 100%;
-  padding: 12px var(--aire);
+  padding: clamp(14px, 1.6vw, 22px) var(--aire);
   background: none;
   border: 0;
+  color: inherit;
   text-align: left;
   cursor: pointer;
 }
-.item__n { line-height: 1; }
+.item__boton:focus-visible { outline-color: currentColor; outline-offset: -6px; }
+.item__n {
+  font: 700 var(--t-etiqueta)/1 var(--f-texto);
+  letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
 .item__nombre {
-  font-size: var(--t-h);
-  line-height: 1.11;
-  letter-spacing: -.02em;
+  font: 700 var(--t-grande)/1 var(--f-texto);
+  letter-spacing: -.035em;
 }
-/* La fila abierta se subraya, como el "Grafik" del menú de la
-   referencia. */
-.item[data-abierta="true"] .item__nombre {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: .12em;
+
+/* El signo de más que se vuelve menos. */
+.item__signo { position: relative; width: 18px; height: 18px; }
+.item__signo::before,
+.item__signo::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 100%; height: 2px;
+  margin-top: -1px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform .4s var(--brote);
 }
+.item__signo::after { transform: rotate(90deg); }
+.item[data-abierta="true"] .item__signo::after { transform: rotate(0deg); }
 
 .item__cuerpo {
   display: grid;
@@ -586,100 +778,155 @@ main > section + section { border-top: 1px solid var(--filo); }
 .item__interior { overflow: hidden; }
 .item__contenido {
   display: grid;
-  gap: 12px;
-  padding: 0 var(--aire) 24px calc(var(--aire) + 3rem);
+  gap: 14px;
+  padding: 0 var(--aire) clamp(20px, 2.4vw, 32px) calc(var(--aire) + 2.6rem + 12px);
 }
-.item__frase { max-width: 44ch; }
+.item__frase { max-width: 40ch; }
 .item__lista {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 4px 24px;
+  font-size: 15px;
 }
 .item__lista li::before { content: "— "; }
 
-/* ---------- 8. Proceso -------------------------------------- */
+@media (min-width: 1000px) {
+  .item__boton {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .item__n      { grid-column: 1 / span 3; }
+  .item__nombre { grid-column: 4 / span 8; }
+  .item__signo  { grid-column: 12; justify-self: end; }
+  .item__contenido {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+    padding-left: var(--aire);
+  }
+  .item__frase { grid-column: 4 / span 4; }
+  .item__lista { grid-column: 8 / span 5; grid-template-columns: 1fr 1fr; align-content: start; }
+}
 
-/* En lugar de una ilustración, una regla que se llena conforme
-   avanzas ("--avance", de 0 a 1) con una marca cuadrada que baja. */
-.hilo {
-  position: relative;
-  width: 1px;
-  height: clamp(140px, 20vh, 240px);
-  margin-top: 24px;
-  background: color-mix(in srgb, var(--tinta) 20%, transparent);
-}
-.hilo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--tinta);
-  transform: scaleY(var(--avance, 0));
-  transform-origin: top;
-  transition: transform .25s linear;
-}
-.hilo__marca {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 9px;
-  height: 9px;
-  margin-left: -4px;
-  margin-top: -4px;
-  background: var(--tinta);
-  transform: translateY(calc(var(--avance, 0) * clamp(140px, 20vh, 240px)));
-  transition: transform .25s linear;
-}
-@media (max-width: 999px) { .hilo { display: none; } }
+/* ---------- 8. Proceso --------------------------------------
+   Los cuatro tiempos. En escritorio van en fila bajo una regla que se
+   llena al bajar ("--avance", de 0 a 1), con el recuadro de flores como
+   marca que avanza; el número del tiempo en el que va la regla se
+   enciende en fucsia. En pantallas chicas van uno bajo otro. */
+
+.proceso { position: relative; padding-inline: var(--aire); }
+
+.hilo { display: none; }
 
 .tiempos { display: grid; }
 .tiempo {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: 12px 0;
-  padding: clamp(24px, 6vh, 64px) var(--aire);
-  border-top: 1px solid var(--filo);
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 18px;
+  padding: 28px 0;
+  border-top: 1px solid var(--tinta);
 }
-.tiempo:last-child { border-bottom: 1px solid var(--filo); }
-@media (min-width: 1000px) {
-  .proceso .tiempo { padding-block: clamp(3rem, 12vh, 6rem); }
+.tiempo:last-child { border-bottom: 1px solid var(--tinta); }
+.tiempo__n {
+  grid-row: span 2;
+  min-width: 2ch;
+  font: 700 clamp(3.5rem, 2rem + 4.4vw, 7.5rem)/.8 var(--f-texto);
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  color: rgb(27 8 0 / .14);
+  transition: color .5s var(--tallo);
 }
-.tiempo__n { line-height: 1; grid-row: 1 / span 2; }
+.tiempo.activo .tiempo__n,
+.tiempo:hover .tiempo__n { color: var(--flor); }
 .tiempo__nombre {
-  font-size: var(--t-h);
-  line-height: 1.11;
-  letter-spacing: -.02em;
+  font: 700 var(--t-grande)/1 var(--f-texto);
+  letter-spacing: -.035em;
 }
-.tiempo p { grid-column: 2; max-width: 44ch; }
-/* El paso que se está leyendo se subraya. */
-.tiempo.activo .tiempo__nombre,
-.tiempo:hover .tiempo__nombre {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: .12em;
-}
+.tiempo p { max-width: 32ch; margin-top: 10px; }
 
-/* ---------- 9. Contacto ------------------------------------- */
-
-.contacto { display: grid; gap: 48px; }
-
-.contacto__izq {
-  display: grid;
-  gap: 24px;
-  align-content: start;
-  padding-inline: var(--aire);
-}
 @media (min-width: 1000px) {
-  .contacto { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .forma { grid-column: 2 / span 2; margin-inline: var(--aire); }
+  .hilo {
+    display: block;
+    position: relative;
+    height: 3px;
+    border-radius: 3px;
+    background: rgb(27 8 0 / .14);
+    container-type: inline-size;
+  }
+  .hilo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--flor);
+    transform: scaleX(var(--avance, 0));
+    transform-origin: left;
+    transition: transform .25s linear;
+  }
+  .hilo__marca {
+    position: absolute;
+    z-index: 1;
+    left: 0; top: 50%;
+    width: 22px; height: 29px;
+    margin-top: -14.5px;
+    border-radius: 5px;
+    background: url("../assets/apertura/logo-flor.jpg") center / cover;
+    box-shadow: 0 8px 18px -6px rgb(74 8 40 / .55);
+    /* Recorre la regla sin salirse de ella por ninguno de los lados. */
+    transform: translateX(calc(var(--avance, 0) * (100cqw - 22px)));
+    transition: transform .25s linear;
+  }
+
+  .tiempos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .tiempo,
+  .tiempo:last-child {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 22px;
+    padding: 40px 0 0;
+    border: 0;
+  }
+  .tiempo__n { grid-row: auto; }
 }
 
-.datos { display: grid; gap: 24px; }
+/* ---------- 9. Contacto -------------------------------------
+   El cierre, sobre el cacao de la tinta, que sigue sin corte en el
+   pie. El formulario sin caja: sólo líneas, como un papel rayado. */
+
+.contacto-seccion {
+  padding-bottom: clamp(64px, 7vw, 112px);
+  background: var(--tinta);
+  color: var(--crema);
+}
+.contacto-seccion :focus-visible { outline-color: var(--polen); }
+.contacto-seccion .cabecera__titulo { max-width: none; }
+
+.contacto { display: grid; gap: 56px; padding-inline: var(--aire); }
+
+.contacto__izq { display: grid; gap: 40px; align-content: start; }
+.contacto__lead {
+  max-width: 20ch;
+  font: 700 clamp(1.5rem, 1rem + 1.3vw, 2.375rem)/1.08 var(--f-texto);
+  letter-spacing: -.03em;
+}
+
+@media (min-width: 1000px) {
+  .contacto {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .contacto__izq { grid-column: 1 / span 5; }
+  .forma         { grid-column: 7 / span 6; }
+}
+
+.datos { display: grid; gap: 22px; }
 /* Cada dato entra por su cuenta: .contacto__izq ya es .rev, esto se
    monta encima con un "--i" propio por dato. */
 .dato {
   display: grid;
-  gap: 4px;
+  gap: 6px;
   opacity: 0;
   transform: translateY(1rem);
   transition: opacity .6s var(--brote), transform .6s var(--brote);
@@ -689,108 +936,157 @@ main > section + section { border-top: 1px solid var(--filo); }
   transform: none;
   transition-delay: calc(var(--i, 0) * 80ms);
 }
-.dato__clave { line-height: 1; }
-a.dato__valor {
-  justify-self: start;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+.dato__clave {
+  font: 700 var(--t-etiqueta)/1 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .6);
 }
-
-.redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.dato__valor { justify-self: start; }
+a.dato__valor,
 .redes a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(255 244 236 / .4);
+  transition: color .2s var(--tallo), text-decoration-color .2s var(--tallo);
 }
+a.dato__valor:hover,
+.redes a:hover { color: var(--petalo); text-decoration-color: currentColor; }
 
-/* La ficha blanca del formulario: papel blanco sobre el lienzo, con
-   su línea de 1px. */
+.redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
 .forma {
   display: grid;
-  gap: 24px;
-  padding: 24px;
-  background: var(--lamina);
-  border: 1px solid var(--filo);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px 24px;
+  align-content: start;
+}
+@media (min-width: 700px) {
+  .forma { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .campo--ancho { grid-column: 1 / -1; }
 }
 
-.campo { display: grid; gap: 8px; }
-.campo__ayuda { line-height: 1; }
+.campo { display: grid; gap: 8px; align-content: start; }
+.campo label {
+  font: 700 var(--t-etiqueta)/1 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .72);
+}
 
 .campo input,
 .campo select,
 .campo textarea {
   width: 100%;
-  padding: 11px 14px;
-  background: var(--lamina);
-  color: var(--tinta);
-  border: 1px solid var(--filo);
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 1px solid rgb(255 244 236 / .35);
   border-radius: 0;
+  background: transparent;
+  color: var(--crema);
+  font-size: 20px;
+  line-height: 1.3;
+  transition: border-color .2s var(--tallo), box-shadow .2s var(--tallo);
 }
-.campo textarea { min-height: 160px; resize: vertical; }
+.campo textarea { min-height: 132px; resize: vertical; }
 .campo input::placeholder,
-.campo textarea::placeholder { color: color-mix(in srgb, var(--tinta) 45%, transparent); }
-.campo input:focus,
-.campo textarea:focus,
-.campo select:focus { outline: 1px solid var(--tinta); outline-offset: 2px; }
+.campo textarea::placeholder { color: rgb(255 244 236 / .38); }
+.campo input:focus-visible,
+.campo select:focus-visible,
+.campo textarea:focus-visible {
+  outline: none;
+  border-bottom-color: var(--flor);
+  box-shadow: 0 1px 0 0 var(--flor);
+}
+/* Sin el amarillo del autocompletado. */
+.campo input:-webkit-autofill {
+  -webkit-text-fill-color: var(--crema);
+  box-shadow: inset 0 0 0 100px var(--tinta);
+  transition: background-color 9999s;
+}
 
 .campo select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--tinta) 50%),
-                    linear-gradient(135deg, var(--tinta) 50%, transparent 50%);
-  background-position: right 22px center, right 16px center;
+  background-image: linear-gradient(45deg, transparent 50%, var(--crema) 50%),
+                    linear-gradient(135deg, var(--crema) 50%, transparent 50%);
+  background-position: right 8px center, right 2px center;
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
-  padding-right: 44px;
+  padding-right: 28px;
 }
+.campo select option { color: var(--tinta); background: var(--lamina); }
 
-/* Sin color de error: una raya al frente del mensaje y el campo
-   inválido con un segundo filo a su alrededor. */
-.campo__error { min-height: 1em; line-height: 1; }
+.campo__ayuda { font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .55); }
+
+/* El error, en amarillo polen: se lee sobre el cacao y no se confunde
+   con el acento fucsia. */
+.campo__error { min-height: 1em; font-size: 14px; line-height: 1.2; color: var(--polen); }
 .campo__error:not(:empty)::before { content: "— "; }
 .campo[data-invalido="true"] input,
 .campo[data-invalido="true"] select,
-.campo[data-invalido="true"] textarea { outline: 2px solid var(--filo); outline-offset: 2px; }
+.campo[data-invalido="true"] textarea { border-bottom-color: var(--polen); box-shadow: 0 1px 0 0 var(--polen); }
 
 .forma__pie {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px 24px;
+  gap: 16px 24px;
 }
-.forma__nota { max-width: 30ch; line-height: 1; }
+.forma__nota { max-width: 30ch; font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .55); }
 .forma__estado { display: none; }
 .forma__estado[data-visible="true"] { display: block; }
-.forma__estado[data-tipo="error"] {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
+.forma__estado[data-tipo="error"] { color: var(--polen); }
 
-/* ---------- 10. Pie ----------------------------------------- */
+/* ---------- 10. Pie -----------------------------------------
+   El cacao del contacto sigue; arriba los enlaces, abajo el logotipo
+   completo a todo lo ancho, en crema. */
 
-/* Sólo texto, como el pie de la referencia. */
 .pie {
-  padding: 24px var(--aire);
-  border-top: 1px solid var(--filo);
+  padding: 0 var(--aire) 20px;
+  background: var(--tinta);
+  color: var(--crema);
 }
 .pie__fila {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgb(255 244 236 / .2);
 }
 .pie__frase { max-width: 36ch; }
-.pie__enlaces { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-.pie__enlaces a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pie__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font: 700 var(--t-etiqueta)/1.4 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.pie__enlaces a { transition: color .2s var(--tallo); }
+.pie__enlaces a:hover { color: var(--petalo); }
+
+.pie__logo {
+  display: block;
+  margin-top: clamp(48px, 7vw, 120px);
+  color: var(--crema);
+  transition: color .3s var(--tallo);
+}
+.pie__logo:hover { color: var(--petalo); }
+.pie__logo svg { display: block; width: 100%; height: auto; }
+
 .pie__legal {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 24px;
-  margin-top: 80px;
-  line-height: 1;
+  margin-top: 20px;
+  font: 700 var(--t-etiqueta)/1 var(--f-texto);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .55);
 }
 
 /* ---------- 11. Revelados ----------------------------------- */
@@ -813,5 +1109,8 @@ a.dato__valor {
     transition-duration: .001ms !important;
   }
   .rev { opacity: 1; transform: none; }
+  .celda.rev::after { display: none; }
+  .celda.rev img,
+  .celda:hover img { transform: none; }
   .manifiesto__frase .pal { opacity: 1; }
 }

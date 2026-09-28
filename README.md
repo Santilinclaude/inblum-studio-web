@@ -4,27 +4,45 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
 `index.html` y se publica subiendo la carpeta tal cual. Vive en GitHub Pages
 (rama `main`, dominio en `CNAME`): cada commit que se sube a `main` se publica.
 
-## El diseño: dos referencias
+## El diseño: un solo sistema, sacado de la marca
 
-- **Grafik** es la base de todo el sitio: lienzo de papel hueso, tinta negra,
-  una sola tipografía (Helvetica) en tres tamaños (20, 38 y 40 px), cero radio,
-  cero sombra y líneas de 1px como único esqueleto. El color vive dentro del
-  trabajo, nunca en la interfaz.
-- **Beings** es sólo la primera página (la *Apertura*): una palabra enorme, un
-  retrato recortado al ras, texto de 12px en mayúsculas y un campo verde al que
-  se lava el fondo desde el blanco. Trae su propia paleta, pero la misma tipografía
-  que todo lo demás.
+Todo el sitio habla el mismo idioma que la primera página (la dirección
+**Beings**), con los colores del logotipo:
+
+- **Tinta y papel.** La tinta es cacao (`#1B0800`), nunca negro puro. El lienzo
+  es papel blanco en la Apertura y papel leche (`#FFF4EC`) en el resto.
+- **Los colores de la marca**, medidos sobre el recuadro de flores del logotipo
+  (`assets/apertura/logo-flor.jpg`): el fucsia de las flores (`--flor`, el
+  acento principal: la línea de avance, los botones al pasar el cursor, el
+  campo del manifiesto), el azul del cielo (`--cielo`), el amarillo del polen
+  (`--polen`) y el verde olivo del panel (`--hoja`). Todos en `css/tokens.css`,
+  con su contraste anotado.
+- **Campos de color, en este orden:** Apertura (blanco que se lava al verde) →
+  panel verde → Trabajo (leche) → Estudio (fucsia) → Servicios y Proceso
+  (leche) → Contacto y pie (cacao).
+- **Una sola tipografía, Helvetica**, en dos pesos: 500 para leer y 700 para
+  todo lo que manda. Los titulares de sección son enormes y apretados
+  (`--t-titulo`, de 52 a 148px según la ventana); las etiquetas, de 12px en
+  mayúsculas, como la barra.
+- **Formas del logotipo.** Las imágenes llevan el radio del recuadro de flores
+  (`--r-tile`) y los botones son píldoras (`.boton`), como las letras redondas
+  del nombre.
+- **Cabecera de sección** (`.cabecera`): una fila de 12px sobre una línea dura
+  (número, nombre y una nota), el titular enorme y una entrada corta recargada a
+  la derecha. Se repite igual en Trabajo, Servicios, Proceso y Contacto; el
+  manifiesto usa sólo la fila.
 
 ## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
 | Apertura | Retrato fijo, el logotipo completo con el texto debajo y un panel verde que da paso a Trabajo |
-| Trabajo | Galería: cada proyecto es un mosaico de 3x3 con su ficha debajo |
-| Estudio | La frase que se enciende palabra por palabra y la nota a la derecha |
-| Servicios | Las ocho áreas; el detalle se abre con el cursor o el foco |
-| Proceso | Los cuatro tiempos, con una regla que se llena al avanzar |
-| Contacto | Datos directos y formulario |
+| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
+| Estudio | El manifiesto sobre fucsia: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado flota el recuadro de flores de la marca |
+| Servicios | Las ocho áreas, una fila por área; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
+| Proceso | Los cuatro tiempos en fila, bajo una regla que se llena al bajar con el recuadro de flores como marca; el número del tiempo en curso se enciende |
+| Contacto | Sobre cacao: datos directos y formulario de líneas |
+| Pie | Enlaces y el logotipo completo a todo lo ancho (el mismo dibujo del de la Apertura, reutilizado con `<use href="#logo-inblum">`) |
 
 ## Estructura
 
@@ -33,17 +51,18 @@ inblum-web/
 ├── index.html
 ├── CNAME
 ├── css/
-│   ├── tokens.css     los dos sistemas: Grafik (papel, tinta, tamaños) y
-│   │                  Beings (--b-*, sólo para la Apertura)
+│   ├── tokens.css     colores de la marca, tamaños, radios, ritmo y capas;
+│   │                  la paleta propia de la Apertura (--b-*)
 │   └── styles.css     el sitio, por secciones numeradas
 ├── js/
 │   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos y las
 │   │                  frases del titular
-│   └── app.js         lavado y titular que rota de la Apertura, listas,
+│   └── app.js         lavado y titular que rota de la Apertura, barra, listas,
 │                      galería, revelados, regla del proceso y formulario
 └── assets/
-    ├── apertura/      las cuatro ilustraciones de la primera página
-    ├── obra/          texturas que se ven dentro de las tabletas de Trabajo
+    ├── apertura/      las imágenes de la primera página y el recuadro de flores
+    ├── work/          las piezas reales de Trabajo
+    ├── obra/          texturas de relleno que se ven dentro de las tabletas
     ├── poster.png     imagen para compartir el enlace (og:image)
     └── favicon.png
 ```
@@ -55,14 +74,16 @@ y hoy no se usan.
 
 Queda fija en toda la página, hasta el pie (`position: sticky`). Por eso el
 `<header class="ap-nav">` está antes de `<main>` y no dentro de la Apertura: un
-elemento sticky sólo se queda mientras dure su contenedor. Lleva fondo blanco y,
-en cuanto se baja, una línea de 1px debajo (`js/app.js`, sección 1c); arriba del
-todo no la tiene. Su alto es `--nav-h` (`css/tokens.css`): 36.8px en escritorio,
-un renglón, y 69.6px en pantallas chicas, donde son dos. De ese alto dependen el
-retrato fijo de la Apertura, las columnas fijas de Servicios y Proceso y los
+elemento sticky sólo se queda mientras dure su contenedor. Lleva el recuadro de
+flores en miniatura junto al nombre, fondo blanco y, en cuanto se baja, una línea
+de 1px debajo (`js/app.js`, sección 1c); arriba del todo no la tiene. El enlace
+de la sección en la que estás se subraya (sección 1d) y "Hablemos" es una
+píldora que se vuelve fucsia al llegar al contacto. Su alto es `--nav-h`
+(`css/tokens.css`): 40.8px en escritorio, un renglón, y 73.6px en pantallas
+chicas, donde son dos. De ese alto dependen el retrato fijo de la Apertura y los
 saltos a cada sección (`scroll-padding-top` en `html`): si cambias el tamaño de
-la barra, cambia también `--nav-h`. La línea de avance de la página va encima de
-ella (las capas están en `css/tokens.css`).
+la barra, cambia también `--nav-h`. La línea de avance de la página, fucsia, va
+encima de ella (las capas están en `css/tokens.css`).
 
 ## La Apertura, por dentro
 
@@ -130,9 +151,8 @@ en la sección 0 de `js/app.js`.
 
 ## Tipografía y librerías
 
-- **Helvetica** para todo el sitio, incluida la Apertura: peso 400 en Grafik y
-  500 / 700 en la Apertura (texto y cabecera, titular, declaración y la palabra
-  grande). Está en `--f-texto`, en `css/tokens.css`, como
+- **Helvetica** para todo el sitio, en 500 (texto) y 700 (titulares, etiquetas,
+  botones y todo lo que manda). Está en `--f-texto`, en `css/tokens.css`, como
   `"Helvetica Neue", Helvetica, Arial, sans-serif`.
 - Helvetica **no es libre ni está en Google Fonts**, así que no se descarga: se
   pide al sistema del visitante. En Mac, iPhone y iPad sale Helvetica de verdad;
@@ -159,10 +179,13 @@ ciudad y redes.
 ### 2. Proyectos
 También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
 tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
-`picsum.photos`. La excepción es "Identidad y sistema gráfico": tres de sus
+`picsum.photos`. La excepción es "Identidad y sistema gráfico": casi todas sus
 celdas ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin
-tableta porque no son capturas de pantalla; la de la bruja en la escalera
-eléctrica es la alta (`alto: 2`), a pedido de quien encargó el sitio. Para
+tableta porque no son capturas de pantalla. La galería distingue sola lo real
+del relleno: lo que viene de `assets/obra/` o de una dirección `https://` se
+muestra en gris (y toma su color con el cursor); lo de `assets/work/`, siempre a
+color. Si cambias un archivo de `assets/work/` sin cambiarle el nombre, súbele
+el `?v=` de su ruta en `data.js`, para que nadie vea la copia vieja. Para
 publicar trabajo real en el resto de los proyectos:
 
 1. Copia las imágenes a `assets/work/` (820x580 px las normales, 820x1160 las
@@ -179,7 +202,7 @@ publicar trabajo real en el resto de los proyectos:
   ] }
 ```
 
-`dispositivo: true` muestra la imagen dentro de una tableta sobre negro
+`dispositivo: true` muestra la imagen dentro de una tableta sobre cacao
 (capturas de sitios y apps). `alto: 2` hace que la celda ocupe dos filas. La
 cuadrícula acomoda las celdas sola; un proyecto completo suma nueve espacios.
 
