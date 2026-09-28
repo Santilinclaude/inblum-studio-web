@@ -42,7 +42,7 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
 | Servicios | Las ocho áreas, una fila por área; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
 | Proceso | Los cuatro tiempos en fila, bajo una regla que se llena al bajar con el recuadro de flores como marca; el número del tiempo en curso se enciende |
 | Contacto | Sobre cacao: datos directos y formulario de líneas |
-| Pie | Enlaces y el logotipo completo a todo lo ancho (el mismo dibujo del de la Apertura, reutilizado con `<use href="#logo-inblum">`) |
+| Pie | Sobre cacao: la frase, los enlaces y el aviso legal |
 
 ## Estructura
 

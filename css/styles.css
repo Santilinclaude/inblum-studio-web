@@ -470,7 +470,7 @@ a, button, label, select, summary {
 /* --- El logotipo completo: el recuadro de flores y el nombre en dos
    líneas, en un solo SVG (el nombre toma el color del texto). Va
    encima del texto, en la columna derecha; en pantallas chicas sube
-   encima del retrato. El pie reutiliza el mismo dibujo con <use>. */
+   encima del retrato. */
 .ap-logo {
   width: min(15rem, 70%);
   margin: var(--aire) 0 24px;
@@ -1040,8 +1040,8 @@ a.dato__valor:hover,
 .forma__estado[data-tipo="error"] { color: var(--polen); }
 
 /* ---------- 10. Pie -----------------------------------------
-   El cacao del contacto sigue; arriba los enlaces, abajo el logotipo
-   completo a todo lo ancho, en crema. */
+   El cacao del contacto sigue: la frase y los enlaces arriba, el aviso
+   legal abajo. */
 
 .pie {
   padding: 0 var(--aire) 20px;
@@ -1068,21 +1068,12 @@ a.dato__valor:hover,
 .pie__enlaces a { transition: color .2s var(--tallo); }
 .pie__enlaces a:hover { color: var(--petalo); }
 
-.pie__logo {
-  display: block;
-  margin-top: clamp(48px, 7vw, 120px);
-  color: var(--crema);
-  transition: color .3s var(--tallo);
-}
-.pie__logo:hover { color: var(--petalo); }
-.pie__logo svg { display: block; width: 100%; height: auto; }
-
 .pie__legal {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 24px;
-  margin-top: 20px;
+  margin-top: clamp(48px, 6vw, 96px);
   font: 700 var(--t-etiqueta)/1 var(--f-texto);
   text-transform: uppercase;
   letter-spacing: .02em;
