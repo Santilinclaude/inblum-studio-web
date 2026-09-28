@@ -4,78 +4,85 @@ Una sola página, estática, sin paso de compilación. Se abre con doble clic en
 `index.html` y se publica subiendo la carpeta tal cual. Vive en GitHub Pages
 (rama `main`, dominio en `CNAME`): cada commit que se sube a `main` se publica.
 
-## El diseño: un solo sistema, sacado de la marca
+## El diseño: una calca de Homer
 
-Todo el sitio habla el mismo idioma que la primera página (la dirección
-**Beings**), con los colores del logotipo:
+El sitio calca el sistema de [homer.com](https://www.homer.com) con el contenido
+del estudio. Las medidas y los colores se tomaron de su sitio, a 1418px de ancho
+y en teléfono:
 
-- **Tinta y papel.** La tinta es cacao (`#1B0800`), nunca negro puro. El lienzo
-  es papel blanco en la Apertura y papel leche (`#FFF4EC`) en el resto.
-- **Los colores de la marca**, medidos sobre el recuadro de flores del logotipo
-  (`assets/apertura/logo-flor.jpg`): el fucsia de las flores (`--flor`, el
-  acento principal: la línea de avance, los botones al pasar el cursor, el
-  campo del manifiesto), el azul del cielo (`--cielo`), el amarillo del polen
-  (`--polen`) y el verde olivo del panel (`--hoja`). Todos en `css/tokens.css`,
-  con su contraste anotado.
-- **Campos de color, en este orden:** Apertura (blanco que se lava al verde) →
-  panel verde → Trabajo (leche) → Estudio (fucsia) → Servicios y Proceso
-  (leche) → Contacto y pie (cacao).
-- **Una sola tipografía, Helvetica**, en dos pesos: 500 para leer y 700 para
-  todo lo que manda. Los titulares de sección son enormes y apretados
-  (`--t-titulo`, de 52 a 148px según la ventana); las etiquetas, de 12px en
-  mayúsculas, como la barra.
-- **Formas del logotipo.** Las imágenes llevan el radio del recuadro de flores
-  (`--r-tile`) y los botones son píldoras (`.boton`), como las letras redondas
-  del nombre.
-- **Cabecera de sección** (`.cabecera`): una fila de 12px sobre una línea dura
-  (el número en una píldora con degradado, el nombre y una nota), el titular
-  enorme, que entra palabra por palabra, y una entrada corta recargada a la
-  derecha. Se repite igual en Trabajo, Servicios, Proceso y Contacto; el
-  manifiesto usa sólo la fila.
-- **Luz: auras y degradados.** El recuadro de flores ya es un degradado (flores
-  rosas y amarillas fuera de foco sobre un cielo azul), así que de ahí salen
-  los degradados del sitio: sus luces y sombras están en `css/tokens.css`
-  (`--flor-viva`, `--flor-honda`, `--cielo-claro`, `--polen-claro`…). Detrás de
-  cada campo hay un aura (`.aura`): tres manchas de color que derivan despacio,
-  sólo mientras el campo está en pantalla. Cada sección acomoda las suyas
-  (`.aura--apertura`, `--trabajo`, `--estudio`, `--luz`, `--contacto`). La
-  línea de avance, los números y la regla del proceso llevan el degradado de la
-  flor. Un grano de película fijo, apenas visible, cubre toda la página.
-- **Vidrio.** Lo que flota es vidrio claro y grueso, como el acrílico de una
-  vitrina (la referencia es Homer): `.vidrio`, y `.vidrio--oscuro` sobre el
-  cacao. Es la barra, la ficha del retrato, el cierre de Trabajo, el marco y la
-  nota del manifiesto, el panel de Servicios, los tiempos del Proceso, el
-  formulario y los rótulos de la galería. Deja ver lo de atrás casi nítido y más
-  saturado, tiene un canto que brilla y reflejos, y en Chrome (en pantallas de
-  700px o más) además dobla lo que tiene detrás en los bordes, como una lente:
-  `js/app.js` (sección 7c) le talla a cada lámina su mapa de refracción y lo
-  vuelve a tallar si cambia de tamaño. En Safari y Firefox queda un vidrio
-  esmerilado de respaldo. Las que llevan `.foco` encienden su canto donde está
-  el cursor.
-- **Gemas.** Detrás del vidrio viven piezas de esmalte de los colores de la
-  marca (`.gema`: cápsulas, discos y aros) que asoman por los bordes de las
-  láminas: afuera se ven nítidas y adentro dobladas, y eso es lo que hace leer
-  el vidrio. Flotan despacio y corren a otra velocidad que la página. Cada una
-  lleva en línea su lugar, tamaño y velocidad (`--x`, `--y`, `--w`, `--h`,
-  `data-v`) en `index.html`: en el cierre de Trabajo, alrededor del panel de
-  Servicios (`.vitrina`), en Proceso y en Contacto.
-- **Movimiento.** Los botones llevan la flecha en su propio círculo, se
-  encienden con el degradado y se dejan jalar un poco por el cursor; las celdas
-  de la galería se inclinan hacia él con un reflejo y muestran un rótulo de
-  vidrio. Las fotos entran rápido (medio segundo, en cascada de 40ms) en cuanto
-  asoma su borde. Todo esto se apaga con "reducir movimiento".
+- **Colores.** Blanco y negro; `#F9F9F9` de fondo de cada pieza; `#ECE9E9` en
+  las barras de las tarjetas, las reglas y los títulos apagados; `#F2F1F0` en el
+  panel, la caja de abajo y el pie; `#808080` en las etiquetas diminutas; el
+  verde `#00AF66` de su botón de compra y el amarillo `#FFCD00` de "Inquire".
+  Todo en `css/tokens.css`.
+- **Los colores de la marca** van donde Homer pone los de cada acabado: en las
+  dos franjas de cada tarjeta, en pares de un color y su luz (fucsia y pétalo,
+  azul cielo y celeste, polen y limón, olivo y salvia), medidos sobre el
+  recuadro de flores del logotipo.
+- **Tipografía.** Homer usa **Unica77 LL** (de Lineto) en tres cortes: Thin
+  para los títulos, Regular para el texto y Black para las etiquetas. Es de
+  licencia y no se puede tomar de su sitio, así que aquí va lo más parecido:
+  - los títulos y el texto en **Helvetica Neue**, que ya viene en Mac, iPhone e
+    iPad (su Thin es casi idéntica a la de Unica77, en trazo y en ancho);
+  - las etiquetas en **Inter Tight Black**, libre, de Google Fonts (Helvetica no
+    tiene un corte tan negro);
+  - fuera de los equipos de Apple, todo en Inter Tight.
+
+  Las tres pilas están en `css/tokens.css` (`--f-fina`, `--f-texto`,
+  `--f-negra`). Si el estudio compra la licencia web de Unica77 en
+  [lineto.com](https://lineto.com), pon los `.woff2` (Thin, Regular y Black) en
+  `assets/fuentes/`, declara la familia `"Unica77 LL"` con `@font-face` al
+  principio de `css/tokens.css` (Thin con `font-weight: 200`, Regular con 400 y
+  Black con 900) y ponla primera en las tres pilas.
+- **Escala.** Títulos de 72px en el corte fino, interlineado 1.15 y -3% de
+  espaciado (30px en teléfono); texto de 18px; etiquetas en negra de 14px (18px
+  en la barra y el menú); 12px en la barra de abajo; 10px en el pie y el panel;
+  6px en las etiquetas de cada fila.
+- **Retícula.** Margen de 56px (24px en teléfono). Tarjetas de 397px con 46px
+  entre ellas (300px con 24px en teléfono).
+
+## Las piezas del sistema
+
+- **La barra de arriba** (`.cabeza`): el logotipo a la izquierda (a 33px de
+  alto, como el de Homer) y tres palabras en negra de 18px a la derecha, con
+  79px entre ellas: "Menú" (abre el panel), "Trabajo" y "Hablemos". En teléfono
+  quedan dos. En Homer la barra se va con la página; aquí se queda fija arriba,
+  sobre blanco, porque así se pidió antes.
+- **Los títulos** (`.titulo`): en gris hasta que su lista cruza el centro de la
+  pantalla, entonces en negro (`js/app.js`, sección 6).
+- **Las tarjetas** (`.carta`), en un carrusel que se desliza de lado con el
+  trackpad, arrastrando con el ratón o con las flechas del teclado. Seis filas:
+  la barra gris de 42px con el nombre en negra y el triángulo del selector; las
+  dos franjas de 7px del par de colores; la pieza entera al centro de un
+  cuadrado gris claro (nunca se recorta); dos filas de 42px; y el botón de color
+  de 42px con el texto arriba a la izquierda, sin relleno.
+- **Las reglas** (`.reglas`): a todo lo ancho de cada lista, líneas de 1px
+  justo en los bordes de las filas de las tarjetas, con su etiqueta de 6px en
+  mayúsculas y gris a la derecha.
+- **Los botones** (`.barra-boton`): verde (el principal), amarillo (cotizar) y
+  gris. Al pasar el cursor se vuelven negros.
+- **El pie**: gris, el logotipo chico al centro y cuatro columnas de 10px.
+- **La barra fija de abajo** (`.fijo`): la caja gris de 341px a la izquierda
+  ("All" en Homer, "Todo" aquí) abre el panel, y al centro va una línea en 12px.
+- **El panel** (`#panel`, un `<dialog>`): una columna gris de 340px a la
+  derecha, sobre un velo negro al 40%. Lleva "Todo", las secciones en negra y
+  mayúsculas (debajo de Trabajo, una muestra de cada proyecto; debajo de
+  Servicios, el color de cada área) y, al final, filas en 10px con el correo, el
+  teléfono y la primera red. Se cierra con la X, con Esc, al elegir una sección o
+  tocando el velo.
 
 ## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo sobre un aura rosa, celeste y amarilla, y un panel verde que da paso a Trabajo |
-| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su ficha debajo (número con degradado, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
-| Estudio | El manifiesto sobre un fucsia encendido por su aura: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado flota el recuadro de flores de la marca en un marco de vidrio, con la nota en otra lámina |
-| Servicios | Las ocho áreas en un panel de vidrio, una fila por área; la fila abierta se llena con un degradado de un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
-| Proceso | Los cuatro tiempos, cada uno en su lámina de vidrio, bajo una regla que se llena al bajar con el recuadro de flores como marca; el tiempo en curso se levanta y su número se enciende. Comparte el aura con Servicios (`.campo-luz`) |
-| Contacto | Sobre cacao con dos luces (fucsia y azul): datos directos y el formulario en vidrio oscuro |
-| Pie | Sobre cacao: la frase, los enlaces y el aviso legal |
+| Portada | Mucho blanco arriba y tres imágenes pegadas a la misma altura (retrato, regadera y mano), con margen, como la vitrina de Homer |
+| Entrada | El título fino con la frase del estudio, el texto y dos botones: amarillo ("Hablemos") y gris ("Ver servicios") |
+| Trabajo | Una lista por proyecto: su nombre en título fino y un carrusel con una tarjeta por pieza (un servicio del proyecto en la barra, la pieza, su número, el año y el botón verde) |
+| Estudio | El manifiesto en un título fino que pasa del gris al negro palabra por palabra al bajar; las palabras clave se marcan en amarillo al terminar. Debajo, la nota en dos columnas y la ciudad en negra de 24px, a la derecha |
+| Servicios | Las ocho áreas en el mismo carrusel: la frase y lo que incluye en el cuadrado, y el botón amarillo "Cotizar", que lleva al formulario con el área ya elegida |
+| Proceso | Los cuatro tiempos como filas entre reglas: el nombre en negra, el texto y la etiqueta a la derecha |
+| Contacto | Los datos y el formulario, en filas; el botón es la barra verde |
+| Pie | Gris, con el logotipo chico y cuatro columnas |
 
 ## Estructura
 
@@ -84,167 +91,82 @@ inblum-web/
 ├── index.html
 ├── CNAME
 ├── css/
-│   ├── tokens.css     colores de la marca, tamaños, radios, ritmo y capas;
-│   │                  la paleta propia de la Apertura (--b-*)
+│   ├── tokens.css     colores, pares de colores de la marca, tipografía, escala,
+│   │                  medidas y capas
 │   └── styles.css     el sitio, por secciones numeradas
 ├── js/
-│   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos y las
-│   │                  frases del titular
-│   └── app.js         lavado y titular que rota de la Apertura, barra, titulares
-│                      por palabra, listas, galería, luz y tacto (auras, vidrio,
-│                      inclinación, botones), revelados, regla del proceso y
-│                      formulario
+│   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos y pasos
+│   └── app.js         tarjetas de Trabajo y Servicios, filas del proceso, datos,
+│                      panel, títulos que se encienden, manifiesto, carrusel y
+│                      formulario (sin librerías)
 └── assets/
-    ├── apertura/      las imágenes de la primera página y el recuadro de flores
+    ├── apertura/      las imágenes de la portada y el recuadro de flores
     ├── work/          las piezas reales de Trabajo
-    ├── obra/          texturas de relleno que se ven dentro de las tabletas
+    ├── obra/          texturas de relleno
     ├── poster.png     imagen para compartir el enlace (og:image)
     └── favicon.png
 ```
 
-`assets/wordmark.png`, `tile*.png` y `campo-*.png` son de versiones anteriores
-y hoy no se usan.
+`assets/wordmark.png`, `tile*.png` y `campo-*.png` son de versiones anteriores y
+hoy no se usan. `FRASES`, en `data.js`, tampoco: era el titular que rotaba en
+la portada anterior.
 
-## La barra de arriba
+## El logotipo
 
-Queda fija en toda la página, hasta el pie (`position: sticky`). Por eso el
-`<header class="ap-nav">` está antes de `<main>` y no dentro de la Apertura: un
-elemento sticky sólo se queda mientras dure su contenedor. Es una lámina de
-vidrio que flota a 6px del borde (`--nav-sep`): lo que pasa por debajo se ve
-desenfocado. Su margen de abajo es negativo, así que no ocupa lugar: la Apertura
-empieza arriba del todo, detrás de ella, y reserva ese alto con su relleno. Lleva
-el recuadro de flores en miniatura junto al nombre; en cuanto se baja, la lámina
-se vuelve un poco más opaca (`js/app.js`, sección 1c), y sobre el cacao del
-contacto y el pie pasa a vidrio oscuro con la letra en crema (sección 1d). El
-enlace de la sección en la que estás se subraya (sección 1d) y "Hablemos" es una
-píldora que se vuelve fucsia al llegar al contacto. Su alto es `--nav-h`
-(`css/tokens.css`): 40.8px en escritorio, un renglón, y 73.6px en pantallas
-chicas, donde son dos; `--nav-ocupa` le suma el aire de arriba. De ese total
-dependen el retrato fijo de la Apertura y los saltos a cada sección
-(`scroll-padding-top` en `html`): si cambias el tamaño de la barra, cambia
-también `--nav-h`. La línea de avance de la página, con el degradado de la
-flor, va encima de ella (las capas están en `css/tokens.css`).
+El logotipo completo (el recuadro de flores y "INBLÜM STUDIO" en dos líneas) es
+un SVG que está una sola vez en `index.html` (`<symbol id="logo">`), y la barra
+de arriba y el pie lo usan. El nombre está vectorizado del logotipo original;
+el recuadro es `assets/apertura/logo-flor.jpg`, con sus esquinas redondeadas.
 
-## La Apertura, por dentro
+## La portada
 
-Está en `index.html` (bloque `Apertura`), en la sección 5 de `css/styles.css` y
-en la sección 0 de `js/app.js`.
+Tres imágenes de `assets/apertura/`, pegadas y a la misma altura: cada columna
+mide lo que su proporción (`grid-template-columns` en `.portada__imagenes`). En
+teléfono, el retrato va arriba a todo lo ancho y las otras dos debajo. Para
+cambiar una, reemplaza el archivo con la misma proporción, o cambia su
+proporción en `css/styles.css` (sección 4):
 
-- **El logotipo completo** (el recuadro de flores y "INBLÜM STUDIO" en dos
-  líneas) es un SVG en línea en `index.html`. El nombre está vectorizado del
-  logotipo original y toma el color del texto; el recuadro es
-  `assets/apertura/logo-flor.jpg`, recortado del mismo original, y conserva sus
-  esquinas redondeadas. Va encima del texto, en la columna derecha (tres
-  columnas de ancho); en pantallas chicas, arriba de todo, sobre el retrato. El
-  bloque del logotipo y el texto queda en medio de la primera pantalla
-  (`align-self: center` en `.ap-cabeza`; para subirlo o bajarlo, `start` o `end`).
-- **El texto** (titular, párrafo y botones) usa en escritorio los tamaños del
-  resto del sitio, 38px y 20px, y baja a 28px y 17px en pantallas chicas. Está
-  en `.ap-intro` de `css/styles.css`.
-- **Las imágenes**: el retrato es una foto del estudio (el libro «2026 Inblüm
-  Studio»); `mano.jpg` es una ilustración de relleno, tomada del portafolio, y
-  `regadera.jpg`, la del panel verde, es una ilustración con el nombre del
-  estudio. Para cambiar cualquiera, reemplaza el archivo en `assets/apertura/`
-  con la misma proporción:
+| Archivo | Proporción |
+|---|---|
+| `retrato.jpg` | 4:5 (1040 × 1300 px, recortado centrado en el libro) |
+| `regadera.jpg` | 9:16 (900 × 1600 px) |
+| `mano.jpg` | 1000 × 1252 px |
 
-  | Archivo | Dónde sale | Proporción |
-  |---|---|---|
-  | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
-  | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
-  | `regadera.jpg` | Alta, al centro del panel verde | 9:16 |
-  | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
-
-  Los textos alternativos están en `index.html`; cámbialos con la imagen. El
-  retrato es un recorte 4:5 (1040 × 1300 px) de una foto vertical de 1109 × 2000
-  px, centrado en el libro: se tomó desde 68 px del borde izquierdo y 316 px del
-  de arriba, así que el libro queda justo en el centro del marco. Para mover el
-  encuadre hay que volver a recortar la foto original. Su `src` lleva un `?v=` con un
-  número: súbelo cada vez que cambies el archivo, para que nadie vea la copia
-  vieja guardada en el navegador. La proporción del marco está en `aspect-ratio`
-  de `.ap-retrato` (`css/styles.css`): con una imagen que no sea 4:5, por ejemplo
-  una ilustración vertical completa, cámbiala junto con el archivo (ver el
-  comentario ahí). `regadera.jpg` es un recorte 9:16 (900 × 1600 px) de una
-  ilustración de 1121 × 2000 px: se le quitó una franja oscura del borde
-  izquierdo, la sombra del lomo del escaneo. Se ve entera también en pantallas
-  chicas (`.ap-panel__foto` es 9:16 en todos los tamaños).
-- **El titular que rota**: el `<h2>` alterna entre las frases de `FRASES`
-  (`js/data.js`) con un barrido de colores letra por letra. Cada letra recorre un
-  espectro (rosa, naranja, amarillo, celeste, azul) y se desvanece, con un
-  desfase de izquierda a derecha; la frase siguiente entra con el mismo recorrido
-  a la inversa, en loop. Es la animación de una referencia: el recorrido de
-  colores y el orden se midieron cuadro por cuadro, y el ritmo se aceleró (cada
-  frase se queda quieta 3 s, una letra tarda 0.6 s en salir y 0.55 s en entrar,
-  con 13 ms de desfase por letra; la referencia iba al doble de espera). Los
-  tiempos (`T`) y el espectro están en la sección 0b de `js/app.js`. Frases de unos 55
-  caracteres son lo ideal: ocupan dos líneas y el bloque no se mueve. La primera
-  frase es la que ve quien no tiene animación (sin JavaScript, con "reducir
-  movimiento" o con `?revelado=todo`) y la que leen los lectores de pantalla; se
-  pausa con el cursor encima. Para ver un instante concreto, desde la consola:
-  `document.querySelector('.rota').rotador.pausar(true)` y luego `.ir(9.5)`.
-- **El verde y el lavado**: el verde del panel (`--b-verde`, `#888740`) es el de
-  la referencia elegida. Conforme se baja, el fondo pasa del blanco a él por
-  `--b-lavado-1` y `--b-lavado-2` (todos en `css/tokens.css`, que `app.js` lee) y
-  termina justo cuando asoma el panel. El texto del panel va en tinta, no en
-  color claro: sobre ese verde da 5.2:1 de contraste. Para cambiar el tono, edita
-  esos tres valores. El lavado es sólo de escritorio: en pantallas chicas el panel
-  llega enseguida y no hay dónde lavar.
-
-## Tipografía y librerías
-
-- **Helvetica** para todo el sitio, en 500 (texto) y 700 (titulares, etiquetas,
-  botones y todo lo que manda). Está en `--f-texto`, en `css/tokens.css`, como
-  `"Helvetica Neue", Helvetica, Arial, sans-serif`.
-- Helvetica **no es libre ni está en Google Fonts**, así que no se descarga: se
-  pide al sistema del visitante. En Mac, iPhone y iPad sale Helvetica de verdad;
-  en Windows sale Arial (se hizo para igualar sus métricas) y en Android, la
-  sans-serif del sistema. Es lo que hace cualquier sitio que usa Helvetica sin
-  licencia web.
-- **GSAP + ScrollTrigger** desde CDN, sólo para lo que va enganchado al scroll
-  (lavado de la Apertura, frase palabra por palabra, regla del proceso). Si el CDN no carga, la página funciona igual: lo mismo se resuelve
-  con IntersectionObserver.
-
-Si quieres que Helvetica salga idéntica en todos los dispositivos, compra la
-licencia web (Helvetica Now o Neue Haas Grotesk, de Monotype), pon los `.woff2`
-en `assets/fonts/`, declara la familia con `@font-face` al principio de
-`css/tokens.css` y ponla de primera en `--f-texto`. Para dejar el sitio sin
-dependencias externas, descarga también los dos archivos de GSAP, ponlos en
-`assets/` y cambia los `<script>` del `<head>`.
+El `src` del retrato lleva un `?v=`: súbelo cada vez que cambies el archivo,
+para que nadie vea la copia vieja guardada en el navegador. Los textos
+alternativos están en `index.html`.
 
 ## Qué falta por llenar
 
 ### 1. Datos de contacto
 En `js/data.js`, hasta arriba, marcados con `PENDIENTE`: correo, teléfono,
-ciudad y redes.
+ciudad y redes. Salen en el contacto, en el pie, en el panel y en el manifiesto
+(la ciudad).
 
 ### 2. Proyectos
-También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
-tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
-`picsum.photos`. La excepción es "Identidad y sistema gráfico": casi todas sus
-celdas ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin
-tableta porque no son capturas de pantalla. La galería distingue sola lo real
-del relleno: lo que viene de `assets/obra/` o de una dirección `https://` se
-muestra en gris (y toma su color con el cursor); lo de `assets/work/`, siempre a
-color. Si cambias un archivo de `assets/work/` sin cambiarle el nombre, súbele
-el `?v=` de su ruta en `data.js`, para que nadie vea la copia vieja. Para
-publicar trabajo real en el resto de los proyectos:
+También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno
+(texturas de `assets/obra` y fotos de `picsum.photos`). La excepción es
+"Identidad y sistema gráfico": sus piezas ya son ilustraciones reales en
+`assets/work/` (prefijo `graf-`). Cada pieza (`celdas`) es una tarjeta: se ve
+entera al centro del cuadrado, así que cualquier proporción sirve. La barra de
+cada tarjeta lleva uno de los `servicios` del proyecto, en orden. Si cambias un
+archivo de `assets/work/` sin cambiarle el nombre, súbele el `?v=` de su ruta en
+`data.js`. Para publicar trabajo real:
 
-1. Copia las imágenes a `assets/work/` (820x580 px las normales, 820x1160 las
-   altas).
-2. Pon cada ruta en `img` y cambia `titulo`, `anio` y `servicios`.
+1. Copia las imágenes a `assets/work/`.
+2. Pon cada ruta en `img`, con su `alt`, y cambia `titulo`, `anio` y
+   `servicios`.
 
 ```js
 { titulo: 'Campaña Primavera', anio: 2026,
   servicios: ['Branding / identidad de marca', 'Diseño gráfico'],
   celdas: [
     { img: 'assets/work/primavera-1.jpg', alt: 'Cartel pegado en la calle' },
-    { img: 'assets/work/primavera-2.jpg', alt: 'Retrato de la campaña', alto: 2 },
-    { img: 'assets/work/sitio.jpg', dispositivo: true }
+    { img: 'assets/work/primavera-2.jpg', alt: 'Retrato de la campaña' }
   ] }
 ```
 
-`dispositivo: true` muestra la imagen dentro de una tableta sobre cacao
-(capturas de sitios y apps). `alto: 2` hace que la celda ocupe dos filas. La
-cuadrícula acomoda las celdas sola; un proyecto completo suma nueve espacios.
+(`alto` y `dispositivo`, que usaba la galería anterior, ya no hacen nada.)
 
 ### 3. Recibir los mensajes del formulario
 Hoy el formulario **abre el correo del visitante** con el mensaje ya escrito.
@@ -258,7 +180,7 @@ Para que te llegue directo a tu bandeja:
 
 El sitio reproduce íntegro el `Catalogo_de_Servicios.docx`. La octava área,
 *Marketing digital*, aparece en el documento con un solo renglón. Si ahí se
-quedó corto, agrega los renglones que falten en `js/data.js` y la fila crece
+quedó corto, agrega los renglones que falten en `js/data.js` y la tarjeta crece
 sola.
 
 ## Verlo en local
@@ -272,28 +194,22 @@ python3 -m http.server 4180
 
 Luego abre <http://localhost:4180>.
 
-Truco útil: `http://localhost:4180/?revelado=todo` muestra la página como
-quedaría ya recorrida, sin los revelados. Sirve para revisarla o capturarla.
+Truco útil: `http://localhost:4180/?revelado=todo` muestra todos los títulos en
+negro y el manifiesto encendido. Sirve para revisarla o capturarla.
 
 Si editas `css/` o `js/` y no ves el cambio, recarga forzando caché
-(Cmd+Shift+R): el navegador guarda esos archivos. Al publicar una versión nueva,
-sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
-`<head>` y nadie verá una copia vieja.
+(Cmd+Shift+R). Al publicar una versión nueva, sube el número de `?v=` en las
+cuatro etiquetas `<link>` y `<script>` de `index.html`.
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga el lavado, los revelados, la deriva de las
-  auras, la inclinación de las celdas y los botones que siguen al cursor: la
-  página queda completa y legible, en su estado final.
-- El vidrio (`backdrop-filter`) se usa en pocas piezas, y el rótulo de cada
-  celda queda oculto de verdad (`visibility`) mientras no se ve, para no
-  desenfocar cuarenta cosas a la vez.
-- Navegación por teclado completa: enlace para saltar al contenido, foco
-  visible y las filas de Servicios se recorren con las flechas.
+- Sin librerías: la página sólo carga Inter Tight de Google Fonts.
+- `prefers-reduced-motion` apaga las transiciones y la entrada del panel.
+- Navegación por teclado: enlace para saltar al contenido, foco visible, los
+  carruseles se recorren con las flechas y el panel atrapa el foco y se cierra
+  con Esc.
 - El formulario valida en español, explica qué falta campo por campo y lleva el
   foco al primer error.
-- El logotipo lleva su nombre accesible ("Inblüm Studio") y las ilustraciones
-  su texto alternativo.
-- Las celdas de la galería reservan su espacio y las imágenes de la Apertura
-  traen sus medidas, así que la página no salta al cargar; las que quedan lejos
-  se cargan al acercarse.
+- El logotipo lleva su nombre accesible ("Inblüm Studio") y las imágenes su
+  texto alternativo. Las etiquetas de 6px de las reglas son decorativas
+  (`aria-hidden`): lo que dicen ya está en cada fila.

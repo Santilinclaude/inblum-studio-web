@@ -1,128 +1,80 @@
 /* ============================================================
    INBLÜM STUDIO · Sistema
-   Un solo lenguaje para todo el sitio, sacado de la marca:
-   - La tinta es el cacao de la Apertura; el lienzo, papel blanco
-     y papel leche (el "Milk Paper" de la referencia Beings).
-   - Los colores de acento son los del recuadro de flores del
-     logotipo, medidos sobre la imagen: el fucsia de las flores, el
-     azul del cielo, el amarillo del polen; más el verde olivo del
-     panel, que eligió el estudio.
-   - Las imágenes llevan el radio del recuadro del logotipo, y los
-     botones son píldoras, como las letras redondas del nombre.
-   - Una sola familia, Helvetica, en 500 (texto) y 700 (todo lo que
-     manda): titulares enormes y apretados, etiquetas de 12px en
-     mayúsculas.
+   Calca del sistema de Homer (homer.com), medido sobre su sitio:
+   blanco y negro, tres grises (el de las fotos, el de las barras y
+   el del panel y el pie), un gris para las etiquetas diminutas, el
+   verde de su botón de compra y el amarillo de "Inquire". Títulos
+   enormes en un corte finísimo; todo lo demás, etiquetas en negra.
+   Los colores de la marca viven donde Homer pone los de cada
+   acabado: en las franjas de dos colores de cada tarjeta.
    ============================================================ */
 
 :root {
   color-scheme: light;
 
-  /* --- Superficies --- */
-  --lamina:   #FFFFFF;   /* Paper White: la Apertura y la barra */
-  --papel:    #FFF4EC;   /* Milk Paper: el lienzo cálido de las secciones */
-  --negro:    #140600;   /* fondo de las tabletas de relleno: un cacao más hondo */
+  /* --- Superficies y tinta (medidos en homer.com) --- */
+  --blanco:       #FFFFFF;
+  --negro:        #000000;
+  --gris-foto:    #F9F9F9;   /* el fondo de cada pieza */
+  --gris-barra:   #ECE9E9;   /* la barra de cada tarjeta, las reglas y los títulos apagados */
+  --gris-panel:   #F2F1F0;   /* el panel del menú, la caja de abajo y el pie */
+  --gris-texto:   #808080;   /* las etiquetas diminutas de cada fila */
+  --gris-fino:    #767676;   /* el texto secundario (4.5:1 sobre blanco) */
+  --verde:        #00AF66;   /* el botón principal ("Add To Cart" en Homer) */
+  --amarillo:     #FFCD00;   /* el botón de consulta ("Inquire" en Homer) */
 
-  /* --- La tinta: el cacao de la Apertura, en todo el sitio --- */
-  --tinta:    #1B0800;
-  --filo:     rgb(27 8 0 / .16);   /* líneas finas */
-  --tenue:    rgb(27 8 0 / .62);   /* texto secundario sobre papel */
+  /* --- Los acabados: los colores de la marca, en pares ---
+     Como los de Homer ("Cadmium Red/Infrared", "Chet Blue/Bubble
+     Blue"): un color y su luz. Medidos sobre el recuadro de flores del
+     logotipo (assets/apertura/logo-flor.jpg). */
+  --flor:         #B8367A;   --flor-luz:   #F6CFE1;
+  --cielo:        #0A6BA8;   --cielo-luz:  #9CCBEA;
+  --polen:        #DCC92E;   --polen-luz:  #F2E48A;
+  --hoja:         #888740;   --hoja-luz:   #C9CB96;
 
-  /* --- La marca: los colores del recuadro de flores ---
-     Medidos sobre assets/apertura/logo-flor.jpg (el tono más limpio de
-     cada color). Con la crema encima, el fucsia da 5:1 y el azul 5.3:1;
-     con el cacao encima, el amarillo da 11.7:1 y el verde 5.2:1. */
-  --flor:     #B8367A;   /* el fucsia de las flores: el acento principal */
-  --petalo:   #F6CFE1;   /* el rosa claro de los pétalos */
-  --cielo:    #0A6BA8;   /* el azul del fondo del recuadro */
-  --polen:    #DCC92E;   /* el amarillo */
-  --hoja:     #888740;   /* el verde olivo del panel */
-  --crema:    #FFF4EC;   /* el texto claro sobre los campos de color */
+  /* --- Tipografía ---
+     Homer usa Unica77 LL (Lineto), en Thin, Regular y Black. Es de
+     licencia: no se puede tomar de su sitio. Mientras tanto:
+     - lo fino y el texto, en Helvetica Neue (la de Apple: su Thin es
+       casi idéntica a la Unica77 Thin, en trazo y en ancho); fuera de
+       Apple, Inter Tight;
+     - las etiquetas, en Inter Tight Black (Helvetica no tiene un corte
+       tan negro).
+     Si el estudio compra la licencia, basta con declarar "Unica77 LL"
+     y ponerla primera en las tres pilas (ver el README). */
+  --f-fina:   "Helvetica Neue", "Inter Tight", Helvetica, Arial, sans-serif;   /* 200 */
+  --f-texto:  "Helvetica Neue", "Inter Tight", Helvetica, Arial, sans-serif;   /* 400 */
+  --f-negra:  "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;   /* 900 */
 
-  /* --- Degradados: el recuadro del logotipo, desenfocado ---
-     El recuadro ya es un degradado: flores rosas y amarillas fuera de
-     foco sobre un cielo azul. Estos tonos son sus luces y sus sombras,
-     y con ellos se pintan los campos de luz (.aura) y los rellenos. */
-  --flor-honda:  #6E1446;   /* el fucsia en sombra */
-  --flor-media:  #8E2460;
-  --flor-viva:   #E0649F;   /* el fucsia a plena luz */
-  --cielo-hondo: #064F7E;
-  --cielo-claro: #9CCBEA;
-  --polen-claro: #F2E48A;
-  --hoja-clara:  #A9A862;
+  /* Escala (la de Homer, en escritorio y en teléfono). */
+  --t-titulo: 72px;     /* los títulos finos; 30px en teléfono */
+  --t-texto:  18px;     /* el texto y el menú */
+  --t-negra:  14px;     /* las etiquetas de las tarjetas */
+  --t-chica:  12px;     /* la barra de abajo */
+  --t-mini:   10px;     /* el pie y el panel */
+  --t-micro:  6px;      /* las etiquetas de cada fila, a la derecha */
 
-  --degradado-flor:  linear-gradient(120deg, var(--flor) 0%, var(--flor-viva) 52%, var(--polen) 100%);
-  --degradado-boton: linear-gradient(110deg, #7E1D55 0%, var(--flor) 60%, #C2407F 100%);
-
-  /* --- Vidrio ---
-     Vidrio claro y grueso, como el acrílico de una vitrina (la
-     referencia es Homer): casi transparente, con muy poco desenfoque,
-     un canto que brilla arriba a la izquierda y se apaga abajo a la
-     derecha, un poco de luz atrapada en el grosor y reflejos. En Chrome
-     además dobla lo que tiene detrás en los bordes (app.js, 7c). La
-     versión oscura es para el cacao del contacto. */
-  --vidrio-tinte:        linear-gradient(160deg, rgb(255 255 255 / .32), rgb(255 255 255 / .1) 45%, rgb(255 255 255 / .2));
-  --vidrio-canto:        inset 1.5px 2px 0 rgb(255 255 255 / .95), inset -1px -1.5px 0 rgb(255 255 255 / .4),
-                         inset 0 0 0 1px rgb(255 255 255 / .22), inset 0 0 26px rgb(255 255 255 / .3);
-  --vidrio-sombra:       0 26px 44px -30px rgb(74 8 40 / .4);
-  --vidrio-oscuro-tinte: linear-gradient(160deg, rgb(255 244 236 / .12), rgb(255 244 236 / .03) 45%, rgb(255 244 236 / .07));
-  --vidrio-oscuro-canto: inset 1.5px 2px 0 rgb(255 244 236 / .38), inset -1px -1.5px 0 rgb(255 244 236 / .12),
-                         inset 0 0 0 1px rgb(255 244 236 / .1), inset 0 0 26px rgb(255 244 236 / .06);
-  --r-vidrio:            clamp(18px, 1.8vw, 28px);
-
-  /* --- Tipografía: una sola familia para todo el sitio ---
-     Helvetica. No es libre ni está en Google Fonts, así que se pide
-     al sistema del visitante: Helvetica de verdad en Mac, iPhone e
-     iPad; Arial (que se hizo para igualar sus métricas) en Windows;
-     la sans-serif del sistema en el resto. Para que salga idéntica
-     en todos lados hace falta una licencia web (ver el README). */
-  --f-texto:   "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-  /* Escala: etiqueta, texto, dos tamaños intermedios y el titular de
-     sección, que crece con la ventana. */
-  --t-etiqueta: 12px;
-  --t-texto:  1.25rem;                                  /* 20px */
-  --t-h:      2.375rem;                                 /* 38px: el titular de la Apertura */
-  --t-h-lg:   2.5rem;                                   /* 40px */
-  --t-grande: clamp(1.75rem, 1rem + 2.2vw, 3.25rem);    /* 28 → 52px: nombres de servicios, pasos */
-  --t-titulo: clamp(3.25rem, 1rem + 7.2vw, 9.25rem);    /* 52 → 148px: el titular de cada sección */
-
-  /* --- Formas: el recuadro redondeado del logotipo --- */
-  --r-tile:  clamp(8px, .95vw, 14px);   /* imágenes y celdas */
-  --r-pill:  999px;                     /* botones y etiquetas */
-
-  /* --- Apertura: la primera página (dirección "Beings") ---
-     El fondo se lava del blanco al verde pasando por dos tintes
-     (app.js lee estos valores), y la tinta sobre ese verde da 5.2:1 de
-     contraste. */
-  --b-blanco:    #ffffff;   /* lienzo */
-  --b-cacao:     #1b0800;   /* tinta (Cocoa Ink) */
-  --b-verde:     #888740;   /* el panel, y donde termina el lavado */
-  --b-lavado-1:  #f0f2d6;   /* primer tramo del lavado: un tinte casi blanco */
-  --b-lavado-2:  #c9cb96;   /* segundo tramo: un verde salvia */
-
-  /* --- Ritmo --- */
-  --aire:   12px;                       /* margen y canal de todo el sitio */
-  --canal:  clamp(6px, .7vw, 10px);     /* espacio entre celdas de la galería */
-  --sec-y:  clamp(88px, 10vw, 160px);   /* entre secciones */
-  --nav-h:  73.6px;      /* alto de la barra de arriba, que queda fija: dos
-                            renglones en pantallas chicas (4px de aire
-                            arriba y abajo + 2 x 32.8px); en escritorio
-                            es uno, ver abajo */
-  --nav-sep: 6px;        /* la barra flota: este aire la separa del borde */
-  --nav-ocupa: calc(var(--nav-sep) + var(--nav-h));   /* lo que tapa arriba */
-
-  /* --- Movimiento --- */
-  --brote:  cubic-bezier(.2, .8, .2, 1);
-  --tallo:  cubic-bezier(.65, 0, .35, 1);
+  /* --- Medidas --- */
+  --margen:   56px;     /* el margen de la página; 24px en teléfono */
+  --carta:    397px;    /* el ancho de una tarjeta; 300px en teléfono */
+  --canal:    46px;     /* entre tarjetas */
+  --fila:     42px;     /* el alto de una barra, de una fila, de un botón */
+  --franjas:  23px;     /* dos franjas de 7px con 9px entre ellas */
+  --cabeza:   63px;     /* el alto de la barra de arriba */
+  --pie-fijo: 44px;     /* el alto de la barra fija de abajo */
 
   /* --- Capas --- */
-  --z-base:      1;
-  --z-grano:     30;     /* el grano de película, sobre el contenido */
-  --z-menu:      40;     /* la barra de arriba */
-  --z-progreso:  45;     /* la línea de avance, sobre la barra */
-  --z-saltar:    50;     /* "Saltar al contenido", sobre todo */
+  --z-cabeza: 40;
+  --z-fijo:   45;
+  --z-panel:  60;
+  --z-saltar: 70;
 }
 
-@media (min-width: 1000px) {
-  :root { --nav-h: 40.8px; }   /* un solo renglón: 4px de aire arriba y abajo + 32.8px */
+@media (max-width: 999px) {
+  :root {
+    --t-titulo: 30px;
+    --margen:   24px;
+    --carta:    300px;
+    --canal:    24px;
+  }
 }
