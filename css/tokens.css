@@ -54,16 +54,19 @@
   --degradado-boton: linear-gradient(110deg, #7E1D55 0%, var(--flor) 60%, #C2407F 100%);
 
   /* --- Vidrio ---
-     Una lámina esmerilada: blanco translúcido con desenfoque, un filo
-     de luz arriba (el borde que refracta) y una sombra teñida de fucsia.
-     La versión oscura es para el cacao del contacto. */
-  --vidrio:              rgb(255 255 255 / .52);
-  --vidrio-filo:         rgb(255 255 255 / .72);
-  --vidrio-brillo:       inset 0 1px 0 rgb(255 255 255 / .9), inset 0 -1px 0 rgb(255 255 255 / .2);
-  --vidrio-sombra:       0 30px 60px -30px rgb(74 8 40 / .32), 0 2px 8px -2px rgb(74 8 40 / .08);
-  --vidrio-oscuro:       rgb(255 244 236 / .07);
-  --vidrio-oscuro-filo:  rgb(255 244 236 / .16);
-  --desenfoque:          blur(20px) saturate(170%);
+     Vidrio claro y grueso, como el acrílico de una vitrina (la
+     referencia es Homer): casi transparente, con muy poco desenfoque,
+     un canto que brilla arriba a la izquierda y se apaga abajo a la
+     derecha, un poco de luz atrapada en el grosor y reflejos. En Chrome
+     además dobla lo que tiene detrás en los bordes (app.js, 7c). La
+     versión oscura es para el cacao del contacto. */
+  --vidrio-tinte:        linear-gradient(160deg, rgb(255 255 255 / .32), rgb(255 255 255 / .1) 45%, rgb(255 255 255 / .2));
+  --vidrio-canto:        inset 1.5px 2px 0 rgb(255 255 255 / .95), inset -1px -1.5px 0 rgb(255 255 255 / .4),
+                         inset 0 0 0 1px rgb(255 255 255 / .22), inset 0 0 26px rgb(255 255 255 / .3);
+  --vidrio-sombra:       0 26px 44px -30px rgb(74 8 40 / .4);
+  --vidrio-oscuro-tinte: linear-gradient(160deg, rgb(255 244 236 / .12), rgb(255 244 236 / .03) 45%, rgb(255 244 236 / .07));
+  --vidrio-oscuro-canto: inset 1.5px 2px 0 rgb(255 244 236 / .38), inset -1px -1.5px 0 rgb(255 244 236 / .12),
+                         inset 0 0 0 1px rgb(255 244 236 / .1), inset 0 0 26px rgb(255 244 236 / .06);
   --r-vidrio:            clamp(18px, 1.8vw, 28px);
 
   /* --- Tipografía: una sola familia para todo el sitio ---

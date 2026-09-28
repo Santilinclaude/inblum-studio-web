@@ -94,6 +94,12 @@ a, button, label, select, summary {
 
 ::selection { background: var(--flor); color: var(--crema); }
 
+/* Las gemas y las auras pueden asomar más allá de los lados: se
+   recortan aquí, sin barra de desplazamiento horizontal. Es "clip" y
+   no "hidden" para que <main> no se vuelva un contenedor de scroll (el
+   retrato fijo de la Apertura depende de eso). */
+main { overflow-x: clip; }
+
 .saltar {
   position: fixed;
   top: 8px; left: 50%;
@@ -287,53 +293,116 @@ a, button, label, select, summary {
   100% { transform: translate3d(-6%, 5%, 0) scale(.94); }
 }
 
-/* --- Vidrio: una lámina esmerilada con un filo de luz arriba. La
-   versión oscura es para el cacao. */
+/* --- Vidrio: una lámina de vidrio claro y grueso, como el acrílico de
+   una vitrina. Lo que la hace parecer vidrio y no una sombra:
+   - deja ver lo de atrás casi nítido (poco desenfoque, "--vidrio-blur")
+     y más saturado, como pasa al mirar a través de un vidrio;
+   - en Chrome, además, lo dobla en los bordes como una lente: app.js
+     (sección 7c) le talla a cada lámina su propio filtro de refracción
+     y lo deja en "--refraccion"; en Safari y Firefox queda el
+     desenfoque solo;
+   - el canto: un filo de luz arriba a la izquierda, uno más tenue abajo
+     a la derecha y luz atrapada en el grosor;
+   - los reflejos (::before): una mancha de luz que sigue al cursor en
+     las láminas con .foco, y dos vetas en diagonal.
+   La versión oscura es para el cacao. */
 .vidrio {
-  background: linear-gradient(150deg, rgb(255 255 255 / .66), var(--vidrio) 40%, rgb(255 255 255 / .3));
-  -webkit-backdrop-filter: var(--desenfoque);
-  backdrop-filter: var(--desenfoque);
-  border: 1px solid var(--vidrio-filo);
-  box-shadow: var(--vidrio-brillo), var(--vidrio-sombra);
+  --vidrio-blur: 3px;
+  position: relative;
+  isolation: isolate;
+  background: var(--vidrio-tinte);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 0;
+  box-shadow: var(--vidrio-canto), var(--vidrio-sombra);
+}
+.con-refraccion .vidrio {
+  -webkit-backdrop-filter: var(--refraccion,) blur(var(--vidrio-blur)) saturate(180%);
+  backdrop-filter: var(--refraccion,) blur(var(--vidrio-blur)) saturate(180%);
+}
+.vidrio::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(420px circle at var(--mx, 16%) var(--my, -45%), rgb(255 255 255 / .55), transparent 62%),
+    linear-gradient(112deg, transparent 54%, rgb(255 255 255 / .28) 55.5%, rgb(255 255 255 / 0) 59%,
+                    transparent 62%, rgb(255 255 255 / .15) 63%, transparent 65.5%);
 }
 .vidrio--oscuro {
-  background: linear-gradient(150deg, rgb(255 244 236 / .11), var(--vidrio-oscuro) 45%, rgb(255 244 236 / .03));
-  border-color: var(--vidrio-oscuro-filo);
-  box-shadow: inset 0 1px 0 rgb(255 244 236 / .16), 0 50px 90px -40px rgb(0 0 0 / .7);
+  background: var(--vidrio-oscuro-tinte);
+  box-shadow: var(--vidrio-oscuro-canto), 0 50px 90px -40px rgb(0 0 0 / .7);
+}
+.vidrio--oscuro::before {
+  background:
+    radial-gradient(420px circle at var(--mx, 16%) var(--my, -45%), rgb(255 244 236 / .14), transparent 62%),
+    linear-gradient(112deg, transparent 54%, rgb(255 244 236 / .09) 55.5%, rgb(255 244 236 / 0) 59%,
+                    transparent 62%, rgb(255 244 236 / .05) 63%, transparent 65.5%);
 }
 
-/* El foco: el filo de la lámina se enciende donde está el cursor, y
-   por dentro la sigue una luz tenue (app.js pone --mx y --my). */
-.foco { position: relative; isolation: isolate; --luz: rgb(184 54 122 / .85); }
+/* El foco: donde está el cursor, el canto de la lámina se enciende
+   (app.js pone --mx y --my, que también mueven el reflejo). */
+.foco { --luz: rgb(255 255 255 / .95); }
 .vidrio--oscuro.foco { --luz: rgb(246 207 225 / .8); }
-.foco::before,
 .foco::after {
   content: "";
   position: absolute;
+  inset: 0;
+  padding: 1.5px;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity .35s var(--tallo);
-}
-.foco::before {
-  inset: -1px;
-  padding: 1px;
-  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), var(--luz), transparent 65%);
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), var(--luz), transparent 70%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-.foco::after {
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgb(255 255 255 / .28), transparent 60%);
-}
-.vidrio--oscuro.foco::after {
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgb(184 54 122 / .22), transparent 60%);
+  opacity: 0;
+  transition: opacity .35s var(--tallo);
 }
 @media (hover: hover) {
-  .foco:hover::before,
   .foco:hover::after { opacity: 1; }
+}
+
+/* --- Gemas: piezas de esmalte de los colores de la marca (cápsulas,
+   discos y aros, con su brillo y su sombra) que viven detrás del
+   vidrio. Asoman por sus bordes: la parte de afuera se ve nítida y la
+   de adentro doblada y más viva, y eso es lo que hace leer el vidrio.
+   Flotan despacio y, con GSAP, corren a otra velocidad que la página
+   (app.js, 7c), así se deslizan detrás de las láminas al bajar. Cada
+   una lleva en línea su lugar (--x, --y), su tamaño (--w, --h) y su
+   velocidad (data-v). */
+.vitrina { position: relative; }
+.gema {
+  position: absolute;
+  left: var(--x, 0);
+  top: var(--y, 0);
+  width: var(--w, 120px);
+  height: var(--h, var(--w, 120px));
+  border-radius: var(--r-pill);
+  pointer-events: none;
+  background:
+    radial-gradient(38% 34% at 30% 24%, rgb(255 255 255 / .92), rgb(255 255 255 / 0) 70%),
+    radial-gradient(90% 90% at 72% 84%, rgb(27 8 0 / .32), transparent 62%),
+    linear-gradient(160deg, var(--c2), var(--c));
+  box-shadow: inset 0 -10px 18px rgb(27 8 0 / .2), inset 0 8px 12px rgb(255 255 255 / .45),
+              0 26px 40px -22px var(--c);
+  animation: flotar var(--t, 7s) var(--tallo) infinite alternate;
+}
+.gema:nth-of-type(2n) { --t: 9s; animation-direction: alternate-reverse; }
+.gema--aro {
+  -webkit-mask: radial-gradient(closest-side, transparent 57%, #000 59%);
+  mask: radial-gradient(closest-side, transparent 57%, #000 59%);
+}
+.gema--flor  { --c: var(--flor);  --c2: var(--flor-viva); }
+.gema--cielo { --c: var(--cielo); --c2: #3FA0DD; }
+.gema--polen { --c: #CDB91F;      --c2: #F4E45A; }
+.gema--hoja  { --c: var(--hoja);  --c2: #B7B65E; }
+
+@keyframes flotar {
+  from { translate: 0 -8px; rotate: -4deg; }
+  to   { translate: 0 10px; rotate: 5deg; }
 }
 
 /* ---------- 3. Progreso ------------------------------------
@@ -443,6 +512,9 @@ a, button, label, select, summary {
   max-width: calc(100% - 20px);
   padding: 5px 14px 5px 5px;
   border-radius: var(--r-pill);
+  /* Sobre la obra hace falta un poco más de cuerpo para leerse. */
+  --vidrio-blur: 6px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .62), rgb(255 255 255 / .38));
   color: var(--tinta);
   font: 700 11px/1.2 var(--f-texto);
   text-transform: uppercase;
@@ -624,33 +696,31 @@ a, button, label, select, summary {
   margin: var(--nav-sep) calc(var(--aire) / 2) calc(-1 * var(--nav-ocupa));
   padding: 4px calc(var(--aire) / 2);
   border-radius: 20px;
-  background: rgb(255 255 255 / .55);
-  -webkit-backdrop-filter: var(--desenfoque);
-  backdrop-filter: var(--desenfoque);
+  /* Es vidrio (.vidrio), con un poco más de cuerpo que las demás
+     láminas: lo que pasa por debajo es texto e imágenes. */
+  --vidrio-blur: 5px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .5), rgb(255 255 255 / .26) 50%, rgb(255 255 255 / .36));
   color: var(--b-cacao);
   letter-spacing: 0;
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .75), inset 0 1px 0 rgb(255 255 255 / .95),
-              0 0 0 1px rgb(27 8 0 / .06), 0 14px 34px -20px rgb(74 8 40 / .4);
-  transition: background-color .4s var(--tallo), box-shadow .4s var(--tallo), color .4s var(--tallo);
+  box-shadow: var(--vidrio-canto), 0 0 0 1px rgb(27 8 0 / .05), 0 14px 30px -20px rgb(74 8 40 / .45);
+  transition: color .4s var(--tallo);
 }
 .ap-nav :focus-visible { outline-color: var(--flor); }
 
-/* En cuanto se baja (app.js pone la clase), la lámina se vuelve un poco
-   más opaca y su sombra más honda, para que se lea sobre cualquier
-   campo. */
+/* En cuanto se baja (app.js pone la clase), su sombra se hace más
+   honda: ya flota sobre el contenido. */
 .ap-nav--baja {
-  background: rgb(255 255 255 / .64);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .6), inset 0 1px 0 rgb(255 255 255 / .9),
-              0 0 0 1px rgb(27 8 0 / .08), 0 18px 44px -18px rgb(74 8 40 / .5);
+  box-shadow: var(--vidrio-canto), 0 0 0 1px rgb(27 8 0 / .06), 0 18px 40px -18px rgb(74 8 40 / .55);
 }
+
 /* Sobre el cacao del contacto y el pie (app.js), la lámina se vuelve
    de vidrio oscuro con la letra en crema: la clara se veía gris. */
 .ap-nav--oscura {
-  background: rgb(27 8 0 / .42);
+  background: linear-gradient(160deg, rgb(27 8 0 / .5), rgb(27 8 0 / .34));
   color: var(--crema);
-  box-shadow: inset 0 0 0 1px rgb(255 244 236 / .14), inset 0 1px 0 rgb(255 244 236 / .22),
-              0 18px 44px -18px rgb(0 0 0 / .7);
+  box-shadow: var(--vidrio-oscuro-canto), 0 18px 44px -18px rgb(0 0 0 / .7);
 }
+.ap-nav--oscura::before { opacity: .35; }
 .ap-nav a,
 .ap-intro__acciones a {
   font: 700 12px/16.8px var(--f-texto);
@@ -772,8 +842,10 @@ a, button, label, select, summary {
   align-items: center;
   gap: 12px;
   max-width: calc(100% - 2 * var(--aire));
-  padding: 7px 7px 7px 7px;
+  padding: 7px;
   border-radius: 18px;
+  --vidrio-blur: 4px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .58), rgb(255 255 255 / .32));
   color: var(--b-cacao);
   font: 500 12px/1.3 var(--f-texto);
 }
@@ -991,20 +1063,16 @@ a, button, label, select, summary {
 .manifiesto .cabecera__n { background: var(--crema); color: var(--flor); box-shadow: none; }
 
 .manifiesto__lado { display: grid; gap: 28px; align-content: start; }
-/* El recuadro en su marco de vidrio: una lámina alrededor y la imagen
-   dentro, con el radio de adentro más cerrado, como dos piezas
-   encajadas. */
+/* El recuadro en su marco de vidrio (.vidrio): una lámina alrededor y
+   la imagen dentro, con el radio de adentro más cerrado, como dos
+   piezas encajadas. */
 .manifiesto__flor {
   --marco: 8px;
   width: min(62%, 320px);
   margin: 0;
   padding: var(--marco);
   border-radius: calc(var(--r-tile) * 1.4 + var(--marco));
-  background: linear-gradient(150deg, rgb(255 255 255 / .3), rgb(255 255 255 / .08));
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid rgb(255 255 255 / .38);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .5), 0 44px 80px -32px rgb(60 4 32 / .7);
+  box-shadow: var(--vidrio-canto), 0 44px 80px -32px rgb(60 4 32 / .7);
 }
 .manifiesto__flor img {
   width: 100%;
@@ -1012,17 +1080,19 @@ a, button, label, select, summary {
   object-fit: cover;
   border-radius: calc(var(--r-tile) * 1.4);
 }
+/* La nota es otra lámina, teñida de fucsia, que se monta sobre la
+   parte de abajo del recuadro: como el recuadro flota más lento que la
+   página, las flores se deslizan detrás del vidrio al bajar. */
 .manifiesto__nota {
+  --vidrio-blur: 10px;
   display: grid;
   gap: 12px;
   max-width: 34ch;
+  margin: -64px 0 0 12%;
   padding: clamp(18px, 1.8vw, 26px);
   border-radius: var(--r-vidrio);
-  background: linear-gradient(150deg, rgb(255 255 255 / .16), rgb(255 255 255 / .05));
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-  border: 1px solid rgb(255 255 255 / .26);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .3);
+  background: linear-gradient(160deg, rgb(184 54 122 / .66), rgb(142 36 96 / .5));
+  box-shadow: var(--vidrio-canto), 0 30px 50px -30px rgb(60 4 32 / .8);
   font-size: 17px;
 }
 
@@ -1035,6 +1105,7 @@ a, button, label, select, summary {
   .manifiesto__frase { grid-column: 1 / span 8; }
   .manifiesto__lado  { grid-column: 10 / span 3; }
   .manifiesto__flor  { width: 100%; }
+  .manifiesto__nota  { margin: calc(-1 * clamp(90px, 9vw, 150px)) 0 0 -22%; }
 }
 
 /* ---------- 7. Servicios y Proceso: el campo de luz ----------
@@ -1053,11 +1124,16 @@ a, button, label, select, summary {
    los colores de la marca ("--tono" a "--tono-2", que pone app.js) y
    su texto cambia a la tinta que le da contraste ("--sobre"). */
 
+/* Detrás del panel viven cuatro gemas (.vitrina): asoman por sus bordes
+   y se ven dobladas a través de él. Lleva un poco más de desenfoque que
+   las otras láminas, para que los nombres se lean encima. */
 .items {
+  --vidrio-blur: 7px;
   display: grid;
   margin-inline: var(--aire);
   padding: 8px;
   border-radius: calc(var(--r-vidrio) + 8px);
+  background: linear-gradient(160deg, rgb(255 255 255 / .42), rgb(255 255 255 / .18) 45%, rgb(255 255 255 / .3));
 }
 
 .item {
@@ -1178,11 +1254,13 @@ a, button, label, select, summary {
 
 .tiempos { display: grid; gap: 10px; }
 .tiempo {
+  --vidrio-blur: 6px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 10px 18px;
   padding: clamp(20px, 2vw, 30px);
   border-radius: var(--r-vidrio);
+  background: linear-gradient(160deg, rgb(255 255 255 / .42), rgb(255 255 255 / .16) 45%, rgb(255 255 255 / .28));
 }
 /* La entrada (.rev) lleva su espera; levantarse, no. */
 .tiempo.rev {
@@ -1191,7 +1269,7 @@ a, button, label, select, summary {
 }
 .tiempo.activo {
   transform: translateY(-6px);
-  box-shadow: var(--vidrio-brillo), 0 36px 64px -30px rgb(184 54 122 / .5);
+  box-shadow: var(--vidrio-canto), 0 36px 64px -30px rgb(184 54 122 / .55);
 }
 /* El número, con el degradado de la flor: apagado hasta que la regla
    llega a su tiempo (o pasa el cursor). */
@@ -1339,6 +1417,7 @@ a.dato__valor:hover,
 .redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .forma {
+  --vidrio-blur: 6px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 24px 20px;
@@ -1346,6 +1425,9 @@ a.dato__valor:hover,
   padding: clamp(20px, 2.6vw, 40px);
   border-radius: calc(var(--r-vidrio) + 8px);
 }
+
+/* Las gemas del contacto viven detrás del formulario, en la retícula. */
+.contacto { position: relative; }
 @media (min-width: 700px) {
   .forma { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .campo--ancho { grid-column: 1 / -1; }
@@ -1493,7 +1575,8 @@ a.dato__valor:hover,
   }
   .rev { opacity: 1; translate: none; }
   .tt__in { translate: none; }
-  .aura i { animation: none; }
+  .aura i,
+  .gema { animation: none; }
   .celda { transform: none; }
   .celda:hover img { transform: none; }
   .tiempo.activo { transform: none; }

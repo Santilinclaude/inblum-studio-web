@@ -21,8 +21,8 @@
 <!-- La tipografía es Helvetica, la del sistema del visitante (ver
      --f-texto en css/tokens.css): no se descarga ninguna fuente. -->
 
-<link rel="stylesheet" href="css/tokens.css?v=116">
-<link rel="stylesheet" href="css/styles.css?v=116">
+<link rel="stylesheet" href="css/tokens.css?v=117">
+<link rel="stylesheet" href="css/styles.css?v=117">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
 <!-- La barra de arriba queda fija en toda la página (sticky). Va aquí,
      fuera de la Apertura, para que siga ahí hasta el pie. Su alto es
      --nav-h, en css/tokens.css. -->
-<header class="ap-nav">
+<header class="ap-nav vidrio">
   <a class="ap-nav__marca" href="#inicio" aria-current="page">
     <img class="ap-nav__flor" src="assets/apertura/logo-flor.jpg" width="13" height="17" alt="">
     <span translate="no">Inblüm Studio</span>
@@ -161,9 +161,19 @@
 
     <div class="piezas" id="piezas"></div>
 
-    <div class="trabajo__cierre vidrio foco">
-      <p class="trabajo__pregunta">¿Quieres ver proyectos completos?</p>
-      <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+    <!-- El cierre es una lámina de vidrio con tres gemas detrás, que
+         asoman por sus bordes. -->
+    <div class="vitrina">
+      <span class="gema gema--flor" aria-hidden="true" data-v="1.2"
+            style="--x:5%;--y:-38px;--w:clamp(130px,17vw,250px);--h:clamp(50px,6vw,86px)"></span>
+      <span class="gema gema--cielo" aria-hidden="true" data-v="-.8"
+            style="--x:56%;--y:22%;--w:clamp(80px,9vw,130px)"></span>
+      <span class="gema gema--polen gema--aro" aria-hidden="true" data-v=".6"
+            style="--x:84%;--y:62%;--w:clamp(90px,10vw,150px)"></span>
+      <div class="trabajo__cierre vidrio foco">
+        <p class="trabajo__pregunta">¿Quieres ver proyectos completos?</p>
+        <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+      </div>
     </div>
   </section>
 
@@ -186,11 +196,11 @@
       </h2>
 
       <aside class="manifiesto__lado">
-        <figure class="manifiesto__flor" id="flor">
+        <figure class="manifiesto__flor vidrio" id="flor">
           <img src="assets/apertura/logo-flor.jpg" width="480" height="635" loading="lazy" decoding="async"
                alt="El recuadro del logotipo de Inblüm Studio: flores de cerezo rosas y amarillas, desenfocadas, sobre un cielo azul">
         </figure>
-        <div class="manifiesto__nota rev">
+        <div class="manifiesto__nota vidrio rev">
           <p>
             La identidad ya considera cómo se va a ver en video, y el sitio ya
             sabe qué fotografía va a recibir. Nada se traduce entre despachos.
@@ -229,7 +239,17 @@
       </p>
     </header>
 
-    <div class="items vidrio" id="servicios-items"></div>
+    <div class="vitrina">
+      <span class="gema gema--flor" aria-hidden="true" data-v="1"
+            style="--x:7%;--y:-40px;--w:clamp(130px,16vw,240px);--h:clamp(50px,5.6vw,82px)"></span>
+      <span class="gema gema--hoja gema--aro" aria-hidden="true" data-v="-.7"
+            style="--x:80%;--y:-54px;--w:clamp(90px,9vw,140px)"></span>
+      <span class="gema gema--cielo" aria-hidden="true" data-v=".8"
+            style="--x:88%;--y:44%;--w:clamp(90px,10vw,150px)"></span>
+      <span class="gema gema--polen" aria-hidden="true" data-v="-1"
+            style="--x:18%;--y:calc(100% - 44px);--w:clamp(140px,18vw,260px);--h:clamp(50px,5.6vw,82px)"></span>
+      <div class="items vidrio" id="servicios-items"></div>
+    </div>
   </section>
 
   <!-- ============ Proceso ============
@@ -248,6 +268,12 @@
     </header>
 
     <div class="proceso">
+      <span class="gema gema--cielo gema--aro" aria-hidden="true" data-v="1"
+            style="--x:21%;--y:34%;--w:clamp(90px,10vw,150px)"></span>
+      <span class="gema gema--flor" aria-hidden="true" data-v="-.8"
+            style="--x:52%;--y:calc(100% - 80px);--w:clamp(140px,17vw,250px);--h:clamp(50px,5.6vw,82px)"></span>
+      <span class="gema gema--polen" aria-hidden="true" data-v=".7"
+            style="--x:86%;--y:12%;--w:clamp(80px,8vw,120px)"></span>
       <div class="hilo" id="hilo" aria-hidden="true">
         <span class="hilo__marca"></span>
       </div>
@@ -272,6 +298,12 @@
     </header>
 
     <div class="contacto">
+      <span class="gema gema--flor" aria-hidden="true" data-v="1"
+            style="--x:max(50%,calc(100% - 180px));--y:-30px;--w:clamp(90px,10vw,150px)"></span>
+      <span class="gema gema--polen gema--aro" aria-hidden="true" data-v="-.6"
+            style="--x:45%;--y:58%;--w:clamp(100px,11vw,170px)"></span>
+      <span class="gema gema--cielo" aria-hidden="true" data-v=".8"
+            style="--x:78%;--y:calc(100% - 46px);--w:clamp(140px,17vw,250px);--h:clamp(50px,5.6vw,82px)"></span>
 
       <div class="contacto__izq rev">
         <p class="contacto__lead">
@@ -368,8 +400,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=116" defer></script>
-<script src="js/app.js?v=116" defer></script>
+<script src="js/data.js?v=117" defer></script>
+<script src="js/app.js?v=117" defer></script>
 
 </body>
 </html>

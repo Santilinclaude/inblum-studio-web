@@ -41,10 +41,24 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   (`.aura--apertura`, `--trabajo`, `--estudio`, `--luz`, `--contacto`). La
   línea de avance, los números y la regla del proceso llevan el degradado de la
   flor. Un grano de película fijo, apenas visible, cubre toda la página.
-- **Vidrio.** Lo que flota sobre las auras es una lámina esmerilada (`.vidrio`,
-  y `.vidrio--oscuro` sobre el cacao): la barra, la ficha del retrato, el cierre
-  de Trabajo, el panel de Servicios, los tiempos del Proceso y el formulario. Las
-  que llevan `.foco` encienden su filo donde está el cursor.
+- **Vidrio.** Lo que flota es vidrio claro y grueso, como el acrílico de una
+  vitrina (la referencia es Homer): `.vidrio`, y `.vidrio--oscuro` sobre el
+  cacao. Es la barra, la ficha del retrato, el cierre de Trabajo, el marco y la
+  nota del manifiesto, el panel de Servicios, los tiempos del Proceso, el
+  formulario y los rótulos de la galería. Deja ver lo de atrás casi nítido y más
+  saturado, tiene un canto que brilla y reflejos, y en Chrome (en pantallas de
+  700px o más) además dobla lo que tiene detrás en los bordes, como una lente:
+  `js/app.js` (sección 7c) le talla a cada lámina su mapa de refracción y lo
+  vuelve a tallar si cambia de tamaño. En Safari y Firefox queda un vidrio
+  esmerilado de respaldo. Las que llevan `.foco` encienden su canto donde está
+  el cursor.
+- **Gemas.** Detrás del vidrio viven piezas de esmalte de los colores de la
+  marca (`.gema`: cápsulas, discos y aros) que asoman por los bordes de las
+  láminas: afuera se ven nítidas y adentro dobladas, y eso es lo que hace leer
+  el vidrio. Flotan despacio y corren a otra velocidad que la página. Cada una
+  lleva en línea su lugar, tamaño y velocidad (`--x`, `--y`, `--w`, `--h`,
+  `data-v`) en `index.html`: en el cierre de Trabajo, alrededor del panel de
+  Servicios (`.vitrina`), en Proceso y en Contacto.
 - **Movimiento.** Los botones llevan la flecha en su propio círculo, se
   encienden con el degradado y se dejan jalar un poco por el cursor; las celdas
   de la galería se inclinan hacia él con un reflejo y muestran un rótulo de

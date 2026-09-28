@@ -306,9 +306,8 @@
 
   /* ---------- 1c. La barra de arriba --------------------------
      Que quede fija en toda la página es CSS (sticky). Lo único que
-     hace el script es ponerle una línea de 1px debajo en cuanto se
-     baja, para que se note dónde acaba y lo que sube por debajo no
-     parezca cortado sin motivo. Arriba del todo no lleva línea.
+     hace el script es marcarla en cuanto se baja (ap-nav--baja), y
+     su sombra se hace más honda: ya flota sobre el contenido.
      --------------------------------------------------------- */
   const barra = $('.ap-nav');
 
@@ -334,8 +333,6 @@
       if (id) porSeccion[id] = a;
     });
     const marcarEnlace = function (id) {
-      // En el contacto (y el pie, que sigue) la barra va en vidrio oscuro.
-      if (barra) barra.classList.toggle('ap-nav--oscura', id === 'contacto');
       enlacesBarra.forEach(function (a) {
         const es = a === porSeccion[id];
         a.classList.toggle('actual', es);
@@ -352,6 +349,23 @@
       const s = document.getElementById(id);
       if (s) ojoSecciones.observe(s);
     });
+  }
+
+  // La barra pasa a vidrio oscuro cuando lo que tiene justo debajo es
+  // el cacao del contacto o del pie (una franja fina arriba de la
+  // pantalla, a la altura de la barra).
+  const oscuros = $$('#contacto, .pie');
+
+  if (barra && oscuros.length && 'IntersectionObserver' in window) {
+    const debajo = new Set();
+    const ojoOscuro = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) debajo.add(e.target);
+        else debajo.delete(e.target);
+      });
+      barra.classList.toggle('ap-nav--oscura', debajo.size > 0);
+    }, { rootMargin: '-20px 0px -94% 0px', threshold: 0 });
+    oscuros.forEach(function (o) { ojoOscuro.observe(o); });
   }
 
   /* ---------- 1e. El recuadro de flores del manifiesto ---------
@@ -609,6 +623,140 @@
       entradas.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
     });
     auras.forEach(function (a) { ojoAura.observe(a); });
+  }
+
+  /* ---------- 7c. Vidrio de verdad ---------------------------
+     Lo que hace que una lámina (.vidrio) se lea como vidrio y no como
+     una sombra es que dobla lo que tiene detrás, sobre todo en los
+     bordes, como una lente. Eso se hace con un filtro SVG en el
+     backdrop-filter: un mapa de desplazamiento (rojo para mover en x,
+     verde en y, gris neutro en el centro) que empuja hacia afuera lo
+     que queda en el canto. El mapa depende del tamaño y del radio de
+     cada lámina, así que se talla uno por lámina y se vuelve a tallar
+     cuando cambia de tamaño (mientras cambia, queda el vidrio sin
+     doblar). Sólo en Chrome (Safari y Firefox no aplican filtros SVG
+     al fondo: ahí queda el desenfoque de respaldo del CSS) y en
+     pantallas de 700px o más, por rendimiento.
+
+     Y las gemas (.gema) corren a otra velocidad que la página, así se
+     deslizan detrás del vidrio al bajar y se ve cómo las dobla.
+     --------------------------------------------------------- */
+
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const conRefraccion = !!window.chrome &&
+    window.matchMedia('(min-width: 700px)').matches &&
+    window.CSS && CSS.supports('backdrop-filter', 'url(#a)');
+
+  // El mapa de una lámina de w x h con radio r y un canto de b px: rojo
+  // que crece de izquierda a derecha, verde de arriba abajo, y el centro
+  // tapado de gris neutro (que no mueve nada) con el borde difuminado.
+  // Se pinta una sola vez en un canvas a un cuarto de tamaño (el mapa es
+  // suave: el filtro lo estira sin que se note) y se entrega como PNG,
+  // para que el navegador no tenga que redibujarlo en cada cuadro.
+  const lienzoMapa = document.createElement('canvas');
+  function mapaCanto(w, h, r, b) {
+    const k = .25;
+    const cw = Math.max(4, Math.round(w * k));
+    const ch = Math.max(4, Math.round(h * k));
+    lienzoMapa.width = cw;
+    lienzoMapa.height = ch;
+    const c = lienzoMapa.getContext('2d');
+    const redondo = function (x, y, a, l, rr) {
+      c.beginPath();
+      if (c.roundRect) c.roundRect(x, y, a, l, Math.max(0, rr));
+      else c.rect(x, y, a, l);
+      c.fill();
+    };
+    c.filter = 'none';
+    c.globalCompositeOperation = 'source-over';
+    c.fillStyle = '#000';
+    c.fillRect(0, 0, cw, ch);
+    const gx = c.createLinearGradient(0, 0, cw, 0);
+    gx.addColorStop(0, '#000'); gx.addColorStop(1, '#f00');
+    c.fillStyle = gx;
+    redondo(0, 0, cw, ch, r * k);
+    c.globalCompositeOperation = 'lighter';
+    const gy = c.createLinearGradient(0, 0, 0, ch);
+    gy.addColorStop(0, '#000'); gy.addColorStop(1, '#0f0');
+    c.fillStyle = gy;
+    redondo(0, 0, cw, ch, r * k);
+    c.globalCompositeOperation = 'source-over';
+    c.filter = 'blur(' + (b * k / 2).toFixed(2) + 'px)';
+    c.fillStyle = '#808000';
+    redondo(b * k, b * k, cw - 2 * b * k, ch - 2 * b * k, (r - b) * k);
+    c.filter = 'none';
+    return lienzoMapa.toDataURL('image/png');
+  }
+
+  if (conRefraccion) {
+    const lienzo = document.createElementNS(SVGNS, 'svg');
+    lienzo.setAttribute('width', '0');
+    lienzo.setAttribute('height', '0');
+    lienzo.setAttribute('aria-hidden', 'true');
+    lienzo.style.position = 'absolute';
+    document.body.appendChild(lienzo);
+
+    let cuenta = 0;
+    const tallar = function (el) {
+      const w = Math.round(el.offsetWidth);
+      const h = Math.round(el.offsetHeight);
+      if (!w || !h) return;
+      const lente = el.lente || (el.lente = { id: 'lente-' + (cuenta++) });
+      if (lente.w === w && lente.h === h) return;
+      const r = Math.min(parseFloat(window.getComputedStyle(el).borderTopLeftRadius) || 0, w / 2, h / 2);
+      const b = Math.round(Math.max(8, Math.min(26, Math.min(w, h) * .16)));
+      if (!lente.filtro) {
+        lente.filtro = document.createElementNS(SVGNS, 'filter');
+        lente.filtro.id = lente.id;
+        lente.filtro.setAttribute('filterUnits', 'userSpaceOnUse');
+        lente.filtro.setAttribute('primitiveUnits', 'userSpaceOnUse');
+        lente.filtro.setAttribute('color-interpolation-filters', 'sRGB');
+        lienzo.appendChild(lente.filtro);
+      }
+      lente.filtro.setAttribute('x', 0);
+      lente.filtro.setAttribute('y', 0);
+      lente.filtro.setAttribute('width', w);
+      lente.filtro.setAttribute('height', h);
+      lente.filtro.innerHTML =
+        '<feImage x="0" y="0" width="' + w + '" height="' + h + '" preserveAspectRatio="none"' +
+        ' result="mapa" href="' + mapaCanto(w, h, r, b) + '"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="mapa" scale="' + (-2.7 * b).toFixed(1) + '"' +
+        ' xChannelSelector="R" yChannelSelector="G"/>';
+      lente.w = w;
+      lente.h = h;
+      el.style.setProperty('--refraccion', 'url(#' + lente.id + ')');
+    };
+
+    const laminas = $$('.vidrio');
+    laminas.forEach(tallar);
+    document.documentElement.classList.add('con-refraccion');
+
+    if ('ResizeObserver' in window) {
+      const esperas = new Map();
+      const ojoTamanos = new ResizeObserver(function (entradas) {
+        entradas.forEach(function (e) {
+          const el = e.target;
+          const l = el.lente;
+          if (l && l.w === Math.round(el.offsetWidth) && l.h === Math.round(el.offsetHeight)) return;
+          el.style.removeProperty('--refraccion');
+          window.clearTimeout(esperas.get(el));
+          esperas.set(el, window.setTimeout(function () { tallar(el); }, 160));
+        });
+      });
+      laminas.forEach(function (el) { ojoTamanos.observe(el); });
+    }
+  }
+
+  if (conGsap && !sinRevelado) {
+    $$('.gema').forEach(function (g) {
+      const v = parseFloat(g.getAttribute('data-v')) || 0;
+      if (!v) return;
+      window.gsap.fromTo(g, { y: v * 50 }, {
+        y: v * -50,
+        ease: 'none',
+        scrollTrigger: { trigger: g.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
   }
 
   /* ---------- 8. Revelados -----------------------------------
