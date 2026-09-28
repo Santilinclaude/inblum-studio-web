@@ -165,7 +165,10 @@ const PIEZAS = [
       { img: 'assets/work/graf-abrigo-cuervos.jpg', alt: 'Ilustración de una mujer envuelta en un abrigo con estampado de cuervos' },
       { img: 'assets/work/graf-cerezas-cigarro.jpg?v=2', alt: 'Ilustración de cuatro cerezas en llamas sobre un plato, con un cigarro encendido recargado en ellas', alto: 2 },
       { img: 'assets/work/graf-leopardo-cuadros.jpg', alt: 'Ilustración de una mujer con sombrero, abrigo a cuadros y pantalón de rombos, recostada sobre un auto rojo junto a la cabeza de un leopardo de las nieves' },
-      { img: 'assets/obra/collage.jpg', dispositivo: true }
+      { img: 'assets/work/graf-termica-manos.jpg', alt: 'Ilustración de una figura en tonos térmicos: el cuerpo azul y el rostro y las manos encendidos en naranja y amarillo, sosteniendo una luz', alto: 2 },
+      { img: 'assets/work/graf-conejo-pastel.jpg', alt: 'Ilustración de un personaje con cabeza de conejo blanco y suéter negro que sostiene un pastelito con crema frente a una taza de café, sobre fondo rojo', alto: 2 },
+      { img: 'assets/work/graf-caballo-cadenas.jpg', alt: 'Ilustración en rosa y azul de un caballo con una estrella en el ojo y la melena al viento, que muerde una cadena y rompe las de sus patas entre nubes', alto: 2 },
+      { img: 'assets/work/graf-aerografo-estrella.jpg', alt: 'Ilustración a aerógrafo del rostro de una chica de pelo azul con pestañas en picos y sombra naranja, junto a una estrella violeta y formas verde lima' }
     ]
   },
   {

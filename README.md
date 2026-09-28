@@ -18,8 +18,9 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   (`--polen`) y el verde olivo (`--hoja`). Todos en `css/tokens.css`, con su
   contraste anotado.
 - **Campos de color, en este orden:** Apertura (blanco que se lava al azul) →
-  panel en degradado azul → amarillo → Trabajo (leche) → Estudio (fucsia) →
-  Servicios y Proceso (leche) → Contacto y pie (cacao).
+  panel en degradado azul → amarillo → Trabajo (leche) → Estudio (rosa →
+  naranja) → Servicios y Proceso (leche) → Contacto (verde → lima) → pie
+  (cacao).
 - **La tipografía de Homer**, en su mezcla de tres cortes: lo grande (titulares
   de sección, manifiesto, nombres de áreas, pasos y proyectos, el titular de la
   portada) en un corte finísimo; el texto en regular; y lo chico (etiquetas,
@@ -41,13 +42,16 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   nombre y una nota), el titular enorme, que entra palabra por palabra, y una
   entrada corta recargada a la derecha. Se repite igual en Trabajo, Servicios,
   Proceso y Contacto; el manifiesto usa sólo la fila.
-- **Degradados, sólo en los fondos.** Detrás de cada campo hay un aura
+- **Degradados, sólo en los fondos.** Detrás de los campos claros hay un aura
   (`.aura`): tres manchas de color del recuadro de flores que derivan despacio,
-  sólo mientras el campo está en pantalla (`.aura--apertura`, `--trabajo`,
-  `--estudio`, `--luz` para Servicios y Proceso juntos, `--contacto`). Y el
-  panel de la Apertura es un degradado entre los dos tonos de un acabado de
-  Homer, "Nimbus Blue/Acid Yellow". En los elementos (franjas, botones, filas)
-  los colores van planos.
+  sólo mientras el campo está en pantalla (`.aura--apertura`, `--trabajo` y
+  `--luz` para Servicios y Proceso juntos). Y tres campos son degradados entre
+  los dos tonos de un acabado de Homer (tomados de su sitio), cada uno una sola
+  vez, como su línea de productos: "Nimbus Blue/Acid Yellow" en el panel de la
+  Apertura, "Retba Pink/Flame" en el manifiesto y "Clover/Cody Green" en el
+  contacto (`--b-panel-*` y `--h-*` en `css/tokens.css`). En todos, la tinta da
+  por lo menos 5.6:1. En los elementos (franjas, botones, filas) los colores van
+  planos.
 - **Sin adornos.** El vidrio queda sólo donde hay algo detrás que se vea a
   través: la barra de
   arriba, la ficha del retrato y los rótulos de la galería (en Chrome, en
@@ -65,10 +69,10 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
 |---|---|
 | Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel en degradado azul → amarillo que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
-| Estudio | El manifiesto sobre fucsia: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado va la nota |
+| Estudio | El manifiesto en tinta sobre el degradado rosa → naranja: se enciende palabra por palabra y "Un equipo" va en negra, el corte grueso. A un lado, la nota; debajo, la promesa en números (un interlocutor, un calendario, un presupuesto) que cuentan de cinco a uno al asomar |
 | Servicios | Las ocho áreas, una fila por área con su duotono; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
 | Proceso | Los cuatro tiempos, cada uno con su duotono, bajo una regla que se llena al bajar; el número del tiempo en curso se enciende |
-| Contacto | Sobre cacao: datos directos y formulario de líneas |
+| Contacto | Sobre el degradado verde → lima: el correo en grande con un botón para copiarlo, los demás datos en filas y el formulario, donde las áreas se eligen como píldoras (una o varias) |
 | Pie | Sobre cacao: la frase, los enlaces y el aviso legal (sin el nombre del estudio) |
 
 ## Estructura
@@ -218,9 +222,10 @@ ciudad y redes.
 ### 2. Proyectos
 También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
 tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
-`picsum.photos`. La excepción es "Identidad y sistema gráfico": casi todas sus
-celdas ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin
-tableta porque no son capturas de pantalla. La galería distingue sola lo real
+`picsum.photos`. La excepción es "Identidad y sistema gráfico": sus diez celdas
+ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin tableta
+porque no son capturas de pantalla; con cuatro altas y seis normales llena
+cinco filas enteras (quince espacios). La galería distingue sola lo real
 del relleno: lo que viene de `assets/obra/` o de una dirección `https://` se
 muestra en gris (y toma su color con el cursor); lo de `assets/work/`, siempre a
 color. Si cambias un archivo de `assets/work/` sin cambiarle el nombre, súbele
@@ -291,7 +296,10 @@ sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 - Navegación por teclado completa: enlace para saltar al contenido, foco
   visible y las filas de Servicios se recorren con las flechas.
 - El formulario valida en español, explica qué falta campo por campo y lleva el
-  foco al primer error.
+  foco al primer error. Las áreas son casillas de verdad (escondidas bajo las
+  píldoras), así que se eligen con el teclado.
+- Los números del manifiesto son decorativos para los lectores de pantalla
+  (`aria-hidden`); la línea de abajo lo dice con palabras.
 - El logotipo lleva su nombre accesible ("Inblüm Studio") y las ilustraciones
   su texto alternativo.
 - Las celdas de la galería reservan su espacio y las imágenes de la Apertura

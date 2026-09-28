@@ -25,8 +25,8 @@
      Thin (la del sistema en Apple), lo chico en Inter Tight Black, y
      fuera de Apple todo en Inter Tight (ver css/tokens.css). -->
 
-<link rel="stylesheet" href="css/tokens.css?v=124">
-<link rel="stylesheet" href="css/styles.css?v=124">
+<link rel="stylesheet" href="css/tokens.css?v=125">
+<link rel="stylesheet" href="css/styles.css?v=125">
 </head>
 
 <body>
@@ -173,11 +173,11 @@
   </section>
 
   <!-- ============ Estudio ============
-       El manifiesto sobre el campo fucsia de las flores del logotipo:
-       la frase se enciende palabra por palabra al bajar, y a su lado la
-       nota. -->
+       El manifiesto, en tinta sobre el acabado "Retba Pink/Flame" de
+       Homer en degradado. La frase se enciende palabra por palabra al
+       bajar; "Un equipo" va en negra. A un lado, la nota; debajo, la
+       promesa en números, que cuentan de cinco a uno al asomar. -->
   <section class="manifiesto" id="estudio" aria-labelledby="frase">
-    <div class="aura aura--estudio" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="manifiesto__grid">
       <p class="cabecera__fila">
         <span class="cabecera__n">02</span>
@@ -190,18 +190,25 @@
         estudio. Un equipo, no cinco proveedores.
       </h2>
 
-      <aside class="manifiesto__lado">
-        <div class="manifiesto__nota rev">
-          <p>
-            La identidad ya considera cómo se va a ver en video, y el sitio ya
-            sabe qué fotografía va a recibir. Nada se traduce entre despachos.
-          </p>
-          <p>
-            Para ti son un interlocutor, un calendario y un presupuesto, en
-            lugar de cinco.
-          </p>
+      <p class="manifiesto__nota rev">
+        La identidad ya considera cómo se va a ver en video, y el sitio ya
+        sabe qué fotografía va a recibir. Nada se traduce entre despachos.
+      </p>
+
+      <dl class="cuentas">
+        <div class="cuenta rev">
+          <dt>Interlocutor</dt>
+          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
         </div>
-      </aside>
+        <div class="cuenta rev" style="--espera:80ms">
+          <dt>Calendario</dt>
+          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
+        </div>
+        <div class="cuenta rev" style="--espera:160ms">
+          <dt>Presupuesto</dt>
+          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
+        </div>
+      </dl>
     </div>
   </section>
 
@@ -255,10 +262,12 @@
   </div>
 
   <!-- ============ Contacto ============
-       El cierre, sobre el cacao de la tinta: sigue sin corte hasta el
-       pie. -->
+       El cierre, en tinta sobre el acabado "Clover/Cody Green" de Homer
+       en degradado. A la izquierda, el correo en grande (con un botón
+       para copiarlo) y los demás datos en filas; a la derecha, el
+       formulario: las áreas como píldoras, luego nombre, correo y
+       proyecto. -->
   <section class="seccion contacto-seccion" id="contacto" aria-labelledby="t-contacto">
-    <div class="aura aura--contacto" aria-hidden="true"><i></i><i></i><i></i></div>
     <header class="cabecera">
       <p class="cabecera__fila">
         <span class="cabecera__n">05</span>
@@ -275,27 +284,34 @@
           Cuéntanos qué necesitas y te mandamos alcance, tiempos y precio.
         </p>
 
-        <div class="datos">
-          <div class="dato" style="--i:0">
-            <span class="dato__clave">Correo</span>
-            <a class="dato__valor" id="dato-correo" href="#">correo</a>
-          </div>
-          <div class="dato" style="--i:1">
-            <span class="dato__clave">Teléfono</span>
-            <a class="dato__valor" id="dato-telefono" href="#">teléfono</a>
-          </div>
-          <div class="dato" style="--i:2">
-            <span class="dato__clave">Dónde estamos</span>
-            <span class="dato__valor" id="dato-ciudad">ciudad</span>
-          </div>
-          <div class="dato" style="--i:3">
-            <span class="dato__clave">Redes</span>
-            <div class="redes" id="redes"></div>
-          </div>
+        <div class="correo-grande">
+          <a class="correo-grande__enlace" id="dato-correo" href="#">correo</a>
+          <button class="correo-grande__copiar" id="copiar-correo" type="button" hidden>Copiar</button>
         </div>
+
+        <dl class="datos">
+          <div class="dato">
+            <dt>Teléfono</dt>
+            <dd><a id="dato-telefono" href="#">teléfono</a></dd>
+          </div>
+          <div class="dato">
+            <dt>Dónde estamos</dt>
+            <dd id="dato-ciudad">ciudad</dd>
+          </div>
+          <div class="dato">
+            <dt>Redes</dt>
+            <dd class="redes" id="redes"></dd>
+          </div>
+        </dl>
       </div>
 
       <form class="forma rev" id="forma" style="--espera:120ms" novalidate>
+        <fieldset class="campo campo--ancho" id="campo-areas" aria-describedby="err-areas">
+          <legend>¿Qué necesitas? Elige una o varias</legend>
+          <div class="chips" id="areas"></div>
+          <p class="campo__error" id="err-areas" aria-live="polite"></p>
+        </fieldset>
+
         <div class="campo">
           <label for="nombre">Nombre</label>
           <input id="nombre" name="nombre" type="text" autocomplete="name"
@@ -313,12 +329,6 @@
         </div>
 
         <div class="campo campo--ancho">
-          <label for="servicio">Área que te interesa</label>
-          <select id="servicio" name="servicio" aria-describedby="err-servicio"></select>
-          <p class="campo__error" id="err-servicio" aria-live="polite"></p>
-        </div>
-
-        <div class="campo campo--ancho">
           <label for="mensaje">Tu proyecto</label>
           <textarea id="mensaje" name="mensaje"
                     placeholder="Qué necesitas, para cuándo y con qué presupuesto aproximado…"
@@ -328,7 +338,7 @@
         </div>
 
         <div class="forma__pie campo--ancho">
-          <button class="boton boton--flor" id="enviar" type="submit">
+          <button class="boton" id="enviar" type="submit">
             <span class="btn__txt">Enviar mensaje</span>
             <span class="boton__flecha" aria-hidden="true">&#8599;</span>
           </button>
@@ -344,7 +354,7 @@
 </main>
 
 <!-- ============ Pie ============
-     Sigue el cacao del contacto: la frase, los enlaces y el aviso legal. -->
+     Sobre el cacao: la frase, los enlaces y el aviso legal. -->
 <footer class="pie">
   <div class="pie__fila">
     <p class="pie__frase">Branding, audiovisual, audio, desarrollo y contenido. Un solo estudio.</p>
@@ -365,8 +375,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=124" defer></script>
-<script src="js/app.js?v=124" defer></script>
+<script src="js/data.js?v=125" defer></script>
+<script src="js/app.js?v=125" defer></script>
 
 </body>
 </html>

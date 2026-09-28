@@ -16,8 +16,8 @@
 
    Orden de las secciones de la página, y su campo:
    Apertura (blanco que se lava al azul) → panel azul y amarillo → Trabajo
-   (leche) → Estudio (fucsia) → Servicios y Proceso (leche) →
-   Contacto y pie (cacao).
+   (leche) → Estudio (rosa y naranja) → Servicios y Proceso (leche) →
+   Contacto (verde y lima) → pie (cacao).
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -115,9 +115,11 @@ main { overflow-x: clip; }
 :root { --duo-alto: 23px; }
 .duo--flor,  .trabajo            { --d1: var(--flor);  --d2: var(--petalo); }
 .duo--cielo, #servicios          { --d1: var(--cielo); --d2: var(--cielo-claro); }
-.duo--polen, .manifiesto         { --d1: var(--polen); --d2: var(--polen-claro); }
+.duo--polen                      { --d1: var(--polen); --d2: var(--polen-claro); }
 .duo--hoja,  #proceso            { --d1: var(--hoja);  --d2: var(--hoja-clara); }
-.contacto-seccion                { --d1: var(--flor);  --d2: var(--petalo); }
+/* Sobre los acabados de Homer, las franjas van en tinta. */
+.manifiesto,
+.contacto-seccion                { --d1: var(--tinta); --d2: rgb(27 8 0 / .32); }
 
 .duo {
   position: relative;
@@ -240,7 +242,8 @@ main { overflow-x: clip; }
 .boton--flor:hover { background: var(--crema); color: var(--tinta); }
 .boton[disabled] { opacity: .6; cursor: progress; }
 
-/* --- Auras: los degradados del fondo. Tres manchas de color por campo,
+/* --- Auras: los degradados del fondo de los campos claros (la Apertura,
+   Trabajo, Servicios y Proceso). Tres manchas de color por campo,
    con los tonos del recuadro de flores, que derivan despacio (sólo
    mientras el campo está en pantalla: app.js le pone .viva). Van
    detrás del contenido: el campo que las lleva es "isolation:
@@ -248,9 +251,7 @@ main { overflow-x: clip; }
    --d, color --c, opacidad --o) en su sección. */
 .apertura,
 .trabajo,
-.manifiesto,
-.campo-luz,
-.contacto-seccion { position: relative; isolation: isolate; }
+.campo-luz { position: relative; isolation: isolate; }
 
 .aura {
   position: absolute;
@@ -293,20 +294,11 @@ main { overflow-x: clip; }
 .aura--trabajo i:nth-child(1) { --x: 92%; --y: 34vh; --d: 62vmax; --c: var(--petalo); --o: .9; }
 .aura--trabajo i:nth-child(2) { --x: 55%; --y: 70vh; --d: 46vmax; --c: var(--cielo-claro); --o: .55; }
 .aura--trabajo i:nth-child(3) { --x: 12%; --y: calc(100% - 22vh); --d: 56vmax; --c: var(--petalo); --o: .8; }
-/* Estudio: el fucsia a plena luz arriba, en sombra abajo, y un
-   resplandor de polen. */
-.aura--estudio i:nth-child(1) { --x: 6%;  --y: 10%; --d: 72vmax; --c: var(--flor-viva); --o: .7; }
-.aura--estudio i:nth-child(2) { --x: 96%; --y: 92%; --d: 86vmax; --c: var(--flor-honda); }
-.aura--estudio i:nth-child(3) { --x: 84%; --y: 26%; --d: 40vmax; --c: var(--polen); --o: .42; }
 /* Servicios y Proceso comparten una (.campo-luz), así el color pasa de
    una a otra sin corte. */
 .aura--luz i:nth-child(1) { --x: 0%;   --y: 14%; --d: 64vmax; --c: var(--petalo); --o: .95; }
 .aura--luz i:nth-child(2) { --x: 100%; --y: 42%; --d: 58vmax; --c: var(--cielo-claro); --o: .6; }
 .aura--luz i:nth-child(3) { --x: 18%;  --y: 82%; --d: 54vmax; --c: var(--polen-claro); --o: .75; }
-/* Contacto: el fucsia abajo y el azul del cielo arriba, sobre el cacao. */
-.aura--contacto i:nth-child(1) { --x: 4%;  --y: 62%; --d: 58vmax; --c: var(--flor); --o: .6; }
-.aura--contacto i:nth-child(2) { --x: 96%; --y: 16%; --d: 54vmax; --c: var(--cielo); --o: .5; }
-.aura--contacto i:nth-child(3) { --x: 62%; --y: 50%; --d: 28vmax; --c: var(--polen); --o: .14; }
 
 /* --- Vidrio: sólo donde hay algo detrás que doblar (la barra, la
    ficha del retrato y los rótulos de la galería). Deja ver lo de
@@ -893,19 +885,22 @@ main { overflow-x: clip; }
 }
 
 /* ---------- 6. Estudio (manifiesto) -------------------------
-   El campo fucsia de las flores del logotipo, plano, con la tinta en
-   crema. La frase se enciende palabra por palabra; las dos palabras
-   clave se marcan en amarillo polen cuando ya está leída. A un lado,
-   la nota, sobre una línea. */
+   Sobre el acabado "Retba Pink/Flame" de Homer, en degradado de
+   arriba abajo: del rosa al naranja encendido, con la tinta encima
+   (10:1 sobre el rosa, 5.7:1 sobre el naranja). La frase, en el corte
+   fino, se enciende palabra por palabra al bajar; "Un equipo" va en
+   negra, el corte grueso: el contraste de la mezcla de Homer. A un
+   lado, la nota. Debajo, la promesa en números: lo que tienes en lugar
+   de cinco, que cuenta de cinco a uno cuando asoma (app.js, 9b). */
 
 .manifiesto {
   padding: var(--sec-y) var(--aire) calc(var(--sec-y) * 1.1);
-  background: var(--flor);
-  color: var(--crema);
+  background: linear-gradient(to bottom, var(--h-retba) 0%, var(--h-flame) 100%);
+  color: var(--tinta);
   overflow: clip;
 }
-.manifiesto :focus-visible { outline-color: var(--crema); }
-.manifiesto ::selection { background: var(--crema); color: var(--flor); }
+.manifiesto :focus-visible { outline-color: var(--tinta); }
+.manifiesto ::selection { background: var(--tinta); color: var(--h-retba); }
 
 .manifiesto__grid { display: grid; gap: clamp(36px, 4vw, 64px); }
 
@@ -917,31 +912,51 @@ main { overflow-x: clip; }
   letter-spacing: -.03em;
 }
 .manifiesto__frase .pal {
-  opacity: .24;
-  transition: opacity .6s var(--tallo), background-color .6s var(--tallo), color .6s var(--tallo);
+  opacity: .22;
+  transition: opacity .6s var(--tallo);
 }
 .manifiesto__frase .pal.viva { opacity: 1; }
-/* El resaltado empieza un poco por debajo del borde de la caja de la
-   letra: con un interlineado tan cerrado, si no, taparía las colas
-   (la "q", la "p") del renglón de arriba. */
-.manifiesto__frase .pal--acento.viva {
-  padding: 0 .06em;
-  border-radius: .08em;
-  background: linear-gradient(to bottom, transparent 16%, var(--polen) 16%);
-  color: var(--tinta);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+.manifiesto__frase .pal--acento {
+  font-family: var(--f-negra);
+  font-weight: 900;
+  letter-spacing: -.045em;
 }
 
-.manifiesto__lado { display: grid; align-content: end; }
 .manifiesto__nota {
-  display: grid;
-  gap: 12px;
+  align-self: end;
   max-width: 34ch;
   padding-top: 14px;
-  border-top: 1px solid rgb(255 244 236 / .5);
+  border-top: 1px solid var(--tinta);
   font-size: 17px;
 }
+
+/* La promesa en números: tres columnas entre reglas, con la etiqueta,
+   el número enorme en negra y una línea que lo dice con palabras. */
+.cuentas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--aire);
+  margin: 0;
+}
+.cuenta {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tinta);
+}
+.cuenta dt {
+  font: 900 var(--t-etiqueta)/1.2 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.cuenta dd { display: grid; gap: 8px; margin: 0; }
+.cuenta__n {
+  font: 900 clamp(4.5rem, 2rem + 9vw, 12rem)/.8 var(--f-negra);
+  letter-spacing: -.06em;
+  font-variant-numeric: tabular-nums;
+}
+.cuenta__pie { font-size: 15px; line-height: 1.25; }
 
 @media (min-width: 1000px) {
   .manifiesto__grid {
@@ -949,8 +964,9 @@ main { overflow-x: clip; }
     column-gap: var(--aire);
   }
   .manifiesto__grid > .cabecera__fila { grid-column: 1 / -1; }
-  .manifiesto__frase { grid-column: 1 / span 8; }
-  .manifiesto__lado  { grid-column: 10 / span 3; }
+  .manifiesto__frase { grid-column: 1 / span 9; }
+  .manifiesto__nota  { grid-column: 10 / span 3; }
+  .cuentas { grid-column: 1 / -1; margin-top: clamp(24px, 4vw, 64px); }
 }
 
 /* ---------- 7. Servicios ------------------------------------
@@ -1150,25 +1166,88 @@ main { overflow-x: clip; }
 }
 
 /* ---------- 9. Contacto -------------------------------------
-   El cierre, sobre el cacao de la tinta, que sigue sin corte en el
-   pie. El formulario sin caja: sólo líneas, como un papel rayado. */
+   Sobre el acabado "Clover/Cody Green" de Homer, en degradado de
+   arriba abajo: del verde de su botón de compra al lima, con la tinta
+   encima (6.9:1 sobre el verde, 14.9:1 sobre el lima). A la
+   izquierda, el correo en grande, con un botón para copiarlo, y los
+   demás datos en filas; a la derecha, el formulario: primero se eligen
+   las áreas, como píldoras (una o varias), luego el nombre, el correo
+   y el proyecto. Los campos, sin caja: sólo líneas. */
 
 .contacto-seccion {
   padding-bottom: clamp(64px, 7vw, 112px);
-  background: var(--tinta);
-  color: var(--crema);
+  background: linear-gradient(to bottom, var(--h-clover) 0%, var(--h-cody) 100%);
+  color: var(--tinta);
 }
-.contacto-seccion :focus-visible { outline-color: var(--polen); }
+.contacto-seccion :focus-visible { outline-color: var(--tinta); }
+.contacto-seccion ::selection { background: var(--tinta); color: var(--h-cody); }
 .contacto-seccion .cabecera__titulo { max-width: none; }
 
 .contacto { display: grid; gap: 56px; padding-inline: var(--aire); }
 
-.contacto__izq { display: grid; gap: 40px; align-content: start; }
+.contacto__izq { display: grid; gap: 36px; align-content: start; }
 .contacto__lead {
   max-width: 20ch;
   font: 200 clamp(1.625rem, 1rem + 1.6vw, 2.75rem)/1.1 var(--f-fina);
   letter-spacing: -.03em;
 }
+
+/* El correo, en grande: se lee de lejos y se copia con un toque. */
+.correo-grande {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+.correo-grande__enlace {
+  font: 200 clamp(1.75rem, 1rem + 2.2vw, 3.125rem)/1.05 var(--f-fina);
+  letter-spacing: -.03em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .14em;
+  overflow-wrap: anywhere;
+}
+.correo-grande__enlace:hover { text-decoration-thickness: 2px; }
+.correo-grande__copiar {
+  padding: 9px 14px 8px;
+  border: 1px solid var(--tinta);
+  border-radius: var(--r-pill);
+  background: none;
+  color: var(--tinta);
+  font: 900 12px/1 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  cursor: pointer;
+  transition: background-color .2s var(--tallo), color .2s var(--tallo);
+}
+.correo-grande__copiar:hover,
+.correo-grande__copiar.hecho { background: var(--tinta); color: var(--h-cody); }
+
+/* Los demás datos, en filas entre reglas. */
+.datos { margin: 0; }
+.dato {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid rgb(27 8 0 / .35);
+}
+.dato:last-child { border-bottom: 1px solid rgb(27 8 0 / .35); }
+.dato dt {
+  font: 900 var(--t-etiqueta)/1.7 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.dato dd { margin: 0; }
+.dato a,
+.redes a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.dato a:hover,
+.redes a:hover { text-decoration-thickness: 2px; }
+.redes { display: flex; flex-wrap: wrap; gap: 4px 16px; }
 
 @media (min-width: 1000px) {
   .contacto {
@@ -1179,45 +1258,10 @@ main { overflow-x: clip; }
   .forma         { grid-column: 7 / span 6; }
 }
 
-.datos { display: grid; gap: 22px; }
-/* Cada dato entra por su cuenta: .contacto__izq ya es .rev, esto se
-   monta encima con un "--i" propio por dato. */
-.dato {
-  display: grid;
-  gap: 6px;
-  opacity: 0;
-  transform: translateY(1rem);
-  transition: opacity .6s var(--brote), transform .6s var(--brote);
-}
-.contacto__izq.dentro .dato {
-  opacity: 1;
-  transform: none;
-  transition-delay: calc(var(--i, 0) * 80ms);
-}
-.dato__clave {
-  font: 900 var(--t-etiqueta)/1 var(--f-negra);
-  text-transform: uppercase;
-  letter-spacing: .02em;
-  color: rgb(255 244 236 / .6);
-}
-.dato__valor { justify-self: start; }
-a.dato__valor,
-.redes a {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  text-decoration-color: rgb(255 244 236 / .4);
-  transition: color .2s var(--tallo), text-decoration-color .2s var(--tallo);
-}
-a.dato__valor:hover,
-.redes a:hover { color: var(--petalo); text-decoration-color: currentColor; }
-
-.redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-
 .forma {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 28px 24px;
+  gap: 30px 24px;
   align-content: start;
 }
 @media (min-width: 700px) {
@@ -1225,62 +1269,97 @@ a.dato__valor:hover,
   .campo--ancho { grid-column: 1 / -1; }
 }
 
-.campo { display: grid; gap: 8px; align-content: start; }
-.campo label {
+.campo {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.campo > label,
+.campo legend {
+  padding: 0;
   font: 900 var(--t-etiqueta)/1 var(--f-negra);
   text-transform: uppercase;
   letter-spacing: .02em;
-  color: rgb(255 244 236 / .72);
 }
+.campo legend { margin-bottom: 14px; }
 
-.campo input,
-.campo select,
+/* Las áreas, como píldoras: cada una es una casilla (se puede elegir
+   más de una), escondida a la vista pero no al teclado. Elegida, se
+   llena de tinta. */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px 8px 12px;
+  border: 1px solid var(--tinta);
+  border-radius: var(--r-pill);
+  font-size: 15px;
+  line-height: 1.1;
+  pointer-events: none;
+  transition: background-color .2s var(--tallo), color .2s var(--tallo);
+}
+.chip span::before {
+  content: "+";
+  width: 1ch;
+  font-family: var(--f-negra);
+  font-weight: 900;
+  text-align: center;
+}
+.chip:hover span { background: rgb(27 8 0 / .08); }
+.chip input:checked + span { background: var(--tinta); color: var(--h-cody); }
+.chip input:checked + span::before { content: "\2713"; }
+.chip input:focus-visible + span { outline: 2px solid var(--tinta); outline-offset: 2px; }
+
+.campo input:not([type="checkbox"]),
 .campo textarea {
   width: 100%;
   padding: 10px 0 12px;
   border: 0;
-  border-bottom: 1px solid rgb(255 244 236 / .35);
+  border-bottom: 1px solid rgb(27 8 0 / .45);
   border-radius: 0;
   background: transparent;
-  color: var(--crema);
+  color: var(--tinta);
   font-size: 20px;
   line-height: 1.3;
   transition: border-color .2s var(--tallo), box-shadow .2s var(--tallo);
 }
 .campo textarea { min-height: 132px; resize: vertical; }
 .campo input::placeholder,
-.campo textarea::placeholder { color: rgb(255 244 236 / .4); }
+.campo textarea::placeholder { color: rgb(27 8 0 / .5); }
 .campo input:focus-visible,
-.campo select:focus-visible,
 .campo textarea:focus-visible {
   outline: none;
-  border-bottom-color: var(--flor);
-  box-shadow: 0 1px 0 0 var(--flor);
+  border-bottom-color: var(--tinta);
+  box-shadow: 0 1px 0 0 var(--tinta);
 }
 /* Sin el amarillo del autocompletado. */
 .campo input:-webkit-autofill {
-  -webkit-text-fill-color: var(--crema);
-  box-shadow: inset 0 0 0 100px var(--tinta);
+  -webkit-text-fill-color: var(--tinta);
+  box-shadow: inset 0 0 0 100px #BFE08A;
   transition: background-color 9999s;
 }
 
-.campo select {
-  appearance: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M0 0h12L6 7z' fill='%23FFF4EC'/%3E%3C/svg%3E")
-              right 2px center / 12px 7px no-repeat;
-  padding-right: 28px;
-}
-.campo select option { color: var(--tinta); background: var(--lamina); }
+.campo__ayuda { font-size: 14px; line-height: 1.2; color: rgb(27 8 0 / .72); }
 
-.campo__ayuda { font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .6); }
-
-/* El error, en amarillo polen: se lee sobre el cacao y no se confunde
-   con el acento fucsia. */
-.campo__error { min-height: 1em; font-size: 14px; line-height: 1.2; color: var(--polen); }
+/* El error, en negra: sobre el verde se lee mejor que cualquier color. */
+.campo__error { min-height: 1em; font: 900 14px/1.2 var(--f-negra); }
 .campo__error:not(:empty)::before { content: "— "; }
-.campo[data-invalido="true"] input,
-.campo[data-invalido="true"] select,
-.campo[data-invalido="true"] textarea { border-bottom-color: var(--polen); box-shadow: 0 1px 0 0 var(--polen); }
+.campo[data-invalido="true"] input:not([type="checkbox"]),
+.campo[data-invalido="true"] textarea { border-bottom: 2px solid var(--tinta); box-shadow: none; }
+.campo[data-invalido="true"] .chip span { border-style: dashed; }
 
 .forma__pie {
   display: flex;
@@ -1289,14 +1368,14 @@ a.dato__valor:hover,
   justify-content: space-between;
   gap: 16px 24px;
 }
-.forma__nota { max-width: 30ch; font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .6); }
+.forma__nota { max-width: 30ch; font-size: 14px; line-height: 1.2; color: rgb(27 8 0 / .72); }
 .forma__estado { display: none; }
 .forma__estado[data-visible="true"] { display: block; }
-.forma__estado[data-tipo="error"] { color: var(--polen); }
+.forma__estado[data-tipo="error"] { font-family: var(--f-negra); font-weight: 900; }
 
 /* ---------- 10. Pie -----------------------------------------
-   El cacao del contacto sigue: la frase y los enlaces arriba, el aviso
-   legal abajo. */
+   Sobre el cacao de la tinta, después del lima del contacto: la frase
+   y los enlaces arriba, el aviso legal abajo. */
 
 .pie {
   padding: 0 var(--aire) 20px;

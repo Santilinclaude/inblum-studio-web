@@ -365,9 +365,9 @@
   }
 
   // La barra pasa a vidrio oscuro cuando lo que tiene justo debajo es
-  // el cacao del contacto o del pie (una franja fina arriba de la
+  // el cacao del pie (una franja fina arriba de la
   // pantalla, a la altura de la barra).
-  const oscuros = $$('#contacto, .pie');
+  const oscuros = $$('.pie');
 
   if (barra && oscuros.length && 'IntersectionObserver' in window) {
     const debajo = new Set();
@@ -555,7 +555,8 @@
   const telefonoEl  = $('#dato-telefono');
   const ciudadEl    = $('#dato-ciudad');
   const redesEl     = $('#redes');
-  const selServicio = $('#servicio');
+  const areasEl     = $('#areas');
+  const copiarEl    = $('#copiar-correo');
 
   if (correoEl) {
     correoEl.textContent = CONTACTO.correo;
@@ -574,13 +575,31 @@
     }).join('');
   }
 
-  if (selServicio) {
-    selServicio.innerHTML =
-      '<option value="">Elige un área</option>' +
-      SERVICIOS.map(function (s) {
-        return '<option value="' + escapar(s.nombre) + '">' + escapar(s.nombre) + '</option>';
-      }).join('') +
-      '<option value="Varias áreas">Varias áreas / todavía no lo sé</option>';
+  // Las áreas del formulario, como píldoras: una casilla por servicio y
+  // una para quien todavía no sabe.
+  if (areasEl) {
+    areasEl.innerHTML = SERVICIOS.map(function (s) { return s.nombre; })
+      .concat(['Todavía no lo sé'])
+      .map(function (n) {
+        return '<label class="chip"><input type="checkbox" name="areas" value="' + escapar(n) + '">' +
+               '<span>' + escapar(n) + '</span></label>';
+      }).join('');
+  }
+
+  // El botón de copiar el correo, sólo donde el navegador deja copiar.
+  if (copiarEl && navigator.clipboard && window.isSecureContext) {
+    copiarEl.hidden = false;
+    copiarEl.addEventListener('click', function () {
+      navigator.clipboard.writeText(CONTACTO.correo).then(function () {
+        copiarEl.textContent = 'Copiado';
+        copiarEl.classList.add('hecho');
+        window.clearTimeout(copiarEl.espera);
+        copiarEl.espera = window.setTimeout(function () {
+          copiarEl.textContent = 'Copiar';
+          copiarEl.classList.remove('hecho');
+        }, 1800);
+      });
+    });
   }
 
   /* ---------- 7c. Vidrio de verdad ---------------------------
@@ -742,7 +761,8 @@
   if (frase) {
     const palabras = frase.textContent.trim().split(/\s+/);
     frase.innerHTML = palabras.map(function (p) {
-      const acento = /proveedores\.?$/i.test(p) || /equipo,?$/i.test(p);
+      // "Un equipo", en negra.
+      const acento = p === 'Un' || /^equipo,?$/.test(p);
       return '<span class="pal' + (acento ? ' pal--acento' : '') + '">' + escapar(p) + '</span>';
     }).join(' ');
 
@@ -762,19 +782,6 @@
           scrub: true
         }
       });
-      // El resaltado de las palabras clave entra cuando la frase ya está
-      // leída, y se va si se vuelve a subir: si se quedara, pintaría de
-      // amarillo unas palabras todavía apagadas.
-      const acentos = $$('.pal--acento', frase);
-      const resaltar = function (si) {
-        acentos.forEach(function (p) { p.classList.toggle('viva', si); });
-      };
-      window.ScrollTrigger.create({
-        trigger: frase,
-        start: 'bottom 62%',
-        onEnter: function () { resaltar(true); },
-        onLeaveBack: function () { resaltar(false); }
-      });
     } else if ('IntersectionObserver' in window) {
       const ojo2 = new IntersectionObserver(function (e) {
         if (!e[0].isIntersecting) return;
@@ -785,6 +792,34 @@
       }, { threshold: .35 });
       ojo2.observe(frase);
     }
+  }
+
+  /* ---------- 9b. De cinco a uno ----------------------------
+     Los números de la promesa cuentan de cinco a uno cuando asoman,
+     uno tras otro. Sin JavaScript, con "reducir movimiento" o con
+     ?revelado=todo, ya dicen uno (y la línea de abajo lo dice con
+     palabras, para los lectores de pantalla).
+     --------------------------------------------------------- */
+
+  const cuentas = $$('[data-cuenta]');
+
+  if (cuentas.length && !sinRevelado && !quieto.matches && 'IntersectionObserver' in window) {
+    cuentas.forEach(function (c) { c.textContent = '5'; });
+    const ojoCuenta = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        ojoCuenta.unobserve(e.target);
+        const el = e.target;
+        let n = 5;
+        const bajar = function () {
+          n--;
+          el.textContent = String(n);
+          if (n > 1) window.setTimeout(bajar, 160);
+        };
+        window.setTimeout(bajar, 380 + cuentas.indexOf(el) * 240);
+      });
+    }, { threshold: .6 });
+    cuentas.forEach(function (c) { ojoCuenta.observe(c); });
   }
 
   /* ---------- 10. El avance del proceso ----------------------
@@ -866,10 +901,6 @@
       valida: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
       error: 'Revisa el correo: falta la arroba o el dominio.'
     },
-    servicio: {
-      valida: function (v) { return v !== ''; },
-      error: 'Elige el área que te interesa. Si son varias, hay una opción para eso.'
-    },
     mensaje: {
       valida: function (v) { return v.trim().length >= 12; },
       error: 'Cuéntanos un poco más: al menos una frase sobre el proyecto.'
@@ -892,9 +923,26 @@
     return ok;
   }
 
+  // Las áreas son un grupo: vale con que haya por lo menos una elegida.
+  const campoAreas = $('#campo-areas');
+  const ERROR_AREAS = 'Elige por lo menos un área. Si todavía no lo sabes, hay una píldora para eso.';
+  function areasElegidas() {
+    return $$('input[name="areas"]:checked', forma).map(function (c) { return c.value; });
+  }
+  function revisarAreas() {
+    if (!campoAreas) return true;
+    const ok = areasElegidas().length > 0;
+    marcar(campoAreas, ok, ERROR_AREAS);
+    return ok;
+  }
+
   if (forma) {
     const campos = $$('[name]', forma).filter(function (c) { return REGLAS[c.name]; });
     let intentado = false;
+
+    $$('input[name="areas"]', forma).forEach(function (c) {
+      c.addEventListener('change', function () { if (intentado) revisarAreas(); });
+    });
 
     campos.forEach(function (c) {
       c.addEventListener('blur', function () { if (intentado) revisar(c); });
@@ -907,15 +955,17 @@
       ev.preventDefault();
       intentado = true;
 
+      const areasOk = revisarAreas();
       const malos = campos.filter(function (c) { return !revisar(c); });
+      const faltan = malos.length + (areasOk ? 0 : 1);
 
-      if (malos.length) {
+      if (faltan) {
         estado.setAttribute('data-visible', 'true');
         estado.setAttribute('data-tipo', 'error');
-        estado.textContent = malos.length === 1
+        estado.textContent = faltan === 1
           ? 'Falta un campo por corregir.'
-          : 'Faltan ' + malos.length + ' campos por corregir.';
-        malos[0].focus();
+          : 'Faltan ' + faltan + ' campos por corregir.';
+        (areasOk ? malos[0] : $('input[name="areas"]', forma)).focus();
         return;
       }
 
@@ -930,7 +980,7 @@
       const datos = {
         nombre:   forma.nombre.value.trim(),
         correo:   forma.correo.value.trim(),
-        servicio: forma.servicio.value,
+        areas:    areasElegidas(),
         mensaje:  forma.mensaje.value.trim()
       };
 
@@ -946,11 +996,13 @@
            .then(function (r) { return r.ok ? exito() : falla(); })
            .catch(falla);
       */
-      const asunto = 'Proyecto: ' + datos.servicio + ' (' + datos.nombre + ')';
+      const asunto = 'Proyecto: ' +
+        (datos.areas.length === 1 ? datos.areas[0] : datos.areas.length + ' áreas') +
+        ' (' + datos.nombre + ')';
       const cuerpo =
         'Nombre: ' + datos.nombre + '\n' +
         'Correo: ' + datos.correo + '\n' +
-        'Área: '   + datos.servicio + '\n\n' +
+        'Áreas: '  + datos.areas.join(', ') + '\n\n' +
         datos.mensaje;
 
       window.setTimeout(function () {
@@ -972,6 +1024,7 @@
           'Si no ocurrió nada, escríbenos a ' + CONTACTO.correo + '.';
         forma.reset();
         campos.forEach(function (c) { marcar(c, true, ''); });
+        if (campoAreas) marcar(campoAreas, true, '');
         intentado = false;
       }
 

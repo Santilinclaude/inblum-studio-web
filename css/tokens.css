@@ -8,7 +8,8 @@
      azul del cielo, el amarillo del polen; más el verde olivo. En los
      elementos van planos (filas que se llenan, las franjas del
      duotono); los degradados sólo están en los fondos: las auras de
-     cada campo y el panel de la Apertura, en un duotono de Homer.
+     los campos claros y tres campos en los acabados de dos tonos de
+     Homer (el panel de la Apertura, el manifiesto y el contacto).
    - Las imágenes llevan el radio del recuadro del logotipo, y los
      botones son píldoras, como las letras redondas del nombre.
    - La letra, en la mezcla de Homer: lo grande en un corte
@@ -44,9 +45,16 @@
   --polen-claro: #F2E48A;
   --hoja-clara:  #C9CB96;
 
-  /* El fucsia a plena luz y en sombra: las auras del manifiesto. */
-  --flor-viva:   #E0649F;
-  --flor-honda:  #6E1446;
+  /* --- Los acabados de Homer que se usan como campos, en degradado ---
+     Tomados de su sitio (las franjas de cada acabado). Cada uno va una
+     sola vez, como su línea de productos: "Nimbus Blue/Acid Yellow" en
+     el panel de la Apertura (--b-panel-*, abajo), "Retba Pink/Flame" en
+     el manifiesto y "Clover/Cody Green" en el contacto. En todos, la
+     tinta da por lo menos 5.6:1. */
+  --h-retba:  #F4A6D7;   /* Retba Pink: arriba del manifiesto (10:1 con la tinta) */
+  --h-flame:  #F4512C;   /* Flame: abajo del manifiesto (5.7:1) */
+  --h-clover: #00AF66;   /* Clover: arriba del contacto (6.9:1) */
+  --h-cody:   #D5EB5F;   /* Cody Green: abajo del contacto (14.9:1) */
 
   /* --- Vidrio ---
      Sólo donde hay algo detrás que doblar: la barra de arriba (el
