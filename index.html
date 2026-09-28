@@ -25,8 +25,8 @@
      Thin (la del sistema en Apple), lo chico en Inter Tight Black, y
      fuera de Apple todo en Inter Tight (ver css/tokens.css). -->
 
-<link rel="stylesheet" href="css/tokens.css?v=123">
-<link rel="stylesheet" href="css/styles.css?v=123">
+<link rel="stylesheet" href="css/tokens.css?v=124">
+<link rel="stylesheet" href="css/styles.css?v=124">
 </head>
 
 <body>
@@ -60,13 +60,14 @@
        La primera página, a lo Beings: un retrato recortado al ras y, a su
        lado, el logotipo completo con el texto debajo. Al bajar, el
        retrato queda fijo mientras sube una segunda imagen y el fondo se
-       lava del blanco al verde, hasta el panel verde que da paso a
-       Trabajo. Sin GSAP todo queda en su estado final. El retrato es una
+       lava del blanco al azul, hasta el panel (el duotono "Nimbus Blue/
+       Acid Yellow" de Homer, en degradado) que da paso a Trabajo. Sin GSAP todo queda en su estado final. El retrato es una
        foto del estudio; la segunda imagen es una ilustración de relleno y
        la del panel, una ilustración con el nombre del estudio: se cambian
        en assets/apertura/. Sobre el retrato, una ficha de vidrio con el
        volumen y el año del libro de la foto. -->
   <div class="apertura" id="inicio">
+    <div class="aura aura--apertura" aria-hidden="true"><i></i><i></i><i></i></div>
 
     <div class="ap-cuerpo">
       <div class="ap-lado">
@@ -152,6 +153,7 @@
        gris, hasta que llegue el trabajo real. Todo el contenido vive en
        PIEZAS (js/data.js). -->
   <section class="seccion trabajo" id="trabajo" aria-labelledby="t-trabajo">
+    <div class="aura aura--trabajo" aria-hidden="true"><i></i><i></i><i></i></div>
     <header class="cabecera">
       <p class="cabecera__fila">
         <span class="cabecera__n">01</span>
@@ -175,6 +177,7 @@
        la frase se enciende palabra por palabra al bajar, y a su lado la
        nota. -->
   <section class="manifiesto" id="estudio" aria-labelledby="frase">
+    <div class="aura aura--estudio" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="manifiesto__grid">
       <p class="cabecera__fila">
         <span class="cabecera__n">02</span>
@@ -201,6 +204,11 @@
       </aside>
     </div>
   </section>
+
+  <!-- Servicios y Proceso comparten un campo: una sola aura detrás de
+       las dos, para que el color pase de una a otra sin corte. -->
+  <div class="campo-luz">
+  <div class="aura aura--luz" aria-hidden="true"><i></i><i></i><i></i></div>
 
   <!-- ============ Servicios ============
        Las ocho áreas, una fila por área a todo lo ancho, cada una con
@@ -244,11 +252,13 @@
       <div class="tiempos" id="tiempos"></div>
     </div>
   </section>
+  </div>
 
   <!-- ============ Contacto ============
        El cierre, sobre el cacao de la tinta: sigue sin corte hasta el
        pie. -->
   <section class="seccion contacto-seccion" id="contacto" aria-labelledby="t-contacto">
+    <div class="aura aura--contacto" aria-hidden="true"><i></i><i></i><i></i></div>
     <header class="cabecera">
       <p class="cabecera__fila">
         <span class="cabecera__n">05</span>
@@ -355,8 +365,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=123" defer></script>
-<script src="js/app.js?v=123" defer></script>
+<script src="js/data.js?v=124" defer></script>
+<script src="js/app.js?v=124" defer></script>
 
 </body>
 </html>

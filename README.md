@@ -15,11 +15,11 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   (`assets/apertura/logo-flor.jpg`): el fucsia de las flores (`--flor`, el
   acento principal: la línea de avance, los botones al pasar el cursor, el
   campo del manifiesto), el azul del cielo (`--cielo`), el amarillo del polen
-  (`--polen`) y el verde olivo del panel (`--hoja`). Todos en `css/tokens.css`,
-  con su contraste anotado.
-- **Campos de color, en este orden:** Apertura (blanco que se lava al verde) →
-  panel verde → Trabajo (leche) → Estudio (fucsia) → Servicios y Proceso
-  (leche) → Contacto y pie (cacao).
+  (`--polen`) y el verde olivo (`--hoja`). Todos en `css/tokens.css`, con su
+  contraste anotado.
+- **Campos de color, en este orden:** Apertura (blanco que se lava al azul) →
+  panel en degradado azul → amarillo → Trabajo (leche) → Estudio (fucsia) →
+  Servicios y Proceso (leche) → Contacto y pie (cacao).
 - **La tipografía de Homer**, en su mezcla de tres cortes: lo grande (titulares
   de sección, manifiesto, nombres de áreas, pasos y proyectos, el titular de la
   portada) en un corte finísimo; el texto en regular; y lo chico (etiquetas,
@@ -41,8 +41,15 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   nombre y una nota), el titular enorme, que entra palabra por palabra, y una
   entrada corta recargada a la derecha. Se repite igual en Trabajo, Servicios,
   Proceso y Contacto; el manifiesto usa sólo la fila.
-- **Sin adornos.** Los colores van planos, sin degradados ni manchas de luz. El
-  vidrio queda sólo donde hay algo detrás que se vea a través: la barra de
+- **Degradados, sólo en los fondos.** Detrás de cada campo hay un aura
+  (`.aura`): tres manchas de color del recuadro de flores que derivan despacio,
+  sólo mientras el campo está en pantalla (`.aura--apertura`, `--trabajo`,
+  `--estudio`, `--luz` para Servicios y Proceso juntos, `--contacto`). Y el
+  panel de la Apertura es un degradado entre los dos tonos de un acabado de
+  Homer, "Nimbus Blue/Acid Yellow". En los elementos (franjas, botones, filas)
+  los colores van planos.
+- **Sin adornos.** El vidrio queda sólo donde hay algo detrás que se vea a
+  través: la barra de
   arriba, la ficha del retrato y los rótulos de la galería (en Chrome, en
   pantallas de 700px o más, además dobla lo de atrás en los bordes: `js/app.js`,
   sección 7c). El logotipo completo sale una vez, en la primera pantalla; la
@@ -56,7 +63,7 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel verde que da paso a Trabajo |
+| Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel en degradado azul → amarillo que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
 | Estudio | El manifiesto sobre fucsia: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado va la nota |
 | Servicios | Las ocho áreas, una fila por área con su duotono; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
@@ -129,7 +136,7 @@ en la sección 0 de `js/app.js`.
   en `.ap-intro` de `css/styles.css`.
 - **Las imágenes**: el retrato es una foto del estudio (el libro «2026 Inblüm
   Studio»); `mano.jpg` es una ilustración de relleno, tomada del portafolio, y
-  `regadera.jpg`, la del panel verde, es una ilustración con el nombre del
+  `regadera.jpg`, la del panel, es una ilustración con el nombre del
   estudio. Para cambiar cualquiera, reemplaza el archivo en `assets/apertura/`
   con la misma proporción:
 
@@ -137,7 +144,7 @@ en la sección 0 de `js/app.js`.
   |---|---|---|
   | `retrato.jpg` | El retrato grande, a la izquierda (queda fijo al bajar) | 4:5 |
   | `mano.jpg` | La segunda imagen, a la derecha | 4:5 |
-  | `regadera.jpg` | Alta, al centro del panel verde | 9:16 |
+  | `regadera.jpg` | Alta, al centro del panel | 9:16 |
   | `logo-flor.jpg` | El recuadro de flores del logotipo | 851:1126 |
 
   Los textos alternativos están en `index.html`; cámbialos con la imagen. El
@@ -167,13 +174,18 @@ en la sección 0 de `js/app.js`.
   movimiento" o con `?revelado=todo`) y la que leen los lectores de pantalla; se
   pausa con el cursor encima. Para ver un instante concreto, desde la consola:
   `document.querySelector('.rota').rotador.pausar(true)` y luego `.ir(9.5)`.
-- **El verde y el lavado**: el verde del panel (`--b-verde`, `#888740`) es el de
-  la referencia elegida. Conforme se baja, el fondo pasa del blanco a él por
-  `--b-lavado-1` y `--b-lavado-2` (todos en `css/tokens.css`, que `app.js` lee) y
-  termina justo cuando asoma el panel. El texto del panel va en tinta, no en
-  color claro: sobre ese verde da 5.2:1 de contraste. Para cambiar el tono, edita
-  esos tres valores. El lavado es sólo de escritorio: en pantallas chicas el panel
-  llega enseguida y no hay dónde lavar.
+- **El panel y el lavado**: el panel es un degradado de arriba abajo entre los
+  dos tonos del acabado "Nimbus Blue/Acid Yellow" de Homer (`--b-panel-1`,
+  `#A7C6ED`, y `--b-panel-2`, `#E0E722`, tomados de su sitio). Se eligió por ser
+  el más legible de sus pares (la tinta da 11:1 sobre el azul y 14.6:1 sobre el
+  amarillo) y porque repite el cielo y el polen del recuadro de flores. La
+  mezcla es la directa, como la de los degradados de Homer: a la mitad pasa por
+  un lima pálido. Conforme se baja, el fondo de la Apertura pasa del blanco al
+  azul del panel por `--b-lavado-1` y `--b-lavado-2` (todos en
+  `css/tokens.css`, que `app.js` lee) y termina justo cuando asoma el panel;
+  a la vez se apaga el aura de la primera pantalla. Para cambiar el acabado,
+  edita esos cuatro valores. El lavado es sólo de escritorio: en pantallas
+  chicas el panel llega enseguida y no hay dónde lavar.
 
 ## Tipografía y librerías
 
@@ -270,8 +282,9 @@ sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga el lavado, los revelados y las franjas que se
-  dibujan: la página queda completa y legible, en su estado final.
+- `prefers-reduced-motion` apaga el lavado, los revelados, las franjas que se
+  dibujan y la deriva de las auras: la página queda completa y legible, en su
+  estado final.
 - El vidrio (`backdrop-filter`) se usa en tres piezas, y el rótulo de cada
   celda queda oculto de verdad (`visibility`) mientras no se ve, para no
   desenfocar cuarenta cosas a la vez.

@@ -50,9 +50,10 @@
 
   /* ---------- 0. Apertura (la primera página) -----------------
      Una sola mejora sobre una portada que ya funciona sin ella: el
-     lavado. Conforme se baja, el fondo pasa del blanco al verde del
-     panel (blanco, --b-lavado-1, --b-lavado-2, --b-verde: los colores
-     viven en css/tokens.css). Sólo en escritorio:
+     lavado. Conforme se baja, el fondo pasa del blanco al azul con el
+     que empieza el panel (blanco, --b-lavado-1, --b-lavado-2,
+     --b-panel-1: los colores viven en css/tokens.css), y el aura de la
+     primera pantalla se apaga. Sólo en escritorio:
      en pantallas chicas el panel llega justo después del texto y no
      hay dónde lavar.
      --------------------------------------------------------- */
@@ -70,6 +71,7 @@
       // se oscurece.
       const paleta = window.getComputedStyle(document.documentElement);
       const tono = function (token) { return paleta.getPropertyValue(token).trim(); };
+      const auraAp = $('.aura--apertura', apertura);
 
       const lavado = window.gsap.timeline({
         defaults: { ease: 'none' },
@@ -87,8 +89,24 @@
       })
         .to(apertura, { backgroundColor: tono('--b-lavado-1'), duration: 1 })
         .to(apertura, { backgroundColor: tono('--b-lavado-2'), duration: 1 })
-        .to(apertura, { backgroundColor: tono('--b-verde'), duration: 1 });
+        .to(apertura, { backgroundColor: tono('--b-panel-1'), duration: 1 });
+
+      // El aura rosa y celeste se apaga en el primer tramo del lavado.
+      if (auraAp) lavado.to(auraAp, { opacity: 0, duration: 1.2 }, 0);
     });
+  }
+
+  /* ---------- 0d. Las auras -----------------------------------
+     Las manchas de color del fondo sólo derivan mientras su campo está
+     en pantalla (y nunca con "reducir movimiento").
+     --------------------------------------------------------- */
+  const auras = $$('.aura');
+
+  if (auras.length && !quieto.matches && 'IntersectionObserver' in window) {
+    const ojoAura = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
+    });
+    auras.forEach(function (a) { ojoAura.observe(a); });
   }
 
   /* ---------- 0c. Los titulares, palabra por palabra ----------

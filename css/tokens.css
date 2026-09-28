@@ -5,9 +5,10 @@
      y papel leche (el "Milk Paper" de la referencia Beings).
    - Los colores de acento son los del recuadro de flores del
      logotipo, medidos sobre la imagen: el fucsia de las flores, el
-     azul del cielo, el amarillo del polen; más el verde olivo del
-     panel, que eligió el estudio. Van planos: campos de color,
-     filas que se llenan y las franjas del duotono. Sin degradados.
+     azul del cielo, el amarillo del polen; más el verde olivo. En los
+     elementos van planos (filas que se llenan, las franjas del
+     duotono); los degradados sólo están en los fondos: las auras de
+     cada campo y el panel de la Apertura, en un duotono de Homer.
    - Las imágenes llevan el radio del recuadro del logotipo, y los
      botones son píldoras, como las letras redondas del nombre.
    - La letra, en la mezcla de Homer: lo grande en un corte
@@ -42,6 +43,10 @@
   --cielo-claro: #9CCBEA;
   --polen-claro: #F2E48A;
   --hoja-clara:  #C9CB96;
+
+  /* El fucsia a plena luz y en sombra: las auras del manifiesto. */
+  --flor-viva:   #E0649F;
+  --flor-honda:  #6E1446;
 
   /* --- Vidrio ---
      Sólo donde hay algo detrás que doblar: la barra de arriba (el
@@ -80,14 +85,19 @@
   --r-pill:  999px;                     /* botones y etiquetas */
 
   /* --- Apertura: la primera página (dirección "Beings") ---
-     El fondo se lava del blanco al verde pasando por dos tintes
-     (app.js lee estos valores), y la tinta sobre ese verde da 5.2:1 de
-     contraste. */
+     El panel que da paso a Trabajo es un degradado entre los dos
+     tonos de uno de los acabados de Homer, "Nimbus Blue/Acid Yellow"
+     (tomados de su sitio): un azul cielo muy claro y un amarillo
+     ácido. Es el más legible de sus pares (la tinta da 11:1 sobre el
+     azul y 14.6:1 sobre el amarillo) y repite el cielo y el polen del
+     recuadro de flores. El fondo de la Apertura se lava del blanco al
+     azul del panel pasando por dos tintes (app.js lee estos valores). */
   --b-blanco:    #ffffff;   /* lienzo */
   --b-cacao:     #1b0800;   /* tinta (Cocoa Ink) */
-  --b-verde:     #888740;   /* el panel, y donde termina el lavado */
-  --b-lavado-1:  #f0f2d6;   /* primer tramo del lavado: un tinte casi blanco */
-  --b-lavado-2:  #c9cb96;   /* segundo tramo: un verde salvia */
+  --b-panel-1:   #A7C6ED;   /* Nimbus Blue: arriba del panel, y donde termina el lavado */
+  --b-panel-2:   #E0E722;   /* Acid Yellow: abajo del panel */
+  --b-lavado-1:  #EEF4FC;   /* primer tramo del lavado: un tinte casi blanco */
+  --b-lavado-2:  #CFE0F5;   /* segundo tramo: un celeste pálido */
 
   /* --- Ritmo --- */
   --aire:   12px;                       /* margen y canal de todo el sitio */

@@ -9,10 +9,13 @@
    franjas de un color y su luz que se dibujan al asomar. Las imágenes
    llevan el radio del recuadro; los botones son píldoras. El vidrio,
    sólo donde hay algo detrás (la barra, la ficha del retrato, los
-   rótulos de la galería). Los valores viven en css/tokens.css.
+   rótulos de la galería). Los degradados, sólo en los fondos: las
+   auras detrás de cada campo y el panel de la Apertura, en el duotono
+   "Nimbus Blue/Acid Yellow" de Homer. Los valores viven en
+   css/tokens.css.
 
    Orden de las secciones de la página, y su campo:
-   Apertura (blanco que se lava al verde) → panel verde → Trabajo
+   Apertura (blanco que se lava al azul) → panel azul y amarillo → Trabajo
    (leche) → Estudio (fucsia) → Servicios y Proceso (leche) →
    Contacto y pie (cacao).
    ============================================================ */
@@ -236,6 +239,74 @@ main { overflow-x: clip; }
 .boton--flor { background: var(--flor); }
 .boton--flor:hover { background: var(--crema); color: var(--tinta); }
 .boton[disabled] { opacity: .6; cursor: progress; }
+
+/* --- Auras: los degradados del fondo. Tres manchas de color por campo,
+   con los tonos del recuadro de flores, que derivan despacio (sólo
+   mientras el campo está en pantalla: app.js le pone .viva). Van
+   detrás del contenido: el campo que las lleva es "isolation:
+   isolate". Cada campo acomoda las suyas (posición --x/--y, diámetro
+   --d, color --c, opacidad --o) en su sección. */
+.apertura,
+.trabajo,
+.manifiesto,
+.campo-luz,
+.contacto-seccion { position: relative; isolation: isolate; }
+
+.aura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aura i {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: var(--d, 60vmax);
+  aspect-ratio: 1;
+  margin: calc(var(--d, 60vmax) / -2) 0 0 calc(var(--d, 60vmax) / -2);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--c, var(--petalo)), transparent);
+  opacity: var(--o, 1);
+  animation: deriva var(--t, 22s) var(--tallo) infinite alternate;
+  animation-play-state: paused;
+}
+.aura i:nth-child(2) { --t: 27s; animation-direction: alternate-reverse; }
+.aura i:nth-child(3) { --t: 19s; animation-delay: -9s; }
+.aura.viva i { animation-play-state: running; }
+
+@keyframes deriva {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(7%, -6%, 0) scale(1.1); }
+  100% { transform: translate3d(-6%, 5%, 0) scale(.94); }
+}
+
+/* La primera pantalla: el rosa de los pétalos detrás del logotipo, el
+   celeste del cielo y el amarillo del polen a su lado. Se apaga
+   mientras el fondo se lava al azul del panel (app.js). */
+.aura--apertura { bottom: auto; height: 150vh; }
+.aura--apertura i:nth-child(1) { --x: 88%; --y: 22vh; --d: 64vmax; --c: var(--petalo); }
+.aura--apertura i:nth-child(2) { --x: 62%; --y: 88vh; --d: 50vmax; --c: var(--cielo-claro); --o: .75; }
+.aura--apertura i:nth-child(3) { --x: 104%; --y: 70vh; --d: 36vmax; --c: var(--polen-claro); --o: .9; }
+/* Trabajo: rosa y celeste detrás de la cabecera, rosa detrás del cierre. */
+.aura--trabajo i:nth-child(1) { --x: 92%; --y: 34vh; --d: 62vmax; --c: var(--petalo); --o: .9; }
+.aura--trabajo i:nth-child(2) { --x: 55%; --y: 70vh; --d: 46vmax; --c: var(--cielo-claro); --o: .55; }
+.aura--trabajo i:nth-child(3) { --x: 12%; --y: calc(100% - 22vh); --d: 56vmax; --c: var(--petalo); --o: .8; }
+/* Estudio: el fucsia a plena luz arriba, en sombra abajo, y un
+   resplandor de polen. */
+.aura--estudio i:nth-child(1) { --x: 6%;  --y: 10%; --d: 72vmax; --c: var(--flor-viva); --o: .7; }
+.aura--estudio i:nth-child(2) { --x: 96%; --y: 92%; --d: 86vmax; --c: var(--flor-honda); }
+.aura--estudio i:nth-child(3) { --x: 84%; --y: 26%; --d: 40vmax; --c: var(--polen); --o: .42; }
+/* Servicios y Proceso comparten una (.campo-luz), así el color pasa de
+   una a otra sin corte. */
+.aura--luz i:nth-child(1) { --x: 0%;   --y: 14%; --d: 64vmax; --c: var(--petalo); --o: .95; }
+.aura--luz i:nth-child(2) { --x: 100%; --y: 42%; --d: 58vmax; --c: var(--cielo-claro); --o: .6; }
+.aura--luz i:nth-child(3) { --x: 18%;  --y: 82%; --d: 54vmax; --c: var(--polen-claro); --o: .75; }
+/* Contacto: el fucsia abajo y el azul del cielo arriba, sobre el cacao. */
+.aura--contacto i:nth-child(1) { --x: 4%;  --y: 62%; --d: 58vmax; --c: var(--flor); --o: .6; }
+.aura--contacto i:nth-child(2) { --x: 96%; --y: 16%; --d: 54vmax; --c: var(--cielo); --o: .5; }
+.aura--contacto i:nth-child(3) { --x: 62%; --y: 50%; --d: 28vmax; --c: var(--polen); --o: .14; }
 
 /* --- Vidrio: sólo donde hay algo detrás que doblar (la barra, la
    ficha del retrato y los rótulos de la galería). Deja ver lo de
@@ -765,14 +836,18 @@ main { overflow-x: clip; }
   .ap-intro__texto { max-width: 44ch; font-size: var(--t-texto); }
 }
 
-/* --- El panel verde: la declaración, en tinta sobre verde. Es el
-   destino del lavado del fondo; por eso lleva su propio color, el
-   mismo con el que termina. */
+/* --- El panel: la declaración, en tinta sobre el duotono "Nimbus
+   Blue/Acid Yellow" de Homer, en degradado de arriba abajo. Es el
+   destino del lavado del fondo: arriba empieza en el mismo azul con el
+   que termina el lavado, para que no haya corte. La mezcla es la
+   directa, como la de los degradados de Homer: a la mitad pasa por un
+   lima pálido (mezclado en OKLCH saldría un turquesa, un tercer color
+   que no es del par). */
 .ap-panel {
   display: grid;
   gap: var(--aire);
   padding: var(--aire) var(--aire) clamp(24px, 3vw, 48px);
-  background: var(--b-verde);
+  background: linear-gradient(to bottom, var(--b-panel-1) 0%, var(--b-panel-1) 8%, var(--b-panel-2) 100%);
   color: var(--b-cacao);
 }
 
@@ -790,7 +865,7 @@ main { overflow-x: clip; }
 .ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
 /* La ilustración del panel es vertical (9:16): se ve entera también en
    pantallas chicas, sin recortarla. */
-.ap-panel__foto { aspect-ratio: 9 / 16; background: var(--b-verde); }
+.ap-panel__foto { aspect-ratio: 9 / 16; background: transparent; }
 .ap-panel__nota { max-width: 44ch; }
 
 /* La palabra de la sección, enorme y subrayada: es el enlace que baja a
@@ -805,7 +880,7 @@ main { overflow-x: clip; }
   text-underline-offset: .1em;
   transition: color .25s var(--tallo);
 }
-.ap-panel__titulo:hover { color: var(--crema); }
+.ap-panel__titulo:hover { color: var(--flor); }
 
 @media (min-width: 1000px) {
   .ap-panel__fila {
@@ -1282,6 +1357,7 @@ a.dato__valor:hover,
   }
   .rev { opacity: 1; translate: none; }
   .tt__in { translate: none; }
+  .aura i { animation: none; }
   .rev-linea:not(.dentro)::before,
   .rev-linea:not(.dentro)::after { transform: none; }
   .celda:hover img { transform: none; }
