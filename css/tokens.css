@@ -38,6 +38,34 @@
   --hoja:     #888740;   /* el verde olivo del panel */
   --crema:    #FFF4EC;   /* el texto claro sobre los campos de color */
 
+  /* --- Degradados: el recuadro del logotipo, desenfocado ---
+     El recuadro ya es un degradado: flores rosas y amarillas fuera de
+     foco sobre un cielo azul. Estos tonos son sus luces y sus sombras,
+     y con ellos se pintan los campos de luz (.aura) y los rellenos. */
+  --flor-honda:  #6E1446;   /* el fucsia en sombra */
+  --flor-media:  #8E2460;
+  --flor-viva:   #E0649F;   /* el fucsia a plena luz */
+  --cielo-hondo: #064F7E;
+  --cielo-claro: #9CCBEA;
+  --polen-claro: #F2E48A;
+  --hoja-clara:  #A9A862;
+
+  --degradado-flor:  linear-gradient(120deg, var(--flor) 0%, var(--flor-viva) 52%, var(--polen) 100%);
+  --degradado-boton: linear-gradient(110deg, #7E1D55 0%, var(--flor) 60%, #C2407F 100%);
+
+  /* --- Vidrio ---
+     Una lámina esmerilada: blanco translúcido con desenfoque, un filo
+     de luz arriba (el borde que refracta) y una sombra teñida de fucsia.
+     La versión oscura es para el cacao del contacto. */
+  --vidrio:              rgb(255 255 255 / .52);
+  --vidrio-filo:         rgb(255 255 255 / .72);
+  --vidrio-brillo:       inset 0 1px 0 rgb(255 255 255 / .9), inset 0 -1px 0 rgb(255 255 255 / .2);
+  --vidrio-sombra:       0 30px 60px -30px rgb(74 8 40 / .32), 0 2px 8px -2px rgb(74 8 40 / .08);
+  --vidrio-oscuro:       rgb(255 244 236 / .07);
+  --vidrio-oscuro-filo:  rgb(255 244 236 / .16);
+  --desenfoque:          blur(20px) saturate(170%);
+  --r-vidrio:            clamp(18px, 1.8vw, 28px);
+
   /* --- Tipografía: una sola familia para todo el sitio ---
      Helvetica. No es libre ni está en Google Fonts, así que se pide
      al sistema del visitante: Helvetica de verdad en Mac, iPhone e
@@ -77,6 +105,8 @@
                             renglones en pantallas chicas (4px de aire
                             arriba y abajo + 2 x 32.8px); en escritorio
                             es uno, ver abajo */
+  --nav-sep: 6px;        /* la barra flota: este aire la separa del borde */
+  --nav-ocupa: calc(var(--nav-sep) + var(--nav-h));   /* lo que tapa arriba */
 
   /* --- Movimiento --- */
   --brote:  cubic-bezier(.2, .8, .2, 1);
@@ -84,6 +114,7 @@
 
   /* --- Capas --- */
   --z-base:      1;
+  --z-grano:     30;     /* el grano de película, sobre el contenido */
   --z-menu:      40;     /* la barra de arriba */
   --z-progreso:  45;     /* la línea de avance, sobre la barra */
   --z-saltar:    50;     /* "Saltar al contenido", sobre todo */

@@ -28,20 +28,39 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   (`--r-tile`) y los botones son píldoras (`.boton`), como las letras redondas
   del nombre.
 - **Cabecera de sección** (`.cabecera`): una fila de 12px sobre una línea dura
-  (número, nombre y una nota), el titular enorme y una entrada corta recargada a
-  la derecha. Se repite igual en Trabajo, Servicios, Proceso y Contacto; el
+  (el número en una píldora con degradado, el nombre y una nota), el titular
+  enorme, que entra palabra por palabra, y una entrada corta recargada a la
+  derecha. Se repite igual en Trabajo, Servicios, Proceso y Contacto; el
   manifiesto usa sólo la fila.
+- **Luz: auras y degradados.** El recuadro de flores ya es un degradado (flores
+  rosas y amarillas fuera de foco sobre un cielo azul), así que de ahí salen
+  los degradados del sitio: sus luces y sombras están en `css/tokens.css`
+  (`--flor-viva`, `--flor-honda`, `--cielo-claro`, `--polen-claro`…). Detrás de
+  cada campo hay un aura (`.aura`): tres manchas de color que derivan despacio,
+  sólo mientras el campo está en pantalla. Cada sección acomoda las suyas
+  (`.aura--apertura`, `--trabajo`, `--estudio`, `--luz`, `--contacto`). La
+  línea de avance, los números y la regla del proceso llevan el degradado de la
+  flor. Un grano de película fijo, apenas visible, cubre toda la página.
+- **Vidrio.** Lo que flota sobre las auras es una lámina esmerilada (`.vidrio`,
+  y `.vidrio--oscuro` sobre el cacao): la barra, la ficha del retrato, el cierre
+  de Trabajo, el panel de Servicios, los tiempos del Proceso y el formulario. Las
+  que llevan `.foco` encienden su filo donde está el cursor.
+- **Movimiento.** Los botones llevan la flecha en su propio círculo, se
+  encienden con el degradado y se dejan jalar un poco por el cursor; las celdas
+  de la galería se inclinan hacia él con un reflejo y muestran un rótulo de
+  vidrio. Las fotos entran rápido (medio segundo, en cascada de 40ms) en cuanto
+  asoma su borde. Todo esto se apaga con "reducir movimiento".
 
 ## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
-| Apertura | Retrato fijo, el logotipo completo con el texto debajo y un panel verde que da paso a Trabajo |
-| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
-| Estudio | El manifiesto sobre fucsia: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado flota el recuadro de flores de la marca |
-| Servicios | Las ocho áreas, una fila por área; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
-| Proceso | Los cuatro tiempos en fila, bajo una regla que se llena al bajar con el recuadro de flores como marca; el número del tiempo en curso se enciende |
-| Contacto | Sobre cacao: datos directos y formulario de líneas |
+| Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo sobre un aura rosa, celeste y amarilla, y un panel verde que da paso a Trabajo |
+| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su ficha debajo (número con degradado, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
+| Estudio | El manifiesto sobre un fucsia encendido por su aura: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado flota el recuadro de flores de la marca en un marco de vidrio, con la nota en otra lámina |
+| Servicios | Las ocho áreas en un panel de vidrio, una fila por área; la fila abierta se llena con un degradado de un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
+| Proceso | Los cuatro tiempos, cada uno en su lámina de vidrio, bajo una regla que se llena al bajar con el recuadro de flores como marca; el tiempo en curso se levanta y su número se enciende. Comparte el aura con Servicios (`.campo-luz`) |
+| Contacto | Sobre cacao con dos luces (fucsia y azul): datos directos y el formulario en vidrio oscuro |
 | Pie | Sobre cacao: la frase, los enlaces y el aviso legal |
 
 ## Estructura
@@ -57,8 +76,10 @@ inblum-web/
 ├── js/
 │   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos y las
 │   │                  frases del titular
-│   └── app.js         lavado y titular que rota de la Apertura, barra, listas,
-│                      galería, revelados, regla del proceso y formulario
+│   └── app.js         lavado y titular que rota de la Apertura, barra, titulares
+│                      por palabra, listas, galería, luz y tacto (auras, vidrio,
+│                      inclinación, botones), revelados, regla del proceso y
+│                      formulario
 └── assets/
     ├── apertura/      las imágenes de la primera página y el recuadro de flores
     ├── work/          las piezas reales de Trabajo
@@ -74,16 +95,21 @@ y hoy no se usan.
 
 Queda fija en toda la página, hasta el pie (`position: sticky`). Por eso el
 `<header class="ap-nav">` está antes de `<main>` y no dentro de la Apertura: un
-elemento sticky sólo se queda mientras dure su contenedor. Lleva el recuadro de
-flores en miniatura junto al nombre, fondo blanco y, en cuanto se baja, una línea
-de 1px debajo (`js/app.js`, sección 1c); arriba del todo no la tiene. El enlace
-de la sección en la que estás se subraya (sección 1d) y "Hablemos" es una
+elemento sticky sólo se queda mientras dure su contenedor. Es una lámina de
+vidrio que flota a 6px del borde (`--nav-sep`): lo que pasa por debajo se ve
+desenfocado. Su margen de abajo es negativo, así que no ocupa lugar: la Apertura
+empieza arriba del todo, detrás de ella, y reserva ese alto con su relleno. Lleva
+el recuadro de flores en miniatura junto al nombre; en cuanto se baja, la lámina
+se vuelve un poco más opaca (`js/app.js`, sección 1c), y sobre el cacao del
+contacto y el pie pasa a vidrio oscuro con la letra en crema (sección 1d). El
+enlace de la sección en la que estás se subraya (sección 1d) y "Hablemos" es una
 píldora que se vuelve fucsia al llegar al contacto. Su alto es `--nav-h`
 (`css/tokens.css`): 40.8px en escritorio, un renglón, y 73.6px en pantallas
-chicas, donde son dos. De ese alto dependen el retrato fijo de la Apertura y los
-saltos a cada sección (`scroll-padding-top` en `html`): si cambias el tamaño de
-la barra, cambia también `--nav-h`. La línea de avance de la página, fucsia, va
-encima de ella (las capas están en `css/tokens.css`).
+chicas, donde son dos; `--nav-ocupa` le suma el aire de arriba. De ese total
+dependen el retrato fijo de la Apertura y los saltos a cada sección
+(`scroll-padding-top` en `html`): si cambias el tamaño de la barra, cambia
+también `--nav-h`. La línea de avance de la página, con el degradado de la
+flor, va encima de ella (las capas están en `css/tokens.css`).
 
 ## La Apertura, por dentro
 
@@ -242,8 +268,12 @@ sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga el lavado y los revelados: la
+- `prefers-reduced-motion` apaga el lavado, los revelados, la deriva de las
+  auras, la inclinación de las celdas y los botones que siguen al cursor: la
   página queda completa y legible, en su estado final.
+- El vidrio (`backdrop-filter`) se usa en pocas piezas, y el rótulo de cada
+  celda queda oculto de verdad (`visibility`) mientras no se ve, para no
+  desenfocar cuarenta cosas a la vez.
 - Navegación por teclado completa: enlace para saltar al contenido, foco
   visible y las filas de Servicios se recorren con las flechas.
 - El formulario valida en español, explica qué falta campo por campo y lleva el

@@ -1,8 +1,10 @@
 /* ============================================================
    INBLÜM STUDIO · Comportamiento
    El contenido vive en js/data.js. Aquí está la mecánica: el
-   lavado del fondo de la primera página, las listas de Servicios
-   y Proceso, el grid de Trabajo, la regla del proceso, los
+   lavado del fondo de la primera página, los titulares que entran
+   palabra por palabra, las listas de Servicios y Proceso, el grid
+   de Trabajo, la luz y el tacto (auras, vidrio, celdas que se
+   inclinan, botones que se dejan jalar), la regla del proceso, los
    revelados enganchados al scroll y el formulario.
 
    GSAP se carga desde CDN y sólo mejora lo que ya funciona:
@@ -68,8 +70,9 @@
       // se oscurece.
       const paleta = window.getComputedStyle(document.documentElement);
       const tono = function (token) { return paleta.getPropertyValue(token).trim(); };
+      const auraAp = $('.aura--apertura', apertura);
 
-      window.gsap.timeline({
+      const lavado = window.gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: cuerpo,
@@ -86,8 +89,26 @@
         .to(apertura, { backgroundColor: tono('--b-lavado-1'), duration: 1 })
         .to(apertura, { backgroundColor: tono('--b-lavado-2'), duration: 1 })
         .to(apertura, { backgroundColor: tono('--b-verde'), duration: 1 });
+
+      // El aura rosa y celeste se apaga en el primer tramo del lavado:
+      // sobre el verde, esos colores se ensuciarían.
+      if (auraAp) lavado.to(auraAp, { opacity: 0, duration: 1.2 }, 0);
     });
   }
+
+  /* ---------- 0c. Los titulares, palabra por palabra ----------
+     Cada titular de sección se parte en palabras, cada una dentro de
+     su máscara, para que suban una tras otra al asomar (la sección 8
+     le pone .dentro, como a los demás revelados). El texto sigue
+     siendo el mismo para los lectores de pantalla.
+     --------------------------------------------------------- */
+  $$('.cabecera__titulo').forEach(function (h) {
+    const palabras = h.textContent.trim().split(/\s+/);
+    h.innerHTML = palabras.map(function (p, k) {
+      return '<span class="tt"><span class="tt__in" style="--k:' + k + '">' + escapar(p) + '</span></span>';
+    }).join(' ');
+    h.classList.add('rev-titulo');
+  });
 
   /* ---------- 0b. El titular que rota -------------------------
      El titular de la Apertura alterna entre las frases de FRASES
@@ -313,6 +334,8 @@
       if (id) porSeccion[id] = a;
     });
     const marcarEnlace = function (id) {
+      // En el contacto (y el pie, que sigue) la barra va en vidrio oscuro.
+      if (barra) barra.classList.toggle('ap-nav--oscura', id === 'contacto');
       enlacesBarra.forEach(function (a) {
         const es = a === porSeccion[id];
         a.classList.toggle('actual', es);
@@ -354,13 +377,15 @@
 
   const items = $('#servicios-items');
 
-  // Cada fila abierta se llena con uno de los colores de la marca, en
-  // este orden, y con la tinta que le da contraste (ver css/tokens.css).
+  // Cada fila abierta se llena con un degradado de uno de los colores
+  // de la marca, en este orden, y con la tinta que le da contraste (ver
+  // css/tokens.css). Los que llevan crema encima van hacia su sombra;
+  // los que llevan cacao, hacia su luz.
   const TONOS = [
-    ['var(--flor)',  'var(--crema)'],
-    ['var(--cielo)', 'var(--crema)'],
-    ['var(--polen)', 'var(--tinta)'],
-    ['var(--hoja)',  'var(--tinta)']
+    ['var(--flor)',  'var(--flor-media)',  'var(--crema)'],
+    ['var(--cielo)', 'var(--cielo-hondo)', 'var(--crema)'],
+    ['var(--polen)', 'var(--polen-claro)', 'var(--tinta)'],
+    ['var(--hoja)',  'var(--hoja-clara)',  'var(--tinta)']
   ];
   const dosCifras = function (n) { return (n < 10 ? '0' : '') + n; };
 
@@ -373,7 +398,7 @@
       }).join('');
       return '' +
         '<article class="item rev" data-abierta="false" style="--espera:' + (i * 40) + 'ms;' +
-        '--tono:' + tono[0] + ';--sobre:' + tono[1] + '">' +
+        '--tono:' + tono[0] + ';--tono-2:' + tono[1] + ';--sobre:' + tono[2] + '">' +
           '<button class="item__boton" type="button" id="btn-' + s.id + '"' +
           ' aria-expanded="false" aria-controls="cuerpo-' + s.id + '">' +
             '<span class="item__n">' + n + '</span>' +
@@ -432,9 +457,10 @@
      nombre con año y servicios. Las piezas reales (assets/work) van a
      color; el relleno (las texturas de assets/obra y las fotos de
      muestra) va en gris hasta que llegue el trabajo real, y toma su
-     color con el cursor. Cada celda entra con una máscara que se abre
-     de abajo hacia arriba. Todo el contenido vive en PIEZAS
-     (js/data.js).
+     color con el cursor. Cada celda entra rápido, subiendo en una
+     cascada corta, y con el cursor encima se inclina hacia él y
+     muestra su rótulo de vidrio (la sección 7b). Todo el contenido
+     vive en PIEZAS (js/data.js).
      --------------------------------------------------------- */
 
   const piezas = $('#piezas');
@@ -454,9 +480,14 @@
           const clase = 'celda rev' + (c.dispositivo ? ' celda--dispositivo' : '') +
                         (c.alto === 2 ? ' celda--alta' : '') +
                         (esRelleno(c.img) ? ' celda--relleno' : '');
-          return '<figure class="' + clase + '" style="--espera:' + (k * 70) + 'ms">' +
+          // El rótulo repite el nombre del proyecto (ya está en su
+          // ficha): es sólo para la vista.
+          const rotulo = '<figcaption class="celda__rotulo vidrio" aria-hidden="true">' +
+                         '<b>' + dosCifras(k + 1) + '/' + dosCifras(p.celdas.length) + '</b>' +
+                         '<span>' + escapar(p.titulo) + '</span></figcaption>';
+          return '<figure class="' + clase + '" style="--espera:' + (k * 40) + 'ms">' +
                  (c.dispositivo ? '<div class="dispositivo">' + img + '</div>' : img) +
-                 '</figure>';
+                 rotulo + '</figure>';
         }).join('');
 
         const etiquetas = p.servicios.map(function (s) {
@@ -483,7 +514,7 @@
   if (tiempos) {
     tiempos.innerHTML = PASOS.map(function (p, i) {
       return '' +
-        '<div class="tiempo rev" style="--espera:' + (i * 70) + 'ms">' +
+        '<div class="tiempo vidrio foco rev" style="--espera:' + (i * 70) + 'ms">' +
           '<span class="tiempo__n" aria-hidden="true">' + dosCifras(i + 1) + '</span>' +
           '<div>' +
             '<h3 class="tiempo__nombre">' + escapar(p.nombre) + '</h3>' +
@@ -527,22 +558,82 @@
       '<option value="Varias áreas">Varias áreas / todavía no lo sé</option>';
   }
 
-  /* ---------- 8. Revelados ----------------------------------- */
+  /* ---------- 7b. Luz y tacto --------------------------------
+     Lo que responde al cursor (sólo con un puntero fino y sin
+     "reducir movimiento"): las celdas de la galería se inclinan hacia
+     él con un reflejo encima; los botones se dejan jalar un poco; y el
+     filo de las láminas de vidrio (.foco) se enciende donde está. Y
+     las auras sólo derivan mientras su campo está en pantalla.
+     --------------------------------------------------------- */
 
-  const porRevelar = $$('.rev');
+  if (conPuntero && !quieto.matches) {
+    $$('.celda').forEach(function (c) {
+      c.addEventListener('pointermove', function (ev) {
+        const r = c.getBoundingClientRect();
+        const x = (ev.clientX - r.left) / r.width;
+        const y = (ev.clientY - r.top) / r.height;
+        c.style.setProperty('--ry', ((x - .5) * 7).toFixed(2) + 'deg');
+        c.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
+        c.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
+        c.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+      });
+      c.addEventListener('pointerleave', function () {
+        c.style.setProperty('--rx', '0deg');
+        c.style.setProperty('--ry', '0deg');
+      });
+    });
+
+    $$('.boton, .ap-nav__cta').forEach(function (b) {
+      b.addEventListener('pointermove', function (ev) {
+        const r = b.getBoundingClientRect();
+        const dx = ev.clientX - (r.left + r.width / 2);
+        const dy = ev.clientY - (r.top + r.height / 2);
+        b.style.translate = (dx * .18).toFixed(1) + 'px ' + (dy * .3).toFixed(1) + 'px';
+      });
+      b.addEventListener('pointerleave', function () { b.style.translate = ''; });
+    });
+
+    $$('.foco').forEach(function (el) {
+      el.addEventListener('pointermove', function (ev) {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (ev.clientX - r.left).toFixed(0) + 'px');
+        el.style.setProperty('--my', (ev.clientY - r.top).toFixed(0) + 'px');
+      });
+    });
+  }
+
+  const auras = $$('.aura');
+
+  if (auras.length && !quieto.matches && 'IntersectionObserver' in window) {
+    const ojoAura = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
+    });
+    auras.forEach(function (a) { ojoAura.observe(a); });
+  }
+
+  /* ---------- 8. Revelados -----------------------------------
+     Los bloques suben y aparecen al asomar. Las celdas de la galería
+     van aparte y antes: en cuanto asoma su borde (con un pequeño
+     adelanto), para que las fotos nunca se hagan esperar. */
+
+  const porRevelar = $$('.rev, .rev-titulo');
 
   if (porRevelar.length) {
     if (sinRevelado || quieto.matches || !('IntersectionObserver' in window)) {
       porRevelar.forEach(function (el) { el.classList.add('dentro'); });
     } else {
-      const ojo = new IntersectionObserver(function (entradas) {
+      const alEntrar = function (entradas, observador) {
         entradas.forEach(function (e) {
           if (!e.isIntersecting) return;
           e.target.classList.add('dentro');
-          ojo.unobserve(e.target);
+          observador.unobserve(e.target);
         });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: .1 });
-      porRevelar.forEach(function (el) { ojo.observe(el); });
+      };
+      const ojo      = new IntersectionObserver(alEntrar, { rootMargin: '0px 0px -8% 0px', threshold: .1 });
+      const ojoFotos = new IntersectionObserver(alEntrar, { rootMargin: '0px 0px 6% 0px', threshold: 0 });
+      porRevelar.forEach(function (el) {
+        (el.classList.contains('celda') ? ojoFotos : ojo).observe(el);
+      });
     }
   }
 
