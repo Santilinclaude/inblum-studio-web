@@ -6,12 +6,12 @@
    - Los colores de acento son los del recuadro de flores del
      logotipo, medidos sobre la imagen: el fucsia de las flores, el
      azul del cielo, el amarillo del polen; más el verde olivo del
-     panel, que eligió el estudio.
+     panel, que eligió el estudio. Van planos: campos de color,
+     filas que se llenan y las franjas del duotono. Sin degradados.
    - Las imágenes llevan el radio del recuadro del logotipo, y los
      botones son píldoras, como las letras redondas del nombre.
-   - Una sola familia, Helvetica, en 500 (texto) y 700 (todo lo que
-     manda): titulares enormes y apretados, etiquetas de 12px en
-     mayúsculas.
+   - La letra, en la mezcla de Homer: lo grande en un corte
+     finísimo, el texto en regular y lo chico en negra.
    ============================================================ */
 
 :root {
@@ -25,7 +25,7 @@
   /* --- La tinta: el cacao de la Apertura, en todo el sitio --- */
   --tinta:    #1B0800;
   --filo:     rgb(27 8 0 / .16);   /* líneas finas */
-  --tenue:    rgb(27 8 0 / .62);   /* texto secundario sobre papel */
+  --tenue:    rgb(27 8 0 / .66);   /* texto secundario sobre papel (5.4:1) */
 
   /* --- La marca: los colores del recuadro de flores ---
      Medidos sobre assets/apertura/logo-flor.jpg (el tono más limpio de
@@ -38,56 +38,40 @@
   --hoja:     #888740;   /* el verde olivo del panel */
   --crema:    #FFF4EC;   /* el texto claro sobre los campos de color */
 
-  /* --- Degradados: el recuadro del logotipo, desenfocado ---
-     El recuadro ya es un degradado: flores rosas y amarillas fuera de
-     foco sobre un cielo azul. Estos tonos son sus luces y sus sombras,
-     y con ellos se pintan los campos de luz (.aura) y los rellenos. */
-  --flor-honda:  #6E1446;   /* el fucsia en sombra */
-  --flor-media:  #8E2460;
-  --flor-viva:   #E0649F;   /* el fucsia a plena luz */
-  --cielo-hondo: #064F7E;
+  /* Las luces de cada color: la segunda franja de cada duotono. */
   --cielo-claro: #9CCBEA;
   --polen-claro: #F2E48A;
-  --hoja-clara:  #A9A862;
-
-  --degradado-flor:  linear-gradient(120deg, var(--flor) 0%, var(--flor-viva) 52%, var(--polen) 100%);
-  --degradado-boton: linear-gradient(110deg, #7E1D55 0%, var(--flor) 60%, #C2407F 100%);
+  --hoja-clara:  #C9CB96;
 
   /* --- Vidrio ---
-     Vidrio claro y grueso, como el acrílico de una vitrina (la
-     referencia es Homer): casi transparente, con muy poco desenfoque,
-     un canto que brilla arriba a la izquierda y se apaga abajo a la
-     derecha, un poco de luz atrapada en el grosor y reflejos. En Chrome
-     además dobla lo que tiene detrás en los bordes (app.js, 7c). La
-     versión oscura es para el cacao del contacto. */
+     Sólo donde hay algo detrás que doblar: la barra de arriba (el
+     contenido pasa por debajo), la ficha sobre el retrato y los
+     rótulos sobre las piezas de la galería. Vidrio claro y grueso: casi
+     transparente, con poco desenfoque, un canto que brilla arriba a la
+     izquierda y reflejos; en Chrome además dobla lo de atrás en los
+     bordes (app.js, 7c). La versión oscura es para el cacao. */
   --vidrio-tinte:        linear-gradient(160deg, rgb(255 255 255 / .32), rgb(255 255 255 / .1) 45%, rgb(255 255 255 / .2));
   --vidrio-canto:        inset 1.5px 2px 0 rgb(255 255 255 / .95), inset -1px -1.5px 0 rgb(255 255 255 / .4),
                          inset 0 0 0 1px rgb(255 255 255 / .22), inset 0 0 26px rgb(255 255 255 / .3);
-  --vidrio-sombra:       0 26px 44px -30px rgb(74 8 40 / .4);
-  --vidrio-oscuro-tinte: linear-gradient(160deg, rgb(255 244 236 / .12), rgb(255 244 236 / .03) 45%, rgb(255 244 236 / .07));
+  --vidrio-sombra:       0 20px 36px -28px rgb(27 8 0 / .35);
   --vidrio-oscuro-canto: inset 1.5px 2px 0 rgb(255 244 236 / .38), inset -1px -1.5px 0 rgb(255 244 236 / .12),
                          inset 0 0 0 1px rgb(255 244 236 / .1), inset 0 0 26px rgb(255 244 236 / .06);
-  --r-vidrio:            clamp(18px, 1.8vw, 28px);
 
-  /* --- Tipografía: una sola familia para todo el sitio ---
-     Helvetica. No es libre ni está en Google Fonts, así que se pide
-     al sistema del visitante: Helvetica de verdad en Mac, iPhone e
-     iPad; Arial (que se hizo para igualar sus métricas) en Windows;
-     la sans-serif del sistema en el resto. Para que salga idéntica
-     en todos lados hace falta una licencia web (ver el README). */
+  /* --- Tipografía: la mezcla de Homer ---
+     Su letra, Unica77 LL, es de licencia. Lo grande en un corte
+     finísimo (Helvetica Neue Thin en Apple, Inter Tight 200 fuera), el
+     texto en regular y lo chico (etiquetas, barra, botones, números) en
+     negra (Inter Tight Black). */
   --f-texto:   "Helvetica Neue", "Inter Tight", Helvetica, Arial, sans-serif;   /* 400 */
-  /* La mezcla de Homer (su letra, Unica77 LL, es de licencia): lo
-     grande en un corte finísimo (Helvetica Neue Thin en Apple, Inter
-     Tight 200 fuera) y lo chico en negra (Inter Tight Black). */
   --f-fina:    "Helvetica Neue", "Inter Tight", Helvetica, Arial, sans-serif;   /* 200 */
   --f-negra:   "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;   /* 900 */
+  --f-codigo:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Escala: etiqueta, texto, dos tamaños intermedios y el titular de
      sección, que crece con la ventana. */
   --t-etiqueta: 12px;
   --t-texto:  1.25rem;                                  /* 20px */
-  --t-h:      2.375rem;                                 /* 38px: el titular de la Apertura */
-  --t-h-lg:   2.5rem;                                   /* 40px */
+  --t-h:      2.375rem;                                 /* 38px */
   --t-grande: clamp(1.75rem, 1rem + 2.2vw, 3.25rem);    /* 28 → 52px: nombres de servicios, pasos */
   --t-titulo: clamp(3.25rem, 1rem + 7.2vw, 9.25rem);    /* 52 → 148px: el titular de cada sección */
 
@@ -122,7 +106,6 @@
 
   /* --- Capas --- */
   --z-base:      1;
-  --z-grano:     30;     /* el grano de película, sobre el contenido */
   --z-menu:      40;     /* la barra de arriba */
   --z-progreso:  45;     /* la línea de avance, sobre la barra */
   --z-saltar:    50;     /* "Saltar al contenido", sobre todo */

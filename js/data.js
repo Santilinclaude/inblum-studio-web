@@ -152,6 +152,8 @@ const FRASES = [
      `alto: 2` la celda ocupa dos filas (retratos, fotografía
      vertical: 820x1160 px). Las demás, 820x580 px.
    - servicios: una línea por servicio, de la lista SERVICIOS.
+   - tipo: 'web' cambia el mosaico por el navegador, el teléfono y el
+     código (ver el proyecto que lo usa, abajo).
    ------------------------------------------------------------ */
 const PIEZAS = [
   {
@@ -199,33 +201,35 @@ const PIEZAS = [
     ]
   },
   {
-    titulo: 'Producción de podcast',
-    anio: 2026,
-    servicios: ['Producción de podcasts', 'Audio y grabación', 'Mezcla de sonido'],
-    celdas: [
-      { img: 'assets/obra/flores.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-podcast-a/820/1160', alt: 'Producción de podcast', alto: 2 },
-      { img: 'assets/obra/jardin.jpg', dispositivo: true },
-      { img: 'assets/obra/abstracto.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-podcast-b/820/1160', alt: 'Producción de podcast', alto: 2 },
-      { img: 'assets/obra/papel-1.jpg', dispositivo: true },
-      { img: 'assets/obra/papel-2.jpg', dispositivo: true }
-    ]
-  },
-  {
-    titulo: 'Sitio y aplicación',
+    titulo: 'Sitio del estudio',
     anio: 2026,
     servicios: ['Diseño UI/UX', 'Programación web', 'SEO'],
-    celdas: [
-      { img: 'https://picsum.photos/seed/inblum-sitio-a/820/1160', alt: 'Sitio y aplicación', alto: 2 },
-      { img: 'assets/obra/collage.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-sitio-c/820/580', alt: 'Sitio y aplicación' },
-      { img: 'assets/obra/minimal.jpg', dispositivo: true },
-      { img: 'assets/obra/azulejo.jpg', dispositivo: true },
-      { img: 'assets/obra/cimatica.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-sitio-d/820/580', alt: 'Sitio y aplicación' },
-      { img: 'assets/obra/pincelada.jpg', dispositivo: true }
-    ]
+    /* El sitio web no se muestra con imágenes sueltas: un navegador y un
+       teléfono con la página (que baja sola mientras está en pantalla) y
+       un pedazo de su código. Mientras llega el primer sitio de un
+       cliente, el ejemplo es este mismo sitio: sus capturas y un pedazo
+       real de js/app.js (la función que revisa cada campo del
+       formulario). Las capturas son largas (toda la página hacia abajo):
+       1100 px de ancho la de escritorio y 600 px la del teléfono. */
+    tipo: 'web',
+    web: {
+      url: 'inblumstudio.com',
+      escritorio: 'assets/work/web-escritorio.jpg',
+      altEscritorio: 'Captura de la página de Inblüm Studio en escritorio: el retrato con el libro, el logotipo y el titular',
+      telefono: 'assets/work/web-telefono.jpg',
+      altTelefono: 'Captura de la misma página en un teléfono',
+      archivo: 'js/app.js',
+      codigo: [
+        '// Revisa un campo del formulario y dice qué falta.',
+        'function revisar(campo) {',
+        '  const regla = REGLAS[campo.name];',
+        '  if (!regla) return true;',
+        '  const ok = regla.valida(campo.value);',
+        '  marcar(campo, ok, regla.error);',
+        '  return ok;',
+        '}'
+      ].join('\n')
+    }
   },
   {
     titulo: 'Campaña en redes',

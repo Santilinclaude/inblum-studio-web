@@ -3,9 +3,9 @@
    El contenido vive en js/data.js. Aquí está la mecánica: el
    lavado del fondo de la primera página, los titulares que entran
    palabra por palabra, las listas de Servicios y Proceso, el grid
-   de Trabajo, la luz y el tacto (auras, vidrio, celdas que se
-   inclinan, botones que se dejan jalar), la regla del proceso, los
-   revelados enganchados al scroll y el formulario.
+   de Trabajo (con el sitio web), el vidrio de
+   la barra, la regla del proceso, los revelados enganchados al
+   scroll (y las franjas del duotono que se dibujan) y el formulario.
 
    GSAP se carga desde CDN y sólo mejora lo que ya funciona:
    si no llega, todo queda visible y se anima con CSS.
@@ -70,7 +70,6 @@
       // se oscurece.
       const paleta = window.getComputedStyle(document.documentElement);
       const tono = function (token) { return paleta.getPropertyValue(token).trim(); };
-      const auraAp = $('.aura--apertura', apertura);
 
       const lavado = window.gsap.timeline({
         defaults: { ease: 'none' },
@@ -89,10 +88,6 @@
         .to(apertura, { backgroundColor: tono('--b-lavado-1'), duration: 1 })
         .to(apertura, { backgroundColor: tono('--b-lavado-2'), duration: 1 })
         .to(apertura, { backgroundColor: tono('--b-verde'), duration: 1 });
-
-      // El aura rosa y celeste se apaga en el primer tramo del lavado:
-      // sobre el verde, esos colores se ensuciarían.
-      if (auraAp) lavado.to(auraAp, { opacity: 0, duration: 1.2 }, 0);
     });
   }
 
@@ -368,20 +363,6 @@
     oscuros.forEach(function (o) { ojoOscuro.observe(o); });
   }
 
-  /* ---------- 1e. El recuadro de flores del manifiesto ---------
-     Sube un poco más despacio que la página (sólo con GSAP y sin
-     "reducir movimiento"), como si flotara sobre el campo fucsia.
-     --------------------------------------------------------- */
-  const flor = $('#flor');
-
-  if (flor && conGsap && !sinRevelado) {
-    window.gsap.fromTo(flor, { yPercent: 12 }, {
-      yPercent: -12,
-      ease: 'none',
-      scrollTrigger: { trigger: flor, start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-  }
-
   /* ---------- 4. Servicios (sidebar fijo + lista) -------------
      El mismo patrón que Proceso: una fila por servicio, con su
      número y su nombre siempre visibles; el detalle (la frase y
@@ -391,15 +372,13 @@
 
   const items = $('#servicios-items');
 
-  // Cada fila abierta se llena con un degradado de uno de los colores
-  // de la marca, en este orden, y con la tinta que le da contraste (ver
-  // css/tokens.css). Los que llevan crema encima van hacia su sombra;
-  // los que llevan cacao, hacia su luz.
+  // Cada fila abierta se llena con uno de los colores de la marca, en
+  // este orden, y con la tinta que le da contraste (ver css/tokens.css).
   const TONOS = [
-    ['var(--flor)',  'var(--flor-media)',  'var(--crema)'],
-    ['var(--cielo)', 'var(--cielo-hondo)', 'var(--crema)'],
-    ['var(--polen)', 'var(--polen-claro)', 'var(--tinta)'],
-    ['var(--hoja)',  'var(--hoja-clara)',  'var(--tinta)']
+    ['var(--flor)',  'var(--crema)'],
+    ['var(--cielo)', 'var(--crema)'],
+    ['var(--polen)', 'var(--tinta)'],
+    ['var(--hoja)',  'var(--tinta)']
   ];
   const dosCifras = function (n) { return (n < 10 ? '0' : '') + n; };
 
@@ -420,7 +399,7 @@
       }).join('');
       return '' +
         '<article class="item rev" data-abierta="false" style="--espera:' + (i * 40) + 'ms;' +
-        '--tono:' + tono[0] + ';--tono-2:' + tono[1] + ';--sobre:' + tono[2] + '">' +
+        '--tono:' + tono[0] + ';--sobre:' + tono[1] + '">' +
           '<button class="item__boton" type="button" id="btn-' + s.id + '"' +
           ' aria-expanded="false" aria-controls="cuerpo-' + s.id + '">' +
             '<span class="item__n">' + n + duo(i, 'item__duo') + '</span>' +
@@ -475,50 +454,106 @@
   /* ---------- 5. Proyectos de trabajo (galería) ---------------
      Cada proyecto es un mosaico de tres columnas (algunas celdas
      ocupan dos filas) con celdas redondeadas como el recuadro del
-     logotipo y, debajo, su ficha alineada con las columnas: número,
-     nombre con año y servicios. Las piezas reales (assets/work) van a
-     color; el relleno (las texturas de assets/obra y las fotos de
-     muestra) va en gris hasta que llegue el trabajo real, y toma su
-     color con el cursor. Cada celda entra rápido, subiendo en una
-     cascada corta, y con el cursor encima se inclina hacia él y
-     muestra su rótulo de vidrio (la sección 7b). Todo el contenido
-     vive en PIEZAS (js/data.js).
+     logotipo y, debajo, su duotono y su ficha alineada con las
+     columnas: número, nombre con año y servicios. Las piezas reales
+     (assets/work) van a color; el relleno (las texturas de assets/obra
+     y las fotos de muestra) va en gris hasta que llegue el trabajo
+     real, y toma su color con el cursor. Cada celda entra rápido, en
+     una cascada corta, y con el cursor encima muestra su rótulo.
+
+     El sitio web (tipo: 'web') no se muestra como imágenes sueltas,
+     sino como lo que es: un navegador y un teléfono con la página, que
+     baja sola mientras está en pantalla, y un pedazo del código real
+     del sitio.
+     Todo el contenido vive en PIEZAS (js/data.js).
      --------------------------------------------------------- */
 
   const piezas = $('#piezas');
   const esRelleno = function (src) { return /^https?:|assets\/obra\//.test(src); };
+
+  function celdasHTML(p, i) {
+    return p.celdas.map(function (c, k) {
+      // Lo que se ve al abrir la página carga de inmediato; el resto,
+      // hasta que se acerque.
+      const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
+      const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
+                  carga + ' decoding="async">';
+      const clase = 'celda rev' + (c.dispositivo ? ' celda--dispositivo' : '') +
+                    (c.alto === 2 ? ' celda--alta' : '') +
+                    (esRelleno(c.img) ? ' celda--relleno' : '');
+      // El rótulo repite el nombre del proyecto (ya está en su ficha):
+      // es sólo para la vista.
+      const rotulo = '<figcaption class="celda__rotulo vidrio" aria-hidden="true">' +
+                     '<b>' + dosCifras(k + 1) + '/' + dosCifras(p.celdas.length) + '</b>' +
+                     '<span>' + escapar(p.titulo) + '</span></figcaption>';
+      return '<figure class="' + clase + '" style="--espera:' + (k * 40) + 'ms">' +
+             (c.dispositivo ? '<div class="dispositivo">' + img + '</div>' : img) +
+             rotulo + '</figure>';
+    }).join('');
+  }
+
+  // Un resaltado mínimo para el código: palabras clave, cadenas,
+  // comentarios y llamadas a funciones.
+  const CLAVES = ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for',
+                  'new', 'true', 'false', 'null'];
+  function resaltar(linea) {
+    const re = /(\/\/.*$)|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")|([A-Za-z_$][\w$]*)(?=\s*\()|([A-Za-z_$][\w$]*)|([\s\S])/g;
+    let out = '';
+    let m;
+    while ((m = re.exec(linea))) {
+      const palabra = m[3] || m[4];
+      if (m[1]) out += '<span class="tk-comentario">' + escapar(m[1]) + '</span>';
+      else if (m[2]) out += '<span class="tk-cadena">' + escapar(m[2]) + '</span>';
+      else if (palabra && CLAVES.indexOf(palabra) >= 0) out += '<span class="tk-clave">' + palabra + '</span>';
+      else if (m[3]) out += '<span class="tk-funcion">' + palabra + '</span>';
+      else if (m[4]) out += palabra;
+      else out += escapar(m[5]);
+    }
+    return out;
+  }
+
+  function webHTML(p) {
+    const w = p.web;
+    const lineas = w.codigo.split('\n');
+    return '' +
+      '<div class="web">' +
+        '<figure class="web__navegador rev">' +
+          '<div class="web__barra"><span class="web__url">' + escapar(w.url) + '</span></div>' +
+          '<div class="web__pantalla"><img src="' + escapar(w.escritorio) + '" alt="' + escapar(w.altEscritorio) + '"' +
+          ' loading="lazy" decoding="async"></div>' +
+        '</figure>' +
+        '<figure class="web__telefono rev" style="--espera:100ms">' +
+          '<div class="web__pantalla"><img src="' + escapar(w.telefono) + '" alt="' + escapar(w.altTelefono) + '"' +
+          ' loading="lazy" decoding="async"></div>' +
+        '</figure>' +
+        '<figure class="web__codigo rev" style="--espera:200ms">' +
+          '<figcaption class="web__archivo">' + escapar(w.archivo) + '</figcaption>' +
+          '<pre><code>' + lineas.map(function (l, k) {
+            return '<span class="ln" style="--k:' + k + '">' + (resaltar(l) || ' ') +
+                   (k === lineas.length - 1 ? '<span class="web__cursor" aria-hidden="true"></span>' : '') +
+                   '</span>';
+          }).join('') + '</code></pre>' +
+        '</figure>' +
+      '</div>';
+  }
 
   if (piezas) {
     piezas.innerHTML = !PIEZAS.length
       ? '<p class="cabecera__lead">Estamos preparando esta sección. Mientras tanto, ' +
         'escríbenos y te compartimos el portafolio completo en PDF.</p>'
       : PIEZAS.map(function (p, i) {
-        const celdas = p.celdas.map(function (c, k) {
-          // Lo que se ve al abrir la página carga de inmediato; el
-          // resto, hasta que se acerque.
-          const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
-          const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
-                      carga + ' decoding="async">';
-          const clase = 'celda rev' + (c.dispositivo ? ' celda--dispositivo' : '') +
-                        (c.alto === 2 ? ' celda--alta' : '') +
-                        (esRelleno(c.img) ? ' celda--relleno' : '');
-          // El rótulo repite el nombre del proyecto (ya está en su
-          // ficha): es sólo para la vista.
-          const rotulo = '<figcaption class="celda__rotulo vidrio" aria-hidden="true">' +
-                         '<b>' + dosCifras(k + 1) + '/' + dosCifras(p.celdas.length) + '</b>' +
-                         '<span>' + escapar(p.titulo) + '</span></figcaption>';
-          return '<figure class="' + clase + '" style="--espera:' + (k * 40) + 'ms">' +
-                 (c.dispositivo ? '<div class="dispositivo">' + img + '</div>' : img) +
-                 rotulo + '</figure>';
-        }).join('');
+        let cuerpo;
+        if (p.tipo === 'web' && p.web) cuerpo = webHTML(p);
+        else cuerpo = '<div class="proyecto__celdas">' + celdasHTML(p, i) + '</div>';
 
         const etiquetas = p.servicios.map(function (s) {
           return '<li>' + escapar(s) + '</li>';
         }).join('');
 
         return '' +
-          '<article class="proyecto" aria-label="' + escapar(p.titulo) + '">' +
-            '<div class="proyecto__celdas">' + celdas + '</div>' +
+          '<article class="proyecto' + (p.tipo ? ' proyecto--' + p.tipo : '') + '"' +
+          ' aria-label="' + escapar(p.titulo) + '">' +
+            cuerpo +
             duo(i, 'proyecto__duo') +
             '<div class="proyecto__ficha">' +
               '<p class="proyecto__n">' + dosCifras(i + 1) + '</p>' +
@@ -537,7 +572,7 @@
   if (tiempos) {
     tiempos.innerHTML = PASOS.map(function (p, i) {
       return '' +
-        '<div class="tiempo vidrio foco rev" style="--espera:' + (i * 70) + 'ms">' +
+        '<div class="tiempo rev" style="--espera:' + (i * 70) + 'ms">' +
           duo(i, 'tiempo__duo') +
           '<span class="tiempo__n" aria-hidden="true">' + dosCifras(i + 1) + '</span>' +
           '<div>' +
@@ -580,59 +615,6 @@
         return '<option value="' + escapar(s.nombre) + '">' + escapar(s.nombre) + '</option>';
       }).join('') +
       '<option value="Varias áreas">Varias áreas / todavía no lo sé</option>';
-  }
-
-  /* ---------- 7b. Luz y tacto --------------------------------
-     Lo que responde al cursor (sólo con un puntero fino y sin
-     "reducir movimiento"): las celdas de la galería se inclinan hacia
-     él con un reflejo encima; los botones se dejan jalar un poco; y el
-     filo de las láminas de vidrio (.foco) se enciende donde está. Y
-     las auras sólo derivan mientras su campo está en pantalla.
-     --------------------------------------------------------- */
-
-  if (conPuntero && !quieto.matches) {
-    $$('.celda').forEach(function (c) {
-      c.addEventListener('pointermove', function (ev) {
-        const r = c.getBoundingClientRect();
-        const x = (ev.clientX - r.left) / r.width;
-        const y = (ev.clientY - r.top) / r.height;
-        c.style.setProperty('--ry', ((x - .5) * 7).toFixed(2) + 'deg');
-        c.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
-        c.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
-        c.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
-      });
-      c.addEventListener('pointerleave', function () {
-        c.style.setProperty('--rx', '0deg');
-        c.style.setProperty('--ry', '0deg');
-      });
-    });
-
-    $$('.boton, .ap-nav__cta').forEach(function (b) {
-      b.addEventListener('pointermove', function (ev) {
-        const r = b.getBoundingClientRect();
-        const dx = ev.clientX - (r.left + r.width / 2);
-        const dy = ev.clientY - (r.top + r.height / 2);
-        b.style.translate = (dx * .18).toFixed(1) + 'px ' + (dy * .3).toFixed(1) + 'px';
-      });
-      b.addEventListener('pointerleave', function () { b.style.translate = ''; });
-    });
-
-    $$('.foco').forEach(function (el) {
-      el.addEventListener('pointermove', function (ev) {
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', (ev.clientX - r.left).toFixed(0) + 'px');
-        el.style.setProperty('--my', (ev.clientY - r.top).toFixed(0) + 'px');
-      });
-    });
-  }
-
-  const auras = $$('.aura');
-
-  if (auras.length && !quieto.matches && 'IntersectionObserver' in window) {
-    const ojoAura = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) { e.target.classList.toggle('viva', e.isIntersecting); });
-    });
-    auras.forEach(function (a) { ojoAura.observe(a); });
   }
 
   /* ---------- 7c. Vidrio de verdad ---------------------------
@@ -759,7 +741,11 @@
      van aparte y antes: en cuanto asoma su borde (con un pequeño
      adelanto), para que las fotos nunca se hagan esperar. */
 
-  const porRevelar = $$('.rev, .rev-titulo');
+  // Las franjas del duotono (las de las cabeceras y las sueltas) se
+  // dibujan al asomar.
+  $$('.duo, .cabecera__fila').forEach(function (el) { el.classList.add('rev-linea'); });
+
+  const porRevelar = $$('.rev, .rev-titulo, .rev-linea');
 
   if (porRevelar.length) {
     if (sinRevelado || quieto.matches || !('IntersectionObserver' in window)) {

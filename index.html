@@ -25,8 +25,8 @@
      Thin (la del sistema en Apple), lo chico en Inter Tight Black, y
      fuera de Apple todo en Inter Tight (ver css/tokens.css). -->
 
-<link rel="stylesheet" href="css/tokens.css?v=120">
-<link rel="stylesheet" href="css/styles.css?v=120">
+<link rel="stylesheet" href="css/tokens.css?v=121">
+<link rel="stylesheet" href="css/styles.css?v=121">
 </head>
 
 <body>
@@ -64,10 +64,9 @@
        Trabajo. Sin GSAP todo queda en su estado final. El retrato es una
        foto del estudio; la segunda imagen es una ilustración de relleno y
        la del panel, una ilustración con el nombre del estudio: se cambian
-       en assets/apertura/. Detrás, un aura con los colores del recuadro
-       de flores; sobre el retrato, una ficha de vidrio. -->
+       en assets/apertura/. Sobre el retrato, una ficha de vidrio con el
+       volumen y el año del libro de la foto. -->
   <div class="apertura" id="inicio">
-    <div class="aura aura--apertura" aria-hidden="true"><i></i><i></i><i></i></div>
 
     <div class="ap-cuerpo">
       <div class="ap-lado">
@@ -93,7 +92,7 @@
               video, sitio y campañas sin repartir el proyecto entre proveedores.
             </p>
             <div class="ap-intro__acciones">
-              <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+              <a class="boton" href="#contacto">Hablemos <span class="boton__flecha" aria-hidden="true">&#8599;</span></a>
               <a href="#servicios">Ver servicios <span aria-hidden="true">&#8595;</span></a>
             </div>
           </div>
@@ -109,9 +108,8 @@
         <img src="assets/apertura/retrato.jpg?v=8" width="1040" height="1300" fetchpriority="high" decoding="async"
              alt="Fotografía de una mujer sentada en un sofá que se cubre el rostro con un libro abierto, «2026 Inblüm Studio, Volume 1», rodeada de plantas y flores blancas">
         <figcaption class="ap-ficha vidrio">
-          <img class="ap-ficha__flor" src="assets/apertura/logo-flor.jpg" width="30" height="40" alt="">
           <span class="ap-ficha__texto">
-            <b><span translate="no">Inblüm Studio</span> · Volumen 1</b>
+            <b>Volumen 1</b>
             <span>Identidad, foto, video, audio y web</span>
           </span>
           <span class="duo duo--flor ap-ficha__duo" aria-hidden="true"></span>
@@ -149,11 +147,12 @@
   <!-- ============ Trabajo ============
        La galería: cada proyecto es un mosaico de tres columnas (nueve
        espacios) con celdas redondeadas como el recuadro del logotipo, y
-       su ficha debajo. Las piezas reales van a color; el relleno
-       (texturas y fotos de muestra) en gris, hasta que llegue el trabajo
-       real. Todo el contenido vive en PIEZAS (js/data.js). -->
+       su ficha debajo. El sitio web se muestra como lo que es
+       (navegador, teléfono y código). Las piezas
+       reales van a color; el relleno (texturas y fotos de muestra) en
+       gris, hasta que llegue el trabajo real. Todo el contenido vive en
+       PIEZAS (js/data.js). -->
   <section class="seccion trabajo" id="trabajo" aria-labelledby="t-trabajo">
-    <div class="aura aura--trabajo" aria-hidden="true"><i></i><i></i><i></i></div>
     <header class="cabecera">
       <p class="cabecera__fila">
         <span class="cabecera__n">01</span>
@@ -166,18 +165,17 @@
 
     <div class="piezas" id="piezas"></div>
 
-    <div class="trabajo__cierre vidrio foco">
+    <div class="trabajo__cierre">
       <p class="trabajo__pregunta">¿Quieres ver proyectos completos?</p>
-      <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+      <a class="boton" href="#contacto">Hablemos <span class="boton__flecha" aria-hidden="true">&#8599;</span></a>
     </div>
   </section>
 
   <!-- ============ Estudio ============
        El manifiesto sobre el campo fucsia de las flores del logotipo:
-       la frase se enciende palabra por palabra al bajar, y a su lado el
-       recuadro de flores de la marca, con la nota debajo. -->
+       la frase se enciende palabra por palabra al bajar, y a su lado la
+       nota. -->
   <section class="manifiesto" id="estudio" aria-labelledby="frase">
-    <div class="aura aura--estudio" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="manifiesto__grid">
       <p class="cabecera__fila">
         <span class="cabecera__n">02</span>
@@ -191,11 +189,7 @@
       </h2>
 
       <aside class="manifiesto__lado">
-        <figure class="manifiesto__flor vidrio" id="flor">
-          <img src="assets/apertura/logo-flor.jpg" width="480" height="635" loading="lazy" decoding="async"
-               alt="El recuadro del logotipo de Inblüm Studio: flores de cerezo rosas y amarillas, desenfocadas, sobre un cielo azul">
-        </figure>
-        <div class="manifiesto__nota vidrio rev">
+        <div class="manifiesto__nota rev">
           <p>
             La identidad ya considera cómo se va a ver en video, y el sitio ya
             sabe qué fotografía va a recibir. Nada se traduce entre despachos.
@@ -209,17 +203,10 @@
     </div>
   </section>
 
-  <!-- Servicios y Proceso comparten un campo de luz: una sola aura
-       detrás de las dos, para que el color pase de una a otra sin
-       corte. -->
-  <div class="campo-luz">
-  <div class="aura aura--luz" aria-hidden="true"><i></i><i></i><i></i></div>
-
   <!-- ============ Servicios ============
-       Las ocho áreas en un panel de vidrio, una fila por área. El
-       detalle se abre con el cursor, el foco o un toque, y la fila
-       abierta se llena con un degradado de uno de los colores de la
-       marca. -->
+       Las ocho áreas, una fila por área a todo lo ancho, cada una con
+       su duotono. El detalle se abre con el cursor, el foco o un toque,
+       y la fila abierta se llena con uno de los colores de la marca. -->
   <section class="seccion" id="servicios" aria-labelledby="t-servicios">
     <header class="cabecera">
       <p class="cabecera__fila">
@@ -234,13 +221,12 @@
       </p>
     </header>
 
-    <div class="items vidrio" id="servicios-items"></div>
+    <div class="items" id="servicios-items"></div>
   </section>
 
   <!-- ============ Proceso ============
-       Los cuatro tiempos en fila, cada uno en su lámina de vidrio, con
-       una regla que se llena al bajar y el recuadro de flores como
-       marca de avance. -->
+       Los cuatro tiempos en fila, cada uno con su duotono, bajo una
+       regla que se llena al bajar. -->
   <section class="seccion" id="proceso" aria-labelledby="t-proceso">
     <header class="cabecera">
       <p class="cabecera__fila">
@@ -259,14 +245,11 @@
       <div class="tiempos" id="tiempos"></div>
     </div>
   </section>
-  </div>
 
   <!-- ============ Contacto ============
-       El cierre, sobre el cacao de la tinta con dos luces de color:
-       sigue sin corte hasta el pie. El formulario va en vidrio
-       oscuro. -->
+       El cierre, sobre el cacao de la tinta: sigue sin corte hasta el
+       pie. -->
   <section class="seccion contacto-seccion" id="contacto" aria-labelledby="t-contacto">
-    <div class="aura aura--contacto" aria-hidden="true"><i></i><i></i><i></i></div>
     <header class="cabecera">
       <p class="cabecera__fila">
         <span class="cabecera__n">05</span>
@@ -303,7 +286,7 @@
         </div>
       </div>
 
-      <form class="forma vidrio vidrio--oscuro foco rev" id="forma" style="--espera:120ms" novalidate>
+      <form class="forma rev" id="forma" style="--espera:120ms" novalidate>
         <div class="campo">
           <label for="nombre">Nombre</label>
           <input id="nombre" name="nombre" type="text" autocomplete="name"
@@ -338,7 +321,7 @@
         <div class="forma__pie campo--ancho">
           <button class="boton boton--flor" id="enviar" type="submit">
             <span class="btn__txt">Enviar mensaje</span>
-            <span class="boton__icono" aria-hidden="true">&#8599;</span>
+            <span class="boton__flecha" aria-hidden="true">&#8599;</span>
           </button>
           <p class="forma__nota">Usamos tus datos sólo para responderte.</p>
         </div>
@@ -366,15 +349,15 @@
   </div>
 
   <div class="pie__legal">
-    <span>&copy; <span id="anio">2026</span> <span translate="no">Inblüm Studio</span></span>
+    <span>&copy; <span id="anio">2026</span></span>
     <span>Todos los derechos reservados</span>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=120" defer></script>
-<script src="js/app.js?v=120" defer></script>
+<script src="js/data.js?v=121" defer></script>
+<script src="js/app.js?v=121" defer></script>
 
 </body>
 </html>
