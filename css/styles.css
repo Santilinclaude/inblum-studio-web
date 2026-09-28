@@ -136,14 +136,22 @@ main { overflow-x: clip; }
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0 var(--aire);
-  /* Arriba, en lugar de una línea, el duotono de la sección (ver
-     .duo): dos franjas de 7px con 9px entre ellas. */
-  padding-top: calc(var(--duo-alto) + 10px);
-  background: linear-gradient(to bottom, var(--d1) 0 7px, transparent 7px 16px, var(--d2) 16px 23px)
-              top / 100% var(--duo-alto) no-repeat;
   font: 900 var(--t-etiqueta)/1.4 var(--f-negra);
   text-transform: uppercase;
   letter-spacing: .02em;
+}
+/* Arriba de la fila, la banda de la sección (ver .duo): un bloque en
+   degradado entre sus dos colores opuestos, con el radio de las
+   imágenes. Ocupa su propio renglón de la retícula. */
+.cabecera__fila::before {
+  content: "";
+  grid-column: 1 / -1;
+  height: var(--banda-alto);
+  margin-bottom: 12px;
+  border-radius: var(--r-tile);
+  background: var(--brillo-banda), linear-gradient(100deg, var(--d1) 0%, var(--d1) 10%, var(--d2) 90%, var(--d2) 100%);
+  background: var(--brillo-banda), linear-gradient(100deg in oklch, var(--d1) 0%, var(--d1) 10%, var(--d2) 90%, var(--d2) 100%);
+  box-shadow: 0 22px 44px -28px var(--d1);
 }
 /* El número de la sección, en una píldora con el degradado de la flor. */
 .cabecera__n {
@@ -261,25 +269,42 @@ main { overflow-x: clip; }
 .boton--flor:hover .boton__icono { background: rgb(27 8 0 / .1); }
 .boton[disabled] { opacity: .6; cursor: progress; }
 
-/* --- Duotono: la mezcla de dos tonos de Homer (sus acabados se
-   llaman "Cadmium Red/Infrared", "Chet Blue/Bubble Blue"): dos franjas
-   de 7px con 9px entre ellas, un color de la marca y su luz (--d1,
-   --d2). Cada sección lleva su par en la línea de su cabecera; cada
-   proyecto, bajo su mosaico; cada área de Servicios, junto a su número;
-   cada tiempo del Proceso, arriba. */
+/* --- Duotono: la mezcla de dos tonos de Homer, llevada a degradado.
+   Cada par junta dos colores opuestos del recuadro de flores (--d1 y
+   --d2): el fucsia de las flores contra el azul del cielo, el amarillo
+   del polen contra el azul o contra el fucsia. El degradado se mezcla
+   en OKLCH, que pasa por colores vivos (violeta, verde, naranja) en vez
+   de por el gris que sale al mezclar opuestos en sRGB; los navegadores
+   viejos se quedan con la mezcla normal de la línea anterior.
+   Grande, es la banda de la cabecera de cada sección; chico (.duo), va
+   bajo cada proyecto, junto a cada área, arriba de cada tiempo y en la
+   ficha del retrato. */
 /* (El degradado se escribe en cada regla y no en una variable de
    :root: ahí --d1 y --d2 todavía no existen y la variable quedaría
    vacía.) */
-:root { --duo-alto: 23px; }
-.duo--flor,  .trabajo            { --d1: var(--flor);  --d2: var(--petalo); }
-.duo--cielo, #servicios          { --d1: var(--cielo); --d2: var(--cielo-claro); }
-.duo--polen, .manifiesto         { --d1: var(--polen); --d2: var(--polen-claro); }
-.duo--hoja,  #proceso            { --d1: var(--hoja);  --d2: var(--hoja-clara); }
-.contacto-seccion                { --d1: var(--flor);  --d2: var(--petalo); }
+:root {
+  --banda-alto: clamp(40px, 5vw, 72px);
+  --brillo-banda: radial-gradient(120% 200% at 0% 0%, rgb(255 255 255 / .24), transparent 45%);
+}
+
+/* Los pares de cada sección, en su banda. */
+.trabajo          { --d1: var(--flor);  --d2: var(--cielo); }
+.manifiesto       { --d1: var(--polen); --d2: var(--cielo); }
+#servicios        { --d1: var(--polen); --d2: var(--flor); }
+#proceso          { --d1: var(--cielo); --d2: var(--polen); }
+.contacto-seccion { --d1: var(--flor);  --d2: var(--polen); }
+
+/* Los pares de las piezas chicas, en orden. */
+.duo--flor  { --d1: var(--flor);  --d2: var(--cielo); }
+.duo--cielo { --d1: var(--cielo); --d2: var(--polen); }
+.duo--polen { --d1: var(--polen); --d2: var(--flor); }
+.duo--hoja  { --d1: var(--hoja);  --d2: var(--cielo); }
 .duo {
   display: block;
-  height: var(--duo-alto);
-  background: linear-gradient(to bottom, var(--d1) 0 7px, transparent 7px 16px, var(--d2) 16px 23px);
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--d1), var(--d2));
+  background: linear-gradient(90deg in oklch, var(--d1), var(--d2));
 }
 
 /* --- Auras: campos de luz. Tres manchas de color por campo, con los
@@ -844,7 +869,7 @@ main { overflow-x: clip; }
 }
 .ap-ficha__texto { display: grid; gap: 2px; min-width: 0; }
 .ap-ficha__texto b { text-transform: uppercase; letter-spacing: .02em; }
-.ap-ficha__duo { flex: none; width: 34px; }
+.ap-ficha__duo { flex: none; width: 34px; height: 12px; }
 .ap-ficha__anio {
   flex: none;
   align-self: stretch;
@@ -1153,7 +1178,8 @@ main { overflow-x: clip; }
 
 .item__boton {
   display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  /* La primera columna cabe el número y su muestra de color. */
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   align-items: center;
   gap: 0 12px;
   width: 100%;
@@ -1173,7 +1199,7 @@ main { overflow-x: clip; }
   letter-spacing: .02em;
   font-variant-numeric: tabular-nums;
 }
-.item__duo { flex: none; width: 34px; }
+.item__duo { flex: none; width: 34px; height: 12px; }
 .item[data-abierta="true"] .item__duo { --d1: var(--sobre); }
 .item__nombre {
   font: 200 var(--t-grande)/1.05 var(--f-fina);
@@ -1206,7 +1232,7 @@ main { overflow-x: clip; }
 .item__contenido {
   display: grid;
   gap: 14px;
-  padding: 0 var(--aire) clamp(20px, 2.4vw, 32px) calc(var(--aire) + 2.6rem + 12px);
+  padding: 0 var(--aire) clamp(20px, 2.4vw, 32px) calc(var(--aire) + 64px + 12px);
 }
 .item__frase { max-width: 40ch; }
 .item__lista {
@@ -1246,7 +1272,7 @@ main { overflow-x: clip; }
 .hilo { display: none; }
 
 .tiempos { display: grid; gap: 10px; }
-.tiempo__duo { grid-column: 1 / -1; margin-bottom: 8px; }
+.tiempo__duo { grid-column: 1 / -1; margin-bottom: 14px; }
 .tiempo {
   --vidrio-blur: 6px;
   display: grid;

@@ -27,13 +27,17 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   aquí va Helvetica Neue Thin para lo fino (casi idéntica, y ya viene en Mac,
   iPhone e iPad) e Inter Tight Black para lo negro; fuera de Apple, todo en
   Inter Tight. Ver "Tipografía y librerías".
-- **Duotono.** La mezcla de dos tonos de Homer (sus acabados se llaman
-  "Cadmium Red/Infrared"): dos franjas de 7px con 9px entre ellas, un color de
-  la marca y su luz (`.duo`, con `.duo--flor`, `--cielo`, `--polen`, `--hoja`).
-  Es la línea de la cabecera de cada sección (fucsia en Trabajo y Contacto,
-  polen en Estudio, cielo en Servicios, olivo en Proceso), va bajo el mosaico
-  de cada proyecto, junto al número de cada área y arriba de cada tiempo, y en
-  la ficha del retrato.
+- **Duotono.** La mezcla de dos tonos de Homer, llevada a degradado: cada par
+  junta dos colores opuestos del recuadro de flores (fucsia contra azul,
+  amarillo contra azul o contra fucsia), mezclados en OKLCH para que el paso
+  vaya por colores vivos (violeta, verde, naranja) y no por gris. Arriba de cada
+  sección es una banda gruesa redondeada, de 40 a 72px de alto
+  (`.cabecera__fila::before`): fucsia→azul en Trabajo, amarillo→azul en
+  Estudio, amarillo→fucsia en Servicios, azul→amarillo en Proceso y
+  fucsia→amarillo en Contacto (los pares, al principio de la sección
+  "Duotono" de `css/styles.css`). En chico (`.duo`, una barra redonda de
+  10px) va bajo el mosaico de cada proyecto, junto al número de cada área,
+  arriba de cada tiempo y en la ficha del retrato.
 - **Formas del logotipo.** Las imágenes llevan el radio del recuadro de flores
   (`--r-tile`) y los botones son píldoras (`.boton`), como las letras redondas
   del nombre.
