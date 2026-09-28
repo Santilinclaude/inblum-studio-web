@@ -14,162 +14,296 @@
 <meta property="og:image" content="assets/poster.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="assets/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="assets/favicon.png">
-
-<!-- Tipografía: Homer usa Unica77 LL, que es de licencia. Aquí va
-     Inter Tight (libre) para las etiquetas en negra y, fuera de los
-     equipos de Apple, para todo; en Apple lo fino y el texto van en
-     Helvetica Neue, que ya viene instalada. Ver css/tokens.css. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;400;900&display=swap">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 
-<link rel="stylesheet" href="css/tokens.css?v=118">
-<link rel="stylesheet" href="css/styles.css?v=118">
+<!-- La tipografía: la mezcla de Homer. Lo grande en Helvetica Neue
+     Thin (la del sistema en Apple), lo chico en Inter Tight Black, y
+     fuera de Apple todo en Inter Tight (ver css/tokens.css). -->
+
+<link rel="stylesheet" href="css/tokens.css?v=119">
+<link rel="stylesheet" href="css/styles.css?v=119">
 </head>
 
 <body>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
-<!-- El logotipo, una sola vez: la barra de arriba y el pie lo usan. -->
-<svg class="oculto" aria-hidden="true" focusable="false">
-  <defs>
-    <clipPath id="logo-recuadro"><rect x="1.24" y="1.24" width="263.86" height="349.13" rx="22.94"/></clipPath>
-  </defs>
-  <symbol id="logo" viewBox="0 0 1000 351.6">
-    <image href="assets/apertura/logo-flor.jpg" x="1.24" y="1.24" width="263.86" height="349.13"
-           clip-path="url(#logo-recuadro)" preserveAspectRatio="xMidYMid slice"/>
-    <path fill="currentColor" fill-rule="evenodd" d="M322.5 62.9l-1.4 .4l-1.7 .8l-1.3 .9l-1.2 1.2l-.9 1.3l-.7 1.4l-.6 3.1v103.2l.2 2.2l1 2.7l1.5 2.1l2.1 1.6l2.5 1l2 .3l17.1-.2l1.4-.4l1.5-.6l2.4-2l1.1-1.4l.7-1.4l.7-2.7l-.1-105l-.5-2.5l-1.5-2.5l-1.9-1.9l-2.7-1.3l-2.7-.4zM381.5 62.3l-1.3 .3l-1.2 .6l-1.9 1.5l-1.1 1.7l-.6 2.4v108.9l.4 2l1.1 2l1.2 1.2l1.6 .9l1.4 .5l1.8 .1l20.2-.1l2.3-.7l1.9-1.5l1.3-2.1l.5-2.3l.1-35.9l1.1-1.8l1.5-1.3l1.9-.8l1.8-.2l1.8 .2l1.2 .6l1.3 .9l1.1 1.1l25.7 41.6l1.8 1.9l1.6 .8l1.4 .2h23l1.7-.2l1.9-1.2l.9-1l.5-1l.4-1.2v-1.2v-111l-.4-2.1l-.9-1.5l-1.7-1.4l-2.1-.6h-23.2l-1.5 .3l-.9 .4l-1.1 .7l-.9 1l-.7 1.4l-.3 1.8v44.7l-.4 .9l-1.1 .8l-1.3 .5l-1.2 .1l-1.1-.1l-1.1-.5l-.9-.6l-.9-1l-30.2-47.6l-1.1-1.4l-1.9-1.2l-2.8-.6zM507.6 62.3l-2 .7l-1.6 1.2l-1.2 1.9l-.4 1.8v116.3l.3 .8l51.1-.1l36.6-.3l5.2-1l4.6-1.6l4.2-2.2l3.9-2.9l2.7-2.6l2.1-2.6l1.9-2.8l1.5-2.8l1.2-3.1l1-3.3l.6-3.4l.2-3.7l-.5-5.6l-1.3-5.3l-1.3-3.6l-5.6-12.9l-.6-2.2l-.4-2.4l.1-2.1l.6-3.7l3.8-9.7l1.2-4.4l.5-4.9l-.4-5l-1-4.2l-1.4-3.3l-2.3-4.2l-3-4l-2-2.2l-2.6-2.3l-3.2-2.4l-2.7-1.6l-3.4-1.5l-2.7-1l-3.4-.9l-3.5-.6l-3.7-.2l-27.9-.1zM540.8 87.7l-2.2 .6l-1.2 .6l-1.9 1.2l-1.1 1.1l-1.8 2.8l-1 3.1l.1 4.3l.3 1.5l.9 2.2l1.3 1.8l1.2 1.2l1.4 1.1l1.5 .7l1.6 .6l2.4 .3l28.7-.1l2.9-.7l2.6-1.5l1.9-1.9l1.5-2.5l.6-1.9l.3-2.4l-.3-3.4l-.5-1.8l-1-1.9l-1.3-1.7l-1.5-1.3l-2.4-1.4l-2.4-.6l-1.5-.1h-27.3zM541.4 137.3l-1.5 .3l-1.8 .7l-1.8 .9l-1.2 1l-1.5 1.7l-.9 1.5l-.7 1.8l-.3 1.5l-.1 4.3l.4 1.8l.9 1.9l.9 1.5l1.2 1.3l1.8 1.4l1.6 .8l1.7 .5l1.9 .3l29.4-.1l2.8-.9l2.2-1.2l2.2-2.2l1.3-2.4l.6-1.8l.3-2.5l-.2-3.1l-.5-1.7l-1.1-2.2l-1.4-1.8l-1.9-1.5l-1.8-1l-1.6-.5l-1.8-.3zM648.7 62.3l-1.5 .3l-1.8 .7l-1.5 .9l-1.1 1.1l-1.3 1.5l-.7 1.5l-.6 1.8l-.2 1.5v106.1l.2 1.8l1 2.3l1.4 1.5l1.4 1l1.6 .6l1.5 .1h79.6l.2-1.1l-.6-27.6l-.2-1.1l-.6-1.5l-1.6-1.8l-1.5-1l-2.1-.5h-33.2l-2.8-.2l-3.3-1l-2.9-1.5l-2.8-2.4l-1.8-2.3l-1.1-2l-.8-2.2l-.4-1.5l-.4-2.7l-.6-15.8l-.1-28.6l-.6-13.6v-5.9l-.3-2.1l-.9-1.9l-1.3-1.5l-1.8-1.3l-1.8-.7l-12.3-.9zM744.8 62.3l-1.5 .3l-1.8 .7l-1.5 .9l-1.1 1.1l-1.2 1.6l-.7 1.4l-.6 3l-.1 63.9l.3 4l.6 4.4l.9 4l1 3.3l1.6 4l1.9 3.7l2.1 3.5l2.3 3.3l3.4 4l3.9 3.6l4 3.1l4.8 2.9l5 2.4l4.6 1.6l5 1.2l4.6 .7l3.4 .2h16.4l5.6-.5l3.4-.6l5.8-1.7l4.6-1.8l5.1-2.7l4.8-3.3l3.7-3.1l4.2-4.5l2.2-2.8l2.8-4.3l2.1-4l1.7-4.2l1.5-5l.9-4.3l.7-6.8v-65.1l-.7-2.7l-1.1-1.9l-1-.9l-1.5-1l-2.7-.7h-14.2l-2.7 .5l-2.2 1l-1.7 1.4l-1.4 1.7l-1.1 2.3l-.4 2.5v52.7l-.3 3.3l-1.2 4.7l-1.6 3.7l-2.1 3.4l-2.5 2.9l-3 2.5l-3.2 2.1l-3.6 1.6l-4.7 1.2l-4.2 .4l-3.8-.3l-3.9-.9l-3.8-1.6l-3.4-2.1l-3.4-3.1l-2-2.4l-2.1-3.4l-1.6-3.8l-.7-2.7l-.4-3.7v-52.7l-.3-2.4l-1.2-3.1l-1.2-1.9l-1.7-1.7l-2.3-1.4l-1.8-.7l-1.8-.4l-3.7-.2zM763.4 12.7l-4 .9l-3.7 1.8l-3.3 2.4l-2.6 2.9l-2 3.2l-1.5 4.1l-.7 4.2l.3 4.4l1.3 4.3l1.6 3.2l2.5 3.2l3 2.6l3.5 2l3.5 1.2l4.6 .6l3.4-.3l3.9-.9l3.2-1.5l2.9-2l3.1-3.2l2.1-3.2l1.5-3.9l.7-3.7v-4.3l-1-4.3l-1.5-3.4l-2.3-3.3l-2.6-2.6l-4-2.5l-3.3-1.3l-3.7-.7zM818.3 12.7l-3.7 .9l-3.6 1.6l-3.3 2.4l-1.5 1.5l-1.6 1.9l-1.8 3.1l-1.4 3.5l-.6 3.7l.1 4.3l.9 4l1.6 3.6l2 3l3.1 3l2 1.5l2.1 1l3.6 1.3l2 .4l2.8 .3l3.4-.3l4-1l3.9-1.9l3.1-2.4l2.7-3l1.7-2.9l1.5-4.1l.6-4l-.3-4.3l-1-4l-1.6-3.3l-1.3-1.8l-1.7-2l-2.5-2.2l-3.7-2.2l-3.9-1.3l-3.3-.5zM974.6 62.3l-3.1 .6l-2.4 1l-2.4 1.6l-1.9 1.8l-1.7 2.4l-16.5 28.7l-1.5 1.6l-1.5 1l-2 .8l-1.5 .1l-1.8-.1l-1.9-.6l-1.5-.9l-1.3-1.3l-20.5-30l-1.6-1.8l-2.3-1.7l-2.1-1l-2.7-.7l-16.7-1l-1.8 .3l-1.6 .6l-1.7 1.1l-1.4 1.5l-.9 1.5l-.4 1.1l-.4 1.5v1.5v102.4l.1 2l.9 2.8l1.2 2l1.8 1.8l2.4 1.4l1.8 .6l1.2 .1l22.7 .1l.8-.2l.2-.7v-45.9l.2-1.1l.8-1.1l1-.6l1-.2l1.5 .1l1.8 .4l2 1l1.4 1.1l1.6 1.8l5.1 8.6l1.2 1.6l1 .8l1.6 1.2l1.5 .7l2.1 .6l2.2 .2l2.1-.1l1.8-.4l2.1-.9l1.7-1.2l1.8-1.8l7.5-10.2l2.2-1.9l1.6-.9l2.1-.6l2.2-.1l1.1 .4l1.3 1.3l.4 1.6l.1 44.9l.8 .2l23.5-.1l2.4-.6l1.5-.7l1.8-1.3l1.3-1.5l1.4-2.6l.7-3v-100.1l-.3-2.2l-.9-2.7l-1.6-2.4l-2.1-2l-3-1.6l-1.5-.4l-2.4-.3zM353.2 216.4l-5.9 .6l-6.2 .9l-6.5 1.5l-5.2 1.6l-5.3 2.1l-4.1 2.1l-4 2.6l-3.6 2.9l-2.9 3.3l-1.9 2.8l-1.6 3.3l-.9 3.1l-.7 3.9l-.4 6.5l.4 5.9l.6 3.1l1.2 3.1l1.4 2.9l1.9 3.1l2.3 3l2.1 2.3l3.8 3.3l3.1 2.1l3.8 2.2l3.8 1.7l3.4 1.2l4.4 1.2l3.3 .7l4.7 .6l27.9 2.6l1.2 .3l2.6 1.4l1.5 1.3l.9 1l.3 .8l.2 1.2l-.1 1.2l-.4 1.1l-1 1.6l-1.5 1.5l-2 1.4l-2.1 1.1l-3.4 1.2l-2.8 .6l-2.7 .3l-3.1 .1l-8.4-1l-7.1-1.6l-9.3-2.7l-13.1-4.6h-1.2l-2.4 1.2l-2.5 1.9l-2.7 2.9l-2.4 3.5l-2.4 4.4l-1.6 3.7l-1 3.9l.1 2.7l1.2 2.2l1.7 1.7l3.1 2.2l3.4 1.8l4.6 1.9l4.7 1.5l5.9 1.5l6.4 1.3l6.2 .9l6.2 .6l7.5 .4h4.9l6.9-.3l5.8-.6l4.3-.7l5.6-1.2l5.3-1.6l4.9-1.9l3.9-1.9l4-2.5l3-2.3l3-2.9l2.3-3l2-3.3l1.5-3.7l1.3-4.3l.6-4.3l.1-4.4l-.4-4.3l-1-4.3l-1.5-4.3l-1.3-2.7l-3-4.8l-3.2-3.3l-2.7-2.3l-1.9-1.2l-5.1-2.6l-5.6-1.9l-5.8-1.2l-38.9-4.9l-.9-.3l-1.6-.9l-2-2l-1.1-2.1l.1-2l.8-1.9l1.2-1.4l1.5-1.2l2.3-1.2l2.3-.8l2.8-.6l2.5-.3l4.9-.2l8.4 .6l8.7 1.5l8 2.1l8.2 3l2.4 .7l4.3 .3l3.1-.4l1.4-.6l1.5-1.7l2.8-3.7l2.8-4.3l1.9-3.7l1.5-3.5l.6-2.4v-2.1l-.7-1.8l-1-1.5l-1.5-1.5l-2.6-1.8l-3-1.5l-3.7-1.6l-5-1.9l-4-1.2l-9.3-2.2l-5.6-.9l-4.9-.6l-9-.5zM431.9 216.3l-2.1 .9l-1.8 1.4l-1.3 2l-.7 2.3l-.1 19.9l.4 2.1l1 2l2.1 2l1.4 .7l1.4 .5l1.9 .2h15.5l2.5 .4l2.1 .7l3 1.6l2.6 2.4l2 2.9l1.2 3.1l.5 3.1v66.3l.3 2.2l.6 1.8l1 1.4l1.3 1.2l2 1.1l2 .5h19.2l2.1-.3l1.3-.6l1.9-1.2l1.2-1.6l.9-2.1l.3-1.4v-66.7l.3-2.5l.5-2.1l1.3-2.8l2-2.7l2.5-2.1l2.8-1.5l2.1-.7l2.5-.4h13l1.6-.2l2.4-1l2-1.7l1.2-1.9l.6-2.7v-18.9l-.3-2.1l-.5-1.3l-1.3-1.8l-1.5-1.3l-2.2-1l-1.7-.2h-91.1zM551.3 216.4l-2.6 1l-2.1 1.6l-1 1.2l-.9 1.6l-.6 1.8l-.2 1.2v65.1l.2 3.4l.6 4.3l1 4l1.2 3.8l1.2 3.1l1.7 3.5l2.3 3.9l2.3 3.3l3.4 4l4.5 4.2l3.8 2.8l3.6 2.2l4.7 2.4l4.3 1.6l5.8 1.6l4.3 .7l4.7 .3h15.5l4.6-.3l4.3-.7l5.9-1.5l5.5-2.2l5-2.7l5.1-3.6l4.2-3.6l2.8-3.1l3-3.8l2.3-3.6l2.1-4.1l2-4.8l1.3-4.3l1-4.6l.6-7.7v-63.6l-.4-2.7l-.5-1l-1-1.5l-1.9-1.5l-1.1-.5l-1.4-.4h-15.5l-2.1 .4l-1.9 .9l-1.5 1l-1.7 2l-1.2 2.5l-.5 2v52.4l-.4 4.4l-1.2 4.6l-1.3 3.2l-2.8 4.4l-2.7 2.9l-2.9 2.4l-4.2 2.3l-3.6 1.4l-4.6 .9l-4 .1l-3.4-.4l-4.3-1.3l-3.8-1.8l-2.9-2l-2.9-2.7l-1.9-2.4l-2.2-3.8l-1.4-3.5l-.9-4.3l-.1-2.8v-52.4l-.4-2.1l-1-2.6l-1.4-2.1l-1.6-1.5l-2-1.4l-2.5-.9l-2.7-.4l-7.1-.3l-4.7-.1zM696.8 216.4l-17.5 .2h-.5l-.3 .4l.1 121.8l.7 .2h71l5-.3l6.8-1.3l5.9-1.8l6.1-2.9l5.5-3.5l4.6-3.7l3.3-3.3l3.7-4.6l2.8-4.3l2.4-4.7l2-5.2l1.3-4.8l.9-5.6l.3-4.3v-22l-.6-7.1l-1.6-6.8l-1.8-5l-2.8-5.8l-3.3-5.1l-2.7-3.2l-3-3.2l-3.6-3.2l-3.6-2.6l-4.5-2.7l-4.2-1.9l-4.1-1.5l-4.9-1.3l-5.6-.9l-3.9-.2zM719.7 247.7l-1.8 .3l-2.2 .9l-1.7 1l-1.2 1.1l-1.4 1.7l-.8 1.6l-.6 1.9l-.3 1.6v39.9l.6 3.3l.7 1.5l.9 1.5l1.7 1.7l2 1.4l2 .8l2.1 .4h26l4.6-.6l3.4-1l3-1.3l3.2-2.1l1.7-1.3l2.4-2.4l1.8-2.4l1.2-1.9l2-4.5l.7-2.5l.5-3.4l.1-12.4l-.4-3.7l-.6-2.7l-.9-2.8l-1.3-2.7l-1.7-2.6l-1.4-1.7l-2.3-2.4l-3.8-2.7l-3.9-1.9l-4.3-1.3l-4-.4zM825.1 216.4l-2.8 1.1l-1.4 1.1l-1.1 1.1l-.9 1.3l-.7 1.4l-.5 2.7v103.9l.1 2.1l1 2.8l1.5 2.2l1.9 1.5l2.3 1l2.4 .4l16.7-.1l1.5-.3l1.6-.6l2.5-1.8l1.2-1.5l.8-1.4l.6-1.9l.2-1.5v-104.2l-.2-1.8l-.7-2.3l-1.5-2.2l-1.7-1.5l-2.4-1.3l-2.8-.4h-15.8zM917.5 216.4l-5.9 .9l-6.5 1.8l-6.5 2.8l-5.6 3.4l-5.4 4.2l-5.1 5.1l-2.2 2.8l-2.2 3.1l-3.1 5.5l-2.2 5.2l-1.6 5.3l-1 4.9l-.5 6.2v19.8l.3 4.4l.6 4l.9 4l1.2 4l1.3 3.1l2.1 4.4l3 4.8l3.2 4.2l4.5 4.7l4.8 3.9l5.1 3.3l4.8 2.4l5.8 2.1l6.8 1.6l5.5 .6l28.9 .1l4.6-.3l5.6-1l4.6-1.2l4-1.6l4.8-2.3l5-3l3.6-2.7l4.6-4.3l3.8-4.4l3.2-4.8l2.7-5l2.5-6.2l1.6-6.4l.9-7.2v-21.6l-.3-4l-.9-5.3l-1.2-4.4l-1.6-4.3l-2.2-4.6l-2.3-3.9l-3.1-4.4l-3.2-3.6l-3.6-3.5l-5.1-3.9l-4.8-2.9l-4.5-2l-4.5-1.7l-3.4-.9l-4.7-.9l-3.3-.4l-29.8-.1zM933 246.2l-2.5 .2l-3.3 .7l-3.8 1.2l-2.5 1.1l-2.4 1.4l-2.4 1.6l-3 2.6l-1.7 1.7l-2 2.4l-1.6 2.4l-1.6 3.1l-1 2.4l-.8 2.8l-.7 3.1l-.3 3.1v3.4l.3 2.8l.6 3l1 3.1l1 2.4l1.7 3.2l1.9 2.8l1.6 1.8l2.4 2.5l2.8 2.2l2.1 1.4l3 1.6l3.1 1.2l3.1 .9l3.7 .6h5.9l2.7-.3l3.8-.9l4.8-2l2.9-1.7l2.2-1.6l2.4-1.9l2-2.1l2.2-2.8l1.2-1.9l1.5-2.8l1.1-2.6l.9-2.8l.6-3l.4-3.1v-3.8l-.4-3l-.6-2.8l-.9-3.1l-1.3-2.8l-1.5-2.8l-1.5-2.2l-2.4-2.9l-2.2-2.1l-2.1-1.7l-2.8-1.8l-2.2-1.2l-3.1-1.3l-3-.9l-3.1-.6l-2.8-.3z"/>
-  </symbol>
-</svg>
+<!-- El mismo hilo que se llena en Proceso, pero de toda la
+     página: cuánto llevas recorrido, de un vistazo. -->
+<div class="progreso" aria-hidden="true"><span class="progreso__linea" id="progreso-linea"></span></div>
 
-<!-- ============ La barra de arriba ============
-     Como la de Homer: el logotipo a la izquierda y tres palabras en
-     negra a la derecha. Queda fija arriba en toda la página. "Menú"
-     abre el panel. -->
-<header class="cabeza">
-  <a class="cabeza__logo" href="#inicio" aria-label="Inblüm Studio, inicio">
-    <svg viewBox="0 0 1000 351.6" aria-hidden="true" focusable="false"><use href="#logo"/></svg>
+<!-- La barra de arriba queda fija en toda la página (sticky). Va aquí,
+     fuera de la Apertura, para que siga ahí hasta el pie. Su alto es
+     --nav-h, en css/tokens.css. -->
+<header class="ap-nav vidrio">
+  <a class="ap-nav__marca" href="#inicio" aria-current="page">
+    <img class="ap-nav__flor" src="assets/apertura/logo-flor.jpg" width="13" height="17" alt="">
+    <span translate="no">Inblüm Studio</span>
   </a>
-  <nav class="cabeza__enlaces" aria-label="Principal">
-    <button class="cabeza__menu" type="button" data-abre-panel aria-haspopup="dialog" aria-controls="panel">Menú</button>
+  <nav class="ap-nav__enlaces" aria-label="Principal">
     <a href="#trabajo">Trabajo</a>
-    <a href="#contacto">Hablemos</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#estudio">Estudio</a>
+    <a href="#proceso">Proceso</a>
   </nav>
+  <a class="ap-nav__cta" href="#contacto">Hablemos <span aria-hidden="true">&#8599;</span></a>
 </header>
 
 <main id="contenido">
 
-  <!-- ============ Portada ============
-       Como la primera imagen de Homer: mucho blanco arriba y una gran
-       imagen con margen. Aquí son tres, pegadas, a la misma altura. -->
-  <section class="portada" id="inicio" aria-label="Inicio">
-    <div class="portada__imagenes">
-      <img class="portada__img portada__img--retrato" src="assets/apertura/retrato.jpg?v=8" width="1040" height="1300"
-           fetchpriority="high" decoding="async"
-           alt="Fotografía de una mujer sentada en un sofá que se cubre el rostro con un libro abierto, «2026 Inblüm Studio, Volume 1», rodeada de plantas y flores blancas">
-      <img class="portada__img portada__img--regadera" src="assets/apertura/regadera.jpg" width="900" height="1600"
-           decoding="async"
-           alt="Ilustración con el texto «Inblüm Studio»: una mujer de abrigo rosa y pantalón rojo se inclina a regar con una regadera amarilla; detrás, desenfocada, una figura verde de la que brotan hojas">
-      <img class="portada__img portada__img--mano" src="assets/apertura/mano.jpg" width="1000" height="1252"
-           decoding="async"
-           alt="Ilustración de una mano de uñas rojas que sostiene un teléfono borroso frente a un rascacielos y un cielo azul">
-    </div>
-  </section>
+  <!-- ============ Apertura ============
+       La primera página, a lo Beings: un retrato recortado al ras y, a su
+       lado, el logotipo completo con el texto debajo. Al bajar, el
+       retrato queda fijo mientras sube una segunda imagen y el fondo se
+       lava del blanco al verde, hasta el panel verde que da paso a
+       Trabajo. Sin GSAP todo queda en su estado final. El retrato es una
+       foto del estudio; la segunda imagen es una ilustración de relleno y
+       la del panel, una ilustración con el nombre del estudio: se cambian
+       en assets/apertura/. Detrás, un aura con los colores del recuadro
+       de flores; sobre el retrato, una ficha de vidrio. -->
+  <div class="apertura" id="inicio">
+    <div class="aura aura--apertura" aria-hidden="true"><i></i><i></i><i></i></div>
 
-  <!-- ============ Entrada ============
-       El título fino, el texto y dos botones: el amarillo de consulta
-       y el gris de las barras. -->
-  <section class="entrada lista" aria-labelledby="t-entrada">
-    <h1 class="titulo" id="t-entrada">Branding, video, audio y desarrollo con un solo equipo.</h1>
-    <p class="entrada__texto">
-      Estudio creativo multidisciplinario. Hacemos identidad, fotografía,
-      video, sitio y campañas sin repartir el proyecto entre proveedores.
-    </p>
-    <div class="entrada__botones">
-      <a class="barra-boton barra-boton--amarillo" href="#contacto"><span>Hablemos</span><span aria-hidden="true">&#8599;</span></a>
-      <a class="barra-boton barra-boton--gris" href="#servicios"><span>Ver servicios</span><span aria-hidden="true">&#8595;</span></a>
+    <div class="ap-cuerpo">
+      <div class="ap-lado">
+        <div class="ap-cabeza">
+          <!-- El logotipo completo: el recuadro de flores y el nombre en dos
+               líneas. El nombre es vectorial (toma el color del texto); el
+               recuadro es la foto del logotipo original, con sus esquinas. -->
+          <h1 class="ap-logo" aria-label="Inblüm Studio">
+            <svg viewBox="0 0 1000 351.6" aria-hidden="true" focusable="false">
+              <defs>
+                <clipPath id="ap-logo-recuadro"><rect x="1.24" y="1.24" width="263.86" height="349.13" rx="22.94"/></clipPath>
+              </defs>
+              <image href="assets/apertura/logo-flor.jpg" x="1.24" y="1.24" width="263.86" height="349.13"
+                     clip-path="url(#ap-logo-recuadro)" preserveAspectRatio="xMidYMid slice"/>
+              <path fill="currentColor" fill-rule="evenodd" d="M322.5 62.9l-1.4 .4l-1.7 .8l-1.3 .9l-1.2 1.2l-.9 1.3l-.7 1.4l-.6 3.1v103.2l.2 2.2l1 2.7l1.5 2.1l2.1 1.6l2.5 1l2 .3l17.1-.2l1.4-.4l1.5-.6l2.4-2l1.1-1.4l.7-1.4l.7-2.7l-.1-105l-.5-2.5l-1.5-2.5l-1.9-1.9l-2.7-1.3l-2.7-.4zM381.5 62.3l-1.3 .3l-1.2 .6l-1.9 1.5l-1.1 1.7l-.6 2.4v108.9l.4 2l1.1 2l1.2 1.2l1.6 .9l1.4 .5l1.8 .1l20.2-.1l2.3-.7l1.9-1.5l1.3-2.1l.5-2.3l.1-35.9l1.1-1.8l1.5-1.3l1.9-.8l1.8-.2l1.8 .2l1.2 .6l1.3 .9l1.1 1.1l25.7 41.6l1.8 1.9l1.6 .8l1.4 .2h23l1.7-.2l1.9-1.2l.9-1l.5-1l.4-1.2v-1.2v-111l-.4-2.1l-.9-1.5l-1.7-1.4l-2.1-.6h-23.2l-1.5 .3l-.9 .4l-1.1 .7l-.9 1l-.7 1.4l-.3 1.8v44.7l-.4 .9l-1.1 .8l-1.3 .5l-1.2 .1l-1.1-.1l-1.1-.5l-.9-.6l-.9-1l-30.2-47.6l-1.1-1.4l-1.9-1.2l-2.8-.6zM507.6 62.3l-2 .7l-1.6 1.2l-1.2 1.9l-.4 1.8v116.3l.3 .8l51.1-.1l36.6-.3l5.2-1l4.6-1.6l4.2-2.2l3.9-2.9l2.7-2.6l2.1-2.6l1.9-2.8l1.5-2.8l1.2-3.1l1-3.3l.6-3.4l.2-3.7l-.5-5.6l-1.3-5.3l-1.3-3.6l-5.6-12.9l-.6-2.2l-.4-2.4l.1-2.1l.6-3.7l3.8-9.7l1.2-4.4l.5-4.9l-.4-5l-1-4.2l-1.4-3.3l-2.3-4.2l-3-4l-2-2.2l-2.6-2.3l-3.2-2.4l-2.7-1.6l-3.4-1.5l-2.7-1l-3.4-.9l-3.5-.6l-3.7-.2l-27.9-.1zM540.8 87.7l-2.2 .6l-1.2 .6l-1.9 1.2l-1.1 1.1l-1.8 2.8l-1 3.1l.1 4.3l.3 1.5l.9 2.2l1.3 1.8l1.2 1.2l1.4 1.1l1.5 .7l1.6 .6l2.4 .3l28.7-.1l2.9-.7l2.6-1.5l1.9-1.9l1.5-2.5l.6-1.9l.3-2.4l-.3-3.4l-.5-1.8l-1-1.9l-1.3-1.7l-1.5-1.3l-2.4-1.4l-2.4-.6l-1.5-.1h-27.3zM541.4 137.3l-1.5 .3l-1.8 .7l-1.8 .9l-1.2 1l-1.5 1.7l-.9 1.5l-.7 1.8l-.3 1.5l-.1 4.3l.4 1.8l.9 1.9l.9 1.5l1.2 1.3l1.8 1.4l1.6 .8l1.7 .5l1.9 .3l29.4-.1l2.8-.9l2.2-1.2l2.2-2.2l1.3-2.4l.6-1.8l.3-2.5l-.2-3.1l-.5-1.7l-1.1-2.2l-1.4-1.8l-1.9-1.5l-1.8-1l-1.6-.5l-1.8-.3zM648.7 62.3l-1.5 .3l-1.8 .7l-1.5 .9l-1.1 1.1l-1.3 1.5l-.7 1.5l-.6 1.8l-.2 1.5v106.1l.2 1.8l1 2.3l1.4 1.5l1.4 1l1.6 .6l1.5 .1h79.6l.2-1.1l-.6-27.6l-.2-1.1l-.6-1.5l-1.6-1.8l-1.5-1l-2.1-.5h-33.2l-2.8-.2l-3.3-1l-2.9-1.5l-2.8-2.4l-1.8-2.3l-1.1-2l-.8-2.2l-.4-1.5l-.4-2.7l-.6-15.8l-.1-28.6l-.6-13.6v-5.9l-.3-2.1l-.9-1.9l-1.3-1.5l-1.8-1.3l-1.8-.7l-12.3-.9zM744.8 62.3l-1.5 .3l-1.8 .7l-1.5 .9l-1.1 1.1l-1.2 1.6l-.7 1.4l-.6 3l-.1 63.9l.3 4l.6 4.4l.9 4l1 3.3l1.6 4l1.9 3.7l2.1 3.5l2.3 3.3l3.4 4l3.9 3.6l4 3.1l4.8 2.9l5 2.4l4.6 1.6l5 1.2l4.6 .7l3.4 .2h16.4l5.6-.5l3.4-.6l5.8-1.7l4.6-1.8l5.1-2.7l4.8-3.3l3.7-3.1l4.2-4.5l2.2-2.8l2.8-4.3l2.1-4l1.7-4.2l1.5-5l.9-4.3l.7-6.8v-65.1l-.7-2.7l-1.1-1.9l-1-.9l-1.5-1l-2.7-.7h-14.2l-2.7 .5l-2.2 1l-1.7 1.4l-1.4 1.7l-1.1 2.3l-.4 2.5v52.7l-.3 3.3l-1.2 4.7l-1.6 3.7l-2.1 3.4l-2.5 2.9l-3 2.5l-3.2 2.1l-3.6 1.6l-4.7 1.2l-4.2 .4l-3.8-.3l-3.9-.9l-3.8-1.6l-3.4-2.1l-3.4-3.1l-2-2.4l-2.1-3.4l-1.6-3.8l-.7-2.7l-.4-3.7v-52.7l-.3-2.4l-1.2-3.1l-1.2-1.9l-1.7-1.7l-2.3-1.4l-1.8-.7l-1.8-.4l-3.7-.2zM763.4 12.7l-4 .9l-3.7 1.8l-3.3 2.4l-2.6 2.9l-2 3.2l-1.5 4.1l-.7 4.2l.3 4.4l1.3 4.3l1.6 3.2l2.5 3.2l3 2.6l3.5 2l3.5 1.2l4.6 .6l3.4-.3l3.9-.9l3.2-1.5l2.9-2l3.1-3.2l2.1-3.2l1.5-3.9l.7-3.7v-4.3l-1-4.3l-1.5-3.4l-2.3-3.3l-2.6-2.6l-4-2.5l-3.3-1.3l-3.7-.7zM818.3 12.7l-3.7 .9l-3.6 1.6l-3.3 2.4l-1.5 1.5l-1.6 1.9l-1.8 3.1l-1.4 3.5l-.6 3.7l.1 4.3l.9 4l1.6 3.6l2 3l3.1 3l2 1.5l2.1 1l3.6 1.3l2 .4l2.8 .3l3.4-.3l4-1l3.9-1.9l3.1-2.4l2.7-3l1.7-2.9l1.5-4.1l.6-4l-.3-4.3l-1-4l-1.6-3.3l-1.3-1.8l-1.7-2l-2.5-2.2l-3.7-2.2l-3.9-1.3l-3.3-.5zM974.6 62.3l-3.1 .6l-2.4 1l-2.4 1.6l-1.9 1.8l-1.7 2.4l-16.5 28.7l-1.5 1.6l-1.5 1l-2 .8l-1.5 .1l-1.8-.1l-1.9-.6l-1.5-.9l-1.3-1.3l-20.5-30l-1.6-1.8l-2.3-1.7l-2.1-1l-2.7-.7l-16.7-1l-1.8 .3l-1.6 .6l-1.7 1.1l-1.4 1.5l-.9 1.5l-.4 1.1l-.4 1.5v1.5v102.4l.1 2l.9 2.8l1.2 2l1.8 1.8l2.4 1.4l1.8 .6l1.2 .1l22.7 .1l.8-.2l.2-.7v-45.9l.2-1.1l.8-1.1l1-.6l1-.2l1.5 .1l1.8 .4l2 1l1.4 1.1l1.6 1.8l5.1 8.6l1.2 1.6l1 .8l1.6 1.2l1.5 .7l2.1 .6l2.2 .2l2.1-.1l1.8-.4l2.1-.9l1.7-1.2l1.8-1.8l7.5-10.2l2.2-1.9l1.6-.9l2.1-.6l2.2-.1l1.1 .4l1.3 1.3l.4 1.6l.1 44.9l.8 .2l23.5-.1l2.4-.6l1.5-.7l1.8-1.3l1.3-1.5l1.4-2.6l.7-3v-100.1l-.3-2.2l-.9-2.7l-1.6-2.4l-2.1-2l-3-1.6l-1.5-.4l-2.4-.3zM353.2 216.4l-5.9 .6l-6.2 .9l-6.5 1.5l-5.2 1.6l-5.3 2.1l-4.1 2.1l-4 2.6l-3.6 2.9l-2.9 3.3l-1.9 2.8l-1.6 3.3l-.9 3.1l-.7 3.9l-.4 6.5l.4 5.9l.6 3.1l1.2 3.1l1.4 2.9l1.9 3.1l2.3 3l2.1 2.3l3.8 3.3l3.1 2.1l3.8 2.2l3.8 1.7l3.4 1.2l4.4 1.2l3.3 .7l4.7 .6l27.9 2.6l1.2 .3l2.6 1.4l1.5 1.3l.9 1l.3 .8l.2 1.2l-.1 1.2l-.4 1.1l-1 1.6l-1.5 1.5l-2 1.4l-2.1 1.1l-3.4 1.2l-2.8 .6l-2.7 .3l-3.1 .1l-8.4-1l-7.1-1.6l-9.3-2.7l-13.1-4.6h-1.2l-2.4 1.2l-2.5 1.9l-2.7 2.9l-2.4 3.5l-2.4 4.4l-1.6 3.7l-1 3.9l.1 2.7l1.2 2.2l1.7 1.7l3.1 2.2l3.4 1.8l4.6 1.9l4.7 1.5l5.9 1.5l6.4 1.3l6.2 .9l6.2 .6l7.5 .4h4.9l6.9-.3l5.8-.6l4.3-.7l5.6-1.2l5.3-1.6l4.9-1.9l3.9-1.9l4-2.5l3-2.3l3-2.9l2.3-3l2-3.3l1.5-3.7l1.3-4.3l.6-4.3l.1-4.4l-.4-4.3l-1-4.3l-1.5-4.3l-1.3-2.7l-3-4.8l-3.2-3.3l-2.7-2.3l-1.9-1.2l-5.1-2.6l-5.6-1.9l-5.8-1.2l-38.9-4.9l-.9-.3l-1.6-.9l-2-2l-1.1-2.1l.1-2l.8-1.9l1.2-1.4l1.5-1.2l2.3-1.2l2.3-.8l2.8-.6l2.5-.3l4.9-.2l8.4 .6l8.7 1.5l8 2.1l8.2 3l2.4 .7l4.3 .3l3.1-.4l1.4-.6l1.5-1.7l2.8-3.7l2.8-4.3l1.9-3.7l1.5-3.5l.6-2.4v-2.1l-.7-1.8l-1-1.5l-1.5-1.5l-2.6-1.8l-3-1.5l-3.7-1.6l-5-1.9l-4-1.2l-9.3-2.2l-5.6-.9l-4.9-.6l-9-.5zM431.9 216.3l-2.1 .9l-1.8 1.4l-1.3 2l-.7 2.3l-.1 19.9l.4 2.1l1 2l2.1 2l1.4 .7l1.4 .5l1.9 .2h15.5l2.5 .4l2.1 .7l3 1.6l2.6 2.4l2 2.9l1.2 3.1l.5 3.1v66.3l.3 2.2l.6 1.8l1 1.4l1.3 1.2l2 1.1l2 .5h19.2l2.1-.3l1.3-.6l1.9-1.2l1.2-1.6l.9-2.1l.3-1.4v-66.7l.3-2.5l.5-2.1l1.3-2.8l2-2.7l2.5-2.1l2.8-1.5l2.1-.7l2.5-.4h13l1.6-.2l2.4-1l2-1.7l1.2-1.9l.6-2.7v-18.9l-.3-2.1l-.5-1.3l-1.3-1.8l-1.5-1.3l-2.2-1l-1.7-.2h-91.1zM551.3 216.4l-2.6 1l-2.1 1.6l-1 1.2l-.9 1.6l-.6 1.8l-.2 1.2v65.1l.2 3.4l.6 4.3l1 4l1.2 3.8l1.2 3.1l1.7 3.5l2.3 3.9l2.3 3.3l3.4 4l4.5 4.2l3.8 2.8l3.6 2.2l4.7 2.4l4.3 1.6l5.8 1.6l4.3 .7l4.7 .3h15.5l4.6-.3l4.3-.7l5.9-1.5l5.5-2.2l5-2.7l5.1-3.6l4.2-3.6l2.8-3.1l3-3.8l2.3-3.6l2.1-4.1l2-4.8l1.3-4.3l1-4.6l.6-7.7v-63.6l-.4-2.7l-.5-1l-1-1.5l-1.9-1.5l-1.1-.5l-1.4-.4h-15.5l-2.1 .4l-1.9 .9l-1.5 1l-1.7 2l-1.2 2.5l-.5 2v52.4l-.4 4.4l-1.2 4.6l-1.3 3.2l-2.8 4.4l-2.7 2.9l-2.9 2.4l-4.2 2.3l-3.6 1.4l-4.6 .9l-4 .1l-3.4-.4l-4.3-1.3l-3.8-1.8l-2.9-2l-2.9-2.7l-1.9-2.4l-2.2-3.8l-1.4-3.5l-.9-4.3l-.1-2.8v-52.4l-.4-2.1l-1-2.6l-1.4-2.1l-1.6-1.5l-2-1.4l-2.5-.9l-2.7-.4l-7.1-.3l-4.7-.1zM696.8 216.4l-17.5 .2h-.5l-.3 .4l.1 121.8l.7 .2h71l5-.3l6.8-1.3l5.9-1.8l6.1-2.9l5.5-3.5l4.6-3.7l3.3-3.3l3.7-4.6l2.8-4.3l2.4-4.7l2-5.2l1.3-4.8l.9-5.6l.3-4.3v-22l-.6-7.1l-1.6-6.8l-1.8-5l-2.8-5.8l-3.3-5.1l-2.7-3.2l-3-3.2l-3.6-3.2l-3.6-2.6l-4.5-2.7l-4.2-1.9l-4.1-1.5l-4.9-1.3l-5.6-.9l-3.9-.2zM719.7 247.7l-1.8 .3l-2.2 .9l-1.7 1l-1.2 1.1l-1.4 1.7l-.8 1.6l-.6 1.9l-.3 1.6v39.9l.6 3.3l.7 1.5l.9 1.5l1.7 1.7l2 1.4l2 .8l2.1 .4h26l4.6-.6l3.4-1l3-1.3l3.2-2.1l1.7-1.3l2.4-2.4l1.8-2.4l1.2-1.9l2-4.5l.7-2.5l.5-3.4l.1-12.4l-.4-3.7l-.6-2.7l-.9-2.8l-1.3-2.7l-1.7-2.6l-1.4-1.7l-2.3-2.4l-3.8-2.7l-3.9-1.9l-4.3-1.3l-4-.4zM825.1 216.4l-2.8 1.1l-1.4 1.1l-1.1 1.1l-.9 1.3l-.7 1.4l-.5 2.7v103.9l.1 2.1l1 2.8l1.5 2.2l1.9 1.5l2.3 1l2.4 .4l16.7-.1l1.5-.3l1.6-.6l2.5-1.8l1.2-1.5l.8-1.4l.6-1.9l.2-1.5v-104.2l-.2-1.8l-.7-2.3l-1.5-2.2l-1.7-1.5l-2.4-1.3l-2.8-.4h-15.8zM917.5 216.4l-5.9 .9l-6.5 1.8l-6.5 2.8l-5.6 3.4l-5.4 4.2l-5.1 5.1l-2.2 2.8l-2.2 3.1l-3.1 5.5l-2.2 5.2l-1.6 5.3l-1 4.9l-.5 6.2v19.8l.3 4.4l.6 4l.9 4l1.2 4l1.3 3.1l2.1 4.4l3 4.8l3.2 4.2l4.5 4.7l4.8 3.9l5.1 3.3l4.8 2.4l5.8 2.1l6.8 1.6l5.5 .6l28.9 .1l4.6-.3l5.6-1l4.6-1.2l4-1.6l4.8-2.3l5-3l3.6-2.7l4.6-4.3l3.8-4.4l3.2-4.8l2.7-5l2.5-6.2l1.6-6.4l.9-7.2v-21.6l-.3-4l-.9-5.3l-1.2-4.4l-1.6-4.3l-2.2-4.6l-2.3-3.9l-3.1-4.4l-3.2-3.6l-3.6-3.5l-5.1-3.9l-4.8-2.9l-4.5-2l-4.5-1.7l-3.4-.9l-4.7-.9l-3.3-.4l-29.8-.1zM933 246.2l-2.5 .2l-3.3 .7l-3.8 1.2l-2.5 1.1l-2.4 1.4l-2.4 1.6l-3 2.6l-1.7 1.7l-2 2.4l-1.6 2.4l-1.6 3.1l-1 2.4l-.8 2.8l-.7 3.1l-.3 3.1v3.4l.3 2.8l.6 3l1 3.1l1 2.4l1.7 3.2l1.9 2.8l1.6 1.8l2.4 2.5l2.8 2.2l2.1 1.4l3 1.6l3.1 1.2l3.1 .9l3.7 .6h5.9l2.7-.3l3.8-.9l4.8-2l2.9-1.7l2.2-1.6l2.4-1.9l2-2.1l2.2-2.8l1.2-1.9l1.5-2.8l1.1-2.6l.9-2.8l.6-3l.4-3.1v-3.8l-.4-3l-.6-2.8l-.9-3.1l-1.3-2.8l-1.5-2.8l-1.5-2.2l-2.4-2.9l-2.2-2.1l-2.1-1.7l-2.8-1.8l-2.2-1.2l-3.1-1.3l-3-.9l-3.1-.6l-2.8-.3z"/>
+            </svg>
+          </h1>
+
+          <div class="ap-intro">
+            <h2 class="ap-intro__titulo rota">Branding, video, audio y desarrollo con un solo equipo.</h2>
+            <p class="ap-intro__texto">
+              Estudio creativo multidisciplinario. Hacemos identidad, fotografía,
+              video, sitio y campañas sin repartir el proyecto entre proveedores.
+            </p>
+            <div class="ap-intro__acciones">
+              <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+              <a href="#servicios">Ver servicios <span aria-hidden="true">&#8595;</span></a>
+            </div>
+          </div>
+        </div>
+
+        <figure class="ap-segunda">
+          <img src="assets/apertura/mano.jpg" width="1000" height="1252" loading="lazy" decoding="async"
+               alt="Ilustración de una mano de uñas rojas que sostiene un teléfono borroso frente a un rascacielos y un cielo azul">
+        </figure>
+      </div>
+
+      <figure class="ap-retrato">
+        <img src="assets/apertura/retrato.jpg?v=8" width="1040" height="1300" fetchpriority="high" decoding="async"
+             alt="Fotografía de una mujer sentada en un sofá que se cubre el rostro con un libro abierto, «2026 Inblüm Studio, Volume 1», rodeada de plantas y flores blancas">
+        <figcaption class="ap-ficha vidrio">
+          <img class="ap-ficha__flor" src="assets/apertura/logo-flor.jpg" width="30" height="40" alt="">
+          <span class="ap-ficha__texto">
+            <b><span translate="no">Inblüm Studio</span> · Volumen 1</b>
+            <span>Identidad, foto, video, audio y web</span>
+          </span>
+          <span class="duo duo--flor ap-ficha__duo" aria-hidden="true"></span>
+          <span class="ap-ficha__anio">2026</span>
+        </figcaption>
+      </figure>
     </div>
-  </section>
+
+    <section class="ap-panel" aria-labelledby="ap-lema">
+      <p class="ap-panel__frase rev">
+        Lo que ponemos en pantalla, en el altavoz y en la calle importa. Por eso
+        cuidamos cada pieza desde la primera idea hasta el último archivo, en un
+        solo estudio y con un solo criterio.
+      </p>
+
+      <div class="ap-panel__fila">
+        <div class="ap-panel__izq">
+          <p class="ap-panel__lema rev" id="ap-lema">Todo el estudio detrás de cada proyecto.</p>
+          <a class="ap-panel__titulo rev" href="#trabajo">Trabajo</a>
+        </div>
+
+        <figure class="ap-panel__foto rev" style="--espera:120ms">
+          <img src="assets/apertura/regadera.jpg" width="900" height="1600" loading="lazy" decoding="async"
+               alt="Ilustración con el texto «Inblüm Studio»: una mujer de abrigo rosa y pantalón rojo se inclina a regar con una regadera amarilla; detrás, desenfocada, una figura verde de la que brotan hojas">
+        </figure>
+
+        <p class="ap-panel__nota rev" style="--espera:240ms">
+          Empezamos por escuchar. Después decidimos qué áreas entran y en qué
+          orden, para que cada pieza llegue lista para la siguiente.
+        </p>
+      </div>
+    </section>
+  </div>
 
   <!-- ============ Trabajo ============
-       Cada proyecto es una lista a la Homer: su nombre en un título
-       fino y, debajo, un carrusel de tarjetas (una por pieza), con las
-       reglas y sus etiquetas diminutas a lo ancho. Todo el contenido
-       vive en PIEZAS (js/data.js). -->
-  <section class="trabajo" id="trabajo" aria-labelledby="t-trabajo">
-    <h2 class="oculto" id="t-trabajo">Trabajo</h2>
-    <div id="piezas"></div>
+       La galería: cada proyecto es un mosaico de tres columnas (nueve
+       espacios) con celdas redondeadas como el recuadro del logotipo, y
+       su ficha debajo. Las piezas reales van a color; el relleno
+       (texturas y fotos de muestra) en gris, hasta que llegue el trabajo
+       real. Todo el contenido vive en PIEZAS (js/data.js). -->
+  <section class="seccion trabajo" id="trabajo" aria-labelledby="t-trabajo">
+    <div class="aura aura--trabajo" aria-hidden="true"><i></i><i></i><i></i></div>
+    <header class="cabecera">
+      <p class="cabecera__fila">
+        <span class="cabecera__n">01</span>
+        <span>Trabajo</span>
+        <span class="cabecera__nota">Selección del estudio</span>
+      </p>
+      <h2 class="cabecera__titulo" id="t-trabajo">Algunas piezas.</h2>
+      <p class="cabecera__lead">Ilustración, identidad, fotografía, video y sitios hechos en el mismo estudio.</p>
+    </header>
+
+    <div class="piezas" id="piezas"></div>
+
+    <div class="trabajo__cierre vidrio foco">
+      <p class="trabajo__pregunta">¿Quieres ver proyectos completos?</p>
+      <a class="boton" href="#contacto">Hablemos <span class="boton__icono" aria-hidden="true">&#8599;</span></a>
+    </div>
   </section>
 
   <!-- ============ Estudio ============
-       El manifiesto en un título fino que se enciende palabra por
-       palabra al bajar, la nota en dos columnas y la ciudad en negra,
-       a la derecha, como las ciudades de Homer. -->
-  <section class="estudio" id="estudio" aria-labelledby="frase">
-    <h2 class="titulo titulo--frase" id="frase">
-      Aquí el diseño, la cámara, el audio y el código trabajan en el mismo
-      estudio. Un equipo, no cinco proveedores.
-    </h2>
-    <div class="estudio__nota">
-      <p>
-        La identidad ya considera cómo se va a ver en video, y el sitio ya
-        sabe qué fotografía va a recibir. Nada se traduce entre despachos.
+       El manifiesto sobre el campo fucsia de las flores del logotipo:
+       la frase se enciende palabra por palabra al bajar, y a su lado el
+       recuadro de flores de la marca, con la nota debajo. -->
+  <section class="manifiesto" id="estudio" aria-labelledby="frase">
+    <div class="aura aura--estudio" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="manifiesto__grid">
+      <p class="cabecera__fila">
+        <span class="cabecera__n">02</span>
+        <span>Estudio</span>
+        <span class="cabecera__nota">La promesa</span>
       </p>
-      <p>
-        Para ti son un interlocutor, un calendario y un presupuesto, en
-        lugar de cinco.
-      </p>
+
+      <h2 class="manifiesto__frase" id="frase">
+        Aquí el diseño, la cámara, el audio y el código trabajan en el mismo
+        estudio. Un equipo, no cinco proveedores.
+      </h2>
+
+      <aside class="manifiesto__lado">
+        <figure class="manifiesto__flor vidrio" id="flor">
+          <img src="assets/apertura/logo-flor.jpg" width="480" height="635" loading="lazy" decoding="async"
+               alt="El recuadro del logotipo de Inblüm Studio: flores de cerezo rosas y amarillas, desenfocadas, sobre un cielo azul">
+        </figure>
+        <div class="manifiesto__nota vidrio rev">
+          <p>
+            La identidad ya considera cómo se va a ver en video, y el sitio ya
+            sabe qué fotografía va a recibir. Nada se traduce entre despachos.
+          </p>
+          <p>
+            Para ti son un interlocutor, un calendario y un presupuesto, en
+            lugar de cinco.
+          </p>
+        </div>
+      </aside>
     </div>
-    <p class="estudio__ciudad" id="estudio-ciudad">Ciudad de México</p>
   </section>
 
+  <!-- Servicios y Proceso comparten un campo de luz: una sola aura
+       detrás de las dos, para que el color pase de una a otra sin
+       corte. -->
+  <div class="campo-luz">
+  <div class="aura aura--luz" aria-hidden="true"><i></i><i></i><i></i></div>
+
   <!-- ============ Servicios ============
-       Las ocho áreas, en el mismo carrusel de tarjetas: cada una con su
-       par de colores de la marca, lo que incluye y el botón amarillo
-       para cotizarla (elige el área en el formulario). -->
-  <section class="servicios lista" id="servicios" aria-labelledby="t-servicios">
-    <h2 class="titulo" id="t-servicios">Ocho áreas de trabajo.</h2>
-    <div id="servicios-cartas"></div>
+       Las ocho áreas en un panel de vidrio, una fila por área. El
+       detalle se abre con el cursor, el foco o un toque, y la fila
+       abierta se llena con un degradado de uno de los colores de la
+       marca. -->
+  <section class="seccion" id="servicios" aria-labelledby="t-servicios">
+    <header class="cabecera">
+      <p class="cabecera__fila">
+        <span class="cabecera__n">03</span>
+        <span>Servicios</span>
+        <span class="cabecera__nota">Ocho áreas</span>
+      </p>
+      <h2 class="cabecera__titulo" id="t-servicios">Ocho áreas de trabajo.</h2>
+      <p class="cabecera__lead">
+        Abre cada una para ver qué incluye. Se contratan por separado o
+        como un solo proyecto.
+      </p>
+    </header>
+
+    <div class="items vidrio" id="servicios-items"></div>
   </section>
 
   <!-- ============ Proceso ============
-       Los cuatro tiempos como las filas de Homer: una regla, el nombre
-       en negra, el texto y la etiqueta diminuta a la derecha. -->
-  <section class="proceso lista" id="proceso" aria-labelledby="t-proceso">
-    <h2 class="titulo" id="t-proceso">Cómo trabajamos.</h2>
-    <ol class="filas" id="tiempos"></ol>
+       Los cuatro tiempos en fila, cada uno en su lámina de vidrio, con
+       una regla que se llena al bajar y el recuadro de flores como
+       marca de avance. -->
+  <section class="seccion" id="proceso" aria-labelledby="t-proceso">
+    <header class="cabecera">
+      <p class="cabecera__fila">
+        <span class="cabecera__n">04</span>
+        <span>Proceso</span>
+        <span class="cabecera__nota">Cuatro tiempos</span>
+      </p>
+      <h2 class="cabecera__titulo" id="t-proceso">Cómo trabajamos.</h2>
+      <p class="cabecera__lead">El mismo camino para un logotipo que para una campaña de seis meses.</p>
+    </header>
+
+    <div class="proceso">
+      <div class="hilo" id="hilo" aria-hidden="true">
+        <span class="hilo__marca"></span>
+      </div>
+      <div class="tiempos" id="tiempos"></div>
+    </div>
   </section>
+  </div>
 
   <!-- ============ Contacto ============
-       Los datos y el formulario, en filas; el botón es la barra verde. -->
-  <section class="contacto lista" id="contacto" aria-labelledby="t-contacto">
-    <h2 class="titulo" id="t-contacto">Hablemos.</h2>
-    <p class="contacto__lead">Cuéntanos qué necesitas y te mandamos alcance, tiempos y precio.</p>
+       El cierre, sobre el cacao de la tinta con dos luces de color:
+       sigue sin corte hasta el pie. El formulario va en vidrio
+       oscuro. -->
+  <section class="seccion contacto-seccion" id="contacto" aria-labelledby="t-contacto">
+    <div class="aura aura--contacto" aria-hidden="true"><i></i><i></i><i></i></div>
+    <header class="cabecera">
+      <p class="cabecera__fila">
+        <span class="cabecera__n">05</span>
+        <span>Contacto</span>
+        <span class="cabecera__nota">Escríbenos</span>
+      </p>
+      <h2 class="cabecera__titulo" id="t-contacto">Hablemos.</h2>
+    </header>
 
-    <div class="contacto__cuerpo">
-      <dl class="datos">
-        <div class="dato">
-          <dt>Correo</dt>
-          <dd><a id="dato-correo" href="#">correo</a></dd>
-        </div>
-        <div class="dato">
-          <dt>Teléfono</dt>
-          <dd><a id="dato-telefono" href="#">teléfono</a></dd>
-        </div>
-        <div class="dato">
-          <dt>Dónde estamos</dt>
-          <dd id="dato-ciudad">ciudad</dd>
-        </div>
-        <div class="dato">
-          <dt>Redes</dt>
-          <dd class="redes" id="redes"></dd>
-        </div>
-      </dl>
+    <div class="contacto">
 
-      <form class="forma" id="forma" novalidate>
+      <div class="contacto__izq rev">
+        <p class="contacto__lead">
+          Cuéntanos qué necesitas y te mandamos alcance, tiempos y precio.
+        </p>
+
+        <div class="datos">
+          <div class="dato" style="--i:0">
+            <span class="dato__clave">Correo</span>
+            <a class="dato__valor" id="dato-correo" href="#">correo</a>
+          </div>
+          <div class="dato" style="--i:1">
+            <span class="dato__clave">Teléfono</span>
+            <a class="dato__valor" id="dato-telefono" href="#">teléfono</a>
+          </div>
+          <div class="dato" style="--i:2">
+            <span class="dato__clave">Dónde estamos</span>
+            <span class="dato__valor" id="dato-ciudad">ciudad</span>
+          </div>
+          <div class="dato" style="--i:3">
+            <span class="dato__clave">Redes</span>
+            <div class="redes" id="redes"></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="forma vidrio vidrio--oscuro foco rev" id="forma" style="--espera:120ms" novalidate>
         <div class="campo">
           <label for="nombre">Nombre</label>
           <input id="nombre" name="nombre" type="text" autocomplete="name"
@@ -186,13 +320,13 @@
           <p class="campo__error" id="err-correo" aria-live="polite"></p>
         </div>
 
-        <div class="campo">
+        <div class="campo campo--ancho">
           <label for="servicio">Área que te interesa</label>
           <select id="servicio" name="servicio" aria-describedby="err-servicio"></select>
           <p class="campo__error" id="err-servicio" aria-live="polite"></p>
         </div>
 
-        <div class="campo">
+        <div class="campo campo--ancho">
           <label for="mensaje">Tu proyecto</label>
           <textarea id="mensaje" name="mensaje"
                     placeholder="Qué necesitas, para cuándo y con qué presupuesto aproximado…"
@@ -201,85 +335,46 @@
           <p class="campo__error" id="err-mensaje" aria-live="polite"></p>
         </div>
 
-        <div class="forma__pie">
-          <button class="barra-boton barra-boton--verde" id="enviar" type="submit">
+        <div class="forma__pie campo--ancho">
+          <button class="boton boton--flor" id="enviar" type="submit">
             <span class="btn__txt">Enviar mensaje</span>
-            <span aria-hidden="true">&#8599;</span>
+            <span class="boton__icono" aria-hidden="true">&#8599;</span>
           </button>
           <p class="forma__nota">Usamos tus datos sólo para responderte.</p>
         </div>
 
-        <p class="forma__estado" id="forma-estado" role="status" aria-live="polite"></p>
+        <p class="forma__estado campo--ancho" id="forma-estado" role="status" aria-live="polite"></p>
       </form>
+
     </div>
   </section>
 
 </main>
 
 <!-- ============ Pie ============
-     Como el de Homer: gris, el logotipo chico al centro y cuatro
-     columnas de enlaces en 10px. -->
+     Sigue el cacao del contacto: la frase, los enlaces y el aviso legal. -->
 <footer class="pie">
-  <a class="pie__logo" href="#inicio" aria-label="Inblüm Studio, inicio">
-    <svg viewBox="0 0 1000 351.6" aria-hidden="true" focusable="false"><use href="#logo"/></svg>
-  </a>
-  <div class="pie__columnas">
-    <div class="pie__col">
-      <p class="pie__titulo">Contacto</p>
-      <a id="pie-correo" href="#">Correo</a>
-      <a id="pie-telefono" href="#">Teléfono</a>
-      <span id="pie-ciudad">Ciudad</span>
-    </div>
-    <nav class="pie__col" aria-label="Pie de página">
-      <p class="pie__titulo">Estudio</p>
+  <div class="pie__fila">
+    <p class="pie__frase">Branding, audiovisual, audio, desarrollo y contenido. Un solo estudio.</p>
+    <nav class="pie__enlaces" aria-label="Pie de página">
       <a href="#trabajo">Trabajo</a>
+      <a href="#estudio">Estudio</a>
       <a href="#servicios">Servicios</a>
       <a href="#proceso">Proceso</a>
+      <a href="#contacto">Hablemos</a>
     </nav>
-    <div class="pie__col" id="pie-redes">
-      <p class="pie__titulo">Redes</p>
-    </div>
-    <div class="pie__col">
-      <p class="pie__titulo" translate="no">Inblüm Studio</p>
-      <span>&copy; <span id="anio">2026</span></span>
-      <span>Todos los derechos reservados</span>
-    </div>
+  </div>
+
+  <div class="pie__legal">
+    <span>&copy; <span id="anio">2026</span> <span translate="no">Inblüm Studio</span></span>
+    <span>Todos los derechos reservados</span>
   </div>
 </footer>
 
-<!-- ============ La barra fija de abajo ============
-     Como la de Homer: la caja gris de la izquierda ("All" allá, "Todo"
-     aquí) abre el panel, y al centro una línea en 12px. -->
-<div class="fijo">
-  <button class="fijo__todo" type="button" data-abre-panel aria-haspopup="dialog" aria-controls="panel">Todo</button>
-  <p class="fijo__linea">Branding, video, audio y desarrollo con un solo equipo.</p>
-</div>
-
-<!-- ============ El panel ============
-     Como el de Homer: una columna gris a la derecha con "Todo", las
-     secciones en negra y mayúsculas (con sus muestras debajo) y, al
-     final, filas en 10px. -->
-<dialog class="panel" id="panel" aria-label="Menú">
-  <button class="panel__cerrar" type="button" data-cierra-panel aria-label="Cerrar el menú">&#215;</button>
-  <a class="panel__todo" href="#inicio" data-cierra-panel>Todo</a>
-  <ul class="panel__secciones">
-    <li>
-      <a href="#trabajo" data-cierra-panel>Trabajo</a>
-      <div class="panel__muestras" id="panel-trabajo"></div>
-    </li>
-    <li>
-      <a href="#servicios" data-cierra-panel>Servicios</a>
-      <div class="panel__muestras" id="panel-servicios"></div>
-    </li>
-    <li><a href="#estudio" data-cierra-panel>Estudio</a></li>
-    <li><a href="#proceso" data-cierra-panel>Proceso</a></li>
-    <li><a href="#contacto" data-cierra-panel>Contacto</a></li>
-  </ul>
-  <ul class="panel__filas" id="panel-filas"></ul>
-</dialog>
-
-<script src="js/data.js?v=118" defer></script>
-<script src="js/app.js?v=118" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="js/data.js?v=119" defer></script>
+<script src="js/app.js?v=119" defer></script>
 
 </body>
 </html>

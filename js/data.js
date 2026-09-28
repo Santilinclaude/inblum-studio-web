@@ -120,8 +120,14 @@ const SERVICIOS = [
 ];
 
 /* ---------- 3. Frases del titular -------------------------
-   Hoy no se usan: eran el titular que rotaba en la portada anterior
-   (antes de la calca de Homer). Se quedan aquí por si vuelve.
+   El titular de la primera página va alternando entre estas frases:
+   cada letra recorre un espectro de colores y se desvanece, y entra
+   la frase siguiente, en loop. La primera es la que se lee cuando no
+   hay animación (sin JavaScript, con "reducir movimiento" o con un
+   lector de pantalla) y tiene que ser igual al texto del <h2> de
+   index.html. Frases de unos 55 caracteres son lo ideal: ocupan dos
+   líneas y el bloque no se mueve al cambiar. Los tiempos están en la
+   sección 0b de js/app.js.
    ------------------------------------------------------------ */
 const FRASES = [
   'Branding, video, audio y desarrollo con un solo equipo.',
@@ -131,20 +137,21 @@ const FRASES = [
 ];
 
 /* ---------- 4. Proyectos de portafolio -----------------------
-   Cada proyecto es una lista a la Homer: su nombre en un título
-   fino y un carrusel con una tarjeta por pieza.
+   Cada proyecto es un bloque de la galería: un mosaico de tres
+   columnas (nueve espacios, tres filas) con líneas finas entre
+   celdas y, debajo, su ficha —número, nombre con año y servicios.
 
-   PENDIENTE: casi todo es de relleno (texturas de assets/obra y
-   fotos de picsum.photos), menos "Identidad y sistema gráfico".
-   Para publicar trabajo real: copia las imágenes a assets/work/,
-   pon cada ruta en `img` con su `alt` y cambia `titulo`, `anio` y
+   PENDIENTE: todo esto es de relleno. Las tabletas muestran
+   texturas de assets/obra y las imágenes altas, fotos de
+   picsum.photos. Para publicar trabajo real: copia las imágenes a
+   assets/work/, pon cada ruta en `img` y cambia `titulo`, `anio` y
    `servicios` por los del proyecto.
-   - celdas: una por pieza, en el orden del carrusel. La pieza se
-     ve entera al centro de su cuadrado, así que cualquier
-     proporción sirve. (`alto` y `dispositivo` eran de la galería
-     anterior y ya no hacen nada.)
-   - servicios: de la lista SERVICIOS; la barra de cada tarjeta
-     lleva uno, en orden.
+   - celdas: en orden de lectura; la cuadrícula las acomoda sola.
+     Con `dispositivo: true` la imagen se muestra dentro de una
+     tableta sobre negro (capturas de sitios y apps). Con
+     `alto: 2` la celda ocupa dos filas (retratos, fotografía
+     vertical: 820x1160 px). Las demás, 820x580 px.
+   - servicios: una línea por servicio, de la lista SERVICIOS.
    ------------------------------------------------------------ */
 const PIEZAS = [
   {

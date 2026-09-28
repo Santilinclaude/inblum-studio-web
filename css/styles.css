@@ -1,22 +1,26 @@
 /* ============================================================
    INBLÜM STUDIO · Hoja principal
-   Calca de homer.com, con el contenido del estudio. Las medidas
-   están tomadas de su sitio (a 1418px de ancho y en teléfono):
-   - la barra de arriba: el logotipo a la izquierda y tres palabras
-     en negra de 18px a la derecha;
-   - los títulos: 72px en un corte finísimo, interlineado 1.15,
-     -3% de espaciado, en gris hasta que su lista llega al centro de
-     la pantalla y entonces en negro;
-   - las listas: un carrusel de tarjetas de 397px con 46px entre
-     ellas; cada tarjeta es una barra gris de 42px con su nombre en
-     negra, dos franjas de 7px de su par de colores, la pieza sobre
-     gris claro en un cuadrado, filas de 42px y el botón de color de
-     42px con el texto arriba a la izquierda, sin relleno; a lo ancho
-     de toda la lista, las reglas de 1px y sus etiquetas de 6px en
-     mayúsculas, en gris, a la derecha;
-   - el pie gris con el logotipo chico y columnas de 10px, y la barra
-     fija de abajo con la caja gris que abre el panel.
-   Los valores viven en css/tokens.css.
+   Un solo sistema para todo el sitio, a partir de la marca y de la
+   Apertura (dirección "Beings"): tinta cacao sobre papel blanco y
+   papel leche, titulares de Helvetica Bold enormes y apretados,
+   etiquetas de 12px en mayúsculas, líneas duras de 1px, y los
+   colores del recuadro de flores del logotipo como campos de color
+   (el fucsia del manifiesto, las filas de Servicios) y como acento.
+   Las imágenes llevan el radio del recuadro; los botones son
+   píldoras, como las letras redondas del nombre. Los valores viven
+   en css/tokens.css.
+
+   Encima, la capa de luz: cada campo lleva detrás un aura (.aura),
+   manchas de color que derivan despacio, sacadas del recuadro de
+   flores desenfocado; y las piezas que flotan sobre ellas (la barra,
+   la ficha del retrato, el panel de Servicios, los tiempos, el
+   formulario) son láminas de vidrio (.vidrio). Un grano de película
+   fijo le quita a todo lo digital de más.
+
+   Orden de las secciones de la página, y su campo:
+   Apertura (blanco que se lava al verde) → panel verde → Trabajo
+   (leche) → Estudio (fucsia) → Servicios y Proceso (leche) →
+   Contacto y pie (cacao).
    ============================================================ */
 
 /* ---------- 1. Base ---------------------------------------- */
@@ -27,604 +31,1532 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   /* Los saltos a una sección la dejan justo bajo la barra fija. */
-  scroll-padding-top: calc(var(--cabeza) + 16px);
+  scroll-padding-top: calc(var(--nav-ocupa) + var(--aire));
 }
-/* Con el panel abierto, la página no se mueve detrás. */
-html:has(dialog[open]) { overflow: hidden; }
 
 body {
   margin: 0;
-  /* La barra fija de abajo no tapa el final del pie. */
-  padding-bottom: var(--pie-fijo);
-  background: var(--blanco);
-  color: var(--negro);
-  font: 400 var(--t-texto)/1.15 var(--f-texto);
+  width: 100%;
+  max-width: 100%;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--f-texto);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-
-h1, h2, h3, p, figure { margin: 0; }
-ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
-img { display: block; max-width: 100%; height: auto; }
-a { color: inherit; text-decoration: none; }
-button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
-button { padding: 0; border: 0; background: none; cursor: pointer; }
-a, button, label, select { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-p, li, a, dd { overflow-wrap: break-word; }
-
-:focus-visible { outline: 2px solid var(--negro); outline-offset: 2px; }
-::selection { background: var(--amarillo); color: var(--negro); }
-
-/* Oculto a la vista, no a los lectores de pantalla. */
-.oculto {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+@media (min-width: 1000px) {
+  body { font-size: var(--t-texto); }
 }
 
-/* "Saltar al contenido": el de Homer, en su verde. */
+/* El grano: ruido fijo sobre toda la página, apenas visible. Le da
+   cuerpo de papel a los degradados (y les quita el escalonado). Es
+   una sola capa fija que no recibe el cursor. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grano);
+  pointer-events: none;
+  opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .03 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* La mezcla de Homer: lo grande en un corte finísimo, el texto en
+   regular y lo chico (etiquetas, barra, botones, números) en negra. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--f-fina);
+  font-weight: 200;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+b, strong { font-family: var(--f-negra); font-weight: 900; }
+
+p  { margin: 0; text-wrap: pretty; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3, h4, p, li, a, label { overflow-wrap: break-word; }
+
+img { display: block; max-width: 100%; height: auto; }
+a   { color: inherit; text-decoration: none; }
+
+button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+
+a, button, label, select, summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible { outline: 2px solid var(--flor); outline-offset: 3px; }
+
+::selection { background: var(--flor); color: var(--crema); }
+
+/* Las auras pueden asomar más allá de los lados: se
+   recortan aquí, sin barra de desplazamiento horizontal. Es "clip" y
+   no "hidden" para que <main> no se vuelva un contenedor de scroll (el
+   retrato fijo de la Apertura depende de eso). */
+main { overflow-x: clip; }
+
 .saltar {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 8px; left: 50%;
+  translate: -50% -160%;
   z-index: var(--z-saltar);
-  padding: 0 16px;
-  background: var(--verde);
-  font: 900 var(--t-mini)/var(--fila) var(--f-negra);
-  translate: 0 -100%;
-}
-.saltar:focus-visible { translate: 0 0; }
-
-/* ---------- 2. Piezas repetidas ------------------------------ */
-
-/* El título fino: gris mientras su lista no llega al centro de la
-   pantalla, negro cuando sí (app.js le pone .activa a la lista). */
-.titulo {
-  max-width: 834px;
-  margin: 0 var(--margen) 4px;
-  font: 200 var(--t-titulo)/1.15 var(--f-fina);
-  letter-spacing: -.03em;
-  color: var(--gris-barra);
-  text-wrap: balance;
-  transition: color .45s ease;
-}
-.lista.activa .titulo { color: var(--negro); }
-
-/* Los botones de Homer: una barra de color de 42px, con el texto en
-   negra arriba a la izquierda, sin relleno, y la flecha al otro
-   extremo. Al pasar el cursor, en negro. */
-.barra-boton {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: var(--carta);
-  height: var(--fila);
-  padding: 3px 0 0;
-  color: var(--negro);
-  font: 900 var(--t-negra)/1.15 var(--f-negra);
-  text-align: left;
-  transition: background-color .15s ease, color .15s ease;
-}
-.barra-boton--verde    { background: var(--verde); }
-.barra-boton--amarillo { background: var(--amarillo); }
-.barra-boton--gris     { background: var(--gris-barra); }
-.barra-boton:hover     { background: var(--negro); color: var(--blanco); }
-.barra-boton[disabled] { opacity: .6; cursor: progress; }
-
-/* La etiqueta diminuta de una fila, a la derecha: 6px, mayúsculas,
-   gris. */
-.etiqueta {
-  font: 400 var(--t-micro)/1.15 var(--f-texto);
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
+  background: var(--tinta);
+  color: var(--crema);
+  font: 900 13px/1 var(--f-negra);
   text-transform: uppercase;
-  color: var(--gris-texto);
+  letter-spacing: .03em;
+  transition: translate .4s var(--brote);
 }
+.saltar:focus-visible { translate: -50% 0; }
 
-/* ---------- 3. La barra de arriba ---------------------------- */
+/* ---------- 2. Piezas repetidas ---------------------------- */
 
-.cabeza {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-cabeza);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: var(--cabeza);
-  padding: 16px var(--margen) 0;
-  background: var(--blanco);
-}
-.cabeza__logo { display: block; }
-.cabeza__logo svg { display: block; width: 94px; height: 33px; color: var(--negro); }
+.seccion { padding-block: var(--sec-y); }
 
-/* Como "Menu", "Search" y "Cart": 18px en negra, con 79px entre
-   ellas. */
-.cabeza__enlaces {
-  display: flex;
-  gap: 79px;
-  font: 900 var(--t-texto)/1 var(--f-negra);
-}
-.cabeza__enlaces a,
-.cabeza__enlaces button { font: inherit; }
-.cabeza__enlaces a:hover,
-.cabeza__enlaces button:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-@media (max-width: 999px) {
-  .cabeza__enlaces { gap: 28px; }
-  /* En el teléfono, como Homer: sólo dos palabras. */
-  .cabeza__enlaces a[href="#trabajo"] { display: none; }
-}
-
-/* ---------- 4. Portada --------------------------------------- */
-
-/* Mucho blanco arriba y una gran imagen con margen, como la vitrina
-   de Homer. Aquí son tres imágenes pegadas a la misma altura: cada
-   columna mide lo que su proporción (retrato 4:5, regadera 9:16,
-   mano 4:5). */
-.portada { padding: 200px var(--margen) 0; }
-.portada__imagenes {
+/* --- La cabecera de cada sección: una fila de 12px en mayúsculas
+   sobre una línea dura (número, nombre, nota), el titular enorme y
+   una entrada corta, recargada a la derecha en escritorio. La fila
+   se reparte por la misma retícula que la barra de arriba. */
+.cabecera {
   display: grid;
-  grid-template-columns: .8fr .5625fr .7987fr;
-}
-.portada__img { width: 100%; height: 100%; object-fit: cover; }
-.portada__img--retrato  { aspect-ratio: 1040 / 1300; object-position: 50% 0; }
-.portada__img--regadera { aspect-ratio: 900 / 1600; }
-.portada__img--mano     { aspect-ratio: 1000 / 1252; }
-
-@media (max-width: 999px) {
-  .portada { padding-top: 64px; }
-  /* En el teléfono, el retrato arriba a todo lo ancho y las otras dos
-     debajo, a la misma altura. */
-  .portada__imagenes { grid-template-columns: .5625fr .7987fr; }
-  .portada__img--retrato { grid-column: 1 / -1; }
+  gap: clamp(20px, 2.2vw, 32px);
+  padding-inline: var(--aire);
+  margin-bottom: clamp(48px, 6vw, 96px);
 }
 
-/* ---------- 5. Entrada --------------------------------------- */
-
-.entrada { margin-top: 240px; }
-.entrada__texto {
-  max-width: 40ch;
-  margin: 28px var(--margen) 0;
+.cabecera__fila {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0 var(--aire);
+  /* Arriba, en lugar de una línea, el duotono de la sección (ver
+     .duo): dos franjas de 7px con 9px entre ellas. */
+  padding-top: calc(var(--duo-alto) + 10px);
+  background: linear-gradient(to bottom, var(--d1) 0 7px, transparent 7px 16px, var(--d2) 16px 23px)
+              top / 100% var(--duo-alto) no-repeat;
+  font: 900 var(--t-etiqueta)/1.4 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
 }
-.entrada__botones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px var(--canal);
-  margin: 40px var(--margen) 0;
+/* El número de la sección, en una píldora con el degradado de la flor. */
+.cabecera__n {
+  justify-self: start;
+  padding: 4px 9px 3px;
+  border-radius: var(--r-pill);
+  background: var(--degradado-boton);
+  color: var(--crema);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 6px 14px -6px rgb(184 54 122 / .6);
+}
+.cabecera__nota { text-align: right; }
+
+.cabecera__titulo {
+  font-size: var(--t-titulo);
+  line-height: 1;
+  letter-spacing: -.03em;
+  max-width: 14ch;
 }
 
-@media (max-width: 999px) {
-  .entrada { margin-top: 96px; }
+/* El titular entra palabra por palabra: cada una sube desde detrás de
+   su propia máscara (app.js la parte en .tt / .tt__in y le pone
+   .dentro al titular cuando asoma). La máscara lleva aire arriba y
+   abajo para no cortar acentos ni colas con un interlineado tan
+   cerrado. */
+.tt {
+  display: inline-block;
+  overflow: clip;
+  padding-block: .14em;
+  margin-block: -.14em;
+  vertical-align: top;
+}
+.tt__in {
+  display: inline-block;
+  translate: 0 110%;
+  transition: translate .8s var(--brote);
+  transition-delay: calc(var(--k, 0) * 45ms);
+}
+.rev-titulo.dentro .tt__in { translate: 0 0; }
+
+.cabecera__lead { max-width: 40ch; color: var(--tenue); }
+
+@media (min-width: 1000px) {
+  .cabecera {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .cabecera__fila,
+  .cabecera__titulo { grid-column: 1 / -1; }
+  .cabecera__lead   { grid-column: 8 / span 5; }
+
+  .cabecera__fila {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .cabecera__fila > :nth-child(1) { grid-column: 1 / span 3; }
+  .cabecera__fila > :nth-child(2) { grid-column: 4 / span 4; }
+  .cabecera__fila > :nth-child(3) { grid-column: 8 / span 5; }
 }
 
-/* ---------- 6. Las listas: carrusel y tarjetas ---------------
-   Una tarjeta tiene seis filas: la barra (42), las franjas (23), el
-   cuadrado de la pieza (el ancho de la tarjeta), dos filas (42 cada
-   una) y el botón (42). Las reglas de la lista usan las mismas filas,
-   así sus líneas pasan justo por los bordes de las filas de cada
-   tarjeta. */
-
-.trabajo { margin-top: 160px; }
-.proyecto + .proyecto { margin-top: 40px; }
-
-.carrusel {
-  --filas: var(--fila) var(--franjas) var(--carta) var(--fila) var(--fila) var(--fila);
+/* --- Botones: píldoras de cacao con la flecha en su propio círculo.
+   Al pasar el cursor se encienden con el degradado de la flor, la
+   flecha se adelanta en diagonal y el botón se deja jalar un poco por
+   el cursor (app.js, con "translate"); al presionar se hunde. La
+   variante --flor va al revés, para los fondos oscuros. */
+.boton {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 6px 6px 22px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--tinta);
+  color: var(--crema);
+  font: 900 13px/1 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 12px 26px -14px rgb(74 8 40 / .55);
+  transition: color .25s var(--tallo), box-shadow .35s var(--tallo),
+              transform .25s var(--brote), translate .5s var(--brote);
+}
+.boton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--degradado-boton);
+  opacity: 0;
+  transition: opacity .35s var(--tallo);
+}
+.boton:hover { box-shadow: 0 18px 36px -14px rgb(184 54 122 / .7); }
+.boton:hover::before { opacity: 1; }
+.boton:active { transform: scale(.97); }
+
+.boton__icono {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(255 244 236 / .14);
+  font-size: 14px;
+  transition: transform .4s var(--brote), background-color .25s var(--tallo);
+}
+.boton:hover .boton__icono { transform: translate(2px, -2px) scale(1.08); background: rgb(255 244 236 / .26); }
+
+.boton--flor { background: var(--flor); box-shadow: 0 16px 36px -16px rgb(184 54 122 / .8); }
+.boton--flor::before { background: var(--crema); }
+.boton--flor:hover { color: var(--tinta); }
+.boton--flor:hover .boton__icono { background: rgb(27 8 0 / .1); }
+.boton[disabled] { opacity: .6; cursor: progress; }
+
+/* --- Duotono: la mezcla de dos tonos de Homer (sus acabados se
+   llaman "Cadmium Red/Infrared", "Chet Blue/Bubble Blue"): dos franjas
+   de 7px con 9px entre ellas, un color de la marca y su luz (--d1,
+   --d2). Cada sección lleva su par en la línea de su cabecera; cada
+   proyecto, bajo su mosaico; cada área de Servicios, junto a su número;
+   cada tiempo del Proceso, arriba. */
+/* (El degradado se escribe en cada regla y no en una variable de
+   :root: ahí --d1 y --d2 todavía no existen y la variable quedaría
+   vacía.) */
+:root { --duo-alto: 23px; }
+.duo--flor,  .trabajo            { --d1: var(--flor);  --d2: var(--petalo); }
+.duo--cielo, #servicios          { --d1: var(--cielo); --d2: var(--cielo-claro); }
+.duo--polen, .manifiesto         { --d1: var(--polen); --d2: var(--polen-claro); }
+.duo--hoja,  #proceso            { --d1: var(--hoja);  --d2: var(--hoja-clara); }
+.contacto-seccion                { --d1: var(--flor);  --d2: var(--petalo); }
+.duo {
+  display: block;
+  height: var(--duo-alto);
+  background: linear-gradient(to bottom, var(--d1) 0 7px, transparent 7px 16px, var(--d2) 16px 23px);
 }
 
-/* Las reglas: a todo lo ancho, encima de las tarjetas (como en Homer,
-   se ven sobre su gris), con su etiqueta a la derecha. */
-.reglas {
+/* --- Auras: campos de luz. Tres manchas de color por campo, con los
+   tonos del recuadro de flores, que derivan despacio (sólo mientras el
+   campo está en pantalla: app.js le pone .viva). Van detrás del
+   contenido: el campo que las lleva es "isolation: isolate". Cada campo
+   acomoda las suyas (posición --x/--y, diámetro --d, color --c,
+   opacidad --o) en su sección. */
+.aura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aura i {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: var(--d, 60vmax);
+  aspect-ratio: 1;
+  margin: calc(var(--d, 60vmax) / -2) 0 0 calc(var(--d, 60vmax) / -2);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--c, var(--petalo)), transparent);
+  opacity: var(--o, 1);
+  animation: deriva var(--t, 22s) var(--tallo) infinite alternate;
+  animation-play-state: paused;
+}
+.aura i:nth-child(2) { --t: 27s; animation-direction: alternate-reverse; }
+.aura i:nth-child(3) { --t: 19s; animation-delay: -9s; }
+.aura.viva i { animation-play-state: running; }
+
+@keyframes deriva {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(7%, -6%, 0) scale(1.1); }
+  100% { transform: translate3d(-6%, 5%, 0) scale(.94); }
+}
+
+/* --- Vidrio: una lámina de vidrio claro y grueso, como el acrílico de
+   una vitrina. Lo que la hace parecer vidrio y no una sombra:
+   - deja ver lo de atrás casi nítido (poco desenfoque, "--vidrio-blur")
+     y más saturado, como pasa al mirar a través de un vidrio;
+   - en Chrome, además, lo dobla en los bordes como una lente: app.js
+     (sección 7c) le talla a cada lámina su propio filtro de refracción
+     y lo deja en "--refraccion"; en Safari y Firefox queda el
+     desenfoque solo;
+   - el canto: un filo de luz arriba a la izquierda, uno más tenue abajo
+     a la derecha y luz atrapada en el grosor;
+   - los reflejos (::before): una mancha de luz que sigue al cursor en
+     las láminas con .foco, y dos vetas en diagonal.
+   La versión oscura es para el cacao. */
+.vidrio {
+  --vidrio-blur: 3px;
+  position: relative;
+  isolation: isolate;
+  background: var(--vidrio-tinte);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 0;
+  box-shadow: var(--vidrio-canto), var(--vidrio-sombra);
+}
+.con-refraccion .vidrio {
+  -webkit-backdrop-filter: var(--refraccion,) blur(var(--vidrio-blur)) saturate(180%);
+  backdrop-filter: var(--refraccion,) blur(var(--vidrio-blur)) saturate(180%);
+}
+.vidrio::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(420px circle at var(--mx, 16%) var(--my, -45%), rgb(255 255 255 / .55), transparent 62%),
+    linear-gradient(112deg, transparent 54%, rgb(255 255 255 / .28) 55.5%, rgb(255 255 255 / 0) 59%,
+                    transparent 62%, rgb(255 255 255 / .15) 63%, transparent 65.5%);
+}
+.vidrio--oscuro {
+  background: var(--vidrio-oscuro-tinte);
+  box-shadow: var(--vidrio-oscuro-canto), 0 50px 90px -40px rgb(0 0 0 / .7);
+}
+.vidrio--oscuro::before {
+  background:
+    radial-gradient(420px circle at var(--mx, 16%) var(--my, -45%), rgb(255 244 236 / .14), transparent 62%),
+    linear-gradient(112deg, transparent 54%, rgb(255 244 236 / .09) 55.5%, rgb(255 244 236 / 0) 59%,
+                    transparent 62%, rgb(255 244 236 / .05) 63%, transparent 65.5%);
+}
+
+/* El foco: donde está el cursor, el canto de la lámina se enciende
+   (app.js pone --mx y --my, que también mueven el reflejo). */
+.foco { --luz: rgb(255 255 255 / .95); }
+.vidrio--oscuro.foco { --luz: rgb(246 207 225 / .8); }
+.foco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), var(--luz), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity .35s var(--tallo);
+}
+@media (hover: hover) {
+  .foco:hover::after { opacity: 1; }
+}
+
+/* ---------- 3. Progreso ------------------------------------
+   Una línea de 2px arriba del todo, sobre la barra fija, con el
+   degradado de la flor, que se llena con el recorrido de la página
+   ("--recorrido", de 0 a 1). */
+.progreso {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-progreso);
+  height: 2px;
+  pointer-events: none;
+}
+.progreso__linea {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--degradado-flor);
+  transform: scaleX(var(--recorrido, 0));
+  transform-origin: left;
+}
+
+/* ---------- 4. Trabajo (galería) ----------------------------
+   Sobre el papel leche, con un aura rosa y celeste detrás de la
+   cabecera y otra detrás del cierre. */
+
+.trabajo { position: relative; isolation: isolate; }
+.aura--trabajo i:nth-child(1) { --x: 92%; --y: 34vh; --d: 62vmax; --c: var(--petalo); --o: .9; }
+.aura--trabajo i:nth-child(2) { --x: 55%; --y: 70vh; --d: 46vmax; --c: var(--cielo-claro); --o: .55; }
+.aura--trabajo i:nth-child(3) { --x: 12%; --y: calc(100% - 22vh); --d: 56vmax; --c: var(--petalo); --o: .8; }
+
+.piezas { display: grid; gap: clamp(56px, 7vw, 112px); }
+
+/* El contenedor de medidas: las filas se calculan a partir de su
+   ancho (la celda es √2:1, la proporción de la hoja A), no del de
+   la ventana, para que el scroll vertical no las descuadre. */
+.proyecto {
+  container-type: inline-size;
+  --cols: 2;
+  padding-inline: var(--aire);
+}
+@media (min-width: 1000px) { .proyecto { --cols: 3; } }
+
+.proyecto__celdas {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: calc((100vw - 2 * var(--aire) - (var(--cols) - 1) * var(--canal)) / var(--cols) / 1.414);  /* respaldo */
+  grid-auto-flow: dense;
+  gap: var(--canal);
+}
+@supports (width: 1cqw) {
+  .proyecto__celdas {
+    grid-auto-rows: calc((100cqw - (var(--cols) - 1) * var(--canal)) / var(--cols) / 1.414);
+  }
+}
+
+/* Cada celda es un recuadro redondeado, como el del logotipo. Con el
+   cursor encima se inclina hacia él (app.js pone --rx y --ry), se
+   levanta con una sombra teñida y un reflejo la recorre (--gx, --gy). */
+.celda {
+  position: relative;
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--r-tile);
+  background: rgb(27 8 0 / .06);
+  isolation: isolate;
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .5s var(--brote), box-shadow .5s var(--brote);
+}
+.celda--alta { grid-row: span 2; }
+.celda img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .8s var(--brote), filter .6s var(--tallo);
+}
+.celda::after {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 2;
-  display: grid;
-  grid-template-rows: var(--filas);
+  background: radial-gradient(480px circle at var(--gx, 50%) var(--gy, 0%), rgb(255 255 255 / .4), transparent 55%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity .4s var(--tallo);
   pointer-events: none;
 }
-.regla {
-  padding: 2px 20px 0;
-  border-top: 1px solid var(--gris-barra);
-  text-align: right;
+@media (hover: hover) {
+  .celda:hover { z-index: 1; box-shadow: 0 34px 60px -30px rgb(74 8 40 / .55); }
+  .celda:hover img { transform: scale(1.05); }
+  .celda:hover::after { opacity: 1; }
 }
-.regla--1 { grid-row: 1; }
-.regla--4 { grid-row: 4; }
-.regla--5 { grid-row: 5; }
-.regla--6 { grid-row: 6; }
 
-/* El carril: se desliza de lado (con el trackpad, arrastrando con el
-   ratón —app.js— o con las flechas cuando tiene el foco). */
-.carril {
+/* El rótulo: una píldora de vidrio con el número de la pieza y el
+   proyecto, que sube al pasar el cursor. */
+.celda__rotulo {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 3;
   display: flex;
-  gap: var(--canal);
-  padding: 0 var(--margen);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  scroll-padding: 0 var(--margen);
-  scrollbar-width: none;
-  cursor: grab;
-}
-.carril::-webkit-scrollbar { display: none; }
-.carril::after { content: ""; flex: 0 0 max(0px, calc(var(--margen) - var(--canal))); }
-.carril.arrastrando { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-.carril.arrastrando * { pointer-events: none; }
-.carril:focus-visible { outline-offset: -2px; }
-
-.carta {
-  flex: 0 0 var(--carta);
-  display: grid;
-  grid-template-rows: var(--filas);
-  min-width: 0;
-  background: var(--gris-foto);
-  scroll-snap-align: start;
-}
-
-/* La barra: el nombre en negra arriba a la izquierda y el triángulo
-   del selector a la derecha. */
-.carta__barra {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  min-width: 0;
-  padding-top: 5px;
-  background: var(--gris-barra);
-  font: 900 var(--t-negra)/1.15 var(--f-negra);
-}
-.carta__barra span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.carta__barra::after {
-  content: "";
-  flex: none;
-  width: 0;
-  height: 0;
-  margin-top: 1px;
-  border-left: 6.5px solid transparent;
-  border-right: 6.5px solid transparent;
-  border-top: 7px solid var(--negro);
-}
-
-/* Las dos franjas del par de colores (--c1, --c2). */
-.carta__franjas {
-  background: linear-gradient(to bottom,
-    var(--c1, var(--negro)) 0 7px, transparent 7px 16px, var(--c2, var(--negro)) 16px 23px);
-}
-
-/* La pieza, entera, al centro del cuadrado gris (como las joyas de
-   Homer): nunca se recorta. */
-.carta__foto { position: relative; min-height: 0; }
-.carta__foto img {
-  width: 100%;
-  height: 100%;
-  padding: 9%;
-  object-fit: contain;
-}
-
-.carta__fila {
-  min-width: 0;
-  padding-top: 5px;
-  overflow: hidden;
-  font: 900 var(--t-negra)/1.15 var(--f-negra);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.carta__boton { width: 100%; }
-
-/* ---------- 7. Estudio --------------------------------------- */
-
-.estudio { margin-top: 160px; }
-
-/* El manifiesto: un título fino que se enciende palabra por palabra
-   al bajar (app.js); las dos palabras clave se marcan con el amarillo
-   de Homer cuando ya está leído. */
-.titulo--frase { max-width: 1150px; color: var(--gris-barra); }
-.titulo--frase .pal { transition: color .35s ease, background-color .35s ease; }
-.titulo--frase .pal.viva { color: var(--negro); }
-.titulo--frase.leida .pal--acento { background: var(--amarillo); }
-
-.estudio__nota {
-  display: grid;
-  grid-template-columns: repeat(2, var(--carta));
-  gap: 20px var(--canal);
-  margin: 40px var(--margen) 0;
-}
-
-/* La ciudad, en negra de 24px, a la derecha (como "New York,
-   London, and Los Angeles"). */
-.estudio__ciudad {
-  margin: 120px 18px 0;
-  text-align: right;
-  font: 900 24px/1 var(--f-negra);
-}
-
-@media (max-width: 999px) {
-  .estudio { margin-top: 96px; }
-  .estudio__nota { grid-template-columns: minmax(0, 1fr); }
-  .estudio__ciudad { margin-top: 64px; }
-}
-
-/* ---------- 8. Servicios ------------------------------------- */
-
-.servicios { margin-top: 160px; }
-
-/* En la tarjeta de un servicio, el cuadrado lleva el texto: la frase
-   y lo que incluye. */
-.carta__texto {
-  display: grid;
-  align-content: start;
-  gap: 20px;
-  min-height: 0;
-  padding: 20px 0 0;
-  overflow: hidden;
-}
-.carta__frase { max-width: 22ch; }
-.carta__lista { display: grid; gap: 4px; font-size: var(--t-negra); }
-
-@media (max-width: 999px) {
-  .servicios { margin-top: 96px; }
-  .carta__texto { gap: 14px; padding-top: 14px; font-size: 16px; }
-}
-
-/* ---------- 9. Proceso: filas --------------------------------- */
-
-.proceso { margin-top: 160px; }
-
-.filas { margin-top: 36px; border-bottom: 1px solid var(--gris-barra); }
-.fila {
-  position: relative;
-  display: grid;
-  grid-template-columns: var(--carta) minmax(0, 1fr);
-  column-gap: var(--canal);
-  min-height: var(--fila);
-  padding: 5px var(--margen) 26px;
-  border-top: 1px solid var(--gris-barra);
-}
-.fila__nombre { font: 900 var(--t-negra)/1.15 var(--f-negra); }
-.fila__texto { max-width: 40ch; }
-.fila .etiqueta { position: absolute; top: 2px; right: 20px; }
-
-@media (max-width: 999px) {
-  .proceso { margin-top: 96px; }
-  .fila { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
-}
-
-/* ---------- 10. Contacto ------------------------------------- */
-
-.contacto { margin-top: 160px; padding-bottom: 160px; }
-.contacto__lead { max-width: 40ch; margin: 28px var(--margen) 0; }
-
-.contacto__cuerpo {
-  display: grid;
-  grid-template-columns: var(--carta) minmax(0, 1fr);
-  gap: 40px var(--canal);
-  margin-top: 48px;
-  padding: 0 var(--margen);
-}
-
-/* Los datos: una fila por dato. */
-.dato {
-  min-height: var(--fila);
-  padding: 5px 0 14px;
-  border-top: 1px solid var(--gris-barra);
-}
-.dato dt,
-.campo label {
-  display: block;
-  margin-bottom: 6px;
-  font: 900 var(--t-mini)/1.15 var(--f-negra);
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 20px);
+  padding: 5px 14px 5px 5px;
+  border-radius: var(--r-pill);
+  /* Sobre la obra hace falta un poco más de cuerpo para leerse. */
+  --vidrio-blur: 6px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .62), rgb(255 255 255 / .38));
+  color: var(--tinta);
+  font: 900 11px/1.2 var(--f-negra);
   text-transform: uppercase;
+  letter-spacing: .03em;
+  /* Escondido de verdad (visibility) mientras no se ve: así su
+     desenfoque no se calcula en las cuarenta celdas a la vez. */
+  visibility: hidden;
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity .3s var(--tallo), translate .45s var(--brote), visibility 0s linear .45s;
 }
-.dato dd a,
-.redes a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.dato dd a:hover,
-.redes a:hover { text-decoration-thickness: 2px; }
-.redes { display: flex; flex-wrap: wrap; gap: 4px 16px; }
-
-/* El formulario: también en filas, con los campos sin caja. */
-.forma {
+.celda__rotulo b {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--canal);
-  align-content: start;
+  place-items: center;
+  min-width: 34px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: var(--r-pill);
+  background: var(--tinta);
+  color: var(--crema);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
 }
-.campo {
-  grid-column: 1 / -1;
-  padding-top: 5px;
-  border-top: 1px solid var(--gris-barra);
-  transition: border-color .15s ease;
+.celda__rotulo span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (hover: hover) {
+  .celda:hover .celda__rotulo { visibility: visible; opacity: 1; translate: 0 0; transition-delay: 0s; }
 }
-.campo:nth-child(1),
-.campo:nth-child(2) { grid-column: auto; }
-/* El foco: la regla del campo se vuelve negra. */
-.campo:focus-within { border-top-color: var(--negro); }
 
+/* El relleno va en gris hasta que llegue el trabajo real, y toma su
+   color con el cursor; las piezas reales, siempre a color. */
+.celda--relleno img { filter: grayscale(1) contrast(1.05); }
+.celda--relleno:hover img { filter: none; }
+
+/* Al entrar, cada celda sube y aparece rápido, en cascada corta (40ms
+   entre una y otra; app.js la dispara en cuanto asoma su borde).
+   Mueve "translate" y no "transform", que es de la inclinación. */
+.celda.rev {
+  translate: 0 28px;
+  transition: opacity .45s var(--brote) var(--espera, 0ms),
+              translate .6s var(--brote) var(--espera, 0ms),
+              transform .5s var(--brote), box-shadow .5s var(--brote);
+}
+.celda.rev.dentro { translate: 0 0; }
+
+/* La tableta: el trabajo mostrado en su medio, sobre un cacao hondo.
+   El bisel es del aparato —parte del contenido, no del sistema—: hace
+   las veces del mockup que llegará después. */
+.celda--dispositivo {
+  display: grid;
+  place-items: center;
+  background: var(--negro);
+}
+.dispositivo {
+  width: 72%;
+  aspect-ratio: 1.3 / 1;
+  padding: 6px;
+  background: #0d0400;
+  border: 1px solid rgb(255 244 236 / .16);
+  border-radius: 12px;
+}
+.dispositivo img { border-radius: 4px; }
+
+/* La ficha: el número grande, el nombre con el año y los servicios
+   como etiquetas. En escritorio, alineada con las tres columnas. */
+.proyecto__duo { margin-top: var(--canal); }
+.proyecto__ficha {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: start;
+  padding-top: 18px;
+}
+.proyecto__n {
+  grid-row: span 2;
+  justify-self: start;
+  padding-bottom: .06em;   /* para que el degradado no corte la base de las cifras */
+  font: 900 clamp(2.5rem, 1.4rem + 3vw, 5rem)/.82 var(--f-negra);
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg, var(--flor-honda), var(--flor) 55%, #D0558F);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.proyecto__nombre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font: 200 clamp(1.625rem, 1rem + 1.6vw, 2.5rem)/1.1 var(--f-fina);
+  letter-spacing: -.03em;
+}
+.proyecto__anio {
+  font: 900 var(--t-etiqueta)/1 var(--f-negra);
+  letter-spacing: .02em;
+  color: var(--tenue);
+}
+.proyecto__etiquetas { display: flex; flex-wrap: wrap; gap: 6px; }
+.proyecto__etiquetas li {
+  padding: 6px 12px 5px;
+  border: 1px solid rgb(255 255 255 / .9);
+  border-radius: var(--r-pill);
+  background: linear-gradient(150deg, rgb(255 255 255 / .85), rgb(255 255 255 / .45));
+  box-shadow: 0 6px 16px -10px rgb(74 8 40 / .35), 0 0 0 1px var(--filo);
+  font-size: 13px;
+  line-height: 1.2;
+}
+@media (min-width: 1000px) {
+  .proyecto__ficha {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--canal);
+    padding-top: 22px;
+  }
+  .proyecto__n { grid-row: auto; }
+}
+
+/* El cierre de la galería: la pregunta en grande y el botón, en una
+   lámina de vidrio sobre el aura de abajo. */
+.trabajo__cierre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  margin: clamp(64px, 8vw, 128px) var(--aire) 0;
+  padding: clamp(24px, 3vw, 44px);
+  border-radius: calc(var(--r-vidrio) + 6px);
+}
+.trabajo__pregunta {
+  max-width: 20ch;
+  font: 200 var(--t-grande)/1.05 var(--f-fina);
+  letter-spacing: -.03em;
+}
+
+/* ---------- 5. Apertura (la primera página) -----------------
+   Dirección "Beings": un retrato recortado al ras, el logotipo
+   completo con el texto debajo, cabecera y notas de 12px y un campo
+   verde al que se lava el fondo desde el blanco. Trae su propia paleta
+   (tokens "--b-*"). Las imágenes llevan el radio del recuadro del
+   logotipo, como las del resto del sitio. */
+
+.apertura {
+  position: relative;
+  isolation: isolate;
+  background: var(--b-blanco);
+  color: var(--b-cacao);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.apertura :focus-visible { outline-color: var(--b-cacao); }
+
+/* El aura de la primera pantalla: el rosa de los pétalos detrás del
+   logotipo, el celeste del cielo y el amarillo del polen a su lado. Se
+   apaga mientras el fondo se lava al verde (app.js). */
+.aura--apertura { bottom: auto; height: 150vh; }
+.aura--apertura i:nth-child(1) { --x: 88%; --y: 22vh; --d: 64vmax; --c: var(--petalo); }
+.aura--apertura i:nth-child(2) { --x: 62%; --y: 88vh; --d: 50vmax; --c: var(--cielo-claro); --o: .75; }
+.aura--apertura i:nth-child(3) { --x: 104%; --y: 70vh; --d: 36vmax; --c: var(--polen-claro); --o: .9; }
+
+/* --- La barra de arriba: 12px en mayúsculas, en una lámina de vidrio
+   que flota a --nav-sep del borde. Queda fija en toda la página
+   (sticky, y fuera de la Apertura para que no se acabe con ella); lo
+   que sube por debajo se ve desenfocado a través de ella. El margen de
+   abajo, negativo, la saca del flujo: la Apertura empieza arriba del
+   todo, detrás de la barra, y reserva ese alto con su propio relleno.
+   Los lados van a medio canal y el relleno a otro medio, así su
+   contenido cae en la retícula de 12 de la página. Su alto es --nav-h
+   (css/tokens.css): de él dependen el retrato fijo y los saltos a las
+   secciones; si cambias el tamaño de la barra, cámbialo también. */
+.ap-nav {
+  position: sticky;
+  top: var(--nav-sep);
+  z-index: var(--z-menu);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--aire);
+  align-items: center;
+  margin: var(--nav-sep) calc(var(--aire) / 2) calc(-1 * var(--nav-ocupa));
+  padding: 4px calc(var(--aire) / 2);
+  border-radius: 20px;
+  /* Es vidrio (.vidrio), con un poco más de cuerpo que las demás
+     láminas: lo que pasa por debajo es texto e imágenes. */
+  --vidrio-blur: 5px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .5), rgb(255 255 255 / .26) 50%, rgb(255 255 255 / .36));
+  color: var(--b-cacao);
+  letter-spacing: 0;
+  box-shadow: var(--vidrio-canto), 0 0 0 1px rgb(27 8 0 / .05), 0 14px 30px -20px rgb(74 8 40 / .45);
+  transition: color .4s var(--tallo);
+}
+.ap-nav :focus-visible { outline-color: var(--flor); }
+
+/* En cuanto se baja (app.js pone la clase), su sombra se hace más
+   honda: ya flota sobre el contenido. */
+.ap-nav--baja {
+  box-shadow: var(--vidrio-canto), 0 0 0 1px rgb(27 8 0 / .06), 0 18px 40px -18px rgb(74 8 40 / .55);
+}
+
+/* Sobre el cacao del contacto y el pie (app.js), la lámina se vuelve
+   de vidrio oscuro con la letra en crema: la clara se veía gris. */
+.ap-nav--oscura {
+  background: linear-gradient(160deg, rgb(27 8 0 / .5), rgb(27 8 0 / .34));
+  color: var(--crema);
+  box-shadow: var(--vidrio-oscuro-canto), 0 18px 44px -18px rgb(0 0 0 / .7);
+}
+.ap-nav--oscura::before { opacity: .35; }
+.ap-nav a,
+.ap-intro__acciones a {
+  font: 900 12px/16.8px var(--f-negra);
+  text-transform: uppercase;
+  padding-block: 8px;
+}
+/* La sección en la que estás (app.js) se subraya, igual que al pasar
+   el cursor. */
+.ap-nav__enlaces a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .2s var(--tallo);
+}
+.ap-nav__enlaces a:hover,
+.ap-nav__enlaces a.actual { text-decoration-color: currentColor; }
+
+/* La marca: el recuadro de flores en miniatura y el nombre, un poco
+   separada de la curva de la lámina. */
+.ap-nav__marca {
+  grid-column: 1; grid-row: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+/* Mide lo mismo que el renglón (16.8px), para no crecer la barra. */
+.ap-nav__flor {
+  width: 13px;
+  height: 16.8px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+/* "Hablemos", la única píldora de la barra. */
+.ap-nav__cta {
+  grid-column: 2; grid-row: 1;
+  padding-inline: 14px;
+  border-radius: var(--r-pill);
+  background: var(--b-cacao);
+  color: var(--crema);
+  transition: background-color .25s var(--tallo), box-shadow .3s var(--tallo), translate .5s var(--brote);
+}
+.ap-nav__cta:hover,
+.ap-nav__cta.actual { background: var(--flor); box-shadow: 0 8px 20px -8px rgb(184 54 122 / .75); }
+
+.ap-nav__enlaces {
+  grid-column: 1 / -1; grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  padding-left: 8px;
+}
+@media (min-width: 1000px) {
+  .ap-nav { grid-template-columns: repeat(12, minmax(0, 1fr)); border-radius: var(--r-pill); }
+  .ap-nav__enlaces { padding-left: 0; }
+  .ap-nav__marca   { grid-column: 1 / span 3; }
+  .ap-nav__enlaces {
+    grid-column: 4 / span 7; grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .ap-nav__enlaces a:nth-child(1) { grid-column: 1; }
+  .ap-nav__enlaces a:nth-child(2) { grid-column: 3; }
+  .ap-nav__enlaces a:nth-child(3) { grid-column: 5; }
+  .ap-nav__enlaces a:nth-child(4) { grid-column: 7; }
+  .ap-nav__enlaces a { justify-self: start; }
+  .ap-nav__cta { grid-column: 11 / span 2; justify-self: end; }
+}
+
+/* --- El logotipo completo: el recuadro de flores y el nombre en dos
+   líneas, en un solo SVG (el nombre toma el color del texto). Va
+   encima del texto, en la columna derecha; en pantallas chicas sube
+   encima del retrato. */
+.ap-logo {
+  width: min(15rem, 70%);
+  margin: var(--aire) 0 24px;
+  font: inherit;
+  letter-spacing: 0;
+}
+.ap-logo svg { display: block; width: 100%; height: auto; }
+
+/* --- El cuerpo: el retrato y, a su lado, el logotipo con el texto y la
+   segunda imagen. En escritorio el retrato se queda fijo mientras la
+   segunda imagen sube a su lado. */
+/* Arriba reserva el alto de la barra, que flota encima. */
+.ap-cuerpo { position: relative; padding: calc(var(--nav-ocupa) + var(--aire)) var(--aire) var(--aire); }
+
+.ap-retrato,
+.ap-segunda,
+.ap-panel__foto {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--r-tile);
+  background: var(--b-cacao);
+}
+.ap-retrato > img,
+.ap-segunda > img,
+.ap-panel__foto > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* El retrato es 4:5, como la foto que lleva. Con la ilustración de la
+   regadera (vertical, con el nombre en medio) fue 2:3 para que se viera
+   entera, pero dejaba un hueco grande antes del texto: si vuelve una
+   imagen así, cambia esta proporción y la del README. */
+.ap-retrato { position: relative; aspect-ratio: 4 / 5; }
+.ap-retrato > img { object-position: 50% 0; }
+.ap-segunda { aspect-ratio: 4 / 5; }
+
+/* La ficha del retrato: una lámina de vidrio abajo a la izquierda, con
+   el recuadro de flores, el nombre, el volumen y el año (los del libro
+   de la foto). */
+.ap-ficha {
+  position: absolute;
+  left: var(--aire);
+  bottom: var(--aire);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 2 * var(--aire));
+  padding: 7px;
+  border-radius: 18px;
+  --vidrio-blur: 4px;
+  background: linear-gradient(160deg, rgb(255 255 255 / .58), rgb(255 255 255 / .32));
+  color: var(--b-cacao);
+  font: 400 12px/1.3 var(--f-texto);
+}
+.ap-ficha__flor {
+  flex: none;
+  width: 30px;
+  height: 40px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+.ap-ficha__texto { display: grid; gap: 2px; min-width: 0; }
+.ap-ficha__texto b { text-transform: uppercase; letter-spacing: .02em; }
+.ap-ficha__duo { flex: none; width: 34px; }
+.ap-ficha__anio {
+  flex: none;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: var(--b-cacao);
+  color: var(--crema);
+  font-family: var(--f-negra);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El texto, grande: en escritorio con 38px de titular y 20px de texto;
+   más chico en pantallas chicas. */
+.ap-intro { display: grid; gap: 20px; margin: var(--aire) 0 48px; }
+.ap-intro__titulo { font: 200 30px/1.1 var(--f-fina); letter-spacing: -.03em; }
+
+/* El titular que rota (ver la sección 0b de js/app.js): las frases se
+   apilan en la misma celda —la celda mide lo que la más alta, así el
+   bloque no salta al cambiar de frase— y sólo se ve la activa. Cada
+   letra es un <span> al que app.js le va cambiando el color. */
+.rota--viva { display: grid; }
+.rota--viva .rota__frase { grid-area: 1 / 1; visibility: hidden; }
+.rota--viva .rota__frase.activa { visibility: visible; }
+.rota__pal { white-space: nowrap; }
+.ap-intro__texto { max-width: 40ch; font-size: 17px; line-height: 1.3; }
+.ap-intro__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 4px;
+}
+.ap-intro__acciones a {
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ap-intro__acciones a:hover { text-decoration-thickness: 2px; }
+.ap-intro__acciones .boton {
+  padding: 6px 6px 6px 22px;
+  font-size: 13px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+@media (max-width: 999px) {
+  /* En una sola columna el logotipo va arriba de todo, luego el retrato
+     y luego el texto: los dos envoltorios se disuelven y "order"
+     acomoda las piezas. */
+  .ap-cuerpo { display: flex; flex-direction: column; }
+  .ap-lado, .ap-cabeza { display: contents; }
+  .ap-logo    { order: 0; }
+  .ap-retrato { order: 1; }
+  .ap-intro   { order: 2; }
+  .ap-segunda { order: 3; }
+}
+
+@media (min-width: 1000px) {
+  .ap-cuerpo {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+    align-items: start;
+  }
+  /* El retrato cabe entero bajo la barra fija, con el aire de siempre
+     arriba y abajo: desde que se abre la página ya está en su sitio. */
+  .ap-retrato {
+    grid-column: 1 / span 6; grid-row: 1;
+    position: sticky;
+    top: calc(var(--nav-ocupa) + var(--aire));
+    max-height: calc(100vh - var(--nav-ocupa) - 2 * var(--aire));
+    max-height: calc(100svh - var(--nav-ocupa) - 2 * var(--aire));
+  }
+
+  /* La columna derecha: el logotipo con el texto debajo, en medio de
+     lo que queda de pantalla bajo la barra, y más abajo la segunda
+     imagen. La primera fila mide por lo menos esa altura: eso centra el
+     bloque y la imagen no asoma hasta que se baja. */
+  .ap-lado {
+    grid-column: 7 / span 6; grid-row: 1;
+    display: grid;
+    grid-template-rows: minmax(calc(100vh - var(--nav-ocupa) - 2 * var(--aire)), auto) auto;
+    grid-template-rows: minmax(calc(100svh - var(--nav-ocupa) - 2 * var(--aire)), auto) auto;
+    row-gap: 48px;
+  }
+  .ap-cabeza { display: block; align-self: center; }
+  .ap-logo { width: calc(50% - 6px); margin: 0 0 36px; }
+  .ap-intro { margin: 0; }
+  .ap-intro__titulo { font-size: 2.875rem; }
+  .ap-intro__texto { max-width: 44ch; font-size: var(--t-texto); }
+}
+
+/* --- El panel verde: la declaración, en tinta sobre verde. Es el
+   destino del lavado del fondo; por eso lleva su propio color, el
+   mismo con el que termina. */
+.ap-panel {
+  display: grid;
+  gap: var(--aire);
+  padding: var(--aire) var(--aire) clamp(24px, 3vw, 48px);
+  /* Abajo se enciende con dos luces (el polen y un verde más claro);
+     arriba queda del verde liso con el que termina el lavado, para
+     que no haya corte. */
+  background:
+    radial-gradient(60% 50% at 82% 100%, rgb(220 201 46 / .38), transparent 70%),
+    radial-gradient(50% 45% at 4% 100%, rgb(169 168 98 / .8), transparent 70%),
+    var(--b-verde);
+  color: var(--b-cacao);
+}
+
+/* 30px/35.25px es la medida de la referencia; en pantallas chicas baja a
+   24px para que la declaración no ocupe tres pantallas. */
+.ap-panel__frase,
+.ap-panel__lema { font: 400 24px/1.175 var(--f-texto); letter-spacing: -.01em; }
+.ap-panel__frase { max-width: 56ch; }
+@media (min-width: 1000px) {
+  .ap-panel__frase,
+  .ap-panel__lema { font-size: 30px; }
+}
+
+.ap-panel__fila { display: grid; gap: 24px; margin-top: var(--aire); }
+.ap-panel__izq { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+/* La ilustración del panel es vertical (9:16) y lleva su nombre en medio:
+   se ve entera también en pantallas chicas, sin recortarla. */
+.ap-panel__foto { aspect-ratio: 9 / 16; background: var(--b-verde); }
+.ap-panel__nota { max-width: 44ch; }
+
+/* La palabra de la sección, enorme y subrayada: es el enlace que baja a
+   Trabajo. */
+.ap-panel__titulo {
+  display: block;
+  width: fit-content;
+  font: 200 clamp(4.125rem, 2rem + 4.4vw, 7rem)/1 var(--f-fina);
+  letter-spacing: -.03em;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .1em;
+  transition: color .25s var(--tallo);
+}
+.ap-panel__titulo:hover { color: var(--crema); }
+
+@media (min-width: 1000px) {
+  .ap-panel__fila {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .ap-panel__izq  { grid-column: 1 / span 4; }
+  .ap-panel__foto { grid-column: 5 / span 4; }
+  .ap-panel__nota { grid-column: 9 / span 4; align-self: center; }
+}
+
+/* ---------- 6. Estudio (manifiesto) -------------------------
+   El campo fucsia de las flores del logotipo, con la tinta en crema,
+   encendido por su aura: un fucsia a plena luz arriba, uno en sombra
+   abajo y un resplandor de polen junto a la flor. La frase se enciende
+   palabra por palabra; las dos palabras clave se marcan en amarillo
+   polen cuando ya está leída. A un lado, el recuadro de flores de la
+   marca en un marco de vidrio, flotando un poco más lento que la
+   página, y la nota en otra lámina. */
+
+.manifiesto {
+  position: relative;
+  isolation: isolate;
+  padding: var(--sec-y) var(--aire) calc(var(--sec-y) * 1.1);
+  background: var(--flor);
+  color: var(--crema);
+  overflow: clip;
+}
+.aura--estudio i:nth-child(1) { --x: 6%;  --y: 10%; --d: 72vmax; --c: var(--flor-viva); --o: .7; }
+.aura--estudio i:nth-child(2) { --x: 96%; --y: 92%; --d: 86vmax; --c: var(--flor-honda); }
+.aura--estudio i:nth-child(3) { --x: 84%; --y: 26%; --d: 40vmax; --c: var(--polen); --o: .42; }
+.manifiesto :focus-visible { outline-color: var(--crema); }
+.manifiesto ::selection { background: var(--crema); color: var(--flor); }
+
+.manifiesto__grid { display: grid; gap: clamp(36px, 4vw, 64px); }
+
+.manifiesto__frase {
+  max-width: 17ch;
+  font-size: clamp(2.5rem, 1rem + 4.6vw, 6.25rem);
+  font-weight: 200;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+}
+.manifiesto__frase .pal {
+  opacity: .24;
+  transition: opacity .6s var(--tallo), background-color .6s var(--tallo), color .6s var(--tallo);
+}
+.manifiesto__frase .pal.viva { opacity: 1; }
+/* El resaltado empieza un poco por debajo del borde de la caja de la
+   letra: con un interlineado tan cerrado, si no, taparía las colas
+   (la "q", la "p") del renglón de arriba. */
+.manifiesto__frase .pal--acento.viva {
+  padding: 0 .06em;
+  border-radius: .08em;
+  background: linear-gradient(to bottom, transparent 16%, var(--polen) 16%);
+  color: var(--tinta);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* En el campo fucsia, la píldora del número va en crema. */
+.manifiesto .cabecera__n { background: var(--crema); color: var(--flor); box-shadow: none; }
+
+.manifiesto__lado { display: grid; gap: 28px; align-content: start; }
+/* El recuadro en su marco de vidrio (.vidrio): una lámina alrededor y
+   la imagen dentro, con el radio de adentro más cerrado, como dos
+   piezas encajadas. */
+.manifiesto__flor {
+  --marco: 8px;
+  width: min(62%, 320px);
+  margin: 0;
+  padding: var(--marco);
+  border-radius: calc(var(--r-tile) * 1.4 + var(--marco));
+  box-shadow: var(--vidrio-canto), 0 44px 80px -32px rgb(60 4 32 / .7);
+}
+.manifiesto__flor img {
+  width: 100%;
+  aspect-ratio: 480 / 635;
+  object-fit: cover;
+  border-radius: calc(var(--r-tile) * 1.4);
+}
+/* La nota es otra lámina, teñida de fucsia, que se monta sobre la
+   parte de abajo del recuadro: como el recuadro flota más lento que la
+   página, las flores se deslizan detrás del vidrio al bajar. */
+.manifiesto__nota {
+  --vidrio-blur: 10px;
+  display: grid;
+  gap: 12px;
+  max-width: 34ch;
+  margin: -64px 0 0 12%;
+  padding: clamp(18px, 1.8vw, 26px);
+  border-radius: var(--r-vidrio);
+  background: linear-gradient(160deg, rgb(184 54 122 / .66), rgb(142 36 96 / .5));
+  box-shadow: var(--vidrio-canto), 0 30px 50px -30px rgb(60 4 32 / .8);
+  font-size: 17px;
+}
+
+@media (min-width: 1000px) {
+  .manifiesto__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .manifiesto__grid > .cabecera__fila { grid-column: 1 / -1; }
+  .manifiesto__frase { grid-column: 1 / span 8; }
+  .manifiesto__lado  { grid-column: 10 / span 3; }
+  .manifiesto__flor  { width: 100%; }
+  .manifiesto__nota  { margin: calc(-1 * clamp(90px, 9vw, 150px)) 0 0 -22%; }
+}
+
+/* ---------- 7. Servicios y Proceso: el campo de luz ----------
+   Las dos secciones comparten un campo (.campo-luz) con una sola aura
+   detrás, así las manchas de color pasan de una a otra sin corte: el
+   rosa de los pétalos, el celeste y el polen. Encima, vidrio. */
+
+.campo-luz { position: relative; isolation: isolate; }
+.aura--luz i:nth-child(1) { --x: 0%;   --y: 14%; --d: 64vmax; --c: var(--petalo); --o: .95; }
+.aura--luz i:nth-child(2) { --x: 100%; --y: 42%; --d: 58vmax; --c: var(--cielo-claro); --o: .6; }
+.aura--luz i:nth-child(3) { --x: 18%;  --y: 82%; --d: 54vmax; --c: var(--polen-claro); --o: .75; }
+
+/* --- Servicios. Una fila por área dentro de un panel de vidrio,
+   separadas por filos. La fila abierta (con el cursor, el foco o un
+   toque) se llena de izquierda a derecha con un degradado de uno de
+   los colores de la marca ("--tono" a "--tono-2", que pone app.js) y
+   su texto cambia a la tinta que le da contraste ("--sobre"). */
+
+/* El panel lleva un poco más de desenfoque que las otras láminas,
+   para que los nombres se lean encima. */
+.items {
+  --vidrio-blur: 7px;
+  display: grid;
+  margin-inline: var(--aire);
+  padding: 8px;
+  border-radius: calc(var(--r-vidrio) + 8px);
+  background: linear-gradient(160deg, rgb(255 255 255 / .42), rgb(255 255 255 / .18) 45%, rgb(255 255 255 / .3));
+}
+
+.item {
+  position: relative;
+  isolation: isolate;
+  transition: color .35s var(--tallo);
+}
+.item + .item { border-top: 1px solid rgb(27 8 0 / .1); }
+.item.rev {
+  transition: opacity .6s var(--brote) var(--espera, 0ms), translate .6s var(--brote) var(--espera, 0ms),
+              color .35s var(--tallo);
+}
+.item::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  z-index: -1;
+  border-radius: var(--r-vidrio);
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgb(255 255 255 / .28), transparent 45%),
+    linear-gradient(100deg, var(--tono, var(--flor)), var(--tono-2, var(--flor-media)));
+  box-shadow: 0 22px 44px -26px var(--tono, var(--flor));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s var(--brote);
+}
+.item[data-abierta="true"] { color: var(--sobre, var(--crema)); }
+.item[data-abierta="true"]::before { transform: scaleX(1); }
+
+.item__boton {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 12px;
+  width: 100%;
+  padding: clamp(14px, 1.6vw, 22px) var(--aire);
+  background: none;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.item__boton:focus-visible { outline-color: currentColor; outline-offset: -6px; }
+.item__n {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 900 var(--t-etiqueta)/1 var(--f-negra);
+  letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
+.item__duo { flex: none; width: 34px; }
+.item[data-abierta="true"] .item__duo { --d1: var(--sobre); }
+.item__nombre {
+  font: 200 var(--t-grande)/1.05 var(--f-fina);
+  letter-spacing: -.03em;
+}
+
+/* El signo de más que se vuelve menos. */
+.item__signo { position: relative; width: 18px; height: 18px; }
+.item__signo::before,
+.item__signo::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 100%; height: 2px;
+  margin-top: -1px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform .4s var(--brote);
+}
+.item__signo::after { transform: rotate(90deg); }
+.item[data-abierta="true"] .item__signo::after { transform: rotate(0deg); }
+
+.item__cuerpo {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s var(--brote);
+}
+.item[data-abierta="true"] .item__cuerpo { grid-template-rows: 1fr; }
+.item__interior { overflow: hidden; }
+.item__contenido {
+  display: grid;
+  gap: 14px;
+  padding: 0 var(--aire) clamp(20px, 2.4vw, 32px) calc(var(--aire) + 2.6rem + 12px);
+}
+.item__frase { max-width: 40ch; }
+.item__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 4px 24px;
+  font-size: 15px;
+}
+.item__lista li::before { content: "— "; }
+
+@media (min-width: 1000px) {
+  .item__boton {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .item__n      { grid-column: 1 / span 3; }
+  .item__nombre { grid-column: 4 / span 8; }
+  .item__signo  { grid-column: 12; justify-self: end; }
+  .item__contenido {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+    padding-left: var(--aire);
+  }
+  .item__frase { grid-column: 4 / span 4; }
+  .item__lista { grid-column: 8 / span 5; grid-template-columns: 1fr 1fr; align-content: start; }
+}
+
+/* ---------- 8. Proceso --------------------------------------
+   Los cuatro tiempos, cada uno en su lámina de vidrio. En escritorio
+   van en fila bajo una regla que se llena al bajar ("--avance", de 0 a
+   1) con el degradado de la flor y el recuadro de flores como marca que
+   avanza; la lámina del tiempo en el que va la regla se levanta y su
+   número se enciende. En pantallas chicas van uno bajo otro. */
+
+.proceso { position: relative; padding-inline: var(--aire); }
+
+.hilo { display: none; }
+
+.tiempos { display: grid; gap: 10px; }
+.tiempo__duo { grid-column: 1 / -1; margin-bottom: 8px; }
+.tiempo {
+  --vidrio-blur: 6px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 18px;
+  padding: clamp(20px, 2vw, 30px);
+  border-radius: var(--r-vidrio);
+  background: linear-gradient(160deg, rgb(255 255 255 / .42), rgb(255 255 255 / .16) 45%, rgb(255 255 255 / .28));
+}
+/* La entrada (.rev) lleva su espera; levantarse, no. */
+.tiempo.rev {
+  transition: opacity .6s var(--brote) var(--espera, 0ms), translate .6s var(--brote) var(--espera, 0ms),
+              transform .5s var(--brote), box-shadow .5s var(--brote);
+}
+.tiempo.activo {
+  transform: translateY(-6px);
+  box-shadow: var(--vidrio-canto), 0 36px 64px -30px rgb(184 54 122 / .55);
+}
+/* El número, con el degradado de la flor: apagado hasta que la regla
+   llega a su tiempo (o pasa el cursor). */
+.tiempo__n {
+  grid-row: span 2;
+  justify-self: start;
+  min-width: 2ch;
+  padding-bottom: .06em;
+  font: 900 clamp(3.5rem, 2rem + 4.4vw, 7.5rem)/.8 var(--f-negra);
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  background: var(--degradado-flor);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: .2;
+  transition: opacity .5s var(--tallo);
+}
+.tiempo.activo .tiempo__n,
+.tiempo:hover .tiempo__n { opacity: 1; }
+.tiempo__nombre {
+  font: 200 var(--t-grande)/1.05 var(--f-fina);
+  letter-spacing: -.03em;
+}
+.tiempo p { max-width: 32ch; margin-top: 10px; }
+
+@media (min-width: 1000px) {
+  .hilo {
+    display: block;
+    position: relative;
+    height: 4px;
+    margin-bottom: 28px;
+    border-radius: 4px;
+    background: rgb(27 8 0 / .1);
+    container-type: inline-size;
+  }
+  .hilo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--degradado-flor);
+    box-shadow: 0 0 18px rgb(224 100 159 / .55);
+    transform: scaleX(var(--avance, 0));
+    transform-origin: left;
+    transition: transform .25s linear;
+  }
+  .hilo__marca {
+    position: absolute;
+    z-index: 1;
+    left: 0; top: 50%;
+    width: 22px; height: 29px;
+    margin-top: -14.5px;
+    border-radius: 5px;
+    background: url("../assets/apertura/logo-flor.jpg") center / cover;
+    box-shadow: 0 0 0 3px rgb(255 255 255 / .8), 0 8px 22px -4px rgb(184 54 122 / .7);
+    /* Recorre la regla sin salirse de ella por ninguno de los lados. */
+    transform: translateX(calc(var(--avance, 0) * (100cqw - 22px)));
+    transition: transform .25s linear;
+  }
+
+  .tiempos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--aire);
+  }
+  .tiempo {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 22px;
+  }
+  .tiempo__n { grid-row: auto; }
+}
+
+/* ---------- 9. Contacto -------------------------------------
+   El cierre, sobre el cacao de la tinta, que sigue sin corte en el
+   pie, con dos luces encendidas (el fucsia abajo, el azul del cielo
+   arriba) que se apagan antes de llegar a él. El formulario, en una
+   lámina de vidrio oscuro con campos de vidrio. */
+
+.contacto-seccion {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: clamp(64px, 7vw, 112px);
+  background: var(--tinta);
+  color: var(--crema);
+}
+.aura--contacto i:nth-child(1) { --x: 4%;  --y: 62%; --d: 58vmax; --c: var(--flor); --o: .6; }
+.aura--contacto i:nth-child(2) { --x: 96%; --y: 16%; --d: 54vmax; --c: var(--cielo); --o: .5; }
+.aura--contacto i:nth-child(3) { --x: 62%; --y: 50%; --d: 28vmax; --c: var(--polen); --o: .14; }
+.contacto-seccion .cabecera__n { box-shadow: 0 6px 18px -6px rgb(184 54 122 / .9); }
+.contacto-seccion :focus-visible { outline-color: var(--polen); }
+.contacto-seccion .cabecera__titulo { max-width: none; }
+
+.contacto { display: grid; gap: 56px; padding-inline: var(--aire); }
+
+.contacto__izq { display: grid; gap: 40px; align-content: start; }
+.contacto__lead {
+  max-width: 20ch;
+  font: 200 clamp(1.625rem, 1rem + 1.6vw, 2.75rem)/1.1 var(--f-fina);
+  letter-spacing: -.03em;
+}
+
+@media (min-width: 1000px) {
+  .contacto {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--aire);
+  }
+  .contacto__izq { grid-column: 1 / span 5; }
+  .forma         { grid-column: 7 / span 6; }
+}
+
+.datos { display: grid; gap: 22px; }
+/* Cada dato entra por su cuenta: .contacto__izq ya es .rev, esto se
+   monta encima con un "--i" propio por dato. */
+.dato {
+  display: grid;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity .6s var(--brote), transform .6s var(--brote);
+}
+.contacto__izq.dentro .dato {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.dato__clave {
+  font: 900 var(--t-etiqueta)/1 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .6);
+}
+.dato__valor { justify-self: start; }
+a.dato__valor,
+.redes a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(255 244 236 / .4);
+  transition: color .2s var(--tallo), text-decoration-color .2s var(--tallo);
+}
+a.dato__valor:hover,
+.redes a:hover { color: var(--petalo); text-decoration-color: currentColor; }
+
+.redes { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
+.forma {
+  --vidrio-blur: 6px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px 20px;
+  align-content: start;
+  padding: clamp(20px, 2.6vw, 40px);
+  border-radius: calc(var(--r-vidrio) + 8px);
+}
+
+@media (min-width: 700px) {
+  .forma { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .campo--ancho { grid-column: 1 / -1; }
+}
+
+.campo { display: grid; gap: 8px; align-content: start; }
+.campo label {
+  font: 900 var(--t-etiqueta)/1 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .72);
+}
+
+/* Cada campo, una pequeña lámina hundida: al enfocarlo se enciende un
+   anillo fucsia. */
 .campo input,
 .campo select,
 .campo textarea {
-  display: block;
   width: 100%;
-  padding: 4px 0 14px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--negro);
-  font-size: var(--t-texto);
-  line-height: 1.15;
+  padding: 13px 16px;
+  border: 1px solid rgb(255 244 236 / .16);
+  border-radius: 14px;
+  background: rgb(255 244 236 / .05);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .3);
+  color: var(--crema);
+  font-size: 18px;
+  line-height: 1.3;
+  transition: border-color .2s var(--tallo), box-shadow .25s var(--tallo), background-color .2s var(--tallo);
 }
+.campo textarea { min-height: 140px; resize: vertical; }
+.campo input::placeholder,
+.campo textarea::placeholder { color: rgb(255 244 236 / .4); }
+.campo input:hover,
+.campo select:hover,
+.campo textarea:hover { background-color: rgb(255 244 236 / .08); }
 .campo input:focus-visible,
 .campo select:focus-visible,
-.campo textarea:focus-visible { outline: none; }
-.campo textarea { min-height: 120px; resize: vertical; }
-.campo input::placeholder,
-.campo textarea::placeholder { color: var(--gris-texto); }
+.campo textarea:focus-visible {
+  outline: none;
+  border-color: var(--flor-viva);
+  background-color: rgb(255 244 236 / .08);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .3), 0 0 0 4px rgb(184 54 122 / .35);
+}
+/* Sin el amarillo del autocompletado: el fondo del campo sobre el cacao. */
 .campo input:-webkit-autofill {
-  -webkit-text-fill-color: var(--negro);
-  box-shadow: inset 0 0 0 100px var(--gris-foto);
+  -webkit-text-fill-color: var(--crema);
+  box-shadow: inset 0 0 0 100px #2A160E;
+  transition: background-color 9999s;
 }
 
-/* El selector, con el triángulo de las barras de Homer. */
 .campo select {
   appearance: none;
-  padding-right: 24px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='7'%3E%3Cpath d='M0 0h13L6.5 7z'/%3E%3C/svg%3E")
-              right 0 top 11px / 13px 7px no-repeat;
-  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--crema) 50%),
+                    linear-gradient(135deg, var(--crema) 50%, transparent 50%);
+  background-position: right 22px center, right 16px center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 44px;
 }
-.campo select option { background: var(--blanco); color: var(--negro); }
+.campo select option { color: var(--tinta); background: var(--lamina); }
 
-.campo__ayuda,
-.campo__error,
-.forma__nota,
-.forma__estado { font-size: var(--t-chica); line-height: 1.2; }
-.campo__ayuda { margin: -8px 0 10px; color: var(--gris-fino); }
-.campo__error { min-height: 1em; margin-bottom: 8px; color: #C8321F; }
-.campo__error:empty { margin: 0; min-height: 0; }
-.campo[data-invalido="true"] { border-top-color: #C8321F; }
+.campo__ayuda { font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .55); }
+
+/* El error, en amarillo polen: se lee sobre el cacao y no se confunde
+   con el acento fucsia. */
+.campo__error { min-height: 1em; font-size: 14px; line-height: 1.2; color: var(--polen); }
+.campo__error:not(:empty)::before { content: "— "; }
+.campo[data-invalido="true"] input,
+.campo[data-invalido="true"] select,
+.campo[data-invalido="true"] textarea { border-color: var(--polen); box-shadow: inset 0 1px 2px rgb(0 0 0 / .3), 0 0 0 4px rgb(220 201 46 / .22); }
 
 .forma__pie {
-  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 12px var(--canal);
-  padding-top: 20px;
-  border-top: 1px solid var(--gris-barra);
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
 }
-.forma__nota { max-width: 30ch; padding-top: 3px; color: var(--gris-fino); }
-.forma__estado { grid-column: 1 / -1; display: none; margin-top: 16px; }
+.forma__nota { max-width: 30ch; font-size: 14px; line-height: 1.2; color: rgb(255 244 236 / .55); }
+.forma__estado { display: none; }
 .forma__estado[data-visible="true"] { display: block; }
-.forma__estado[data-tipo="error"] { color: #C8321F; }
+.forma__estado[data-tipo="error"] { color: var(--polen); }
 
-@media (max-width: 999px) {
-  .contacto { margin-top: 96px; padding-bottom: 96px; }
-  .contacto__cuerpo { grid-template-columns: minmax(0, 1fr); }
-  .forma { grid-template-columns: minmax(0, 1fr); }
-  .campo:nth-child(1),
-  .campo:nth-child(2) { grid-column: 1 / -1; }
-  .forma__pie .barra-boton { width: 100%; }
-}
-
-/* ---------- 11. Pie ------------------------------------------ */
+/* ---------- 10. Pie -----------------------------------------
+   El cacao del contacto sigue: la frase y los enlaces arriba, el aviso
+   legal abajo. */
 
 .pie {
-  padding: 52px 22px 44px;
-  background: var(--gris-panel);
-  font: 400 var(--t-mini)/1.15 var(--f-texto);
+  padding: 0 var(--aire) 20px;
+  background: var(--tinta);
+  color: var(--crema);
 }
-.pie__logo { display: block; width: 72px; margin: 0 auto 16px; }
-.pie__logo svg { display: block; width: 72px; height: 25px; color: var(--negro); }
-.pie__columnas {
-  display: grid;
-  grid-template-columns: repeat(4, 150px);
-}
-.pie__col { display: flex; flex-direction: column; align-items: flex-start; }
-.pie__titulo { font: 900 var(--t-mini)/1.15 var(--f-negra); }
-.pie a:hover { text-decoration: underline; }
-
-@media (max-width: 699px) {
-  .pie__columnas { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
-}
-
-/* ---------- 12. La barra fija de abajo ----------------------- */
-
-.fijo {
-  position: fixed;
-  inset: auto 0 0 0;
-  z-index: var(--z-fijo);
+.pie__fila {
   display: flex;
-  align-items: center;
-  height: var(--pie-fijo);
-  background: var(--blanco);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgb(255 244 236 / .2);
 }
-.fijo__todo {
-  flex: 0 0 341px;
-  align-self: stretch;
-  padding: 0 17px;
-  background: var(--gris-panel);
-  text-align: left;
-  font: 900 var(--t-texto)/1 var(--f-negra);
-}
-.fijo__todo:hover { text-decoration: underline; text-underline-offset: 3px; }
-.fijo__linea {
-  position: absolute;
-  left: 50%;
-  translate: -50% 0;
-  font-size: var(--t-chica);
-  white-space: nowrap;
-}
-
-@media (max-width: 999px) {
-  .fijo__todo { flex: 1; }
-  .fijo__linea { display: none; }
-}
-
-/* ---------- 13. El panel ------------------------------------- */
-
-/* Una columna gris de 340px a la derecha, sobre un velo negro al 40%
-   (el de Homer). Entra deslizándose. */
-.panel {
-  position: fixed;
-  inset: 0 0 0 auto;
-  width: 340px;
-  max-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  margin: 0;
-  padding: 70px 17px 40px;
-  border: 0;
-  background: var(--gris-panel);
-  color: var(--negro);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-.panel::backdrop { background: rgb(0 0 0 / .4); }
-.panel[open] { animation: panel-entra .35s cubic-bezier(.2, .8, .2, 1); }
-@keyframes panel-entra { from { translate: 100% 0; } }
-
-.panel__cerrar {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 42px;
-  height: 42px;
-  font: 900 28px/1 var(--f-negra);
-}
-.panel__todo {
-  display: block;
-  margin-bottom: 42px;
-  font: 900 var(--t-texto)/1 var(--f-negra);
-}
-.panel__secciones { display: grid; gap: 22px; }
-.panel__secciones > li > a {
-  font: 900 var(--t-texto)/25px var(--f-negra);
+.pie__frase { max-width: 36ch; }
+.pie__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font: 900 var(--t-etiqueta)/1.4 var(--f-negra);
   text-transform: uppercase;
+  letter-spacing: .02em;
 }
-.panel a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pie__enlaces a { transition: color .2s var(--tallo); }
+.pie__enlaces a:hover { color: var(--petalo); }
 
-/* Las muestras: cuadros de 28px, como los acabados de Homer. */
-.panel__muestras { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.muestra {
-  display: block;
-  width: 28px;
-  height: 28px;
-  background: var(--c1, var(--gris-barra));
-  overflow: hidden;
+.pie__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: clamp(48px, 6vw, 96px);
+  font: 900 var(--t-etiqueta)/1 var(--f-negra);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: rgb(255 244 236 / .55);
 }
-.muestra img { width: 100%; height: 100%; object-fit: cover; }
-.muestra:hover { outline: 2px solid var(--negro); outline-offset: 1px; }
 
-.panel__filas { margin-top: 48px; border-bottom: 1px solid #E0E0E0; }
-.panel__filas li {
-  border-top: 1px solid #E0E0E0;
-  font: 900 var(--t-mini)/41px var(--f-negra);
+/* ---------- 11. Revelados -----------------------------------
+   Suben y aparecen con "translate", no con "transform": así no pisan
+   la inclinación de las celdas ni el levantarse de los tiempos. */
+
+.rev {
+  opacity: 0;
+  translate: 0 1.5rem;
+  transition: opacity .6s var(--brote), translate .6s var(--brote);
+  transition-delay: var(--espera, 0ms);
 }
-.panel__filas a,
-.panel__filas span { display: block; }
+.rev.dentro { opacity: 1; translate: 0 0; }
 
-/* ---------- 14. Menos movimiento ---------------------------- */
+/* ---------- 12. Menos movimiento ---------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -633,4 +1565,11 @@ p, li, a, dd { overflow-wrap: break-word; }
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
+  .rev { opacity: 1; translate: none; }
+  .tt__in { translate: none; }
+  .aura i { animation: none; }
+  .celda { transform: none; }
+  .celda:hover img { transform: none; }
+  .tiempo.activo { transform: none; }
+  .manifiesto__frase .pal { opacity: 1; }
 }
