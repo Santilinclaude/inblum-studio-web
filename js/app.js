@@ -3,7 +3,7 @@
    El contenido vive en js/data.js. Aquí está la mecánica: el
    lavado del fondo de la primera página, los titulares que entran
    palabra por palabra, las listas de Servicios y Proceso, el grid
-   de Trabajo (con el sitio web), el vidrio de
+   de Trabajo, el vidrio de
    la barra, la regla del proceso, los revelados enganchados al
    scroll (y las franjas del duotono que se dibujan) y el formulario.
 
@@ -461,10 +461,6 @@
      real, y toma su color con el cursor. Cada celda entra rápido, en
      una cascada corta, y con el cursor encima muestra su rótulo.
 
-     El sitio web (tipo: 'web') no se muestra como imágenes sueltas,
-     sino como lo que es: un navegador y un teléfono con la página, que
-     baja sola mientras está en pantalla, y un pedazo del código real
-     del sitio.
      Todo el contenido vive en PIEZAS (js/data.js).
      --------------------------------------------------------- */
 
@@ -492,67 +488,19 @@
     }).join('');
   }
 
-  // Un resaltado mínimo para el código: palabras clave, cadenas,
-  // comentarios y llamadas a funciones.
-  const CLAVES = ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for',
-                  'new', 'true', 'false', 'null'];
-  function resaltar(linea) {
-    const re = /(\/\/.*$)|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")|([A-Za-z_$][\w$]*)(?=\s*\()|([A-Za-z_$][\w$]*)|([\s\S])/g;
-    let out = '';
-    let m;
-    while ((m = re.exec(linea))) {
-      const palabra = m[3] || m[4];
-      if (m[1]) out += '<span class="tk-comentario">' + escapar(m[1]) + '</span>';
-      else if (m[2]) out += '<span class="tk-cadena">' + escapar(m[2]) + '</span>';
-      else if (palabra && CLAVES.indexOf(palabra) >= 0) out += '<span class="tk-clave">' + palabra + '</span>';
-      else if (m[3]) out += '<span class="tk-funcion">' + palabra + '</span>';
-      else if (m[4]) out += palabra;
-      else out += escapar(m[5]);
-    }
-    return out;
-  }
-
-  function webHTML(p) {
-    const w = p.web;
-    const lineas = w.codigo.split('\n');
-    return '' +
-      '<div class="web">' +
-        '<figure class="web__navegador rev">' +
-          '<div class="web__barra"><span class="web__url">' + escapar(w.url) + '</span></div>' +
-          '<div class="web__pantalla"><img src="' + escapar(w.escritorio) + '" alt="' + escapar(w.altEscritorio) + '"' +
-          ' loading="lazy" decoding="async"></div>' +
-        '</figure>' +
-        '<figure class="web__telefono rev" style="--espera:100ms">' +
-          '<div class="web__pantalla"><img src="' + escapar(w.telefono) + '" alt="' + escapar(w.altTelefono) + '"' +
-          ' loading="lazy" decoding="async"></div>' +
-        '</figure>' +
-        '<figure class="web__codigo rev" style="--espera:200ms">' +
-          '<figcaption class="web__archivo">' + escapar(w.archivo) + '</figcaption>' +
-          '<pre><code>' + lineas.map(function (l, k) {
-            return '<span class="ln" style="--k:' + k + '">' + (resaltar(l) || ' ') +
-                   (k === lineas.length - 1 ? '<span class="web__cursor" aria-hidden="true"></span>' : '') +
-                   '</span>';
-          }).join('') + '</code></pre>' +
-        '</figure>' +
-      '</div>';
-  }
-
   if (piezas) {
     piezas.innerHTML = !PIEZAS.length
       ? '<p class="cabecera__lead">Estamos preparando esta sección. Mientras tanto, ' +
         'escríbenos y te compartimos el portafolio completo en PDF.</p>'
       : PIEZAS.map(function (p, i) {
-        let cuerpo;
-        if (p.tipo === 'web' && p.web) cuerpo = webHTML(p);
-        else cuerpo = '<div class="proyecto__celdas">' + celdasHTML(p, i) + '</div>';
+        const cuerpo = '<div class="proyecto__celdas">' + celdasHTML(p, i) + '</div>';
 
         const etiquetas = p.servicios.map(function (s) {
           return '<li>' + escapar(s) + '</li>';
         }).join('');
 
         return '' +
-          '<article class="proyecto' + (p.tipo ? ' proyecto--' + p.tipo : '') + '"' +
-          ' aria-label="' + escapar(p.titulo) + '">' +
+          '<article class="proyecto" aria-label="' + escapar(p.titulo) + '">' +
             cuerpo +
             duo(i, 'proyecto__duo') +
             '<div class="proyecto__ficha">' +

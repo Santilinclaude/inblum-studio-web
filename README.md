@@ -49,16 +49,15 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
   barra lleva el recuadro en miniatura y el pie no lo lleva.
 - **Movimiento.** Los titulares entran palabra por palabra, las franjas se
   dibujan, el manifiesto se enciende al bajar, la regla del proceso avanza, las
-  fotos entran rápido (medio segundo, en cascada de 40ms) y el proyecto web
-  baja solo en su navegador y escribe su código. Todo se apaga con "reducir
-  movimiento".
+  fotos entran rápido (medio segundo, en cascada de 40ms). Todo se apaga con
+  "reducir movimiento".
 
 ## Secciones, en orden
 
 | Sección | Qué hace |
 |---|---|
 | Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel verde que da paso a Trabajo |
-| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris. El proyecto web se muestra distinto: un navegador y un teléfono con la página, que baja sola, y un pedazo del código real del sitio |
+| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
 | Estudio | El manifiesto sobre fucsia: se enciende palabra por palabra, las palabras clave se marcan en amarillo y a un lado va la nota |
 | Servicios | Las ocho áreas, una fila por área con su duotono; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
 | Proceso | Los cuatro tiempos, cada uno con su duotono, bajo una regla que se llena al bajar; el número del tiempo en curso se enciende |
@@ -79,13 +78,12 @@ inblum-web/
 │   ├── data.js        ← EDITA AQUÍ: contacto, servicios, proyectos, pasos y las
 │   │                  frases del titular
 │   └── app.js         lavado y titular que rota de la Apertura, barra, titulares
-│                      por palabra, listas, galería (con el proyecto web),
+│                      por palabra, listas, galería,
 │                      vidrio de la barra, revelados y franjas, regla del
 │                      proceso y formulario
 └── assets/
     ├── apertura/      las imágenes de la primera página y el recuadro de flores
-    ├── work/          las piezas reales de Trabajo y las capturas del sitio
-    │                  (web-escritorio.jpg, web-telefono.jpg)
+    ├── work/          las piezas reales de Trabajo
     ├── obra/          texturas de relleno que se ven dentro de las tabletas
     ├── poster.png     imagen para compartir el enlace (og:image)
     └── favicon.png
@@ -235,15 +233,6 @@ publicar trabajo real en el resto de los proyectos:
 (capturas de sitios y apps). `alto: 2` hace que la celda ocupe dos filas. La
 cuadrícula acomoda las celdas sola; un proyecto completo suma nueve espacios.
 
-**El proyecto web** (`tipo: 'web'`, hoy "Sitio del estudio") no usa celdas:
-muestra un navegador y un teléfono con la página, que baja sola mientras está
-en pantalla, y un pedazo de código que entra renglón por renglón. Mientras
-llega el primer sitio de un cliente, el ejemplo es este mismo sitio: sus
-capturas (`assets/work/web-escritorio.jpg`, 1100 px de ancho, y
-`web-telefono.jpg`, 600 px; las dos son la página hacia abajo, largas) y la
-función de `js/app.js` que revisa cada campo del formulario. Para un sitio de
-cliente, cambia en `data.js` la dirección (`url`), las dos capturas con sus
-textos alternativos, el nombre del archivo y el código.
 
 ### 3. Recibir los mensajes del formulario
 Hoy el formulario **abre el correo del visitante** con el mensaje ya escrito.
@@ -281,9 +270,8 @@ sube el número de `?v=` en las cuatro etiquetas `<link>` y `<script>` del
 
 ## Accesibilidad y rendimiento
 
-- `prefers-reduced-motion` apaga el lavado, los revelados, las franjas que se
-  dibujan y la página que baja sola en el proyecto web: la página queda
-  completa y legible, en su estado final.
+- `prefers-reduced-motion` apaga el lavado, los revelados y las franjas que se
+  dibujan: la página queda completa y legible, en su estado final.
 - El vidrio (`backdrop-filter`) se usa en tres piezas, y el rótulo de cada
   celda queda oculto de verdad (`visibility`) mientras no se ve, para no
   desenfocar cuarenta cosas a la vez.

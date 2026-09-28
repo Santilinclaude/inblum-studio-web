@@ -152,8 +152,6 @@ const FRASES = [
      `alto: 2` la celda ocupa dos filas (retratos, fotografía
      vertical: 820x1160 px). Las demás, 820x580 px.
    - servicios: una línea por servicio, de la lista SERVICIOS.
-   - tipo: 'web' cambia el mosaico por el navegador, el teléfono y el
-     código (ver el proyecto que lo usa, abajo).
    ------------------------------------------------------------ */
 const PIEZAS = [
   {
@@ -199,37 +197,6 @@ const PIEZAS = [
       { img: 'assets/obra/porcelana.jpg', dispositivo: true },
       { img: 'assets/obra/mar.jpg', dispositivo: true }
     ]
-  },
-  {
-    titulo: 'Sitio del estudio',
-    anio: 2026,
-    servicios: ['Diseño UI/UX', 'Programación web', 'SEO'],
-    /* El sitio web no se muestra con imágenes sueltas: un navegador y un
-       teléfono con la página (que baja sola mientras está en pantalla) y
-       un pedazo de su código. Mientras llega el primer sitio de un
-       cliente, el ejemplo es este mismo sitio: sus capturas y un pedazo
-       real de js/app.js (la función que revisa cada campo del
-       formulario). Las capturas son largas (toda la página hacia abajo):
-       1100 px de ancho la de escritorio y 600 px la del teléfono. */
-    tipo: 'web',
-    web: {
-      url: 'inblumstudio.com',
-      escritorio: 'assets/work/web-escritorio.jpg',
-      altEscritorio: 'Captura de la página de Inblüm Studio en escritorio: el retrato con el libro, el logotipo y el titular',
-      telefono: 'assets/work/web-telefono.jpg',
-      altTelefono: 'Captura de la misma página en un teléfono',
-      archivo: 'js/app.js',
-      codigo: [
-        '// Revisa un campo del formulario y dice qué falta.',
-        'function revisar(campo) {',
-        '  const regla = REGLAS[campo.name];',
-        '  if (!regla) return true;',
-        '  const ok = regla.valida(campo.value);',
-        '  marcar(campo, ok, regla.error);',
-        '  return ok;',
-        '}'
-      ].join('\n')
-    }
   },
   {
     titulo: 'Campaña en redes',
