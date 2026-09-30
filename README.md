@@ -220,24 +220,26 @@ En `js/data.js`, hasta arriba: el correo y el usuario de Instagram. El sitio
 no muestra teléfono ni dirección.
 
 ### 2. Proyectos
-También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
-tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
-`picsum.photos`. La excepción es "Identidad y sistema gráfico": sus diez celdas
-ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin tableta
-porque no son capturas de pantalla; con cinco altas y cinco normales llena
+También en `js/data.js`, en `PIEZAS`. Los tres proyectos ya son trabajo real,
+en `assets/work/`. "Identidad y sistema gráfico" son diez ilustraciones
+(prefijo `graf-`), sin tableta porque no son capturas de pantalla; con cinco
+altas y cinco normales llena
 cinco filas enteras (quince espacios). "Fotografía de producto" también es
 real (prefijo `prod-`): siete fotos altas y dos panorámicas a lo ancho de dos
-columnas (`ancho: 2`), seis filas enteras. En celular, si una cantidad impar
+columnas (`ancho: 2`), seis filas enteras. "Fotografía" también (prefijo `foto-`):
+cinco altas y dos normales, cuatro filas enteras. En celular, si una cantidad impar
 de celdas altas deja un hueco junto a la última, esa última ocupa las dos
 columnas. La galería distingue sola lo real
 del relleno: lo que viene de `assets/obra/` o de una dirección `https://` se
 muestra en gris (y toma su color con el cursor); lo de `assets/work/`, siempre a
 color. Si cambias un archivo de `assets/work/` sin cambiarle el nombre, súbele
 el `?v=` de su ruta en `data.js`, para que nadie vea la copia vieja. Para
-publicar trabajo real en el resto de los proyectos:
+agregar un proyecto:
 
 1. Copia las imágenes a `assets/work/` (820x580 px las normales, 820x1160 las
-   altas).
+   altas, 1640x570 las que van a lo ancho de dos columnas). Para que las filas
+   queden completas, las celdas tienen que sumar un múltiplo de tres espacios
+   (una alta o una ancha cuenta dos).
 2. Pon cada ruta en `img` y cambia `titulo`, `anio` y `servicios`.
 
 ```js

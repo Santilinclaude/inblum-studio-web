@@ -134,11 +134,9 @@ const FRASES = [
    columnas (nueve espacios, tres filas) con líneas finas entre
    celdas y, encima, su ficha —número, nombre con año y servicios.
 
-   PENDIENTE: todo esto es de relleno. Las tabletas muestran
-   texturas de assets/obra y las imágenes altas, fotos de
-   picsum.photos. Para publicar trabajo real: copia las imágenes a
-   assets/work/, pon cada ruta en `img` y cambia `titulo`, `anio` y
-   `servicios` por los del proyecto.
+   Los tres proyectos ya son trabajo real, en assets/work/. Para
+   agregar otro: copia sus imágenes a assets/work/, pon cada ruta en
+   `img` y llena `titulo`, `anio` y `servicios`.
    - celdas: en orden de lectura; la cuadrícula las acomoda sola.
      Con `dispositivo: true` la imagen se muestra dentro de una
      tableta sobre negro (capturas de sitios y apps). Con
@@ -188,14 +186,13 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Video y fotografía documental', 'Edición de imagen'],
     celdas: [
-      { img: 'assets/obra/luz.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-documental-c/820/580', alt: 'Fotografía' },
-      { img: 'https://picsum.photos/seed/inblum-documental-a/820/1160', alt: 'Fotografía', alto: 2 },
-      { img: 'assets/obra/algas.jpg', dispositivo: true },
-      { img: 'assets/obra/piel.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-documental-d/820/580', alt: 'Fotografía' },
-      { img: 'assets/obra/porcelana.jpg', dispositivo: true },
-      { img: 'assets/obra/mar.jpg', dispositivo: true }
+      { img: 'assets/work/foto-tenis-cancha.jpg', alt: 'Vista desde arriba de una tenista de vestido y visera blancos que cruza una cancha de arcilla clara con la raqueta y un bolso de piel, junto a su sombra', alto: 2 },
+      { img: 'assets/work/foto-casilleros.jpg', alt: 'Dos jóvenes en ropa deportiva menta y rosa frente a casilleros rojos; una gira un balón en el dedo y la otra descansa en una banca', alto: 2 },
+      { img: 'assets/work/foto-pana-ventana.jpg', alt: 'Un joven con chamarra y pantalón de pana color óxido junto a una ventana, entre franjas de sol y sombra en un pasillo con escaleras', alto: 2 },
+      { img: 'assets/work/foto-gato-ciudad.jpg', alt: 'Un gato gris y blanco se asoma a la lente en gran angular, con los rascacielos y el cielo azul curvándose detrás', alto: 2 },
+      { img: 'assets/work/foto-alto-sol.jpg', alt: 'Señal de alto de acrílico rojo vista desde abajo, a contraluz contra un cielo azul' },
+      { img: 'assets/work/foto-tejido-lima.jpg', alt: 'Vista desde arriba de una chica con chongos, lentes azul claro, top tejido verde lima, pantalón verde olivo y tacones azules, sobre fondo blanco', alto: 2 },
+      { img: 'assets/work/foto-tenis-mirada.jpg', alt: 'Primer plano de la mirada de una tenista con el pelo peinado hacia atrás, detrás del marco y las cuerdas de la raqueta' }
     ]
   }
 ];
