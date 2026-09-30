@@ -180,16 +180,16 @@ const PIEZAS = [
     ]
   },
   {
-    titulo: 'Rodaje documental',
+    titulo: 'Fotografía documental',
     anio: 2026,
-    servicios: ['Video y fotografía documental', 'Edición de video', 'Preproducción audiovisual'],
+    servicios: ['Video y fotografía documental', 'Edición de imagen'],
     celdas: [
       { img: 'assets/obra/luz.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-rodaje-c/820/580', alt: 'Rodaje documental' },
-      { img: 'https://picsum.photos/seed/inblum-rodaje-a/820/1160', alt: 'Rodaje documental', alto: 2 },
+      { img: 'https://picsum.photos/seed/inblum-documental-c/820/580', alt: 'Fotografía documental' },
+      { img: 'https://picsum.photos/seed/inblum-documental-a/820/1160', alt: 'Fotografía documental', alto: 2 },
       { img: 'assets/obra/algas.jpg', dispositivo: true },
       { img: 'assets/obra/piel.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-rodaje-d/820/580', alt: 'Rodaje documental' },
+      { img: 'https://picsum.photos/seed/inblum-documental-d/820/580', alt: 'Fotografía documental' },
       { img: 'assets/obra/porcelana.jpg', dispositivo: true },
       { img: 'assets/obra/mar.jpg', dispositivo: true }
     ]
