@@ -485,15 +485,58 @@
   const piezas = $('#piezas');
   const esRelleno = function (src) { return /^https?:|assets\/obra\//.test(src); };
 
+  // En dos columnas (pantallas chicas), un número impar de celdas altas
+  // deja un hueco junto a la última. Aquí se acomodan las celdas como lo
+  // hace la cuadrícula (grid-auto-flow: dense) y, si el hueco queda justo
+  // al lado de la última, se marca para que en dos columnas ocupe las dos.
+  function celdaRemate(celdas) {
+    const ocupado = [];
+    const libre = function (f, col, an, al) {
+      for (let y = f; y < f + al; y++) {
+        for (let x = col; x < col + an; x++) if (ocupado[y] && ocupado[y][x]) return false;
+      }
+      return true;
+    };
+    let ultima = null;
+    celdas.forEach(function (c) {
+      const an = c.ancho === 2 ? 2 : 1;
+      const al = c.alto === 2 ? 2 : 1;
+      for (let f = 0; ; f++) {
+        for (let col = 0; col + an <= 2; col++) {
+          if (!libre(f, col, an, al)) continue;
+          for (let y = f; y < f + al; y++) {
+            ocupado[y] = ocupado[y] || [];
+            for (let x = col; x < col + an; x++) ocupado[y][x] = true;
+          }
+          ultima = { f: f, col: col, an: an, al: al };
+          return;
+        }
+      }
+    });
+    if (!ultima || ultima.an === 2) return -1;
+    const otra = 1 - ultima.col;
+    for (let y = 0; y < ocupado.length; y++) {
+      const hueco = !(ocupado[y] && ocupado[y][0] && ocupado[y][1]);
+      const junto = y >= ultima.f && y < ultima.f + ultima.al;
+      if (hueco !== junto) return -1;
+      if (junto && ocupado[y][otra]) return -1;
+    }
+    return celdas.length - 1;
+  }
+
   function celdasHTML(p, i) {
+    const remate = celdaRemate(p.celdas);
     return p.celdas.map(function (c, k) {
       // Lo que se ve al abrir la página carga de inmediato; el resto,
       // hasta que se acerque.
       const carga = i === 0 ? ' fetchpriority="high"' : ' loading="lazy"';
       const img = '<img src="' + escapar(c.img) + '" alt="' + escapar(c.alt || '') + '"' +
+                  (c.enfoque ? ' style="object-position:' + escapar(c.enfoque) + '"' : '') +
                   carga + ' decoding="async">';
       const clase = 'celda rev' + (c.dispositivo ? ' celda--dispositivo' : '') +
                     (c.alto === 2 ? ' celda--alta' : '') +
+                    (c.ancho === 2 ? ' celda--ancha' : '') +
+                    (k === remate ? ' celda--remate' : '') +
                     (esRelleno(c.img) ? ' celda--relleno' : '');
       // El rótulo repite el nombre del proyecto (ya está en su ficha):
       // es sólo para la vista.

@@ -224,8 +224,12 @@ También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las
 tabletas muestran texturas de `assets/obra` y las imágenes altas son fotos de
 `picsum.photos`. La excepción es "Identidad y sistema gráfico": sus diez celdas
 ya son ilustraciones reales en `assets/work/` (prefijo `graf-`), sin tableta
-porque no son capturas de pantalla; con cuatro altas y seis normales llena
-cinco filas enteras (quince espacios). La galería distingue sola lo real
+porque no son capturas de pantalla; con cinco altas y cinco normales llena
+cinco filas enteras (quince espacios). "Fotografía de producto" también es
+real (prefijo `prod-`): siete fotos altas y dos panorámicas a lo ancho de dos
+columnas (`ancho: 2`), seis filas enteras. En celular, si una cantidad impar
+de celdas altas deja un hueco junto a la última, esa última ocupa las dos
+columnas. La galería distingue sola lo real
 del relleno: lo que viene de `assets/obra/` o de una dirección `https://` se
 muestra en gris (y toma su color con el cursor); lo de `assets/work/`, siempre a
 color. Si cambias un archivo de `assets/work/` sin cambiarle el nombre, súbele

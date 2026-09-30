@@ -391,7 +391,11 @@ main { overflow-x: clip; }
   background: rgb(27 8 0 / .06);
   isolation: isolate;
 }
-.celda--alta { grid-row: span 2; }
+.celda--alta  { grid-row: span 2; }
+.celda--ancha { grid-column: span 2; }
+@media (max-width: 999px) {
+  .celda--remate { grid-column: 1 / -1; }
+}
 .celda img {
   display: block;
   width: 100%;

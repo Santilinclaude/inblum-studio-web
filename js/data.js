@@ -143,7 +143,10 @@ const FRASES = [
      Con `dispositivo: true` la imagen se muestra dentro de una
      tableta sobre negro (capturas de sitios y apps). Con
      `alto: 2` la celda ocupa dos filas (retratos, fotografía
-     vertical: 820x1160 px). Las demás, 820x580 px.
+     vertical: 820x1160 px); con `ancho: 2`, dos columnas
+     (panorámicas: 1640x570 px). Las demás, 820x580 px. `enfoque`
+     (opcional) es el punto de la imagen que se conserva si hay que
+     recortarla, como en object-position: '50% 62%'.
    - servicios: una línea por servicio, de la lista SERVICIOS.
    ------------------------------------------------------------ */
 const PIEZAS = [
@@ -169,14 +172,15 @@ const PIEZAS = [
     anio: 2026,
     servicios: ['Fotografía de producto y publicitaria', 'Edición de imagen'],
     celdas: [
-      { img: 'https://picsum.photos/seed/inblum-producto-a/820/1160', alt: 'Fotografía de producto', alto: 2 },
-      { img: 'assets/obra/cimatica.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-producto-c/820/580', alt: 'Fotografía de producto' },
-      { img: 'assets/obra/pincelada.jpg', dispositivo: true },
-      { img: 'assets/obra/concreto.jpg', dispositivo: true },
-      { img: 'assets/obra/marmol.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-producto-d/820/580', alt: 'Fotografía de producto' },
-      { img: 'assets/obra/hoja.jpg', dispositivo: true }
+      { img: 'assets/work/prod-galeria-olivo.jpg', alt: 'Galería de muros claros con un olivo en maceta y, sobre pedestales verdes y de piedra, una cámara instantánea, un bolso negro, relojes y una guitarra eléctrica', ancho: 2 },
+      { img: 'assets/work/prod-frascos-rojo.jpg', alt: 'Una mano sostiene una repisa con frascos de vidrio ámbar y uno negro, contra un fondo rojo', alto: 2 },
+      { img: 'assets/work/prod-balsamo-verde.jpg', alt: 'Bálsamo labial verde pistache abierto sobre una charola plateada, junto a macarons y una taza de café en la cama', alto: 2 },
+      { img: 'assets/work/prod-gorras.jpg', alt: 'Pila de gorras en morado, verde, rosa y granate, cada una bordada con un puesto de trabajo, sobre fondo verde petróleo', alto: 2 },
+      { img: 'assets/work/prod-labial-catarina.jpg', alt: 'Labial rojo en estuche dorado con una catarina posada en la punta, sobre fondo blanco', alto: 2 },
+      { img: 'assets/work/prod-mesa-gris.jpg', alt: 'Vista cenital sobre una mesa gris: lentes redondos negros, audífonos con cable, una botella, un sobre rojo, un bálsamo y un tubo blancos entre dos laptops', ancho: 2 },
+      { img: 'assets/work/prod-locion-tulipan.jpg', alt: 'Botella de loción corporal Elemis con un tulipán blanco que se dobla sobre ella, en luz cálida', alto: 2 },
+      { img: 'assets/work/prod-etiqueta-tote.jpg', alt: 'Etiqueta verde bordada con la frase "Whatever, darling." colgada de una argolla dorada en una bolsa de manta', alto: 2 },
+      { img: 'assets/work/prod-botella-sombra.jpg', alt: 'Botella color arena sin etiqueta sobre una superficie beige, con una sombra larga y fondo verde olivo', alto: 2, enfoque: '50% 62%' }
     ]
   },
   {
@@ -192,21 +196,6 @@ const PIEZAS = [
       { img: 'https://picsum.photos/seed/inblum-documental-d/820/580', alt: 'Fotografía' },
       { img: 'assets/obra/porcelana.jpg', dispositivo: true },
       { img: 'assets/obra/mar.jpg', dispositivo: true }
-    ]
-  },
-  {
-    titulo: 'Campaña en redes',
-    anio: 2026,
-    servicios: ['Gestión de redes sociales y community management', 'Diseño gráfico', 'Copywriting y redacción publicitaria'],
-    celdas: [
-      { img: 'assets/obra/concreto.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-campana-c/820/580', alt: 'Campaña en redes' },
-      { img: 'https://picsum.photos/seed/inblum-campana-a/820/1160', alt: 'Campaña en redes', alto: 2 },
-      { img: 'assets/obra/marmol.jpg', dispositivo: true },
-      { img: 'assets/obra/hoja.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-campana-d/820/580', alt: 'Campaña en redes' },
-      { img: 'assets/obra/luz.jpg', dispositivo: true },
-      { img: 'assets/obra/algas.jpg', dispositivo: true }
     ]
   }
 ];
