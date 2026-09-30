@@ -25,8 +25,8 @@
      Thin (la del sistema en Apple), lo chico en Inter Tight Black, y
      fuera de Apple todo en Inter Tight (ver css/tokens.css). -->
 
-<link rel="stylesheet" href="css/tokens.css?v=125">
-<link rel="stylesheet" href="css/styles.css?v=125">
+<link rel="stylesheet" href="css/tokens.css?v=126">
+<link rel="stylesheet" href="css/styles.css?v=126">
 </head>
 
 <body>
@@ -176,7 +176,7 @@
        El manifiesto, en tinta sobre el acabado "Retba Pink/Flame" de
        Homer en degradado. La frase se enciende palabra por palabra al
        bajar; "Un equipo" va en negra. A un lado, la nota; debajo, la
-       promesa en números, que cuentan de cinco a uno al asomar. -->
+       promesa en una línea discreta. -->
   <section class="manifiesto" id="estudio" aria-labelledby="frase">
     <div class="manifiesto__grid">
       <p class="cabecera__fila">
@@ -195,20 +195,11 @@
         sabe qué fotografía va a recibir. Nada se traduce entre despachos.
       </p>
 
-      <dl class="cuentas">
-        <div class="cuenta rev">
-          <dt>Interlocutor</dt>
-          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
-        </div>
-        <div class="cuenta rev" style="--espera:80ms">
-          <dt>Calendario</dt>
-          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
-        </div>
-        <div class="cuenta rev" style="--espera:160ms">
-          <dt>Presupuesto</dt>
-          <dd><span class="cuenta__n" data-cuenta aria-hidden="true">1</span><span class="cuenta__pie">Uno, en lugar de cinco.</span></dd>
-        </div>
-      </dl>
+      <ul class="promesa">
+        <li class="rev">Un interlocutor</li>
+        <li class="rev" style="--espera:80ms">Un calendario</li>
+        <li class="rev" style="--espera:160ms">Un presupuesto</li>
+      </ul>
     </div>
   </section>
 
@@ -291,16 +282,8 @@
 
         <dl class="datos">
           <div class="dato">
-            <dt>Teléfono</dt>
-            <dd><a id="dato-telefono" href="#">teléfono</a></dd>
-          </div>
-          <div class="dato">
-            <dt>Dónde estamos</dt>
-            <dd id="dato-ciudad">ciudad</dd>
-          </div>
-          <div class="dato">
-            <dt>Redes</dt>
-            <dd class="redes" id="redes"></dd>
+            <dt>Instagram</dt>
+            <dd><a id="dato-instagram" href="#" target="_blank" rel="noopener noreferrer">instagram</a></dd>
           </div>
         </dl>
       </div>
@@ -375,8 +358,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=125" defer></script>
-<script src="js/app.js?v=125" defer></script>
+<script src="js/data.js?v=126" defer></script>
+<script src="js/app.js?v=126" defer></script>
 
 </body>
 </html>

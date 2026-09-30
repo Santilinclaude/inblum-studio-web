@@ -69,10 +69,10 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
 |---|---|
 | Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel en degradado azul → amarillo que da paso a Trabajo |
 | Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
-| Estudio | El manifiesto en tinta sobre el degradado rosa → naranja: se enciende palabra por palabra y "Un equipo" va en negra, el corte grueso. A un lado, la nota; debajo, la promesa en números (un interlocutor, un calendario, un presupuesto) que cuentan de cinco a uno al asomar |
+| Estudio | El manifiesto en tinta sobre el degradado rosa → naranja: se enciende palabra por palabra y "Un equipo" va en negra, el corte grueso. A un lado, la nota; debajo, la promesa en una línea discreta: un interlocutor, un calendario, un presupuesto |
 | Servicios | Las ocho áreas, una fila por área con su duotono; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
 | Proceso | Los cuatro tiempos, cada uno con su duotono, bajo una regla que se llena al bajar; el número del tiempo en curso se enciende |
-| Contacto | Sobre el degradado verde → lima: el correo en grande con un botón para copiarlo, los demás datos en filas y el formulario, donde las áreas se eligen como píldoras (una o varias) |
+| Contacto | Sobre el degradado verde → lima: el correo (contacto@inblumstudio.com) en grande con un botón para copiarlo, el Instagram en una fila y el formulario, donde las áreas se eligen como píldoras (una o varias) |
 | Pie | Sobre cacao: la frase, los enlaces y el aviso legal (sin el nombre del estudio) |
 
 ## Estructura
@@ -216,8 +216,8 @@ dos archivos de GSAP, ponlos en `assets/` y cambia los `<script>`.
 ## Qué falta por llenar
 
 ### 1. Datos de contacto
-En `js/data.js`, hasta arriba, marcados con `PENDIENTE`: correo, teléfono,
-ciudad y redes.
+En `js/data.js`, hasta arriba: el correo y el usuario de Instagram. El sitio
+no muestra teléfono ni dirección.
 
 ### 2. Proyectos
 También en `js/data.js`, en `PIEZAS`. Casi todo sigue siendo de relleno: las

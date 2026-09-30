@@ -6,18 +6,11 @@
    ============================================================ */
 
 /* ---------- 1. Contacto -------------------------------------
-   PENDIENTE: sustituye los cuatro valores por los reales.
+   El correo y el Instagram del estudio: es todo lo que se muestra.
    ------------------------------------------------------------ */
 const CONTACTO = {
-  correo:   'hola@inblumstudio.com',      // PENDIENTE: correo real
-  telefono: '+52 55 0000 0000',           // PENDIENTE: teléfono real
-  ciudad:   'Ciudad de México',           // PENDIENTE: ciudad real
-  redes: [
-    { nombre: 'Instagram', url: 'https://instagram.com/inblumstudio' }, // PENDIENTE
-    { nombre: 'Behance',   url: 'https://behance.net/inblumstudio'   }, // PENDIENTE
-    { nombre: 'LinkedIn',  url: 'https://linkedin.com/company/inblumstudio' }, // PENDIENTE
-    { nombre: 'Vimeo',     url: 'https://vimeo.com/inblumstudio'     }  // PENDIENTE
-  ]
+  correo:    'contacto@inblumstudio.com',
+  instagram: 'inblumstudio'               // el usuario, sin la arroba
 };
 
 /* ---------- 2. Servicios ------------------------------------

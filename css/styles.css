@@ -890,8 +890,7 @@ main { overflow-x: clip; }
    (10:1 sobre el rosa, 5.7:1 sobre el naranja). La frase, en el corte
    fino, se enciende palabra por palabra al bajar; "Un equipo" va en
    negra, el corte grueso: el contraste de la mezcla de Homer. A un
-   lado, la nota. Debajo, la promesa en números: lo que tienes en lugar
-   de cinco, que cuenta de cinco a uno cuando asoma (app.js, 9b). */
+   lado, la nota. Debajo, la promesa en una línea discreta. */
 
 .manifiesto {
   padding: var(--sec-y) var(--aire) calc(var(--sec-y) * 1.1);
@@ -930,33 +929,26 @@ main { overflow-x: clip; }
   font-size: 17px;
 }
 
-/* La promesa en números: tres columnas entre reglas, con la etiqueta,
-   el número enorme en negra y una línea que lo dice con palabras. */
-.cuentas {
+/* La promesa: tres frases cortas entre reglas, al tamaño del texto;
+   en pantallas chicas, una bajo otra. */
+.promesa {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--aire);
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.cuenta {
-  display: grid;
-  align-content: start;
-  gap: 14px;
+.promesa li {
   padding-top: 12px;
   border-top: 1px solid var(--tinta);
+  font-size: clamp(1rem, .9rem + .5vw, 1.25rem);
+  line-height: 1.25;
 }
-.cuenta dt {
-  font: 900 var(--t-etiqueta)/1.2 var(--f-negra);
-  text-transform: uppercase;
-  letter-spacing: .02em;
+@media (max-width: 599px) {
+  .promesa { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .promesa li { padding-bottom: 12px; }
 }
-.cuenta dd { display: grid; gap: 8px; margin: 0; }
-.cuenta__n {
-  font: 900 clamp(4.5rem, 2rem + 9vw, 12rem)/.8 var(--f-negra);
-  letter-spacing: -.06em;
-  font-variant-numeric: tabular-nums;
-}
-.cuenta__pie { font-size: 15px; line-height: 1.25; }
 
 @media (min-width: 1000px) {
   .manifiesto__grid {
@@ -966,7 +958,7 @@ main { overflow-x: clip; }
   .manifiesto__grid > .cabecera__fila { grid-column: 1 / -1; }
   .manifiesto__frase { grid-column: 1 / span 9; }
   .manifiesto__nota  { grid-column: 10 / span 3; }
-  .cuentas { grid-column: 1 / -1; margin-top: clamp(24px, 4vw, 64px); }
+  .promesa { grid-column: 1 / -1; margin-top: clamp(8px, 2vw, 32px); }
 }
 
 /* ---------- 7. Servicios ------------------------------------
@@ -1223,7 +1215,7 @@ main { overflow-x: clip; }
 .correo-grande__copiar:hover,
 .correo-grande__copiar.hecho { background: var(--tinta); color: var(--h-cody); }
 
-/* Los demás datos, en filas entre reglas. */
+/* El Instagram, en una fila entre reglas. */
 .datos { margin: 0; }
 .dato {
   display: grid;
@@ -1239,15 +1231,12 @@ main { overflow-x: clip; }
   letter-spacing: .02em;
 }
 .dato dd { margin: 0; }
-.dato a,
-.redes a {
+.dato a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
-.dato a:hover,
-.redes a:hover { text-decoration-thickness: 2px; }
-.redes { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.dato a:hover { text-decoration-thickness: 2px; }
 
 @media (min-width: 1000px) {
   .contacto {

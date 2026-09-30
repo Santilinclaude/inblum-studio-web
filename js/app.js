@@ -552,9 +552,7 @@
   /* ---------- 7. Datos de contacto --------------------------- */
 
   const correoEl    = $('#dato-correo');
-  const telefonoEl  = $('#dato-telefono');
-  const ciudadEl    = $('#dato-ciudad');
-  const redesEl     = $('#redes');
+  const instagramEl = $('#dato-instagram');
   const areasEl     = $('#areas');
   const copiarEl    = $('#copiar-correo');
 
@@ -562,17 +560,9 @@
     correoEl.textContent = CONTACTO.correo;
     correoEl.href = 'mailto:' + CONTACTO.correo;
   }
-  if (telefonoEl) {
-    telefonoEl.textContent = CONTACTO.telefono;
-    telefonoEl.href = 'tel:' + CONTACTO.telefono.replace(/[^\d+]/g, '');
-  }
-  if (ciudadEl) ciudadEl.textContent = CONTACTO.ciudad;
-
-  if (redesEl) {
-    redesEl.innerHTML = CONTACTO.redes.map(function (r) {
-      return '<a href="' + escapar(r.url) + '" target="_blank" rel="noopener noreferrer">' +
-             escapar(r.nombre) + '</a>';
-    }).join('');
+  if (instagramEl) {
+    instagramEl.textContent = '@' + CONTACTO.instagram;
+    instagramEl.href = 'https://www.instagram.com/' + encodeURIComponent(CONTACTO.instagram) + '/';
   }
 
   // Las áreas del formulario, como píldoras: una casilla por servicio y
@@ -792,34 +782,6 @@
       }, { threshold: .35 });
       ojo2.observe(frase);
     }
-  }
-
-  /* ---------- 9b. De cinco a uno ----------------------------
-     Los números de la promesa cuentan de cinco a uno cuando asoman,
-     uno tras otro. Sin JavaScript, con "reducir movimiento" o con
-     ?revelado=todo, ya dicen uno (y la línea de abajo lo dice con
-     palabras, para los lectores de pantalla).
-     --------------------------------------------------------- */
-
-  const cuentas = $$('[data-cuenta]');
-
-  if (cuentas.length && !sinRevelado && !quieto.matches && 'IntersectionObserver' in window) {
-    cuentas.forEach(function (c) { c.textContent = '5'; });
-    const ojoCuenta = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        ojoCuenta.unobserve(e.target);
-        const el = e.target;
-        let n = 5;
-        const bajar = function () {
-          n--;
-          el.textContent = String(n);
-          if (n > 1) window.setTimeout(bajar, 160);
-        };
-        window.setTimeout(bajar, 380 + cuentas.indexOf(el) * 240);
-      });
-    }, { threshold: .6 });
-    cuentas.forEach(function (c) { ojoCuenta.observe(c); });
   }
 
   /* ---------- 10. El avance del proceso ----------------------
