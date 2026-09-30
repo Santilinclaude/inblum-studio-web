@@ -132,7 +132,7 @@ const FRASES = [
 /* ---------- 4. Proyectos de portafolio -----------------------
    Cada proyecto es un bloque de la galería: un mosaico de tres
    columnas (nueve espacios, tres filas) con líneas finas entre
-   celdas y, debajo, su ficha —número, nombre con año y servicios.
+   celdas y, encima, su ficha —número, nombre con año y servicios.
 
    PENDIENTE: todo esto es de relleno. Las tabletas muestran
    texturas de assets/obra y las imágenes altas, fotos de
@@ -180,16 +180,16 @@ const PIEZAS = [
     ]
   },
   {
-    titulo: 'Fotografía documental',
+    titulo: 'Fotografía',
     anio: 2026,
     servicios: ['Video y fotografía documental', 'Edición de imagen'],
     celdas: [
       { img: 'assets/obra/luz.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-documental-c/820/580', alt: 'Fotografía documental' },
-      { img: 'https://picsum.photos/seed/inblum-documental-a/820/1160', alt: 'Fotografía documental', alto: 2 },
+      { img: 'https://picsum.photos/seed/inblum-documental-c/820/580', alt: 'Fotografía' },
+      { img: 'https://picsum.photos/seed/inblum-documental-a/820/1160', alt: 'Fotografía', alto: 2 },
       { img: 'assets/obra/algas.jpg', dispositivo: true },
       { img: 'assets/obra/piel.jpg', dispositivo: true },
-      { img: 'https://picsum.photos/seed/inblum-documental-d/820/580', alt: 'Fotografía documental' },
+      { img: 'https://picsum.photos/seed/inblum-documental-d/820/580', alt: 'Fotografía' },
       { img: 'assets/obra/porcelana.jpg', dispositivo: true },
       { img: 'assets/obra/mar.jpg', dispositivo: true }
     ]

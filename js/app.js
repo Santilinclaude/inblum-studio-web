@@ -472,7 +472,7 @@
   /* ---------- 5. Proyectos de trabajo (galería) ---------------
      Cada proyecto es un mosaico de tres columnas (algunas celdas
      ocupan dos filas) con celdas redondeadas como el recuadro del
-     logotipo y, debajo, su duotono y su ficha alineada con las
+     logotipo y, encima, su duotono y su ficha alineada con las
      columnas: número, nombre con año y servicios. Las piezas reales
      (assets/work) van a color; el relleno (las texturas de assets/obra
      y las fotos de muestra) va en gris hasta que llegue el trabajo
@@ -518,15 +518,17 @@
         }).join('');
 
         return '' +
-          '<article class="proyecto" aria-label="' + escapar(p.titulo) + '">' +
+          '<article class="proyecto" aria-labelledby="proyecto-' + (i + 1) + '">' +
+            '<header class="proyecto__cabeza">' +
+              duo(i, 'proyecto__duo') +
+              '<div class="proyecto__ficha">' +
+                '<p class="proyecto__n" aria-hidden="true">' + dosCifras(i + 1) + '</p>' +
+                '<h3 class="proyecto__nombre" id="proyecto-' + (i + 1) + '">' + escapar(p.titulo) +
+                  '<span class="proyecto__anio">' + escapar(p.anio) + '</span></h3>' +
+                '<ul class="proyecto__etiquetas">' + etiquetas + '</ul>' +
+              '</div>' +
+            '</header>' +
             cuerpo +
-            duo(i, 'proyecto__duo') +
-            '<div class="proyecto__ficha">' +
-              '<p class="proyecto__n">' + dosCifras(i + 1) + '</p>' +
-              '<p class="proyecto__nombre">' + escapar(p.titulo) +
-                '<span class="proyecto__anio">' + escapar(p.anio) + '</span></p>' +
-              '<ul class="proyecto__etiquetas">' + etiquetas + '</ul>' +
-            '</div>' +
           '</article>';
       }).join('');
   }

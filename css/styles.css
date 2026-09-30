@@ -479,10 +479,10 @@ main { overflow-x: clip; }
 }
 .dispositivo img { border-radius: 4px; }
 
-/* La ficha: el duotono, el número grande, el nombre con el año y los
-   servicios como etiquetas. En escritorio, alineada con las tres
-   columnas. */
-.proyecto__duo { margin-top: var(--canal); }
+/* La ficha, encima del mosaico: el duotono, el número grande, el
+   nombre con el año y los servicios como etiquetas. En escritorio,
+   alineada con las tres columnas. */
+.proyecto__cabeza { margin-bottom: clamp(20px, 2.4vw, 36px); }
 .proyecto__ficha {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);

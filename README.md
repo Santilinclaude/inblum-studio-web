@@ -68,7 +68,7 @@ Todo el sitio habla el mismo idioma que la primera página (la dirección
 | Sección | Qué hace |
 |---|---|
 | Apertura | Retrato fijo con su ficha de vidrio, el logotipo completo con el texto debajo y un panel en degradado azul → amarillo que da paso a Trabajo |
-| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha debajo (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
+| Trabajo | Galería: cada proyecto es un mosaico de 3x3 de celdas redondeadas, con su duotono y su ficha encima (número, nombre, año y servicios como etiquetas). Las piezas reales van a color; el relleno, en gris |
 | Estudio | El manifiesto en tinta sobre el degradado rosa → naranja: se enciende palabra por palabra y "Un equipo" va en negra, el corte grueso. A un lado, la nota; debajo, la promesa en una línea discreta: un interlocutor, un calendario, un presupuesto |
 | Servicios | Las ocho áreas, una fila por área con su duotono; la fila abierta se llena con un color de la marca (fucsia, azul, amarillo, verde, en ese orden) |
 | Proceso | Los cuatro tiempos, cada uno con su duotono, bajo una regla que se llena al bajar; el número del tiempo en curso se enciende |
